@@ -41,8 +41,6 @@ export class ReportService {
         .limit(query.size);
     }
 
-    console.log("=======================");
-
     const resp = await queryBuilder.getManyAndCount();
 
     return new DataListResponseDto(
@@ -150,21 +148,6 @@ export class ReportService {
           meansOfImplementation: meansOfImplementation,
         })
         .andWhere(mitigationCondition);
-
-      if (reportNumber === Reports.ELEVEN) {
-        console.log({
-          direction,
-          mitigationType,
-          meansOfImplementation,
-        });
-
-        console.log("Generated SQL:", qb.getSql());
-
-        const [query, params] = qb.getQueryAndParameters();
-        console.log("Query:", query);
-        console.log("Parameters:", params);
-      }
-
       return qb;
     }
   }
