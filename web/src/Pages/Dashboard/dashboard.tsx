@@ -38,7 +38,7 @@ const Dashboard = () => {
 
   // Year State for the GHG MYG Chart 5
 
-  const [mtgYear, setMtgYear] = useState<number>(2013);
+  const [mtgYear, setMtgYear] = useState<number>(new Date().getFullYear());
 
   // Individual Chart Data
 
@@ -442,7 +442,7 @@ const Dashboard = () => {
                     <Row gutter={30}>
                       <Col span={17}>{mitigationRecentChart.chartTitle}</Col>
                       <Col span={5} style={{ display: 'flex', alignItems: 'flex-end' }}>
-                        <Tag className="year-chip">{t('recentYear')}</Tag>
+                        <Tag className="year-chip">{new Date().getFullYear()}</Tag>
                       </Col>
                       <Col span={2}>
                         <InfoCircleOutlined
