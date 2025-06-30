@@ -145,6 +145,12 @@ export class ActivityDto {
 	@ApiProperty()
 	achievedGHGReduction: number;
 
+	// KL - added achievedGHGReductionAlternate to allow user to input an alternate achievedGHGReduction
+	@ValidateIf((c) => c.achievedGHGReductionAlternate)
+	@IsString()
+	@ApiPropertyOptional()
+	achievedGHGReductionAlternate: string;
+
 	@ValidateIf((c) => c.expectedGHGReduction)
 	@IsNumber()
 	@ApiProperty()

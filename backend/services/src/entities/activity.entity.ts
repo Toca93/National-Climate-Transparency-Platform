@@ -66,6 +66,9 @@ export class ActivityEntity implements EntitySubject {
 	@Column({ type: 'double precision', nullable: true })
 	achievedGHGReduction: number;
 
+	@Column({ type: 'varchar', nullable: true })
+	achievedGHGReductionAlternate?: string; // KL: added - user should be able to select an alternate achievedGHGReduction
+
 	@Column({ type: 'double precision', nullable: true })
 	expectedGHGReduction: number;
 

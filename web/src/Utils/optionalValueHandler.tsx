@@ -15,6 +15,7 @@ const activityFormOptionals = [
   'technologyType',
   'etfDescription',
   'comment',
+  'achievedGHGReductionAlternate',
 ];
 
 const supportFormOptionals = [

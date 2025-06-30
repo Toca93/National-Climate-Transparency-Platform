@@ -1,5 +1,17 @@
 import { useTranslation } from 'react-i18next';
-import { Row, Col, Input, Button, Form, Select, message, Spin, Tooltip } from 'antd';
+import {
+  Row,
+  Col,
+  Input,
+  Button,
+  Form,
+  Select,
+  message,
+  Spin,
+  Tooltip,
+  Checkbox,
+  Space,
+} from 'antd';
 import { useEffect, useState } from 'react';
 import LayoutTable from '../../../Components/common/Table/layout.table';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -58,6 +70,7 @@ import { StoredData, UploadData } from '../../../Definitions/uploadDefinitions';
 import { useUserContext } from '../../../Context/UserInformationContext/userInformationContext';
 import ConfirmPopup from '../../../Components/Popups/Confirmation/confirmPopup';
 import { DeleteOutlined } from '@ant-design/icons';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -168,6 +181,9 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
   // ML: Set the activity start and end year
   const [startYear1, setStartYear] = useState<number>();
   const [endYear1, setEndYear] = useState<number>();
+
+  // KL: Achieved GHG Reduction Alternate
+  const [isAchievedAlternate, setIsAchievedAlternate] = useState<boolean>(false);
 
   // Initialization Logic
 
@@ -958,6 +974,7 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
             comment: entityData.comment ?? undefined,
             ghgsAffected: entityData.ghgsAffected ?? undefined,
             achievedGHGReduction: entityData.achievedGHGReduction,
+            achievedGHGReductionAlternate: entityData.achievedGHGReductionAlternate ?? undefined,
             expectedGHGReduction: entityData.expectedGHGReduction,
             recipientEntities: entityData.recipientEntities ?? [],
             // ML - we now get the startYear and endYear directly from activity
@@ -987,6 +1004,10 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
             });
             setParentType(entityData.parentType ?? undefined);
             setConnectedParentId(entityData.parentId ?? undefined);
+          }
+
+          if (entityData.achievedGHGReductionAlternate !== undefined) {
+            setIsAchievedAlternate(true);
           }
 
           // Setting validation status
@@ -1132,6 +1153,15 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
   };
 
   // Dynamic Updates
+  // KL - To toggle Achieved Alternate Checkbox
+  const toggleAchievedAlternate = (e: CheckboxChangeEvent) => {
+    if (!e.target.checked) {
+      form.setFieldsValue({
+        achievedGHGReductionAlternate: undefined,
+      });
+    }
+    setIsAchievedAlternate(e.target.checked);
+  };
 
   // Initializing mtg timeline data
 
@@ -1802,6 +1832,34 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
                         name="expectedGHGReduction"
                       >
                         <Input type="number" className="form-input-box" disabled />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={gutterSize}>
+                    <Col {...halfColumnBps}>
+                      <Form.Item
+                        label={
+                          <label className="form-item-header">
+                            {t('formHeader:achieved') + ' (Alternate)'}
+                          </label>
+                        }
+                        name="achievedGHGReductionAlternate"
+                        className="form-item-checkbox-input"
+                      >
+                        <Input
+                          addonBefore={
+                            <Checkbox
+                              onChange={toggleAchievedAlternate}
+                              disabled={isView}
+                              checked={isAchievedAlternate}
+                            />
+                          }
+                          type="text"
+                          className="form-input-box"
+                          disabled={!isAchievedAlternate || isView}
+                          size="large"
+                          maxLength={30}
+                        />
                       </Form.Item>
                     </Col>
                   </Row>
