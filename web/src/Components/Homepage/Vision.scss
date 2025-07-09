@@ -1,0 +1,79 @@
+@import '../../Assets/Styles/_variables.scss';
+
+.vision {
+  justify-content: center;
+  margin-bottom: 3rem;
+
+  .vision-section {
+    background: #f3f4f6;
+    position: relative;
+    margin-top: -8rem;
+    z-index: 10;
+    border-radius: 2rem;
+
+    .vision-container {
+      max-width: 1365px;
+      margin: 0 auto;
+      background: white;
+      padding: 3rem 3rem;
+      border-radius: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+
+      .vision-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: $accent-color;
+        margin-bottom: 1rem;
+        text-align: left;
+      }
+
+      .vision-description {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: $text-color-80;
+        margin: 2rem;
+      }
+
+      .vision-subtitle {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: $accent-color;
+        margin-bottom: 2rem;
+        text-align: left;
+      }
+
+      .vision-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 2rem;
+
+        .vision-card {
+          text-align: center;
+
+          .vision-icon {
+            font-size: 2.5rem;
+            color: $accent-color;
+            margin-bottom: 0.5rem;
+
+            .vislogo {
+              height: 100px;
+            }
+
+          }
+
+          .vision-role {
+            font-weight: 700;
+            font-size: 16px;
+            color: $accent-color;
+          }
+
+          .vision-text {
+            font-size: 0.875rem;
+            color: $text-color;
+          }
+        }
+      }
+    }
+  }
+}

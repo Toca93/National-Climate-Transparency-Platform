@@ -147,6 +147,12 @@ export const getReportSixColumns = (t: any) => {
       width: 1000,
     },
     { title: t('supportChannel'), dataIndex: 'supportChannel', key: 'supportChannel', width: 100 },
+    {
+      title: t('expectedUseImpact'),
+      dataIndex: 'achievedGHGReduction',
+      key: 'achievedGHGReduction',
+      width: 100,
+    },
     { title: t('additionalInfo'), dataIndex: 'additionalInfo', key: 'additionalInfo', width: 100 },
   ];
 
@@ -267,6 +273,12 @@ export const getReportSevenColumns = (t: any) => {
       width: 500,
     },
     { title: t('activityStatus'), dataIndex: 'activityStatus', key: 'activityStatus', width: 150 },
+    {
+      title: t('useImpactResults'),
+      dataIndex: 'achievedGHGReduction',
+      key: 'achievedGHGReduction',
+      width: 100,
+    },
     { title: t('additionalInfo'), dataIndex: 'additionalInfo', key: 'additionalInfo', width: 150 },
   ];
 
@@ -310,6 +322,12 @@ export const getReportEightColumns = (t: any) => {
           width: 50,
         },
       ],
+    },
+    {
+      title: t('expectedUseImpact'),
+      dataIndex: 'achievedGHGReduction',
+      key: 'achievedGHGReduction',
+      width: 100,
     },
     { title: t('additionalInfo'), dataIndex: 'additionalInfo', key: 'additionalInfo', width: 150 },
   ];
@@ -391,6 +409,12 @@ export const getReportNineColumns = (t: any) => {
     },
 
     { title: t('activityStatus'), dataIndex: 'activityStatus', key: 'activityStatus', width: 150 },
+    {
+      title: t('useImpactEstResults'),
+      dataIndex: 'achievedGHGReduction',
+      key: 'achievedGHGReduction',
+      width: 100,
+    },
     { title: t('additionalInfo'), dataIndex: 'additionalInfo', key: 'additionalInfo', width: 150 },
   ];
 
@@ -432,6 +456,12 @@ export const getReportTenColumns = (t: any) => {
           width: 50,
         },
       ],
+    },
+    {
+      title: t('expectedUseImpact'),
+      dataIndex: 'achievedGHGReduction',
+      key: 'achievedGHGReduction',
+      width: 150,
     },
     { title: t('additionalInfo'), dataIndex: 'additionalInfo', key: 'additionalInfo', width: 150 },
   ];
@@ -516,6 +546,12 @@ export const getReportElevenColumns = (t: any) => {
       key: 'activityStatus',
       width: 100,
     },
+    {
+      title: t('useImpactEstResults'),
+      dataIndex: 'achievedGHGReduction',
+      key: 'achievedGHGReduction',
+      width: 100,
+    },
     { title: t('additionalInfo'), dataIndex: 'additionalInfo', key: 'additionalInfo', width: 150 },
   ];
 
@@ -575,6 +611,12 @@ export const getReportTwelveColumns = (t: any) => {
       ],
     },
     { title: t('activityStatus'), dataIndex: 'activityStatus', key: 'activityStatus', width: 100 },
+    {
+      title: t('expectedUseImpact'),
+      dataIndex: 'achievedGHGReduction',
+      key: 'achievedGHGReduction',
+      width: 100,
+    },
     { title: t('additionalInfo'), dataIndex: 'additionalInfo', key: 'additionalInfo', width: 150 },
   ];
 
@@ -634,6 +676,12 @@ export const getReportThirteenColumns = (t: any) => {
       ],
     },
     { title: t('activityStatus'), dataIndex: 'activityStatus', key: 'activityStatus', width: 100 },
+    {
+      title: t('useImpactEstResults'),
+      dataIndex: 'achievedGHGReduction',
+      key: 'achievedGHGReduction',
+      width: 100,
+    },
     { title: t('additionalInfo'), dataIndex: 'additionalInfo', key: 'additionalInfo', width: 150 },
   ];
 

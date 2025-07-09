@@ -17,7 +17,9 @@ Select
 	t."technologyType",
 	t."expectedTimeFrame" as "timeFrame",
 	t."endYear",
-	t."startYear",  
+	t."startYear",
+	t."achievedGHGReduction",
+	t."achievedGHGReductionAlternate",
 	p."subSector",
 	a."type"
 FROM activity t
@@ -80,7 +82,9 @@ SELECT
 	e_act."subSector",
 	e_act."type",
 	e_act."endYear",
-	e_act."startYear"
+	e_act."startYear",
+	e_act."achievedGHGReduction",
+	e_act."achievedGHGReductionAlternate"
 FROM support s
 LEFT JOIN 
     (${expandedActivity})
@@ -172,6 +176,12 @@ export class AnnexThreeViewEntity {
 
 	@ViewColumn()
     endYear: string;
+
+	@ViewColumn()
+	achievedGHGReduction: string;
+
+	@ViewColumn()
+	achievedGHGReductionAlternate: string;
 
 	// From Deep Ancestors
     @ViewColumn()

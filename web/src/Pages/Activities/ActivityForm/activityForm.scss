@@ -6,7 +6,7 @@ body .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless)
 }
 
 .activity-form {
-  
+
   .form-item-header {
     color: #3a3541;
     opacity: 0.8;
@@ -14,7 +14,19 @@ body .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless)
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  
+
+  .form-item-checkbox-input {
+    .ant-input-group-addon {
+      border-top-right-radius: 0px !important;
+      border-bottom-right-radius: 0px !important;
+    }
+
+    .ant-input {
+      border-top-left-radius: 0px !important;
+      border-bottom-left-radius: 0px !important;
+    }
+  }
+
   .form-section-header {
     color: #3A3541;
     opacity: 0.8;
@@ -22,7 +34,7 @@ body .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless)
     font-weight: bold;
     font-size: 15px;
   }
-  
+
   .form-section-sub-header {
     color: #3A3541;
     opacity: 0.8;
@@ -30,12 +42,12 @@ body .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless)
     margin-bottom: 10px;
     font-weight: 550;
   }
-  
+
   .form-input-box {
     font-size: 13px;
     height: 40px;
   }
-  
+
   .create-kpi-button {
     margin-top: 5px;
     margin-bottom: 15px;

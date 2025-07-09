@@ -31,6 +31,7 @@ export type ReportSixRecord = {
   capacityBuilding: 'Yes' | 'No';
   anchoredInNationalStrategy: 'Yes' | 'No';
   supportChannel: string;
+  achievedGHGReduction: string;
   additionalInfo: string;
 };
 
@@ -55,6 +56,7 @@ export type ReportSevenRecord = {
   techDevelopment: 'Yes' | 'No';
   capacityBuilding: 'Yes' | 'No';
   activityStatus: string;
+  achievedGHGReduction: string;
   additionalInfo: string;
 };
 
@@ -69,6 +71,7 @@ export type ReportEightRecord = {
   technologyType: string;
   startYear: string;
   endYear: string;
+  achievedGHGReduction: string;
   additionalInfo: string;
 };
 
@@ -87,6 +90,7 @@ export type ReportNineRecord = {
   sector: string;
   subSectors: string[];
   activityStatus: string;
+  achievedGHGReduction: string;
   additionalInfo: string;
 };
 
@@ -100,6 +104,7 @@ export type ReportTenRecord = {
   type: string;
   startYear: string;
   endYear: string;
+  achievedGHGReduction: string;
   additionalInfo: string;
 };
 
@@ -117,6 +122,7 @@ export type ReportElevenRecord = {
   sector: string;
   subSectors: string[];
   activityStatus: string;
+  achievedGHGReduction: string;
   additionalInfo: string;
 };
 
@@ -132,6 +138,7 @@ export type ReportTwelveRecord = {
   requiredAmountDomestic: number;
   requiredAmount: number;
   activityStatus: string;
+  achievedGHGReduction: string;
   additionalInfo: string;
 };
 
@@ -147,5 +154,6 @@ export type ReportThirteenRecord = {
   receivedAmountDomestic: number;
   receivedAmount: number;
   activityStatus: string;
+  achievedGHGReduction: string;
   additionalInfo: string;
 };

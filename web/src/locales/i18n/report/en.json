@@ -71,5 +71,8 @@
     "activityStatus": "Status of activity",
     "expectedTimeFrame": "Expected time frame",
     "timeFrame": "Time frame",
-    "additionalInfo": "Additional information"
+    "additionalInfo": "Additional information",
+    "expectedUseImpact": "Expected use, impact and estimated results",
+    "useImpactResults": "Use, impact and results",
+    "useImpactEstResults": "Use, impact, and estimated results"
 }

@@ -1,0 +1,74 @@
+@import '../../Assets/Styles/variables.scss';
+
+.faq-answer {
+    padding-top: 20px;
+
+    ul {
+        padding-left: 40px;
+    }
+
+    .supporting-report-formats {
+        margin: 20px 0px;
+        border: 1px solid $accent-color-20;
+        border-radius: 5px;
+
+        thead {
+            border: 1px solid $accent-color-20;
+            border-radius: 5px;
+            
+            tr {
+                h3 {
+                    border: 1px solid $accent-color-20;
+                    padding: 12px 20px;
+                    font-weight: 700;
+                    color: $accent-color-80;
+                    // border-radius: 5px;
+                    margin: 0px;
+                    background-color: $accent-color-20;
+                }
+            }
+        }
+
+        tbody {
+            margin: 10px 0px;
+
+            tr {
+                border: 1px solid $text-color-20;
+                border-radius: 5px;
+                z-index: 10;
+
+                td {
+                    border: 1px solid $accent-color-20;
+                    padding: 15px 20px;
+                    font-weight: 400;
+                    color: $text-color-80;
+                    z-index: 5;
+
+                    &:nth-child(1) {
+                        font-weight: 400;
+                        text-wrap: nowrap;
+                        background-color: $accent-color-20;
+                    }
+
+                    &:nth-child(2) {
+                        font-weight: 400;
+                        text-wrap: nowrap;
+                    }
+
+                    &:nth-child(3) {
+                        font-weight: 400;
+                    }
+
+                    &:nth-child(4) {
+                        font-weight: 400;
+
+                        span {
+                            text-wrap: nowrap;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}
