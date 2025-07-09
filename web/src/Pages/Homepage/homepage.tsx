@@ -1,17 +1,56 @@
-import { Button, Col, Collapse, Row } from 'antd';
-import { useEffect, useState } from 'react';
+import { Button, Col, Collapse, CollapseProps, Row } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import i18next from 'i18next';
-import sliderLogo from '../../Assets/Images/mrvlogo.svg';
+import sliderLogo from '../../Assets/Images/logo-slider.png';
+import heroImage1 from '../../Assets/Images/homepage_img.jpg';
+import heroImage2 from '../../Assets/Images/homepage_img2.jpg'; // Add your second image
+import heroImage3 from '../../Assets/Images/homepage_img3.jpg'; // Add your third image
+// import undpLogo from '../../Assets/Images/undp1.webp';
+// import EBRD from '../../Assets/Images/EBRD.webp';
+// import EBRDff from '../../Assets/Images/EBRD.png';
+// import UNFCCC from '../../Assets/Images/UNFCCC.webp';
+// import UNFCCCff from '../../Assets/Images/UNFCCC.png';
+// import IETA from '../../Assets/Images/IETA.webp';
+// import IETAff from '../../Assets/Images/IETA.png';
+// import ESA from '../../Assets/Images/ESA.webp';
+// import ESAff from '../../Assets/Images/ESA.png';
+// import WBANK from '../../Assets/Images/WBANK.webp';
+// import WBANKff from '../../Assets/Images/WBANK.png';
+// import forestfall from '../../Assets/Images/forestnew.png';
+// import resources from '../../Assets/Images/resources.webp';
+// import resourcesfall from '../../Assets/Images/resources.png';
 import LayoutFooter from '../../Components/Footer/layout.footer';
-import CollapsePanel from 'antd/lib/collapse/CollapsePanel';
+// import { ImgWithFallback } from '@undp/carbon-library';
 import './homepage.scss';
+import ProcessFlow from '../../Components/Homepage/Howdoesitwork';
+import FAQ from '../../Components/Homepage/Faq';
+import MapAnimation from '../../Components/Homepage/MapAnimation';
+import { ROUTES } from '../../Config/uiRoutingConfig';
+import DigitalPublicGood from '../../Components/Homepage/DigitalPublic';
+import DemoSite from '../../Components/Homepage/DemoSite';
+import FeatureCards from '../../Components/Homepage/Keyfeatures';
+import Vision from '../../Components/Homepage/Vision';
+import WhyThisPlatform from '../../Components/Homepage/WhyThisPlatform';
+import TransparencyDashboardDemo from '../../Components/Homepage/TransparencyDashboardDemo';
 
 const Homepage = () => {
-  const { t } = useTranslation(['common', 'homepage']);
+  const { i18n, t } = useTranslation(['common', 'homepage']);
+  const countryName = 'CountryX';
   const navigate = useNavigate();
   const [Visible, setVisible] = useState(true);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const heroImages = [heroImage1, heroImage2, heroImage3];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
 
   const controlDownArrow = () => {
     if (window.scrollY > 150) {
@@ -21,11 +60,17 @@ const Homepage = () => {
     }
   };
 
+  const handleLanguageChange = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
+
   const handleClickScroll = () => {
-    const element = document.getElementById('scrollhome');
+    const element = document.getElementById('vision');
     if (element) {
-      // 👇 Will scroll smoothly to the top of the next section
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
     }
   };
 
@@ -38,12 +83,21 @@ const Homepage = () => {
       window.removeEventListener('scroll', controlDownArrow);
     };
   }, []);
+
   return (
     <div className="homepage-container">
       <Row>
         <Col md={24} lg={24} flex="auto">
-          <div className="homepage-img-container image-container">
-            <Row className="header">
+          <div
+            className="homepage-img-container"
+            style={{
+              backgroundImage: `url(${heroImages[currentSlide]})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'top',
+              transition: 'background-image 1s ease-in-out',
+            }}
+          >
+            <Row>
               <Col md={18} lg={21} xs={17} flex="auto">
                 <div className="homepage-header-container">
                   <div className="logo">
@@ -51,19 +105,16 @@ const Homepage = () => {
                   </div>
                   <div>
                     <div style={{ display: 'flex' }}>
-                      <div className="title">{'NATIONAL CLIMATE TRANSPARENCY '}</div>
-                      <div className="title-sub">{'PLATFORM'}</div>
+                      <div className="title">{t('homepage:heading')}</div>
                     </div>
-                    <div className="country-name">
-                      {process.env.REACT_APP_COUNTRY_NAME || 'CountryX'}
-                    </div>
+                    <div className="country-name">{countryName}</div>
                   </div>
                 </div>
               </Col>
               <Col md={6} lg={3} xs={7} flex="auto">
                 <div className="homepage-button-container">
                   <div className="button">
-                    <Button type="primary" onClick={() => navigate('/login')}>
+                    <Button type="primary" onClick={() => navigate(ROUTES.LOGIN)}>
                       SIGN IN
                     </Button>
                   </div>
@@ -73,13 +124,17 @@ const Homepage = () => {
             <Row>
               <div className="text-ctn">
                 <span>
-                  {t('homepage:nationalNdc')} {t('homepage:transparency')} <br />
-                  {t('homepage:system')}
+                  <Trans
+                    i18nKey="homepage:heading"
+                    components={{
+                      br: <br />,
+                    }}
+                  />
                 </span>
-                <div className="subhome">{t('homepage:lorem')}</div>
+                <div className="subhome">{t('homepage:subHeading')}</div>
               </div>
             </Row>
-            <Row>
+            <Row className="arrow-ctn">
               {Visible && (
                 <nav className={'arrows'}>
                   <svg onClick={handleClickScroll}>
@@ -89,347 +144,57 @@ const Homepage = () => {
                   </svg>
                 </nav>
               )}
-            </Row>
-          </div>
-        </Col>
-      </Row>
-      <Row gutter={[8, 8]}>
-        <Col md={24} lg={24} flex="auto">
-          <div className="homepage-content-containerwhite">
-            <div id="scrollhome" className="title">
-              {t('homepage:ourVisionTitle')}
-            </div>
-            <div className="homepagebody">
-              <div className="homepagebody_text">
-                {t('homepage:ourVisionContentStart')}
-                <strong> {t('homepage:ourVisionContentHighlight')} </strong>
-                {t('homepage:ourVisionContentEnd')}
-              </div>
-              <div className="homepagebody_text">{t('homepage:OurPlatformEnables')}</div>
 
-              <div className="aboutus_cards-container">
-                <Row gutter={[5, 5]} className="aboutus_card-row">
-                  <Col xxl={8} xl={8} md={24} className="aboutus_card-col">
-                    <div className="aboutus-card-main-container">
-                      <Col>
-                        <Row className="aboutus_card-row">
-                          <div className="aboutus-card-title">{t('homepage:governmentsTitle')}</div>
-                        </Row>
-                        <Row className="aboutus_card-row">
-                          <div className="aboutus-card-text">
-                            {t('homepage:governmentsBodyTxt1')}
-                          </div>
-                        </Row>
-                        <Row className="aboutus_card-row">
-                          <div className="aboutus-card-text">
-                            {t('homepage:governmentsBodyTxt2')}
-                          </div>
-                        </Row>
-                        <Row className="aboutus_card-row">
-                          <div className="aboutus-card-text">
-                            {t('homepage:governmentsBodyTxt3')}
-                          </div>
-                        </Row>
-                        <Row className="aboutus_card-row">
-                          <div className="aboutus-card-text">
-                            {t('homepage:governmentsBodyTxt4')}
-                          </div>
-                        </Row>
-                      </Col>
-                    </div>
-                  </Col>
-                  <Col xxl={8} xl={8} md={24} className="aboutus_card-col">
-                    <div className="aboutus-card-main-container">
-                      <Col>
-                        <Row className="aboutus_card-row">
-                          <div className="aboutus-card-title">
-                            {t('homepage:projectDevelopersTitle')}
-                          </div>
-                        </Row>
-                        <Row className="aboutus_card-row">
-                          <div className="aboutus-card-text">
-                            {t('homepage:projectDevelopersBodyTxt1')}
-                          </div>
-                        </Row>
-                        <Row className="aboutus_card-row">
-                          <div className="aboutus-card-text">
-                            {t('homepage:projectDevelopersBodyTxt2')}
-                          </div>
-                        </Row>
-                        <Row className="aboutus_card-row">
-                          <div className="aboutus-card-text">
-                            {t('homepage:projectDevelopersBodyTxt3')}
-                          </div>
-                        </Row>
-                      </Col>
-                    </div>
-                  </Col>
-                  <Col xxl={8} xl={8} md={24} className="aboutus_card-col">
-                    <div className="aboutus-card-main-container">
-                      <Col>
-                        <Row className="aboutus_card-row">
-                          <div className="aboutus-card-title">{t('homepage:certifiersTitle')}</div>
-                        </Row>
-                        <Row className="aboutus_card-row">
-                          <div className="aboutus-card-text">
-                            {t('homepage:certifiersBodyTxt1')}
-                          </div>
-                        </Row>
-                        <Row className="aboutus_card-row">
-                          <div className="aboutus-card-text">
-                            {t('homepage:certifiersBodyTxt2')}
-                          </div>
-                        </Row>
-                        <Row className="aboutus_card-row">
-                          <div className="aboutus-card-text">
-                            {t('homepage:certifiersBodyTxt3')}
-                          </div>
-                        </Row>
-                      </Col>
-                    </div>
-                  </Col>
-                  {/* <Col xxl={6} xl={6} md={12} className="aboutus_card-col">
-                    <div className="aboutus-card-main-container">
-                      <Col>
-                        <Row className="aboutus_card-row">
-                          <div>
-                            <CartCheck className="aboutusicon" color="#FFFF" size="60px" />
-                          </div>
-                        </Row>
-                        <Row className="aboutus_card-row">
-                          <div className="aboutus-card-title">{t('homepage:buyersTitle')}</div>
-                        </Row>
-                        <Row>
-                          <div className="aboutus-card-text">{t('homepage:buyersBody')}</div>
-                        </Row>
-                      </Col>
-                    </div>
-                  </Col> */}
-                </Row>
+              {/* Dot Indicators below the arrow */}
+              <div className="hero-slider-dots">
+                {heroImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`hero-dot ${index === currentSlide ? 'active' : ''}`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
               </div>
-              <div className="homepagebody_subtitle">{t('homepage:policyContextTitle')}</div>
-              <div className="homepagebody_text">{t('homepage:policyContextBody')}</div>
-              <div className="homepagebody_text">{t('homepage:policyContextBody2')}</div>
-              <div className="homepagebody_subtitle">{t('homepage:digitalPublicTitle')}</div>
-              <div className="homepagebody_text">
-                <Trans
-                  i18nKey="homepage:digitalPublicBody"
-                  components={{
-                    a0: (
-                      <a
-                        href="https://digitalpublicgoods.net/digital-public-goods/"
-                        target="_blank"
-                      />
-                    ),
-                    a1: (
-                      <a
-                        href="https://github.com/undp/national-climate-transparency"
-                        target="_blank"
-                      />
-                    ),
-                  }}
-                />
-              </div>
-              <div className="homepagebody_subtitle">{t('homepage:demoSiteTitle')}</div>
-              <div className="homepagebody_text">
-                <Trans
-                  i18nKey="homepage:demoSiteBody"
-                  components={{
-                    b: <strong />,
-                    ul: <ul className="homepagebody_text list" />,
-                    li: <li />,
-                    a: <a href="mailto:digital4planet@undp.org" target="_blank" />,
-                    a0: <a href="https://transparency-demo.carbreg.org/" target="_blank" />,
-                  }}
-                />
-              </div>
-              <div className="homepagebody_text">
-                <Trans
-                  i18nKey="homepage:demoSiteBody2"
-                  components={{
-                    a: (
-                      <a
-                        href="https://github.com/undp/national-climate-transparency"
-                        target="_blank"
-                      />
-                    ),
-                  }}
-                />
-              </div>
-            </div>
-            <div className="title">{t('homepage:HdiwTitle')}</div>
-            <div className="homepagebody">
-              <div className="homepagebody_text">{t('homepage:HdiwBody')}</div>
-              <ul className="homepagebody_text list">
-                <li>
-                  <strong>{t('homepage:feature1Title')}</strong>:{' '}
-                  {t('homepage:feature1Description')}
-                </li>
-                <li>
-                  <strong>{t('homepage:feature2Title')}</strong>:{' '}
-                  {t('homepage:feature2Description')}
-                </li>
-                <li>
-                  <strong>{t('homepage:feature3Title')}</strong>:{' '}
-                  {t('homepage:feature3Description')}
-                </li>
-                <li>
-                  <strong>{t('homepage:feature4Title')}</strong>:{' '}
-                  {t('homepage:feature4Description')}
-                </li>
-                <li>
-                  <strong>{t('homepage:feature5Title')}</strong>:{' '}
-                  {t('homepage:feature5Description')}
-                </li>
-              </ul>
-            </div>
+            </Row>
           </div>
         </Col>
       </Row>
-      <Row gutter={[8, 8]}>
-        <Col md={24} lg={24} flex="auto">
-          <div className="homepage-image-content-container">
-            <Row>
-              <Col className="eligicontent" flex={2} md={22} lg={23}>
-                <div className="title">{t('homepage:faqTitle')}</div>
-                <div className="homepagebody homepage_accordian_wrapper">
-                  <Collapse accordion defaultActiveKey={['1']} className="homepage_accordian">
-                    <CollapsePanel
-                      header={t('homepage:faqQ1')}
-                      key="1"
-                      className="homepage_collapsepanel"
-                    >
-                      <div className="collapsetext">{t('homepage:faqA1')}</div>
-                    </CollapsePanel>
-                    <CollapsePanel
-                      header={t('homepage:faqQ2')}
-                      key="2"
-                      className="homepage_collapsepanel"
-                    >
-                      <div className="collapsetext">
-                        <Trans
-                          i18nKey="homepage:faqA2"
-                          components={{
-                            ol: <ol />,
-                            li: <li />,
-                            b: <strong />,
-                          }}
-                        />
-                      </div>
-                    </CollapsePanel>
-                    <CollapsePanel
-                      header={t('homepage:faqQ3')}
-                      key="3"
-                      className="homepage_collapsepanel"
-                    >
-                      <div className="collapsetext">
-                        <Trans
-                          i18nKey="homepage:faqA3"
-                          components={{
-                            ul: <ul />,
-                            li: <li />,
-                            b: <strong />,
-                          }}
-                        />
-                      </div>
-                    </CollapsePanel>
-                    <CollapsePanel
-                      header={t('homepage:faqQ4')}
-                      key="4"
-                      className="homepage_collapsepanel"
-                    >
-                      <div className="collapsetext">
-                        <Trans
-                          i18nKey="homepage:faqA4"
-                          components={{
-                            ul: <ul />,
-                            li: <li />,
-                            b: <strong />,
-                          }}
-                        />
-                      </div>
-                    </CollapsePanel>
-                    <CollapsePanel
-                      header={t('homepage:faqQ5')}
-                      key="5"
-                      className="homepage_collapsepanel"
-                    >
-                      <div className="collapsetext">{t('homepage:faqA5')}</div>
-                      <div className="collapsetext">
-                        <Trans
-                          i18nKey="homepage:faqA5-2"
-                          components={{
-                            a: <a href="mailto:digital4planet@undp.org" target="_blank" />,
-                          }}
-                        />
-                      </div>
-                      <div className="collapsetext">{t('homepage:faqA5-3')}</div>
-                    </CollapsePanel>
-                    <CollapsePanel
-                      header={t('homepage:faqQ6')}
-                      key="6"
-                      className="homepage_collapsepanel"
-                    >
-                      <div className="collapsetext">
-                        <Trans
-                          i18nKey="homepage:faqA6"
-                          components={{
-                            ul: <ul />,
-                            li: <li />,
-                            b: <strong />,
-                          }}
-                        />
-                      </div>
-                      <div className="collapsetext">
-                        <Trans
-                          i18nKey="homepage:faqA6-2"
-                          components={{
-                            ul: <ul />,
-                            li: <li />,
-                            b: <strong />,
-                          }}
-                        />
-                      </div>
-                      <div className="collapsetext">
-                        <Trans
-                          i18nKey="homepage:faqA6-3"
-                          components={{
-                            b: <strong />,
-                          }}
-                        />
-                      </div>
-                    </CollapsePanel>
-                    <CollapsePanel
-                      header={t('homepage:faqQ7')}
-                      key="7"
-                      className="homepage_collapsepanel"
-                    >
-                      <div className="collapsetext">
-                        <Trans
-                          i18nKey="homepage:faqA7"
-                          components={{
-                            ul: <ul />,
-                            li: <li />,
-                            b: <strong />,
-                          }}
-                        />
-                      </div>
-                    </CollapsePanel>
-                  </Collapse>
-                </div>
-              </Col>
-              <Col flex={3} md={8} lg={8}>
-                {/* <ImgWithFallback
-                  className="forest-image"
-                  src={forestfall}
-                  fallbackSrc={forestfall}
-                  mediaType="image/webp"
-                  alt="forestry"
-                /> */}
-                {/* <img className="image" src={forest} alt="forest" /> */}
-              </Col>
-            </Row>
+      <Vision />
+      <WhyThisPlatform />
+      <TransparencyDashboardDemo />
+      <DigitalPublicGood />
+      <MapAnimation />
+      <DemoSite />
+      <ProcessFlow />
+      <FeatureCards />
+      {/* <PartnershipBanner /> */}
+      <FAQ />
+
+      <Row className="developer-resources-row">
+        <Col xs={12} sm={6} md={6} lg={3} xl={3} className="Devresources">
+          <div className="resource-item">
+            <b>{t('homepage:develperResources.title')}</b>
           </div>
+        </Col>
+        <Col xs={12} sm={6} md={6} lg={3} xl={3} className="Devresources">
+          <u>
+            <a
+              href="https://github.com/undp/National-Climate-Transparency-Platform"
+              target="_blank"
+            >
+              {' '}
+              <div className="resource-item connects">
+                {t('homepage:develperResources.resource.1')}
+              </div>
+            </a>
+          </u>
+        </Col>
+        <Col xs={12} sm={6} md={6} lg={3} xl={3} className="Devresources">
+          <div className="resource-item connects">Companion Training Material</div>
+        </Col>
+        <Col xs={12} sm={6} md={6} lg={3} xl={3} className="Devresources">
+          <div className="resource-item connects">Data Templates</div>
         </Col>
       </Row>
       <LayoutFooter />

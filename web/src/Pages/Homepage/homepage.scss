@@ -1,11 +1,12 @@
-@use '../../Assets/Fonts/fonts.scss';
-@use '../../Styles/variables.scss';
+@use "../../Assets/Fonts/fonts.scss";
+@use "../../Styles/variables.scss";
 
 $max-pagewidth: 1600px;
 $title-color: #3a8ab5;
 
 .homepage-container {
   height: 100%;
+  width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   background-color: variables.$background-color;
@@ -28,7 +29,6 @@ $title-color: #3a8ab5;
     }
 
     .title {
-      font-family: 'MuseoSans';
       font-size: 1.2rem;
       color: variables.$logo-text-color;
       font-weight: 700;
@@ -38,7 +38,6 @@ $title-color: #3a8ab5;
 
     .title-sub {
       font-weight: 100 !important;
-      font-family: 'MuseoSans';
       font-size: 1.2rem;
       color: variables.$logo-text-color;
     }
@@ -58,7 +57,6 @@ $title-color: #3a8ab5;
       font-size: 0.65rem;
       color: variables.$logo-text-color;
       margin-top: -5px;
-      font-family: 'MuseoSans';
       margin-left: 6px;
     }
   }
@@ -75,36 +73,91 @@ $title-color: #3a8ab5;
       margin-left: 30px;
       text-transform: uppercase;
 
-      @media (max-width: 435px) {
-        font-size: 0.7rem;
-      }
-
       @media (max-width: 678px) {
         margin-right: 2vw;
       }
     }
 
     .ant-btn-primary {
-      background: linear-gradient(to right, #b288fe, variables.$gradient-background-end);
+      background: linear-gradient(to right,
+          #1890ff,
+          variables.$gradient-background-end );
       color: variables.$dark-text-color;
       border: none;
     }
 
     .ant-btn-primary:hover {
-      background: linear-gradient(to right, variables.$gradient-background-end, #b288fe);
+      background: linear-gradient(to right,
+          variables.$gradient-background-end,
+          #1890ff);
     }
   }
 
-    .image-container {
-    background-image: linear-gradient(to bottom,
-        rgba(255, 255, 255, 0.3) 2%,
-        rgba(22, 177, 255, 0.1) 40%),
-      url('../../Assets/Images/factory.webp');
-    background-size: cover;
+  .section {
+    max-width: 1360px;
+    margin: auto;
+    padding: 0 2.5rem 2.5rem 2.5rem;
+    width: 95%;
+  }
+
+  .hero-slider-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 70px;
+    width: 100%;
+
+    .hero-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid rgba(128, 128, 128, 0.737);
+      background: rgba(128, 128, 128, 0.737);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex-shrink: 0; // Prevent dots from shrinking
+
+      &:hover {
+
+        transform: scale(1.1);
+      }
+
+      &.active {
+        background: white;
+        border-color: white;
+        transform: scale(1.2);
+      }
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    .hero-slider-dots {
+      gap: 10px;
+      margin-top: 15px;
+
+      .hero-dot {
+        width: 10px;
+        height: 10px;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .hero-slider-dots {
+      gap: 8px;
+      margin-top: 12px;
+
+      .hero-dot {
+        width: 8px;
+        height: 8px;
+      }
+    }
   }
 
   .homepage-img-container {
-    height: 100vh;
+    height: 120vh;
     background-position-x: 100%;
     background-position-y: 100%;
     flex-direction: column;
@@ -119,13 +172,19 @@ $title-color: #3a8ab5;
       }
     }
 
+    .arrow-ctn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .arrows {
       width: 60px;
       height: 72px;
-      position: absolute;
-      left: 50%;
-      margin-left: -30px;
-      bottom: 20px;
+      // position: absolute;
+      // left: 50%;
+      // margin-left: -30px;
+      // bottom: 200px;
 
       @media (max-width: variables.$lg-size) {
         stroke-width: 2px;
@@ -166,7 +225,8 @@ $title-color: #3a8ab5;
 
     @-webkit-keyframes arrow
 
-    /*Safari and Chrome*/ {
+    /*Safari and Chrome*/
+      {
       0% {
         opacity: 0;
       }
@@ -200,39 +260,37 @@ $title-color: #3a8ab5;
     }
 
     .text-ctn {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start; // or "center" if you want horizontal center too
+      height: 75vh; // full viewport height
       margin-left: 5vw;
-      bottom: 50px;
-      font-family: variables.$secondary-font-family;
+      font-family: variables.$secondary-font-family !important;
       font-size: 4rem;
       color: variables.$outside-background-color;
       line-height: 1.2em;
       text-transform: uppercase;
-      position: relative;
-      padding-top: 60vh;
+      padding-top: 80px;
 
       @media (max-width: 1800px) {
         font-size: 3rem;
-        margin-top: 1rem;
-        margin-bottom: unset;
-        line-height: 1.5em;
-        padding-top: 50vh;
       }
 
       @media (max-width: 579px) {
         font-size: 2.2rem;
-        padding-top: 30vh;
-        text-align: left;
+        align-items: flex-start;
       }
 
       @media (max-width: 427px) {
         font-size: 2.2rem;
-        padding-top: 30vh;
+        align-items: center;
         text-align: center;
       }
 
       @media (max-width: 380px) {
         font-size: 2rem;
-        padding-top: 30vh;
+        align-items: center;
         text-align: center;
       }
     }
@@ -378,50 +436,48 @@ $title-color: #3a8ab5;
 
     .aboutus-card-main-container {
       display: flex;
-      height: 25rem;
+      height: 23rem;
       min-height: 20rem;
       max-width: 26rem;
       justify-content: center;
-      background: linear-gradient(to right, variables.$gradient-background-start, variables.$gradient-background-end);
+      background: linear-gradient(to right,
+          variables.$gradient-background-start,
+          variables.$gradient-background-end );
       border-radius: 0.625rem;
-      padding: 26px 25px 25px 25px;
+      padding: 50px 25px 25px 25px;
       margin: 10px;
       text-align: center;
 
       @media (max-width: 1350px) {
-        height: 21rem;
-        // max-width: 18rem;
-        padding: 38px 20px 25px 20px;
+        height: 23rem;
+        max-width: 18rem;
+        padding: 50px 5px 25px 5px;
       }
 
       @media (max-width: 1050px) {
-        // max-width: 18rem;
-        padding: 38px 20px 25px 20px;
+        max-width: 18rem;
+        padding: 50px 5px 25px 5px;
       }
 
       @media (max-width: 986px) {
-        // height: 21rem;
-        // max-width: 18rem;
-        padding: 27px 20px 25px 20px;
+        height: 21rem;
+        max-width: 18rem;
+        padding: 50px 5px 25px 5px;
       }
 
       @media (max-width: 764px) {
-        padding: 25px 10px 25px 10px;
-        margin: 30px 0;
-        height: 22rem;
+        margin-bottom: -10px;
       }
 
       @media (max-width: 536px) {
-        padding: 25px 10px 25px 10px;
+        padding: 40px 5px 25px 5px;
         margin: 30px 0;
-        height: 22rem;
       }
     }
 
     .aboutus-card-main-container {
       @media (max-width: 1200px) {
         margin-bottom: 0;
-        max-width: 35rem;
       }
     }
 
@@ -460,18 +516,17 @@ $title-color: #3a8ab5;
         color: variables.$dark-text-color;
         font-size: 15px;
         line-height: 24px;
-        padding-bottom: 10px;
         // text-align: justify;
       }
 
       .aboutus-card-title {
-        font-size: 21px;
+        font-size: 18px;
         font-weight: 700;
         display: flex;
         color: variables.$dark-text-color;
-        line-height: 1.5;
+        line-height: 2;
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         margin-top: 20px;
       }
     }
@@ -563,7 +618,6 @@ $title-color: #3a8ab5;
   }
 
   .eligicontent {
-    width: 100%;
     padding: 20px;
   }
 
@@ -600,7 +654,7 @@ $title-color: #3a8ab5;
     }
 
     .title {
-      font-size: 28px;
+      font-size: 2rem;
       font-weight: 700;
       font-family: variables.$primary-font-family;
       color: variables.$title-text-color;
@@ -609,7 +663,7 @@ $title-color: #3a8ab5;
       justify-content: left;
       text-transform: uppercase;
       margin-left: 4.5rem;
-      padding: 0 50px 10px 0;
+      padding: 50px 50px 10px 0;
 
       @media (max-width: variables.$lg-size) {
         font-size: 24px;
@@ -665,8 +719,8 @@ $title-color: #3a8ab5;
           .collapsetext {
             font-size: 14px;
 
-            li{
-              strong{
+            li {
+              strong {
                 margin-bottom: 5px;
               }
             }
@@ -767,5 +821,81 @@ $title-color: #3a8ab5;
         margin: 20px 30px 20px -40px;
       }
     }
+  }
+}
+
+.developer-resources-row {
+  margin-bottom: 2rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding-left: 36px;
+  white-space: nowrap;
+  gap: 150px;
+  margin-top: 20px;
+}
+
+.resource-item {
+  padding: 1rem 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+}
+
+.connects {
+  color: #6c757d;
+}
+
+.resource-label {
+  font-weight: bold;
+  color: #6c757d;
+}
+
+.Devresources {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 1000px) {
+  .developer-resources-row {
+    gap: 10px;
+  }
+
+  .resource-item {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .Devresources {
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .developer-resources-row {
+    gap: 1px;
+    justify-content: center;
+  }
+
+  .resource-item {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .Devresources {
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .developer-resources-row {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .resource-item {
+    padding: 0.75rem 0;
+    font-size: 0.9rem;
   }
 }

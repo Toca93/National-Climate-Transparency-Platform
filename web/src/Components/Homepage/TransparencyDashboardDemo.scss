@@ -1,0 +1,32 @@
+@import '../../Assets/Styles/variables.scss';
+
+.transparency-demo-dashboard {
+    padding: 20px;
+
+    .chart-section-card {
+        margin: 1rem 0rem;
+        padding: 1rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+
+        .chart-title {
+            font-size: large;
+            font-weight: 600;
+            color: $text-color-80;
+            margin: 20px 20px 0 20px;
+        }
+    }
+
+    .chart-update-time {
+        margin: -40px 15px 30px;
+        text-align: right;
+
+        .time-chip {
+            align-content: center;
+            height: 28px;
+            border-width: 0;
+            background-color: $accent-color-20;
+            color: $accent-color-80;
+        }
+    }
+}
