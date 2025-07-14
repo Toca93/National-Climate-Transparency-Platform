@@ -6,7 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryColumn,
-	UpdateDateColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { SubSector } from "../enums/shared.enum";
 import { Sector } from "../enums/sector.enum";
@@ -16,7 +16,6 @@ import { ProjectEntity } from "./project.entity";
 import { ActivityEntity } from "./activity.entity";
 import { ProgrammeStatus } from "../enums/programme-status.enum";
 import { KpiEntity } from "./kpi.entity";
-import { ActionType } from "../enums/action.enum";
 
 @Entity("programme")
 export class ProgrammeEntity {
@@ -32,7 +31,7 @@ export class ProgrammeEntity {
   @Column()
   objective: string;
 
-	@Column({ type: "enum", enum: Sector, nullable: true })
+  @Column({ type: "enum", enum: Sector, nullable: true })
   sector: Sector;
 
   // @Column({ type: "enum", enum: ActionType,nullable: false })
@@ -50,10 +49,10 @@ export class ProgrammeEntity {
   // @Column({nullable: false, type: 'double precision' })
   // investment: number;
 
-	@Column({ type: "enum", enum: ProgrammeStatus })
+  @Column({ type: "enum", enum: ProgrammeStatus })
   programmeStatus: string;
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ type: "jsonb", nullable: true })
   documents: any;
 
   @Column({ nullable: true })
@@ -65,22 +64,22 @@ export class ProgrammeEntity {
   @ManyToOne(() => ActionEntity, (action) => action.programmes, {
     nullable: true,
   })
-  @JoinColumn([{ name: "actionId", referencedColumnName: "actionId" }])
-  action: ActionEntity;
+  @JoinColumn([{ name: "actionId" }])
+  action: ActionEntity | null;
 
   @OneToMany(() => ProjectEntity, (projectEntity) => projectEntity.programme)
   projects?: ProjectEntity[];
 
-	activities?: ActivityEntity[];
+  activities?: ActivityEntity[];
 
-	kpis?: KpiEntity[];
+  kpis?: KpiEntity[];
 
   @Column({ type: "boolean", default: false })
-	validated: boolean;
+  validated: boolean;
 
-	@CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-	createdTime: Date;
+  @CreateDateColumn({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
+  createdTime: Date;
 
-	@UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-	updatedTime: Date;
+  @UpdateDateColumn({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
+  updatedTime: Date;
 }

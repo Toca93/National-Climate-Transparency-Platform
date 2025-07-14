@@ -817,7 +817,7 @@ const ProgrammeForm: React.FC<FormLoadProps> = ({ method }) => {
                       size={'large'}
                       style={{ fontSize: inputFontSize }}
                       allowClear
-                      disabled={method !== 'create'}
+                      disabled={method === 'view'}
                       showSearch
                       onChange={(value: any) => {
                         const selectedAction = actionList.find((action) => action.id === value);
@@ -845,6 +845,9 @@ const ProgrammeForm: React.FC<FormLoadProps> = ({ method }) => {
                           </span>
                         </Option>
                       ))}
+                      <Option key={0} value={''}>
+                        <span style={{ color: 'inherit' }}>None</span>
+                      </Option>
                     </Select>
                   </Form.Item>
                 </Col>

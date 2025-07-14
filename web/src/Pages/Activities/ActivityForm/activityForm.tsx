@@ -1339,7 +1339,7 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
                       size="large"
                       style={{ fontSize: inputFontSize }}
                       allowClear
-                      disabled={method !== 'create'}
+                      disabled={method === 'view'}
                       showSearch
                       onChange={handleParentTypeSelect}
                     >
@@ -1389,7 +1389,7 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
                         size={'large'}
                         style={{ fontSize: inputFontSize }}
                         allowClear
-                        disabled={method !== 'create'}
+                        disabled={method === 'view'}
                         showSearch
                         onChange={handleParentIdSelect}
                       >
@@ -1408,6 +1408,9 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
                             </span>
                           </Option>
                         ))}
+                        <Option key={0} value={''}>
+                          <span style={{ color: 'inherit' }}>None</span>
+                        </Option>
                       </Select>
                     </Form.Item>
                   </Col>
@@ -1798,7 +1801,7 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
                           size="large"
                           style={{ fontSize: inputFontSize }}
                           allowClear
-                          disabled={method !== 'create'}
+                          disabled={method === 'view'}
                           showSearch
                           onChange={(value: GHGS) => setSelectedGhg(value)}
                         >

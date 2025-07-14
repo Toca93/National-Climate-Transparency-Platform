@@ -7,8 +7,7 @@ import { KpiDto } from "./kpi.dto";
 export class ProjectDto {
 
 	@IsString()
-	@IsNotEmpty()
-	@ApiProperty()
+	@ApiPropertyOptional()
 	programmeId: string;
 
 	@IsString()

@@ -21,6 +21,7 @@
     "permissionDeniedForSector": "User does not have the permission for the sector",
     "deleteProjectSuccess": "Project deleted successfully",
     "projectDeletionFailed": "Project delete failed due to {}",
-    "parentNotValidated": "Parent programme with id {} should be validated."
+    "parentNotValidated": "Parent programme with id {} should be validated.",
+    "cannotvalidateOrphanItems": "Please attach to a programme before validating the project."
 
 }

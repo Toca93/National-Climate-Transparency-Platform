@@ -14,7 +14,7 @@ export class ProjectUpdateDto {
 
 	@IsString()
 	@IsOptional()
-	@ApiProperty()
+	@ApiPropertyOptional()
 	programmeId: string;
 
 	@IsString()

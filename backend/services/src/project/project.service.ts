@@ -885,6 +885,16 @@ export class ProjectService {
 			);
 		}
 
+		if (!project.programme) {
+			throw new HttpException(
+				this.helperService.formatReqMessagesString(
+					"project.cannotvalidateOrphanItems",
+					[]
+				),
+				HttpStatus.FORBIDDEN
+			);
+		}
+
 		if (validateDto.validateStatus && project.programme && !project.programme.validated) {
 			throw new HttpException(
 				this.helperService.formatReqMessagesString(

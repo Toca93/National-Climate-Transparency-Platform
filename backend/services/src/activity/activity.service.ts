@@ -686,23 +686,25 @@ export class ActivityService {
 					const currentActivityRootParent = this.linkUnlinkService.getParentIdFromPath(currentActivity.path);
 					const updatedActivityRootParent = this.linkUnlinkService.getParentIdFromPath(activityUpdate.path);
 
-					if (currentActivityRootParent.rootEntityType == EntityType.ACTION) {
-						await this.linkUnlinkService.updateAllValidatedChildrenStatusByActionId(
-							currentActivityRootParent.parentId, 
-							em, 
-							updatedProgrammeIds, 
-							updatedProjectIds,
-							[activityUpdate.activityId]
-						);
-					} else if (currentActivityRootParent.rootEntityType == EntityType.PROGRAMME) {
-						const programme = await this.linkUnlinkService.findProgrammeById(currentActivityRootParent.parentId);
-						await this.linkUnlinkService.updateAllValidatedChildrenAndParentStatusByProgrammeId(programme, em, true, updatedProjectIds, [activityUpdate.activityId]);
-					} else {
-						const project = await this.linkUnlinkService.findProjectById(currentActivityRootParent.parentId);
-						await this.linkUnlinkService.updateAllValidatedChildrenAndParentStatusByProject(project, em, true, [activityUpdate.activityId]);
+					if (currentActivityRootParent.parentId) {
+						if (currentActivityRootParent.rootEntityType == EntityType.ACTION) {
+							await this.linkUnlinkService.updateAllValidatedChildrenStatusByActionId(
+								currentActivityRootParent.parentId, 
+								em, 
+								updatedProgrammeIds, 
+								updatedProjectIds,
+								[activityUpdate.activityId]
+							);
+						} else if (currentActivityRootParent.rootEntityType == EntityType.PROGRAMME) {
+							const programme = await this.linkUnlinkService.findProgrammeById(currentActivityRootParent.parentId);
+							await this.linkUnlinkService.updateAllValidatedChildrenAndParentStatusByProgrammeId(programme, em, true, updatedProjectIds, [activityUpdate.activityId]);
+						} else {
+							const project = await this.linkUnlinkService.findProjectById(currentActivityRootParent.parentId);
+							await this.linkUnlinkService.updateAllValidatedChildrenAndParentStatusByProject(project, em, true, [activityUpdate.activityId]);
+						}
 					}
 
-					if (currentActivityRootParent.parentId != updatedActivityRootParent.parentId) {
+					if (updatedActivityRootParent.parentId && currentActivityRootParent.parentId != updatedActivityRootParent.parentId) {
 						if (updatedActivityRootParent.rootEntityType == EntityType.ACTION) {
 							await this.linkUnlinkService.updateAllValidatedChildrenStatusByActionId(
 								updatedActivityRootParent.parentId, 
@@ -1309,6 +1311,16 @@ export class ActivityService {
 					[validateDto.entityId]
 				),
 				HttpStatus.BAD_REQUEST
+			);
+		}
+
+		if (!activity.parentId) {
+			throw new HttpException(
+				this.helperService.formatReqMessagesString(
+					"activity.cannotvalidateOrphanItems",
+					[]
+				),
+				HttpStatus.FORBIDDEN
 			);
 		}
 
