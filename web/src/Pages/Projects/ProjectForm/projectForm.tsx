@@ -865,7 +865,7 @@ const ProjectForm: React.FC<FormLoadProps> = ({ method }) => {
                       size={'large'}
                       style={{ fontSize: inputFontSize }}
                       allowClear
-                      disabled={method !== 'create'}
+                      disabled={method === 'view'}
                       showSearch
                       onChange={(value: any) => {
                         setProjectConnectedProgramme(value);
@@ -877,6 +877,9 @@ const ProjectForm: React.FC<FormLoadProps> = ({ method }) => {
                           {`(${program.id}) - ${program.title}`}
                         </Option>
                       ))}
+                      <Option key={0} value={''}>
+                        None
+                      </Option>
                     </Select>
                   </Form.Item>
                 </Col>

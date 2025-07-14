@@ -25,9 +25,8 @@ export class ActivityDto {
 	})
 	parentType: EntityType;
 
-	@IsNotEmpty()
 	@IsString()
-	@ApiProperty()
+	@ApiPropertyOptional()
 	parentId: string;
 
 	@ValidateIf((c) => c.measure)

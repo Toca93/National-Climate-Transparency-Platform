@@ -6,7 +6,7 @@ import { projectViewSQL } from "../entities/project.view.entity";
 import { reportFiveViewSQL } from "../entities/report.five.view.entity";
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class AcheivedGHGForA3Reports1752051331646 implements MigrationInterface {
+export class UpdateAllViews1752469756197 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`DROP VIEW IF EXISTS annex_three_view`); // Dropping the report five view entity
@@ -22,6 +22,14 @@ export class AcheivedGHGForA3Reports1752051331646 implements MigrationInterface 
         await queryRunner.query("CREATE MATERIALIZED VIEW action_view_entity AS" + "\n" + actionViewSQL); // Creating the action view entity 
         await queryRunner.query("CREATE MATERIALIZED VIEW report_five_view_entity AS" + "\n" + reportFiveViewSQL); // Creating the report five entity
         await queryRunner.query("CREATE VIEW annex_three_view AS" + "\n" + annexThreeReportSQL); // Creating the annex three view
+
+        await queryRunner.query(`
+            CREATE UNIQUE INDEX idx_activity_view_entity_id ON activity_view_entity(id);
+            CREATE UNIQUE INDEX idx_project_view_entity_id ON project_view_entity(id);
+            CREATE UNIQUE INDEX idx_programme_view_entity_id ON programme_view_entity(id);
+            CREATE UNIQUE INDEX idx_action_view_entity_id ON action_view_entity(id);
+            CREATE UNIQUE INDEX idx_report_five_view_entity_id ON report_five_view_entity(source, "actionId");
+        `);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

@@ -108,9 +108,8 @@ export class ProgrammeUpdateDto {
     )
     removedDocuments: string[];
 
-    @IsNotEmpty()
     @IsString()
-    @ApiProperty()
+    @ApiPropertyOptional()
     actionId: string;
 
     @IsOptional()

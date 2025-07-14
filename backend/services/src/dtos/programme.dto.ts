@@ -24,9 +24,8 @@ export class ProgrammeDto {
     @ApiProperty()
     objective: string;
 
-    @IsNotEmpty()
     @IsString()
-    @ApiProperty()
+    @ApiPropertyOptional()
     actionId: string;
     
     @IsArray()

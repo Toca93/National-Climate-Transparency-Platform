@@ -15,18 +15,19 @@ WITH fullprj AS (
 	FROM 
 			project prj
 	LEFT JOIN (
-			SELECT 
-					id,
-					"achievedGHGReduction",
-					"expectedGHGReduction",
-					"ghgsAffected",
-					"recipientEntities",
-					"internationalImplementingEntities",
-					"estimatedAmount",
-					"receivedAmount"
-			FROM 
-					project_view_entity
+		SELECT 
+		id,
+		"achievedGHGReduction",
+		"expectedGHGReduction",
+		"ghgsAffected",
+		"recipientEntities",
+		"internationalImplementingEntities",
+		"estimatedAmount",
+		"receivedAmount"
+		FROM 
+		project_view_entity
 	) p_v_e ON prj."projectId" = p_v_e.id
+	  AND prj."programmeId" IS NOT NULL
 	GROUP BY 
 			prj."projectId", prj."programmeId", p_v_e."recipientEntities", p_v_e."internationalImplementingEntities"
 ),
@@ -44,16 +45,17 @@ act AS (
 			activity a
 	LEFT JOIN (
         SELECT 
-            "activityId",
-            SUM("requiredAmount") AS "requiredAmount",
-            SUM("receivedAmount") AS "receivedAmount"
+		"activityId",
+		SUM("requiredAmount") AS "requiredAmount",
+		SUM("receivedAmount") AS "receivedAmount"
         FROM 
-            support
+		support
         GROUP BY 
-            "activityId"
+		"activityId"
         ) sup ON a."activityId" = sup."activityId"
-	WHERE 
-			a."parentType" = 'programme'
+		WHERE 
+		a."parentType" = 'programme'
+		AND a."parentId" IS NOT NULL
 	GROUP BY 
 			a."parentId"
 )

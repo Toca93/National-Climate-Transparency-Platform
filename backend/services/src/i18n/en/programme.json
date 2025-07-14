@@ -17,6 +17,7 @@
     "parentNotValidated": "Parent action with id {} should be validated.",
     "verifyProgrammeSuccess": "Programme verified successfully",
     "unverifyProgrammeSuccess": "Programme unverified successfully",
-    "activitiesLinkedToAction": "Cannot attach programme to the action with id : {} as it has activities attached"
+    "activitiesLinkedToAction": "Cannot attach programme to the action with id : {} as it has activities attached",
+    "cannotvalidateOrphanItems": "Please attach to an action before validating the programme."
 
 }

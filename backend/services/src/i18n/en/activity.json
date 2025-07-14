@@ -30,5 +30,6 @@
     "deleteActivitySuccess": "Activity deleted successfully",
     "activityDeletionFailed": "Activity delete failed due to {}",
     "parentNotValidated": "Parent {} with id {} should be validated.",
-    "programmesLinkedToAction": "Cannot attach activity to the action with id : {} as it has programmes attached"
+    "programmesLinkedToAction": "Cannot attach activity to the action with id : {} as it has programmes attached",
+    "cannotvalidateOrphanItems": "Please attach to a parent before validating the activity."
 }
