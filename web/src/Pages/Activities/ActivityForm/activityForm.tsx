@@ -2003,7 +2003,7 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
                 </Col>
               </Row>
             </div>
-            {mtgStartYear && selectedGhg ? (
+            {isGasFlow && mtgStartYear && selectedGhg ? (
               <div className="form-section-card">
                 <Row>
                   <Col {...mtgTableHeaderBps} style={{ paddingTop: '6px' }}>

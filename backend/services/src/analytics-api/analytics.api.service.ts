@@ -155,7 +155,8 @@ export class AnalyticsService {
 					Max(activity."updatedTime") as "latestTime"
 				FROM 
 					activity
-				WHERE activity."mitigationTimeline" IS NOT NULL
+				WHERE activity.sector IS NOT NULL
+					AND activity."mitigationTimeline" IS NOT NULL
 					AND (activity."mitigationTimeline" ->> 'startYear')::numeric <= ${year}
 				GROUP BY 
 					activity.sector
@@ -205,7 +206,8 @@ export class AnalyticsService {
 						Max(activity."updatedTime") as "latestTime"
 					FROM 
 						activity
-					WHERE activity."mitigationTimeline" IS NOT NULL
+					WHERE activity.sector IS NOT NULL
+						AND activity."mitigationTimeline" IS NOT NULL
 						AND (activity."mitigationTimeline" ->> 'startYear')::numeric <= ${previousYear}
 					GROUP BY 
 						activity.sector
