@@ -6,7 +6,12 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { EntityType, GHGS, Recipient } from "../enums/shared.enum";
+import {
+  EntityType,
+  GHGS,
+  IpccSubSector,
+  Recipient,
+} from "../enums/shared.enum";
 import { AchievementEntity } from "./achievement.entity";
 import { SupportEntity } from "./support.entity";
 import {
@@ -50,6 +55,9 @@ export class ActivityEntity implements EntitySubject {
 
   @Column("varchar", { array: true, nullable: false })
   recipientEntities: Recipient[];
+
+  @Column({ type: "varchar", nullable: true })
+  ipccSubSector: IpccSubSector;
 
   @Column({ nullable: true })
   anchoredInNationalStrategy: boolean;

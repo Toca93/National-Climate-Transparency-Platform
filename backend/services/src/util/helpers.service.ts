@@ -267,6 +267,7 @@ export class HelperService {
 		await entityManager.query('REFRESH MATERIALIZED VIEW CONCURRENTLY programme_view_entity;');
 		await entityManager.query('REFRESH MATERIALIZED VIEW CONCURRENTLY action_view_entity;');
 		await entityManager.query('REFRESH MATERIALIZED VIEW CONCURRENTLY report_five_view_entity;');
+		await entityManager.query('REFRESH MATERIALIZED VIEW CONCURRENTLY combined_ghg_reduction_view_entity;');
 	}
 
   public getEmailTemplateMessage(template: string, data, isSubject: boolean) :string {

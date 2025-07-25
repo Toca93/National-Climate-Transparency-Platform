@@ -1,5 +1,5 @@
 {
-    "projectionTitle": "Projection",
+    "combinedExpectedTitle": "Combined - Expected",
     "withMeasuresTitle": "With Measures",
     "withAdditionalMeasuresTitle": "With Additional Measures",
     "withoutMeasuresTitle": "Without Measures",
@@ -72,9 +72,5 @@
     "projectionUnvalidateSuccess": "Successfully Unvalidated the Projection Data",
     "projectionRevertSuccess": "Successfully Reverted to Baseline Projection Data",
 
-    "baselineUpdateSuccess": "Successfully Saved the Baseline Data",
-    
-    "sectorMappingUpdateSuccess": "Successfully Saved the Sector Mapping Data",
-    "sectorMappingNotFound": "No sector mapping configuration exists yet.",
-    "loadingDraftSectorMapping": "Initialized with default sector mapping values as a draft."
+    "baselineUpdateSuccess": "Successfully Saved the Baseline Data"
 }

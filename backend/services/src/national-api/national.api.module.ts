@@ -34,6 +34,8 @@ import { GhgProjectionModule } from 'src/projection/projection.module';
 import { GHGProjectionController } from './ghg.projection.controller';
 import { ResourcesController } from './resource.controller';
 import { SystemResourceModule } from '../system.resource/system.resources.module';
+import { GHGCombinedReductionController } from './ghg.combined.controller';
+import { GhgCombinedReductionModule } from 'src/combined.reduction/combined.reduction.module';
 
 
 @Module({
@@ -61,6 +63,7 @@ import { SystemResourceModule } from '../system.resource/system.resources.module
 		ReportModule,
     GhgEmissionModule,
     GhgProjectionModule,
+    GhgCombinedReductionModule,
 		SystemResourceModule
   ],
   controllers: [ 
@@ -78,6 +81,7 @@ import { SystemResourceModule } from '../system.resource/system.resources.module
 		ReportController,
     GHGEmissionController,
     GHGProjectionController,
+    GHGCombinedReductionController,
 		ResourcesController
   ],
   providers: [

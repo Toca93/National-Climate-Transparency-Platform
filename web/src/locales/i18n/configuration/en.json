@@ -5,7 +5,9 @@
     "withoutMeasuresTitle": "Without Measures",
     "gwpConfigurationTitle": "Global Warming Potential (GWP)",
     "growthRateConfigurationTitle": "Projection Growth Rate",
-
+    "sectorMappingConfigurationTitle": "Sector Mapping",
+    "sectorMappingDescription": "Use this section to map each IPCC sub-sector to a sector for Annex II – Reports 7, 8, and 9. This mapping determines how data will be populated in those reports. Each IPCC sub-sector should be mapped to one sector.",
+    
     "growthRate": "Growth Rate (%)",
     "baselineYear": "Baseline Year",
     "co2": "Baseline ktCO2",

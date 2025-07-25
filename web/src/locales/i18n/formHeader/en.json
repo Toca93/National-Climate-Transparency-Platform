@@ -30,6 +30,7 @@
     "instrumentTypeHeader": "Type of Instruments(s)",
     "sectorsAffectedHeader": "Sector Affected",
     "subSectorsAffectedHeader": "Sub Sectors(s) Affected",
+    "ipccSubSectorHeader": "IPCC Sub-sector",
     "startYearHeader": "Start Year",
     "endYearHeader": "End Year",
     "timeFrameHeader": "Expected Time Frame",

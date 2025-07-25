@@ -15,6 +15,7 @@
     "projectionAlreadyValidated": "Projection record already validated.",
     "projectionAlreadyUnvalidated": "Projection record already unvalidated.",
     "invalidProjectionType": "Invalid projection type.",
+    "invalidReductionType": "Invalid reduction type.",
     "invalidBaselineProjectionType": "Invalid baseline projection type.",
     "invalidYearReceived": "Invalid year received."
 }

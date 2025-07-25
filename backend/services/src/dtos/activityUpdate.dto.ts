@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional, getSchemaPath } from "@nestjs/swagger";
 import { ArrayMinSize, IsArray, IsBoolean, IsEnum, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, ValidateIf } from "class-validator";
 import { ActivityStatus, ImpleMeans, Measure, TechnologyType } from "../enums/activity.enum";
-import { EntityType, GHGS, IntImplementor, NatImplementor, Recipient } from "../enums/shared.enum";
+import { EntityType, GHGS, IntImplementor, IpccSubSector, NatImplementor, Recipient } from "../enums/shared.enum";
 import { DocumentDto } from "./document.dto";
 
 export class ActivityUpdateDto {
@@ -79,6 +79,13 @@ export class ActivityUpdateDto {
 		enum: Object.values(Recipient),
 	})
 	recipientEntities: Recipient[];
+
+	@IsNotEmpty()
+	@IsEnum(IpccSubSector, {
+		message: "Invalid IPCC Sub-Sector. Supported following types:" + Object.values(IpccSubSector),
+	})
+	@ApiProperty({ enum: IpccSubSector })
+	ipccSubSector: IpccSubSector;
 
 	@ValidateIf((c) => c.internationalImplementingEntity)
 	@IsOptional()

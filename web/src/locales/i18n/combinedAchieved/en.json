@@ -1,8 +1,8 @@
 {
-    "projectionTitle": "Projection",
-    "withMeasuresTitle": "With Measures",
-    "withAdditionalMeasuresTitle": "With Additional Measures",
-    "withoutMeasuresTitle": "Without Measures",
+    "combinedAchievedTitle": "Combined - Achieved",
+    "baselineEmissionsTitle": "Baseline Emissions",
+    "ActivityEmissionsTitle": "Activity Emissions",
+    "equivalentEmissionReductionsTitle": "Equivalent Emission Reductions",
 
     "1_title": "Energy",
     "2_title": "Industrial Processes & Product Use",
@@ -72,9 +72,5 @@
     "projectionUnvalidateSuccess": "Successfully Unvalidated the Projection Data",
     "projectionRevertSuccess": "Successfully Reverted to Baseline Projection Data",
 
-    "baselineUpdateSuccess": "Successfully Saved the Baseline Data",
-    
-    "sectorMappingUpdateSuccess": "Successfully Saved the Sector Mapping Data",
-    "sectorMappingNotFound": "No sector mapping configuration exists yet.",
-    "loadingDraftSectorMapping": "Initialized with default sector mapping values as a draft."
+    "baselineUpdateSuccess": "Successfully Saved the Baseline Data"
 }

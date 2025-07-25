@@ -12,5 +12,7 @@
   "users": "Users",
   "emissions": "Emissions",
   "projections": "Projections",
+  "combinedExpected": "Combined - Expected",
+  "combinedAchieved": "Combined - Achieved",
   "configurations": "Configurations"
 }

@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { ProjectionType } from '../../Enums/projection.enum';
 import { useUserContext } from '../../Context/UserInformationContext/userInformationContext';
 import { Role } from '../../Enums/role.enum';
+import SectorMapping from './SectorMapping/sectorMapping';
 
 const GhgConfigurations = () => {
   // Page Context
@@ -158,6 +159,7 @@ const GhgConfigurations = () => {
         <div className="form-section-header">{t('growthRateConfigurationTitle')}</div>
         <Tabs defaultActiveKey="1" centered items={items} />
       </div>
+      {userInfoState?.userRole === Role.Root && <SectorMapping />}
     </div>
   );
 };

@@ -50,7 +50,6 @@ import {
   mtgHalfColumnBps,
   mtgSaveButtonBps,
   mtgTableHeaderBps,
-  quarterColumnBps,
   shortButtonBps,
 } from '../../../Definitions/breakpoints/breakpoints';
 import { displayErrorMessage } from '../../../Utils/errorMessageHandler';
@@ -59,6 +58,7 @@ import { useUserContext } from '../../../Context/UserInformationContext/userInfo
 import ConfirmPopup from '../../../Components/Popups/Confirmation/confirmPopup';
 import { DeleteOutlined } from '@ant-design/icons';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
+import { IpccSubSector } from '../../../Enums/ipcc.subsector.enum';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -973,6 +973,7 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
             startYear1: entityData.startYear ?? undefined,
             endYear1: entityData.endYear ?? undefined,
             expectedTimeFrame: entityData.expectedTimeFrame ?? undefined,
+            ipccSubSector: entityData.ipccSubSector ?? undefined,
           });
 
           // ML - Just to be safe - set the original startYear and endYear with the values from activity entity
@@ -1511,123 +1512,161 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
                 </Col>
               </Row>
               <Row gutter={gutterSize}>
-                <Col {...quarterColumnBps}>
-                  <Form.Item
-                    label={
-                      <label className="form-item-header">
-                        {t('formHeader:sectorsAffectedHeader')}
-                      </label>
-                    }
-                    name="sector"
-                  >
-                    <Select size="large" style={{ fontSize: inputFontSize }} disabled></Select>
-                  </Form.Item>
-                </Col>
-                {(parentType === 'programme' || parentType === 'project') && (
-                  <Col {...quarterColumnBps}>
-                    <Form.Item
-                      label={
-                        <label className="form-item-header">
-                          {t('formHeader:subSectorsAffectedHeader')}
-                        </label>
-                      }
-                      name="affSubSectors"
-                    >
-                      <Select
-                        mode="multiple"
-                        size="large"
-                        style={{ fontSize: inputFontSize }}
-                        disabled
-                      ></Select>
-                    </Form.Item>
-                  </Col>
-                )}
-                {/* ML - since we now want users to select a startYear and endYear no matter of the parentType - we also add expectedTimeFrame which is calculated*/}
-                <Col {...quarterColumnBps}>
-                  <Form.Item
-                    label={
-                      <label className="form-item-header">{t('formHeader:startYearTitle')}</label>
-                    }
-                    name="startYear1"
-                    rules={[
-                      validation.required,
-                      ({ getFieldValue }) => ({
-                        // eslint-disable-next-line no-unused-vars
-                        validator(_, value) {
-                          if (!value || getFieldValue('endYear1') >= value) {
-                            return Promise.resolve();
+                <Col {...halfColumnBps}>
+                  <Row gutter={gutterSize}>
+                    <Col {...halfColumnBps}>
+                      <Form.Item
+                        label={
+                          <label className="form-item-header">
+                            {t('formHeader:sectorsAffectedHeader')}
+                          </label>
+                        }
+                        name="sector"
+                      >
+                        <Select size="large" style={{ fontSize: inputFontSize }} disabled></Select>
+                      </Form.Item>
+                    </Col>
+                    {(parentType === 'programme' || parentType === 'project') && (
+                      <Col {...halfColumnBps}>
+                        <Form.Item
+                          label={
+                            <label className="form-item-header">
+                              {t('formHeader:subSectorsAffectedHeader')}
+                            </label>
                           }
-                          return Promise.reject('Cannot be greater than End Year!');
-                        },
-                      }),
-                    ]}
-                    dependencies={['endYear1']}
-                  >
-                    <Select
-                      size="large"
-                      style={{ fontSize: inputFontSize }}
-                      allowClear
-                      disabled={isView}
-                      showSearch
-                      onChange={(value) => {
-                        handleStartYearChanges(value);
-                      }}
-                    >
-                      {yearsList.slice(1).map((year) => (
-                        <Option key={year} value={year}>
-                          {year}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
+                          name="affSubSectors"
+                        >
+                          <Select
+                            mode="multiple"
+                            size="large"
+                            style={{ fontSize: inputFontSize }}
+                            disabled
+                          ></Select>
+                        </Form.Item>
+                      </Col>
+                    )}
+                    <Col {...halfColumnBps}>
+                      <Form.Item
+                        label={
+                          <label className="form-item-header">
+                            {t('formHeader:ipccSubSectorHeader')}
+                          </label>
+                        }
+                        name="ipccSubSector"
+                        rules={[validation.required]}
+                      >
+                        <Select
+                          showSearch
+                          size="large"
+                          style={{ fontSize: inputFontSize }}
+                          disabled={isView}
+                        >
+                          {Object.entries(IpccSubSector).map((ipccSubSector) => {
+                            return (
+                              <Option key={ipccSubSector[0]} value={ipccSubSector[1]}>
+                                {ipccSubSector[1]}
+                              </Option>
+                            );
+                          })}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                  </Row>
                 </Col>
-                <Col {...quarterColumnBps}>
-                  <Form.Item
-                    label={
-                      <label className="form-item-header">{t('formHeader:endYearTitle')}</label>
-                    }
-                    name="endYear1"
-                    rules={[
-                      validation.required,
-                      ({ getFieldValue }) => ({
-                        // eslint-disable-next-line no-unused-vars
-                        validator(_, value) {
-                          if (!value || getFieldValue('startYear1') <= value) {
-                            return Promise.resolve();
-                          }
-                          return Promise.reject('Cannot be lower than Start Year!');
-                        },
-                      }),
-                    ]}
-                    dependencies={['startYear1']}
-                  >
-                    <Select
-                      size="large"
-                      style={{ fontSize: inputFontSize }}
-                      allowClear
-                      disabled={isView}
-                      showSearch
-                      onChange={(value) => {
-                        setEndYear(value);
-                      }}
-                    >
-                      {yearsList.slice(1).map((year) => (
-                        <Option key={year} value={year}>
-                          {year}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </Col>
-                <Col {...quarterColumnBps}>
-                  <Form.Item
-                    label={
-                      <label className="form-item-header">{t('formHeader:timeFrameHeader')}</label>
-                    }
-                    name="expectedTimeFrame"
-                  >
-                    <Input type="number" className="form-input-box" disabled />
-                  </Form.Item>
+                <Col {...halfColumnBps}>
+                  <Row gutter={gutterSize}>
+                    {/* ML - since we now want users to select a startYear and endYear no matter of the parentType - we also add expectedTimeFrame which is calculated*/}
+                    <Col {...halfColumnBps}>
+                      <Form.Item
+                        label={
+                          <label className="form-item-header">
+                            {t('formHeader:startYearTitle')}
+                          </label>
+                        }
+                        name="startYear1"
+                        rules={[
+                          validation.required,
+                          ({ getFieldValue }) => ({
+                            // eslint-disable-next-line no-unused-vars
+                            validator(_, value) {
+                              if (!value || getFieldValue('endYear1') >= value) {
+                                return Promise.resolve();
+                              }
+                              return Promise.reject('Cannot be greater than End Year!');
+                            },
+                          }),
+                        ]}
+                        dependencies={['endYear1']}
+                      >
+                        <Select
+                          size="large"
+                          style={{ fontSize: inputFontSize }}
+                          allowClear
+                          disabled={isView}
+                          showSearch
+                          onChange={(value) => {
+                            handleStartYearChanges(value);
+                          }}
+                        >
+                          {yearsList.slice(1).map((year) => (
+                            <Option key={year} value={year}>
+                              {year}
+                            </Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col {...halfColumnBps}>
+                      <Form.Item
+                        label={
+                          <label className="form-item-header">{t('formHeader:endYearTitle')}</label>
+                        }
+                        name="endYear1"
+                        rules={[
+                          validation.required,
+                          ({ getFieldValue }) => ({
+                            // eslint-disable-next-line no-unused-vars
+                            validator(_, value) {
+                              if (!value || getFieldValue('startYear1') <= value) {
+                                return Promise.resolve();
+                              }
+                              return Promise.reject('Cannot be lower than Start Year!');
+                            },
+                          }),
+                        ]}
+                        dependencies={['startYear1']}
+                      >
+                        <Select
+                          size="large"
+                          style={{ fontSize: inputFontSize }}
+                          allowClear
+                          disabled={isView}
+                          showSearch
+                          onChange={(value) => {
+                            setEndYear(value);
+                          }}
+                        >
+                          {yearsList.slice(1).map((year) => (
+                            <Option key={year} value={year}>
+                              {year}
+                            </Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col {...halfColumnBps}>
+                      <Form.Item
+                        label={
+                          <label className="form-item-header">
+                            {t('formHeader:timeFrameHeader')}
+                          </label>
+                        }
+                        name="expectedTimeFrame"
+                      >
+                        <Input type="number" className="form-input-box" disabled />
+                      </Form.Item>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
               <Row gutter={gutterSize}>

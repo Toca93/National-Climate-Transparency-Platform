@@ -39,6 +39,8 @@ const ActivityForm = lazy(() => import('./Pages/Activities/ActivityForm/activity
 const SupportForm = lazy(() => import('./Pages/Support/SupportForm/supportForm'));
 const GhgEmissions = lazy(() => import('./Pages/Emissions/emissions'));
 const GhgProjections = lazy(() => import('./Pages/Projections/projections'));
+const GhgCombinedExpected = lazy(() => import('./Pages/CombinedExpected/combinedExpected'));
+const GhgCombinedAchieved = lazy(() => import('./Pages/CombinedAchieved/combinedAchieved'));
 const GhgConfigurations = lazy(() => import('./Pages/Configurations/configurations'));
 const TransparencyHelp = lazy(() => import('./Pages/InformationPages/Help/help'));
 const TransparencyStatus = lazy(() => import('./Pages/InformationPages/Status/status'));
@@ -132,6 +134,18 @@ const App = () => {
                 </Route>
                 <Route path="/projections" element={<CustomLayout selectedKey="projections" />}>
                   <Route index element={<GhgProjections />} />
+                </Route>
+                <Route
+                  path="/combinedExpected"
+                  element={<CustomLayout selectedKey="combinedExpected" />}
+                >
+                  <Route index element={<GhgCombinedExpected />} />
+                </Route>
+                <Route
+                  path="/combinedAchieved"
+                  element={<CustomLayout selectedKey="combinedAchieved" />}
+                >
+                  <Route index element={<GhgCombinedAchieved />} />
                 </Route>
                 <Route
                   path="/configurations"
