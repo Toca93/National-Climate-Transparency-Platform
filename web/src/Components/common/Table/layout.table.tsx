@@ -9,6 +9,7 @@ interface Props {
   emptyMessage: string;
   handleHorizontalOverflow?: boolean;
   addBorders?: boolean;
+  summary?: (data: any) => React.ReactNode; // Optional summary function
 }
 
 const LayoutTable: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const LayoutTable: React.FC<Props> = ({
   emptyMessage,
   handleHorizontalOverflow,
   addBorders,
+  summary,
 }) => {
   return (
     <div style={{ overflowX: 'auto' }}>
@@ -40,6 +42,7 @@ const LayoutTable: React.FC<Props> = ({
             />
           ),
         }}
+        summary={summary ? summary : undefined}
       />
     </div>
   );

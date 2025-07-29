@@ -45,8 +45,9 @@ import {
   initialAggAnnexIIData,
 } from '../../Definitions/reportBulkDefinitions';
 import { AnnexType, ReportType } from '../../Enums/report.enum';
-import { Col, Empty, Row, Select, SelectProps, Tag } from 'antd';
+import { Col, Empty, Row, Select, SelectProps, Table, Tag } from 'antd';
 import { ImplMeans } from '../../Enums/activity.enum';
+import { ReportSector } from '../../Enums/report.sector.enum';
 
 const { Option } = Select;
 type TagRender = SelectProps['tagRender'];
@@ -709,10 +710,17 @@ const reportList = () => {
 
   // Function to Export Report Data
 
-  const downloadReportData = async (exportFileType: string, whichTable: ReportType) => {
+  const downloadReportData = async (
+    exportFileType: string,
+    annexType: AnnexType,
+    whichTable: ReportType
+  ) => {
     try {
       const payload: any = { fileType: exportFileType };
-      const response: any = await post(`national/reports/${whichTable}/export`, payload);
+      const response: any = await post(
+        `national/reports/${annexType}/${whichTable}/export`,
+        payload
+      );
       if (response && response.data) {
         const url = response.data.url;
         const a = document.createElement('a');
@@ -776,6 +784,68 @@ const reportList = () => {
       ...prevState,
       [whichReport]: pagination.pageSize,
     }));
+  };
+
+  // Function to Get Summary for the Report
+  const getSummaryFunction = (
+    annexType: AnnexType,
+    reportType: ReportType
+  ): ((data: any) => React.ReactNode) | undefined => {
+    if (annexType === AnnexType.TWO) {
+      if (reportType !== ReportType.FIVE) {
+        return (data: AnnexIIReportSevenRecord[]) => {
+          const filteredData = data.filter((record) => record.category !== ReportSector.LULUCF);
+
+          return (
+            <Table.Summary fixed>
+              <Table.Summary.Row>
+                <Table.Summary.Cell index={0}>Total with LULUCF</Table.Summary.Cell>
+                <Table.Summary.Cell index={1}>
+                  {data.reduce((acc, record) => acc + (parseInt(record.thisyear) || 0), 0)}
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={2}>
+                  {data.reduce((acc, record) => acc + (parseInt(record.projection1) || 0), 0)}
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={3}>
+                  {data.reduce((acc, record) => acc + (parseInt(record.projection2) || 0), 0)}
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={4}>
+                  {data.reduce((acc, record) => acc + (parseInt(record.projection3) || 0), 0)}
+                </Table.Summary.Cell>
+              </Table.Summary.Row>
+              <Table.Summary.Row>
+                <Table.Summary.Cell index={0}>Total without LULUCF</Table.Summary.Cell>
+                <Table.Summary.Cell index={1}>
+                  {filteredData.reduce((acc, record) => acc + (parseInt(record.thisyear) || 0), 0)}
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={2}>
+                  {filteredData.reduce(
+                    (acc, record) => acc + (parseInt(record.projection1) || 0),
+                    0
+                  )}
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={3}>
+                  {filteredData.reduce(
+                    (acc, record) => acc + (parseInt(record.projection2) || 0),
+                    0
+                  )}
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={4}>
+                  {filteredData.reduce(
+                    (acc, record) => acc + (parseInt(record.projection3) || 0),
+                    0
+                  )}
+                </Table.Summary.Cell>
+              </Table.Summary.Row>
+            </Table.Summary>
+          );
+        };
+      } else {
+        return undefined;
+      }
+    } else {
+      return undefined;
+    }
   };
 
   // Updating the Table Data when the Pagination changes
@@ -898,6 +968,7 @@ const reportList = () => {
             <ReportCard
               key={`Report_card_${TransparencyReport.report}`}
               loading={loading}
+              annex={TransparencyReport.annex}
               whichReport={TransparencyReport.report}
               reportTitle={t(
                 `annex_${TransparencyReport.annex}_report_${TransparencyReport.report}_Title`
@@ -917,6 +988,7 @@ const reportList = () => {
               exportButtonNames={[t('exportAsExcel'), t('exportAsCsv')]}
               downloadReportData={downloadReportData}
               handleTablePagination={handleTablePagination}
+              summary={getSummaryFunction(TransparencyReport.annex, TransparencyReport.report)}
             ></ReportCard>
           ))}
         </div>

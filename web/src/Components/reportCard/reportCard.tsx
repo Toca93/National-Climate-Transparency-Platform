@@ -8,10 +8,11 @@ import {
 import { DownloadOutlined } from '@ant-design/icons';
 import LayoutTable from '../common/Table/layout.table';
 import { ExportFileType } from '../../Enums/shared.enum';
-import { ReportType } from '../../Enums/report.enum';
+import { AnnexType, ReportType } from '../../Enums/report.enum';
 
 interface Props {
   loading: boolean;
+  annex: AnnexType;
   whichReport: ReportType;
   reportTitle: string;
   reportSubtitle: string;
@@ -21,12 +22,18 @@ interface Props {
   currentPage: number;
   pageSize: number;
   exportButtonNames: string[];
-  downloadReportData: (dataType: ExportFileType, whichReport: ReportType) => void;
+  downloadReportData: (
+    dataType: ExportFileType,
+    annexType: AnnexType,
+    whichReport: ReportType
+  ) => void;
   handleTablePagination: (pagination: any, whichReport: ReportType) => void;
+  summary?: (data: any) => React.ReactNode; // Optional summary function
 }
 
 const ReportCard: React.FC<Props> = ({
   loading,
+  annex,
   whichReport,
   reportTitle,
   reportSubtitle,
@@ -38,6 +45,7 @@ const ReportCard: React.FC<Props> = ({
   exportButtonNames,
   downloadReportData,
   handleTablePagination,
+  summary,
 }) => {
   const handleTableChange = (pagination: any) => {
     handleTablePagination(pagination, whichReport);
@@ -80,7 +88,7 @@ const ReportCard: React.FC<Props> = ({
                 block
                 icon={<DownloadOutlined />}
                 onClick={() => {
-                  downloadReportData(ExportFileType.XLSX, whichReport);
+                  downloadReportData(ExportFileType.XLSX, annex, whichReport);
                 }}
               >
                 {exportButtonNames[0]}
@@ -94,7 +102,7 @@ const ReportCard: React.FC<Props> = ({
                 block
                 icon={<DownloadOutlined />}
                 onClick={() => {
-                  downloadReportData(ExportFileType.CSV, whichReport);
+                  downloadReportData(ExportFileType.CSV, annex, whichReport);
                 }}
               >
                 {exportButtonNames[1]}
@@ -131,6 +139,7 @@ const ReportCard: React.FC<Props> = ({
             handleTableChange={handleTableChange}
             emptyMessage="No Report Data Available"
             handleHorizontalOverflow={true}
+            summary={summary}
           />
         </Col>
       </Row>
