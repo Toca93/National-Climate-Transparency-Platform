@@ -3,6 +3,9 @@ import { useConnection } from '../../Context/ConnectionContext/connectionContext
 import './reportList.scss';
 import { useTranslation } from 'react-i18next';
 import {
+  AnnexIIReportEightRecord,
+  AnnexIIReportNineRecord,
+  AnnexIIReportSevenRecord,
   ReportEightRecord,
   ReportElevenRecord,
   ReportFiveRecord,
@@ -23,6 +26,9 @@ import {
   getReportThirteenColumns,
   getReportEightColumns,
   getReportNineColumns,
+  getAnnexIIReportSevenColumns,
+  getAnnexIIReportEightColumns,
+  getAnnexIIReportNineColumns,
 } from '../../Definitions/columns/reportColumns';
 import { displayErrorMessage } from '../../Utils/errorMessageHandler';
 import ReportCard from '../../Components/reportCard/reportCard';
@@ -35,13 +41,35 @@ import {
   initialAggTotal,
   initialAggPageSize,
   initialAggCurrentPage,
+  AggregateAnnexIIReportData,
+  initialAggAnnexIIData,
 } from '../../Definitions/reportBulkDefinitions';
-import { ReportType } from '../../Enums/report.enum';
+import { AnnexType, ReportType } from '../../Enums/report.enum';
 import { Col, Empty, Row, Select, SelectProps, Tag } from 'antd';
 import { ImplMeans } from '../../Enums/activity.enum';
 
 const { Option } = Select;
 type TagRender = SelectProps['tagRender'];
+
+export interface TransparencyReport {
+  annex: AnnexType;
+  report: ReportType;
+}
+
+const transparencyReports: TransparencyReport[] = [
+  { annex: AnnexType.TWO, report: ReportType.FIVE },
+  { annex: AnnexType.TWO, report: ReportType.SEVEN },
+  { annex: AnnexType.TWO, report: ReportType.EIGHT },
+  { annex: AnnexType.TWO, report: ReportType.NINE },
+  { annex: AnnexType.THREE, report: ReportType.SIX },
+  { annex: AnnexType.THREE, report: ReportType.SEVEN },
+  { annex: AnnexType.THREE, report: ReportType.EIGHT },
+  { annex: AnnexType.THREE, report: ReportType.NINE },
+  { annex: AnnexType.THREE, report: ReportType.TEN },
+  { annex: AnnexType.THREE, report: ReportType.ELEVEN },
+  { annex: AnnexType.THREE, report: ReportType.TWELVE },
+  { annex: AnnexType.THREE, report: ReportType.THIRTEEN },
+];
 
 const reportList = () => {
   const { post } = useConnection();
@@ -53,17 +81,8 @@ const reportList = () => {
 
   // Reports to Display
 
-  const [reportsToDisplay, setReportsToDisplay] = useState<ReportType[]>([
-    ReportType.FIVE,
-    ReportType.SIX,
-    ReportType.SEVEN,
-    ReportType.EIGHT,
-    ReportType.NINE,
-    ReportType.TEN,
-    ReportType.ELEVEN,
-    ReportType.TWELVE,
-    ReportType.THIRTEEN,
-  ]);
+  const [reportsToDisplay, setReportsToDisplay] =
+    useState<TransparencyReport[]>(transparencyReports);
 
   // Bulk Report Definitions
 
@@ -76,17 +95,26 @@ const reportList = () => {
   const [aggregateCurrentPage, setAggregateCurrentPage] =
     useState<AggregateReportCurrentPage>(initialAggCurrentPage);
 
-  // Functions to Retrieve Tale Data
+  // Aggregate Annex II Report Data
+  const [aggregateAnnexIIReportData, setAggregateAnnexIIReportData] =
+    useState<AggregateAnnexIIReportData>(initialAggAnnexIIData);
+  const [aggregateAnnexIIPageSize, setAggregateAnnexIIPageSize] =
+    useState<AggregateReportPageSize>(initialAggPageSize);
+  const [aggregateAnnexIICurrentPage, setAggregateAnnexIICurrentPage] =
+    useState<AggregateReportCurrentPage>(initialAggCurrentPage);
+  const [aggregateAnnexIITotal, setAggregateAnnexIITotal] =
+    useState<AggregateReportTotal>(initialAggTotal);
+  // Functions to Retrieve Table Data
 
-  const getTableFiveData = async () => {
+  const getAnnexTwoTableFiveData = async () => {
     setLoading(true);
     try {
       const payload: any = {
-        page: aggregateCurrentPage[5],
-        size: aggregatePageSize[5],
+        page: aggregateAnnexIICurrentPage[5],
+        size: aggregateAnnexIIPageSize[5],
       };
 
-      const response: any = await post('national/reports/5/query', payload);
+      const response: any = await post('national/reports/2/5/query', payload);
       if (response) {
         const tempReportFiveData: ReportFiveRecord[] = [];
 
@@ -108,14 +136,140 @@ const reportList = () => {
           });
         });
 
-        setAggregateReportData((prevState) => ({
+        setAggregateAnnexIIReportData((prevState) => ({
           ...prevState,
           [ReportType.FIVE]: tempReportFiveData,
         }));
 
-        setAggregateReportTotal((prevState) => ({
+        setAggregateAnnexIITotal((prevState) => ({
           ...prevState,
           [ReportType.FIVE]: response.response.data.total,
+        }));
+
+        setLoading(false);
+      }
+    } catch (error: any) {
+      displayErrorMessage(error);
+      setLoading(false);
+    }
+  };
+
+  const getAnnexTwoTableSevenData = async () => {
+    setLoading(true);
+    try {
+      const payload: any = {
+        page: aggregateAnnexIICurrentPage[7],
+        size: aggregateAnnexIIPageSize[7],
+      };
+
+      const response: any = await post('national/reports/2/7/query', payload);
+      if (response) {
+        const tempReportSevenData: AnnexIIReportSevenRecord[] = [];
+        const thisyear = new Date().getFullYear();
+
+        response.data.forEach((entry: any, index: number) => {
+          tempReportSevenData.push({
+            key: index,
+            category: entry.category,
+            thisyear: entry.withM[thisyear - 2000] ?? 'N/A',
+            projection1: entry.withM[thisyear - (thisyear % 5) + 5 - 2000] ?? 'N/A',
+            projection2: entry.withM[thisyear - (thisyear % 5) + 10 - 2000] ?? 'N/A',
+            projection3: entry.withM[thisyear - (thisyear % 5) + 15 - 2000] ?? 'N/A',
+          });
+        });
+
+        setAggregateAnnexIIReportData((prevState) => ({
+          ...prevState,
+          [ReportType.SEVEN]: tempReportSevenData,
+        }));
+
+        setAggregateAnnexIITotal((prevState) => ({
+          ...prevState,
+          [ReportType.SEVEN]: response.response.data.total,
+        }));
+
+        setLoading(false);
+      }
+    } catch (error: any) {
+      displayErrorMessage(error);
+      setLoading(false);
+    }
+  };
+
+  const getAnnexTwoTableEightData = async () => {
+    setLoading(true);
+    try {
+      const payload: any = {
+        page: aggregateAnnexIICurrentPage[8],
+        size: aggregateAnnexIIPageSize[8],
+      };
+
+      const response: any = await post('national/reports/2/8/query', payload);
+      if (response) {
+        const tempReportEightData: AnnexIIReportEightRecord[] = [];
+        const thisyear = new Date().getFullYear();
+
+        response.data.forEach((entry: any, index: number) => {
+          tempReportEightData.push({
+            key: index,
+            category: entry.category,
+            thisyear: entry.withAM[thisyear - 2000] ?? 'N/A',
+            projection1: entry.withAM[thisyear - (thisyear % 5) + 5 - 2000] ?? 'N/A',
+            projection2: entry.withAM[thisyear - (thisyear % 5) + 10 - 2000] ?? 'N/A',
+            projection3: entry.withAM[thisyear - (thisyear % 5) + 15 - 2000] ?? 'N/A',
+          });
+        });
+
+        setAggregateAnnexIIReportData((prevState) => ({
+          ...prevState,
+          [ReportType.EIGHT]: tempReportEightData,
+        }));
+
+        setAggregateAnnexIITotal((prevState) => ({
+          ...prevState,
+          [ReportType.EIGHT]: response.response.data.total,
+        }));
+
+        setLoading(false);
+      }
+    } catch (error: any) {
+      displayErrorMessage(error);
+      setLoading(false);
+    }
+  };
+
+  const getAnnexTwoTableNineData = async () => {
+    setLoading(true);
+    try {
+      const payload: any = {
+        page: aggregateAnnexIICurrentPage[9],
+        size: aggregateAnnexIIPageSize[9],
+      };
+
+      const response: any = await post('national/reports/2/9/query', payload);
+      if (response) {
+        const tempReportNineData: AnnexIIReportNineRecord[] = [];
+        const thisyear = new Date().getFullYear();
+
+        response.data.forEach((entry: any, index: number) => {
+          tempReportNineData.push({
+            key: index,
+            category: entry.category,
+            thisyear: entry.withoutM[thisyear - 2000] ?? 'N/A',
+            projection1: entry.withoutM[thisyear - (thisyear % 5) + 5 - 2000] ?? 'N/A',
+            projection2: entry.withoutM[thisyear - (thisyear % 5) + 10 - 2000] ?? 'N/A',
+            projection3: entry.withoutM[thisyear - (thisyear % 5) + 15 - 2000] ?? 'N/A',
+          });
+        });
+
+        setAggregateAnnexIIReportData((prevState) => ({
+          ...prevState,
+          [ReportType.NINE]: tempReportNineData,
+        }));
+
+        setAggregateAnnexIITotal((prevState) => ({
+          ...prevState,
+          [ReportType.NINE]: response.response.data.total,
         }));
 
         setLoading(false);
@@ -135,7 +289,7 @@ const reportList = () => {
         size: aggregatePageSize[6],
       };
 
-      const response: any = await post('national/reports/6/query', payload);
+      const response: any = await post('national/reports/3/6/query', payload);
       if (response) {
         const tempReportSixData: ReportSixRecord[] = [];
 
@@ -191,7 +345,7 @@ const reportList = () => {
         size: aggregatePageSize[7],
       };
 
-      const response: any = await post('national/reports/7/query', payload);
+      const response: any = await post('national/reports/3/7/query', payload);
 
       if (response) {
         const tempReportSevenData: ReportSevenRecord[] = [];
@@ -252,7 +406,7 @@ const reportList = () => {
         size: aggregatePageSize[8],
       };
 
-      const response: any = await post('national/reports/8/query', payload);
+      const response: any = await post('national/reports/3/8/query', payload);
 
       if (response) {
         const tempReportEightData: ReportEightRecord[] = [];
@@ -302,7 +456,7 @@ const reportList = () => {
         size: aggregatePageSize[9],
       };
 
-      const response: any = await post('national/reports/9/query', payload);
+      const response: any = await post('national/reports/3/9/query', payload);
 
       if (response) {
         const tempReportNineData: ReportNineRecord[] = [];
@@ -356,7 +510,7 @@ const reportList = () => {
         size: aggregatePageSize[10],
       };
 
-      const response: any = await post('national/reports/10/query', payload);
+      const response: any = await post('national/reports/3/10/query', payload);
 
       if (response) {
         const tempReportTenData: ReportTenRecord[] = [];
@@ -405,7 +559,7 @@ const reportList = () => {
         size: aggregatePageSize[11],
       };
 
-      const response: any = await post('national/reports/11/query', payload);
+      const response: any = await post('national/reports/3/11/query', payload);
 
       if (response) {
         const tempReportElevenData: ReportElevenRecord[] = [];
@@ -459,7 +613,7 @@ const reportList = () => {
         size: aggregatePageSize[12],
       };
 
-      const response: any = await post('national/reports/12/query', payload);
+      const response: any = await post('national/reports/3/12/query', payload);
 
       if (response) {
         const tempReportTwelveData: ReportTwelveRecord[] = [];
@@ -510,7 +664,7 @@ const reportList = () => {
         size: aggregatePageSize[13],
       };
 
-      const response: any = await post('national/reports/13/query', payload);
+      const response: any = await post('national/reports/3/13/query', payload);
 
       if (response) {
         const tempReportThirteenData: ReportThirteenRecord[] = [];
@@ -576,26 +730,37 @@ const reportList = () => {
 
   // Function to Retrieve Column Definitions
 
-  const getReportColumns = (reportType: ReportType) => {
-    switch (reportType) {
-      case ReportType.FIVE:
-        return getReportFiveColumns(t);
-      case ReportType.SIX:
-        return getReportSixColumns(t);
-      case ReportType.SEVEN:
-        return getReportSevenColumns(t);
-      case ReportType.EIGHT:
-        return getReportEightColumns(t);
-      case ReportType.NINE:
-        return getReportNineColumns(t);
-      case ReportType.TEN:
-        return getReportTenColumns(t);
-      case ReportType.ELEVEN:
-        return getReportElevenColumns(t);
-      case ReportType.TWELVE:
-        return getReportTwelveColumns(t);
-      case ReportType.THIRTEEN:
-        return getReportThirteenColumns(t);
+  const getReportColumns = (annexType: AnnexType, reportType: ReportType) => {
+    if (annexType === AnnexType.TWO) {
+      switch (reportType) {
+        case ReportType.FIVE:
+          return getReportFiveColumns(t);
+        case ReportType.SEVEN:
+          return getAnnexIIReportSevenColumns(t);
+        case ReportType.EIGHT:
+          return getAnnexIIReportEightColumns(t);
+        case ReportType.NINE:
+          return getAnnexIIReportNineColumns(t);
+      }
+    } else {
+      switch (reportType) {
+        case ReportType.SIX:
+          return getReportSixColumns(t);
+        case ReportType.SEVEN:
+          return getReportSevenColumns(t);
+        case ReportType.EIGHT:
+          return getReportEightColumns(t);
+        case ReportType.NINE:
+          return getReportNineColumns(t);
+        case ReportType.TEN:
+          return getReportTenColumns(t);
+        case ReportType.ELEVEN:
+          return getReportElevenColumns(t);
+        case ReportType.TWELVE:
+          return getReportTwelveColumns(t);
+        case ReportType.THIRTEEN:
+          return getReportThirteenColumns(t);
+      }
     }
   };
 
@@ -616,8 +781,20 @@ const reportList = () => {
   // Updating the Table Data when the Pagination changes
 
   useEffect(() => {
-    getTableFiveData();
-  }, [aggregateCurrentPage?.[5], aggregatePageSize?.[5]]);
+    getAnnexTwoTableFiveData();
+  }, [aggregateAnnexIICurrentPage?.[5], aggregateAnnexIIPageSize?.[5]]);
+
+  useEffect(() => {
+    getAnnexTwoTableSevenData();
+  }, [aggregateAnnexIICurrentPage?.[7], aggregateAnnexIIPageSize?.[7]]);
+
+  useEffect(() => {
+    getAnnexTwoTableEightData();
+  }, [aggregateAnnexIICurrentPage?.[8], aggregateAnnexIIPageSize?.[8]]);
+
+  useEffect(() => {
+    getAnnexTwoTableNineData();
+  }, [aggregateAnnexIICurrentPage?.[9], aggregateAnnexIIPageSize?.[9]]);
 
   useEffect(() => {
     getTableSixData();
@@ -672,8 +849,13 @@ const reportList = () => {
     );
   };
 
-  const handleReportSelection = (value: any) => {
-    setReportsToDisplay(value);
+  const handleReportSelection = (values: string[]) => {
+    const selectedTransparencyReports: TransparencyReport[] = values.map((value) => {
+      const [annex, report] = value.split('_');
+      return { annex: annex as AnnexType, report: report as ReportType };
+    });
+
+    setReportsToDisplay(selectedTransparencyReports);
   };
 
   return (
@@ -687,7 +869,7 @@ const reportList = () => {
             <Select
               className="report-selector"
               mode="multiple"
-              value={reportsToDisplay}
+              value={reportsToDisplay.map((report) => `${report.annex}_${report.report}`)}
               tagRender={tagRender}
               size="large"
               showSearch={false}
@@ -698,9 +880,12 @@ const reportList = () => {
               }
               onChange={handleReportSelection}
             >
-              {Object.values(ReportType).map((report) => (
-                <Option key={report} value={report}>
-                  {t(`${report}Title`)}
+              {transparencyReports.map((report: TransparencyReport) => (
+                <Option
+                  key={`annex_${report.annex}_report_${report.report}`}
+                  value={`${report.annex}_${report.report}`}
+                >
+                  {t(`annex_${report.annex}_report_${report.report}_Title`)}
                 </Option>
               ))}
             </Select>
@@ -709,18 +894,26 @@ const reportList = () => {
       </div>
       {reportsToDisplay.length > 0 ? (
         <div>
-          {reportsToDisplay.map((report) => (
+          {reportsToDisplay.map((TransparencyReport) => (
             <ReportCard
-              key={`Report_card_${report}`}
+              key={`Report_card_${TransparencyReport.report}`}
               loading={loading}
-              whichReport={report}
-              reportTitle={t(`${report}Title`)}
-              reportSubtitle={t(`${report}SubTitle`)}
-              reportData={aggregateReportData[report]}
-              columns={getReportColumns(report)}
-              totalEntries={aggregateReportTotal[report] ?? 0}
-              currentPage={aggregateCurrentPage[report]}
-              pageSize={aggregatePageSize[report]}
+              whichReport={TransparencyReport.report}
+              reportTitle={t(
+                `annex_${TransparencyReport.annex}_report_${TransparencyReport.report}_Title`
+              )}
+              reportSubtitle={t(
+                `annex_${TransparencyReport.annex}_report_${TransparencyReport.report}_SubTitle`
+              )}
+              reportData={
+                TransparencyReport.annex === AnnexType.THREE
+                  ? aggregateReportData[TransparencyReport.report]
+                  : aggregateAnnexIIReportData[TransparencyReport.report]
+              }
+              columns={getReportColumns(TransparencyReport.annex, TransparencyReport.report)}
+              totalEntries={aggregateReportTotal[TransparencyReport.report] ?? 0}
+              currentPage={aggregateCurrentPage[TransparencyReport.report]}
+              pageSize={aggregatePageSize[TransparencyReport.report]}
               exportButtonNames={[t('exportAsExcel'), t('exportAsCsv')]}
               downloadReportData={downloadReportData}
               handleTablePagination={handleTablePagination}

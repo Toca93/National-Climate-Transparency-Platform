@@ -3,32 +3,41 @@
     "exportAsExcel": "Export As Excel",
     "exportAsCsv": "Export As CSV",
 
-    "5Title": "5/CMA.3 - Annex II - Table 5",
-    "5SubTitle": "Mitigation policies and measures, actions and plans, including those with mitigation co-benefits resulting from adaptation actions and economic diversification plans, related to implementing and achieving a nationally determined contribution under Article 4 of the Paris Agreement",
+    "annex_2_report_5_Title": "5/CMA.3 - Annex II - Table 5",
+    "annex_2_report_5_SubTitle": "Mitigation policies and measures, actions and plans, including those with mitigation co-benefits resulting from adaptation actions and economic diversification plans, related to implementing and achieving a nationally determined contribution under Article 4 of the Paris Agreement",
 
-    "6Title": "5/CMA.3 - Annex III - Table 6",
-    "6SubTitle": "Information  on financial support needed by developing country Parties under Article 9 of the Paris Agreement",
+    "annex_2_report_7_Title": "5/CMA.3 - Annex II - Table 7",
+    "annex_2_report_7_SubTitle": "Information on projections of greenhouse gas emissions and removals under a 'with measures' scenario",
 
-    "7Title": "5/CMA.3 - Annex III - Table 7",
-    "7SubTitle": "Information on financial support received by developing country Parties under Article 9 of the Paris Agreement",
+    "annex_2_report_8_Title": "5/CMA.3 - Annex II - Table 8",
+    "annex_2_report_8_SubTitle": "Information on projections of greenhouse gas emissions and removals under a 'with additional measures' scenario",
 
-    "8Title": "5/CMA.3 - Annex III - Table 8",
-    "8SubTitle": "Information on technology development and transfer support needed by developing country Parties under Article 10 of the Paris Agreement",
+    "annex_2_report_9_Title": "5/CMA.3 - Annex II - Table 9",
+    "annex_2_report_9_SubTitle": "Information on projections of greenhouse gas emissions and removals under a 'without measures' scenario",
 
-    "9Title": "5/CMA.3 - Annex III - Table 9",
-    "9SubTitle": "Information on technology development and transfer support received by developing country Parties under Article 10 of the Paris Agreement",
+    "annex_3_report_6_Title": "5/CMA.3 - Annex III - Table 6",
+    "annex_3_report_6_SubTitle": "Information  on financial support needed by developing country Parties under Article 9 of the Paris Agreement",
 
-    "10Title": "5/CMA.3 - Annex III - Table 10",
-    "10SubTitle": "Information on capacity-building support needed by developing country Parties under Article 11 of the Paris Agreement",
+    "annex_3_report_7_Title": "5/CMA.3 - Annex III - Table 7",
+    "annex_3_report_7_SubTitle": "Information on financial support received by developing country Parties under Article 9 of the Paris Agreement",
 
-    "11Title": "5/CMA.3 - Annex III - Table 11",
-    "11SubTitle": "Information on capacity-building support received by developing country Parties under Article 11 of the Paris Agreement",
+    "annex_3_report_8_Title": "5/CMA.3 - Annex III - Table 8",
+    "annex_3_report_8_SubTitle": "Information on technology development and transfer support needed by developing country Parties under Article 10 of the Paris Agreement",
 
-    "12Title": "5/CMA.3 - Annex III - Table 12",
-    "12SubTitle": "Information on support needed by developing country Parties for the implementation of Article 13 of the Paris Agreement and transparency-related activities, including for transparency-related capacity-building",
+    "annex_3_report_9_Title": "5/CMA.3 - Annex III - Table 9",
+    "annex_3_report_9_SubTitle": "Information on technology development and transfer support received by developing country Parties under Article 10 of the Paris Agreement",
 
-    "13Title": "5/CMA.3 - Annex III - Table 13",
-    "13SubTitle": "Information on support received by developing country Parties for the implementation of Article 13 of the Paris Agreement and transparency-related activities, including for transparency-related capacity-building",
+    "annex_3_report_10_Title": "5/CMA.3 - Annex III - Table 10",
+    "annex_3_report_10_SubTitle": "Information on capacity-building support needed by developing country Parties under Article 11 of the Paris Agreement",
+
+    "annex_3_report_11_Title": "5/CMA.3 - Annex III - Table 11",
+    "annex_3_report_11_SubTitle": "Information on capacity-building support received by developing country Parties under Article 11 of the Paris Agreement",
+
+    "annex_3_report_12_Title": "5/CMA.3 - Annex III - Table 12",
+    "annex_3_report_12_SubTitle": "Information on support needed by developing country Parties for the implementation of Article 13 of the Paris Agreement and transparency-related activities, including for transparency-related capacity-building",
+
+    "annex_3_report_13_Title": "5/CMA.3 - Annex III - Table 13",
+    "annex_3_report_13_SubTitle": "Information on support received by developing country Parties for the implementation of Article 13 of the Paris Agreement and transparency-related activities, including for transparency-related capacity-building",
 
     "titleOfAction": "Name of Action",
     "description": "Description",
@@ -74,5 +83,7 @@
     "additionalInfo": "Additional information",
     "expectedUseImpact": "Expected use, impact and estimated results",
     "useImpactResults": "Use, impact and results",
-    "useImpactEstResults": "Use, impact, and estimated results"
+    "useImpactEstResults": "Use, impact, and estimated results",
+    "mostRecentYear": "Most recent year in the Party’s national inventory report (kt CO2 eq)",
+    "projectionsofGhg": "Projections of GHG emissions and removals (kt CO2 eq)"
 }

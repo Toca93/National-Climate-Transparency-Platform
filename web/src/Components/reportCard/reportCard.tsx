@@ -1,5 +1,5 @@
 import './reportCard.scss';
-import { Button, Col, Row } from 'antd';
+import { Button, Col, Empty, Row } from 'antd';
 import {
   exportBarBps,
   exportButtonBps,
@@ -42,6 +42,25 @@ const ReportCard: React.FC<Props> = ({
   const handleTableChange = (pagination: any) => {
     handleTablePagination(pagination, whichReport);
   };
+
+  if (!reportData) {
+    return (
+      <div className="report-card">
+        <Row className="report-title-bar">
+          <Col {...reportTitleBps}>
+            <div className="title-row">
+              <div className="title">{reportTitle}</div>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <Empty description="No Report Data Available" />
+          </Col>
+        </Row>
+      </div>
+    );
+  }
 
   return (
     <div className="report-card">

@@ -9,3 +9,8 @@ export enum ReportType {
   TWELVE = '12',
   THIRTEEN = '13',
 }
+
+export enum AnnexType {
+  TWO = '2',
+  THREE = '3',
+}

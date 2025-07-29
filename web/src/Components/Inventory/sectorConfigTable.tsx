@@ -59,7 +59,9 @@ const SectorConfigTable = () => {
         );
 
         if (response.status === 200 || response.status === 201) {
-          setSelectedCategories(response.data.settingValue);
+          // Merge with default mapping to ensure all subsectors have values
+          const defaultMapping = getDefaultSectorMapping();
+          setSelectedCategories({ ...defaultMapping, ...response.data });
         }
       } catch (error: any) {
         console.error('Failed to fetch sector mapping configuration', error);
@@ -85,11 +87,9 @@ const SectorConfigTable = () => {
       }
     };
 
-    // KL: Debounce the fetchSectorConfig to prevent multiple calls on rapid re-renders
     const debounceTimeout = setTimeout(() => {
       fetchSectorConfig();
     }, 200);
-    // KL: Cleanup function to clear the timeout
     return () => clearTimeout(debounceTimeout);
   }, []);
 
@@ -180,7 +180,7 @@ const SectorConfigTable = () => {
         } else {
           return (
             <Radio
-              checked={selectedCategories[record.subSector] === sector}
+              checked={(selectedCategories[record.subSector] || '') === sector}
               onChange={() => handleCategoryChange(record.subSector, sector)}
             />
           );
