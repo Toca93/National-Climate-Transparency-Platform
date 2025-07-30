@@ -1597,6 +1597,17 @@ export class ActivityService {
 			);
 		}
 
+		// if activity has no data
+		if (!activity.mitigationTimeline || Object.keys(activity.mitigationTimeline).length === 0) {
+			throw new HttpException(
+				this.helperService.formatReqMessagesString(
+					"activity.noMitigationTimelineData",
+					[activity.activityId]
+				),
+				HttpStatus.BAD_REQUEST
+			);
+		}
+
 		return activity.mitigationTimeline;
 	}
 
