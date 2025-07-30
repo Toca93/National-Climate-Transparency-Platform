@@ -408,6 +408,10 @@ export class ReportService {
           ? "Yes"
           : "No",
         supportChannel: report.internationalSupportChannel,
+        achievedGHGReduction:
+          report.achievedGHGReductionAlternate ||
+          report.achievedGHGReduction ||
+          "N/A",
         additionalInfo: report.etfDescription,
       };
       exportData.push(dto);
@@ -445,6 +449,10 @@ export class ReportService {
             ? "Yes"
             : "No",
         activityStatus: report.status,
+        achievedGHGReduction:
+          report.achievedGHGReductionAlternate ||
+          report.achievedGHGReduction ||
+          "N/A",
         additionalInfo: report.etfDescription,
       };
       exportData.push(dto);
@@ -467,6 +475,10 @@ export class ReportService {
         technologyType: report.technologyType,
         startYear: report.startYear,
         endYear: report.endYear,
+        achievedGHGReduction:
+          report.achievedGHGReductionAlternate ||
+          report.achievedGHGReduction ||
+          "N/A",
         additionalInfo: report.etfDescription,
       };
 
@@ -495,6 +507,10 @@ export class ReportService {
         sector: report.sector,
         subSectors: report.subSector,
         activityStatus: report.status,
+        achievedGHGReduction:
+          report.achievedGHGReductionAlternate ||
+          report.achievedGHGReduction ||
+          "N/A",
         additionalInfo: report.etfDescription,
       };
 
@@ -517,6 +533,10 @@ export class ReportService {
         type: report.type,
         startYear: report.startYear,
         endYear: report.endYear,
+        achievedGHGReduction:
+          report.achievedGHGReductionAlternate ||
+          report.achievedGHGReduction ||
+          "N/A",
         additionalInfo: report.etfDescription,
       };
 
@@ -544,6 +564,10 @@ export class ReportService {
         sector: report.sector,
         subSectors: report.subSector,
         activityStatus: report.status,
+        achievedGHGReduction:
+          report.achievedGHGReductionAlternate ||
+          report.achievedGHGReduction ||
+          "N/A",
         additionalInfo: report.etfDescription,
       };
       exportData.push(dto);
@@ -567,6 +591,10 @@ export class ReportService {
         requiredAmountDomestic: report.requiredAmountDomestic,
         requiredAmount: report.requiredAmount,
         activityStatus: report.status,
+        achievedGHGReduction:
+          report.achievedGHGReductionAlternate ||
+          report.achievedGHGReduction ||
+          "N/A",
         additionalInfo: report.etfDescription,
       };
 
@@ -606,7 +634,7 @@ export class ReportService {
     for (const report of data) {
       const dto: DataExportAnnexTwoReportSevenDto = {
         category: report.category,
-        thisYear: report.withM[thisYear-2000],
+        thisYear: report.withM[thisYear - 2000],
         data: report.withM,
       };
       exportData.push(dto);
@@ -622,7 +650,7 @@ export class ReportService {
     for (const report of data) {
       const dto: DataExportAnnexTwoReportSevenDto = {
         category: report.category,
-        thisYear: report.withAM[thisYear-2000],
+        thisYear: report.withAM[thisYear - 2000],
         data: report.withAM,
       };
       exportData.push(dto);
@@ -638,7 +666,7 @@ export class ReportService {
     for (const report of data) {
       const dto: DataExportAnnexTwoReportSevenDto = {
         category: report.category,
-        thisYear: report.withoutM[thisYear-2000],
+        thisYear: report.withoutM[thisYear - 2000],
         data: report.withoutM,
       };
       exportData.push(dto);

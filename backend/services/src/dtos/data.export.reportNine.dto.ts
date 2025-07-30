@@ -14,5 +14,6 @@ export class DataExportReportNineDto extends DataExportDto {
 	sector: string;
 	subSectors: string[];
 	activityStatus: string;
+	achievedGHGReduction: string | number;
 	additionalInfo: string;
 }
