@@ -73,7 +73,7 @@ export class ActivityService {
 
 		let rootNodeType: EntityType;
 
-		if (activityDto.parentId && activityDto.parentType) {
+		if (activityDto.parentId && activityDto.parentId.trim() !== '' && activityDto.parentType) {
 			switch (activityDto.parentType) {
 				case EntityType.ACTION: {
 					action = await this.isActionValid(activityDto.parentId, user);
@@ -225,7 +225,7 @@ export class ActivityService {
 							}
 						}
 					}
-					if (activity.parentType == EntityType.PROGRAMME && programme.validated) {
+					if (activity.parentType == EntityType.PROGRAMME && programme && programme.validated) {
 						programme.validated = false;
 						this.addEventLogEntry(
 							eventLog,
@@ -252,7 +252,7 @@ export class ActivityService {
 							await em.save<ActionEntity>(action);
 						}
 					}
-					if (activity.parentType == EntityType.ACTION && action.validated) {
+					if (activity.parentType == EntityType.ACTION && action && action.validated) {
 						action.validated = false;
 						this.addEventLogEntry(
 							eventLog,
@@ -266,11 +266,11 @@ export class ActivityService {
 					}
 					await em.save<LogEntity>(eventLog);
 
-					if (rootNodeType == EntityType.ACTION) {
+					if (rootNodeType == EntityType.ACTION && action) {
 						await this.linkUnlinkService.updateAllValidatedChildrenStatusByActionId(action.actionId, em, updatedProgrammeIds, updatedProjectIds);
-					} else if (rootNodeType == EntityType.PROGRAMME) {
+					} else if (rootNodeType == EntityType.PROGRAMME && programme) {
 						await this.linkUnlinkService.updateAllValidatedChildrenAndParentStatusByProgrammeId(programme, em, true, updatedProjectIds);
-					} else {
+					} else if (rootNodeType == EntityType.PROJECT && project) {
 						await this.linkUnlinkService.updateAllValidatedChildrenAndParentStatusByProject(project, em, true);
 					}
 				}
@@ -1594,6 +1594,17 @@ export class ActivityService {
 					[activity.activityId]
 				),
 				HttpStatus.FORBIDDEN
+			);
+		}
+
+		// if activity has no data
+		if (!activity.mitigationTimeline || Object.keys(activity.mitigationTimeline).length === 0) {
+			throw new HttpException(
+				this.helperService.formatReqMessagesString(
+					"activity.noMitigationTimelineData",
+					[activity.activityId]
+				),
+				HttpStatus.BAD_REQUEST
 			);
 		}
 

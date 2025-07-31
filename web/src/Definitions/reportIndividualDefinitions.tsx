@@ -14,6 +14,33 @@ export type ReportFiveRecord = {
   expectedGHGReduction: number;
 };
 
+export type AnnexIIReportSevenRecord = {
+  key: number;
+  category: string;
+  thisyear: string;
+  projection1: string;
+  projection2: string;
+  projection3: string;
+};
+
+export type AnnexIIReportEightRecord = {
+  key: number;
+  category: string;
+  thisyear: string;
+  projection1: string;
+  projection2: string;
+  projection3: string;
+};
+
+export type AnnexIIReportNineRecord = {
+  key: number;
+  category: string;
+  thisyear: string;
+  projection1: string;
+  projection2: string;
+  projection3: string;
+};
+
 export type ReportSixRecord = {
   key: number;
   activityId: string;

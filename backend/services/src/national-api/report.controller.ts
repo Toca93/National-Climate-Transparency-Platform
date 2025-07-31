@@ -15,7 +15,7 @@ import { QueryDto } from "../dtos/query.dto";
 import { SupportEntity } from "../entities/support.entity";
 import { ReportService } from "../report/report.service";
 import { DataExportQueryDto } from "../dtos/data.export.query.dto";
-import { Reports } from "../enums/shared.enum";
+import { Annexes, Reports } from "../enums/shared.enum";
 
 @ApiTags("Reports")
 @ApiBearerAuth()
@@ -27,16 +27,16 @@ export class ReportController {
 
 	@ApiBearerAuth()
   @UseGuards(JwtAuthGuard, PoliciesGuardEx(true, Action.Read, SupportEntity, true))
-  @Post(":tableNumber/query")
-  async queryReportFiveData(@Param('tableNumber') tableNumber: Reports, @Body() query: QueryDto, @Request() req) {
-    return await this.reportService.getTableData(tableNumber, query);
+  @Post(":annexNumber/:tableNumber/query")
+  async queryReportFiveData(@Param('annexNumber') annexNumber: Annexes, @Param('tableNumber') tableNumber: Reports, @Body() query: QueryDto, @Request() req) {
+    return await this.reportService.getTableData(annexNumber,tableNumber, query);
   }
 
 	@ApiBearerAuth()
   @UseGuards(JwtAuthGuard, PoliciesGuardEx(true, Action.Read, SupportEntity, true))
-  @Post(":tableNumber/export")
-  exportReportFiveData(@Param('tableNumber') tableNumber: Reports, @Body() query: DataExportQueryDto, @Request() req) {
-    return this.reportService.downloadReportData(tableNumber, query);
+  @Post(":annexNumber/:tableNumber/export")
+  exportReportFiveData(@Param('annexNumber') annexNumber: Annexes, @Param('tableNumber') tableNumber: Reports, @Body() query: DataExportQueryDto, @Request() req) {
+    return this.reportService.downloadReportData(annexNumber, tableNumber, query);
   }
 
 }

@@ -16,5 +16,6 @@ export class DataExportReportSixDto extends DataExportDto {
 	capacityBuilding: 'Yes' | 'No';
 	anchoredInNationalStrategy: 'Yes' | 'No';
 	supportChannel: string;
+	achievedGHGReduction: string | number;
 	additionalInfo: string;
 }

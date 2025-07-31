@@ -159,7 +159,7 @@ const GhgConfigurations = () => {
         <div className="form-section-header">{t('growthRateConfigurationTitle')}</div>
         <Tabs defaultActiveKey="1" centered items={items} />
       </div>
-      {userInfoState?.userRole === Role.Root && <SectorMapping />}
+      <SectorMapping />
     </div>
   );
 };

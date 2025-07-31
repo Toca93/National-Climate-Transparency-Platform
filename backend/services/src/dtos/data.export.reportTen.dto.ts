@@ -9,5 +9,6 @@ export class DataExportReportTenDto extends DataExportDto {
 	type: string;
 	startYear: string;
 	endYear: string;
+	achievedGHGReduction: string | number;
 	additionalInfo: string;
 }

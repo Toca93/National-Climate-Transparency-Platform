@@ -13,5 +13,6 @@ export class DataExportReportElevenDto extends DataExportDto {
 	sector: string;
 	subSectors: string[];
 	activityStatus: string;
+	achievedGHGReduction: string | number;
 	additionalInfo: string;
 }

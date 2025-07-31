@@ -10,5 +10,6 @@ export class DataExportReportEightDto extends DataExportDto {
 	technologyType: string;
 	startYear: string;
 	endYear: string;
+	achievedGHGReduction: string | number;
 	additionalInfo: string;
 }

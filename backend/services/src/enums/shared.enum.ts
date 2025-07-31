@@ -241,6 +241,11 @@ export enum KPIAction {
 	UPDATED = 'Updated',
 }
 
+export enum Annexes {
+	TWO = '2',
+	THREE = '3'
+}
+
 export enum Reports {
 	FIVE = '5',
 	SIX = '6',

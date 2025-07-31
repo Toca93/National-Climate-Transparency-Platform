@@ -201,6 +201,8 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
       if (id === undefined && method === 'create') {
         setMtgStartYear(0);
       }
+      // KL: set Mitigation Start year to activity startYear
+      // setMtgStartYear(startYear1 ?? 0);
     }
   };
 
@@ -1163,9 +1165,20 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
     if (method === 'create') {
       setDefaultTimelineValues();
     } else {
-      fetchMtgTimelineData();
+      try {
+        fetchMtgTimelineData();
+      } catch (error) {
+        console.error('Error fetching MTG timeline data:', error);
+        setDefaultTimelineValues();
+      }
     }
   }, [mtgStartYear, selectedGhg]);
+
+  useEffect(() => {
+    if (method === 'update' && mtgStartYear === 0 && startYear1) {
+      setMtgStartYear(startYear1);
+    }
+  }, [selectedGhg]);
 
   // Tracking Parent selection
 

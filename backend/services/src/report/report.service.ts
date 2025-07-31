@@ -7,7 +7,7 @@ import { DataExportReportTwelveDto } from "../dtos/data.export.reportTwelve.dto"
 import { DataListResponseDto } from "../dtos/data.list.response";
 import { QueryDto } from "../dtos/query.dto";
 import { ReportFiveViewEntity } from "../entities/report.five.view.entity";
-import { Reports } from "../enums/shared.enum";
+import { Annexes, Reports } from "../enums/shared.enum";
 import { DataExportService } from "../util/dataExport.service";
 import { HelperService } from "../util/helpers.service";
 import { Repository } from "typeorm";
@@ -20,20 +20,24 @@ import { DataExportReportElevenDto } from "../dtos/data.export.reportEleven.dto"
 import { AnnexThreeViewEntity } from "../entities/annexThree.view.entity";
 import { ImpleMeans } from "../enums/activity.enum";
 import { SupportDirection } from "../enums/support.enum";
-import { ActionType } from "src/enums/action.enum";
+import { ActionType } from "../enums/action.enum";
+import { AnnexTwoViewEntity } from "../entities/annexTwo.view.entity";
+import { DataExportAnnexTwoReportSevenDto } from "src/dtos/data.export.annexTwo.reportSeven.dto";
 
 export class ReportService {
   constructor(
     @InjectRepository(ReportFiveViewEntity)
     private reportFiveViewRepo: Repository<ReportFiveViewEntity>,
+    @InjectRepository(AnnexTwoViewEntity)
+    private annexTwoViewRepo: Repository<AnnexTwoViewEntity>,
     @InjectRepository(AnnexThreeViewEntity)
     private annexThreeViewRepo: Repository<AnnexThreeViewEntity>,
     private helperService: HelperService,
     private dataExportService: DataExportService
   ) {}
 
-  async getTableData(id: Reports, query: QueryDto) {
-    const queryBuilder = this.getReportQueryBuilder(id);
+  async getTableData(annex: Annexes, id: Reports, query: QueryDto) {
+    const queryBuilder = this.getReportQueryBuilder(annex, id);
 
     if (query.size && query.page) {
       queryBuilder
@@ -47,11 +51,40 @@ export class ReportService {
       resp.length > 0 ? resp[0] : undefined,
       resp.length > 1 ? resp[1] : undefined
     );
+
+    // const totalCount: number = await queryBuilder.getCount();
+    // const data: any[] = await queryBuilder.getMany();
+
+    // return new DataListResponseDto(
+    //   data,
+    //   totalCount
+    // );
   }
 
-  getReportQueryBuilder(reportNumber: Reports) {
-    if (reportNumber === Reports.FIVE) {
-      return this.reportFiveViewRepo.createQueryBuilder("reportFive");
+  getReportQueryBuilder(annexNumber: Annexes, reportNumber: Reports) {
+    if (annexNumber === Annexes.TWO) {
+      if (reportNumber === Reports.FIVE) {
+        return this.reportFiveViewRepo.createQueryBuilder("reportFive");
+      } else {
+        // get new annex II reports
+        let column = "";
+        switch (reportNumber) {
+          case Reports.SEVEN:
+            column = "withM";
+            break;
+          case Reports.EIGHT:
+            column = "withAM";
+            break;
+          case Reports.NINE:
+            column = "withoutM";
+            break;
+        }
+
+        const qb = this.annexTwoViewRepo.createQueryBuilder();
+        // .select(["category", `("${column}") AS "data"`]);
+        console.log(qb.getQuery());
+        return qb;
+      }
     } else {
       let direction: SupportDirection;
       let mitigationType: ActionType[];
@@ -121,17 +154,23 @@ export class ReportService {
         case Reports.TWELVE:
           direction = SupportDirection.NEEDED;
           mitigationType = [ActionType.TRANSPARENCY];
-          meansOfImplementation = [ImpleMeans.TRANSP, ImpleMeans.CAPACITY_BUILD];
+          meansOfImplementation = [
+            ImpleMeans.TRANSP,
+            ImpleMeans.CAPACITY_BUILD,
+          ];
           break;
         case Reports.THIRTEEN:
           direction = SupportDirection.RECEIVED;
           mitigationType = [ActionType.TRANSPARENCY];
-          meansOfImplementation = [ImpleMeans.TRANSP, ImpleMeans.CAPACITY_BUILD];
+          meansOfImplementation = [
+            ImpleMeans.TRANSP,
+            ImpleMeans.CAPACITY_BUILD,
+          ];
           break;
       }
 
       let mitigationCondition = "";
-      let implimentationCondition ="";
+      let implimentationCondition = "";
 
       mitigationType.forEach((mitigation, index) => {
         mitigationCondition =
@@ -159,91 +198,139 @@ export class ReportService {
   }
 
   async downloadReportData(
+    annexNumber: Annexes,
     tableNumber: Reports,
     dataExportQueryDto: DataExportQueryDto
   ) {
-    const resp = await this.getReportQueryBuilder(tableNumber).getMany();
+    const resp = await this.getReportQueryBuilder(
+      annexNumber,
+      tableNumber
+    ).getMany();
 
     if (resp.length > 0) {
       let prepData;
       let localFileName;
       let localTableNameKey;
 
-      switch (tableNumber) {
-        case Reports.FIVE:
-          prepData = this.prepareReportFiveDataForExport(
-            resp as ReportFiveViewEntity[]
-          );
-          localFileName = "reportExport.";
-          localTableNameKey = "reportExport.tableFive";
-          break;
+      if (annexNumber === Annexes.TWO) {
+        // For Annex II reports, we need to handle them differently
+        switch (tableNumber) {
+          case Reports.FIVE:
+            prepData = this.prepareReportFiveDataForExport(
+              resp as ReportFiveViewEntity[]
+            );
+            localFileName = "reportExport.";
+            localTableNameKey = "reportExport.tableFive";
+            break;
 
-        case Reports.SIX:
-          prepData = this.prepareReportSixDataForExport(
-            resp as AnnexThreeViewEntity[]
-          );
-          localFileName = "reportSixExport.";
-          localTableNameKey = "reportSixExport.tableSix";
-          break;
+          case Reports.SEVEN:
+            prepData = this.prepareAnnexTwoReportSevenDataForExport(
+              resp as AnnexTwoViewEntity[]
+            );
+            localFileName = "annexTwoExport.";
+            localTableNameKey = "annexTwoExport.reportSevenName";
+            break;
+          case Reports.EIGHT:
+            prepData = this.prepareAnnexTwoReportEightDataForExport(
+              resp as AnnexTwoViewEntity[]
+            );
+            localFileName = "annexTwoExport.";
+            localTableNameKey = "annexTwoExport.reportEightName";
+            break;
+          case Reports.NINE:
+            prepData = this.prepareAnnexTwoReportNineDataForExport(
+              resp as AnnexTwoViewEntity[]
+            );
+            localFileName = "annexTwoReportNineExport.";
+            localTableNameKey = "annexTwoExport.reportNineName";
+            break;
 
-        case Reports.SEVEN:
-          prepData = this.prepareReportSevenDataForExport(
-            resp as AnnexThreeViewEntity[]
-          );
-          localFileName = "reportSevenExport.";
-          localTableNameKey = "reportSevenExport.tableSeven";
-          break;
+          default:
+            throw new HttpException(
+              this.helperService.formatReqMessagesString(
+                "reportExport.unsupportedReport",
+                []
+              ),
+              HttpStatus.BAD_REQUEST
+            );
+        }
+      } else {
+        switch (tableNumber) {
+          case Reports.FIVE:
+            prepData = this.prepareReportFiveDataForExport(
+              resp as ReportFiveViewEntity[]
+            );
+            localFileName = "reportExport.";
+            localTableNameKey = "reportExport.tableFive";
+            break;
 
-        case Reports.EIGHT:
-          prepData = this.prepareReportEightDataForExport(
-            resp as AnnexThreeViewEntity[]
-          );
-          localFileName = "reportEightExport.";
-          localTableNameKey = "reportEightExport.tableEight";
-          break;
+          case Reports.SIX:
+            prepData = this.prepareReportSixDataForExport(
+              resp as AnnexThreeViewEntity[]
+            );
+            localFileName = "reportSixExport.";
+            localTableNameKey = "reportSixExport.tableSix";
+            break;
 
-        case Reports.NINE:
-          prepData = this.prepareReportNineDataForExport(
-            resp as AnnexThreeViewEntity[]
-          );
-          localFileName = "reportNineExport.";
-          localTableNameKey = "reportNineExport.tableNine";
-          break;
+          case Reports.SEVEN:
+            prepData = this.prepareReportSevenDataForExport(
+              resp as AnnexThreeViewEntity[]
+            );
+            localFileName = "reportSevenExport.";
+            localTableNameKey = "reportSevenExport.tableSeven";
+            break;
 
-        case Reports.TEN:
-          prepData = this.prepareReportTenDataForExport(
-            resp as AnnexThreeViewEntity[]
-          );
-          localFileName = "reportTenExport.";
-          localTableNameKey = "reportTenExport.tableTen";
-          break;
+          case Reports.EIGHT:
+            prepData = this.prepareReportEightDataForExport(
+              resp as AnnexThreeViewEntity[]
+            );
+            localFileName = "reportEightExport.";
+            localTableNameKey = "reportEightExport.tableEight";
+            break;
 
-        case Reports.ELEVEN:
-          prepData = this.prepareReportElevenDataForExport(
-            resp as AnnexThreeViewEntity[]
-          );
-          localFileName = "reportElevenExport.";
-          localTableNameKey = "reportElevenExport.tableEleven";
-          break;
+          case Reports.NINE:
+            prepData = this.prepareReportNineDataForExport(
+              resp as AnnexThreeViewEntity[]
+            );
+            localFileName = "reportNineExport.";
+            localTableNameKey = "reportNineExport.tableNine";
+            break;
 
-        case Reports.TWELVE:
-          prepData = this.prepareReportTwelveDataForExport(
-            resp as AnnexThreeViewEntity[]
-          );
-          localFileName = "reportTwelveExport.";
-          localTableNameKey = "reportTwelveExport.tableTwelve";
-          break;
+          case Reports.TEN:
+            prepData = this.prepareReportTenDataForExport(
+              resp as AnnexThreeViewEntity[]
+            );
+            localFileName = "reportTenExport.";
+            localTableNameKey = "reportTenExport.tableTen";
+            break;
 
-        case Reports.THIRTEEN:
-          prepData = this.prepareReportThirteenDataForExport(
-            resp as AnnexThreeViewEntity[]
-          );
-          localFileName = "reportTwelveExport.";
-          localTableNameKey = "reportTwelveExport.tableThirteen";
-          break;
+          case Reports.ELEVEN:
+            prepData = this.prepareReportElevenDataForExport(
+              resp as AnnexThreeViewEntity[]
+            );
+            localFileName = "reportElevenExport.";
+            localTableNameKey = "reportElevenExport.tableEleven";
+            break;
 
-        default:
-          break;
+          case Reports.TWELVE:
+            prepData = this.prepareReportTwelveDataForExport(
+              resp as AnnexThreeViewEntity[]
+            );
+            localFileName = "reportTwelveExport.";
+            localTableNameKey = "reportTwelveExport.tableTwelve";
+            break;
+
+          case Reports.THIRTEEN:
+            prepData = this.prepareReportThirteenDataForExport(
+              resp as AnnexThreeViewEntity[]
+            );
+            localFileName = "reportTwelveExport.";
+            localTableNameKey = "reportTwelveExport.tableThirteen";
+            break;
+
+          default:
+            break;
+        }
       }
 
       let headers: string[] = [];
@@ -321,6 +408,10 @@ export class ReportService {
           ? "Yes"
           : "No",
         supportChannel: report.internationalSupportChannel,
+        achievedGHGReduction:
+          report.achievedGHGReductionAlternate ||
+          report.achievedGHGReduction ||
+          "N/A",
         additionalInfo: report.etfDescription,
       };
       exportData.push(dto);
@@ -358,6 +449,10 @@ export class ReportService {
             ? "Yes"
             : "No",
         activityStatus: report.status,
+        achievedGHGReduction:
+          report.achievedGHGReductionAlternate ||
+          report.achievedGHGReduction ||
+          "N/A",
         additionalInfo: report.etfDescription,
       };
       exportData.push(dto);
@@ -380,6 +475,10 @@ export class ReportService {
         technologyType: report.technologyType,
         startYear: report.startYear,
         endYear: report.endYear,
+        achievedGHGReduction:
+          report.achievedGHGReductionAlternate ||
+          report.achievedGHGReduction ||
+          "N/A",
         additionalInfo: report.etfDescription,
       };
 
@@ -408,6 +507,10 @@ export class ReportService {
         sector: report.sector,
         subSectors: report.subSector,
         activityStatus: report.status,
+        achievedGHGReduction:
+          report.achievedGHGReductionAlternate ||
+          report.achievedGHGReduction ||
+          "N/A",
         additionalInfo: report.etfDescription,
       };
 
@@ -430,6 +533,10 @@ export class ReportService {
         type: report.type,
         startYear: report.startYear,
         endYear: report.endYear,
+        achievedGHGReduction:
+          report.achievedGHGReductionAlternate ||
+          report.achievedGHGReduction ||
+          "N/A",
         additionalInfo: report.etfDescription,
       };
 
@@ -457,6 +564,10 @@ export class ReportService {
         sector: report.sector,
         subSectors: report.subSector,
         activityStatus: report.status,
+        achievedGHGReduction:
+          report.achievedGHGReductionAlternate ||
+          report.achievedGHGReduction ||
+          "N/A",
         additionalInfo: report.etfDescription,
       };
       exportData.push(dto);
@@ -480,6 +591,10 @@ export class ReportService {
         requiredAmountDomestic: report.requiredAmountDomestic,
         requiredAmount: report.requiredAmount,
         activityStatus: report.status,
+        achievedGHGReduction:
+          report.achievedGHGReductionAlternate ||
+          report.achievedGHGReduction ||
+          "N/A",
         additionalInfo: report.etfDescription,
       };
 
@@ -505,6 +620,54 @@ export class ReportService {
         receivedAmount: report.receivedAmount,
         activityStatus: report.status,
         additionalInfo: report.etfDescription,
+      };
+      exportData.push(dto);
+    }
+
+    return exportData;
+  }
+
+  private prepareAnnexTwoReportSevenDataForExport(data: AnnexTwoViewEntity[]) {
+    const exportData: DataExportAnnexTwoReportSevenDto[] = [];
+    const thisYear = new Date().getFullYear();
+
+    for (const report of data) {
+      const dto: DataExportAnnexTwoReportSevenDto = {
+        category: report.category,
+        thisYear: report.withM[thisYear - 2000],
+        data: report.withM,
+      };
+      exportData.push(dto);
+    }
+
+    return exportData;
+  }
+
+  private prepareAnnexTwoReportEightDataForExport(data: AnnexTwoViewEntity[]) {
+    const exportData: DataExportAnnexTwoReportSevenDto[] = [];
+    const thisYear = new Date().getFullYear();
+
+    for (const report of data) {
+      const dto: DataExportAnnexTwoReportSevenDto = {
+        category: report.category,
+        thisYear: report.withAM[thisYear - 2000],
+        data: report.withAM,
+      };
+      exportData.push(dto);
+    }
+
+    return exportData;
+  }
+
+  private prepareAnnexTwoReportNineDataForExport(data: AnnexTwoViewEntity[]) {
+    const exportData: DataExportAnnexTwoReportSevenDto[] = [];
+    const thisYear = new Date().getFullYear();
+
+    for (const report of data) {
+      const dto: DataExportAnnexTwoReportSevenDto = {
+        category: report.category,
+        thisYear: report.withoutM[thisYear - 2000],
+        data: report.withoutM,
       };
       exportData.push(dto);
     }

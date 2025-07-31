@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import sliderLogo from '../../Assets/Images/mrvlogo.svg';
-import heroImage1 from '../../Assets/Images/homepage_img.jpg';
-import heroImage2 from '../../Assets/Images/homepage_img2.jpg'; // Add your second image
-import heroImage3 from '../../Assets/Images/homepage_img3.jpg'; // Add your third image
+import heroImage1 from '../../Assets/Images/homepage_img.webp';
+import heroImage2 from '../../Assets/Images/homepage_img2.webp';
+import heroImage3 from '../../Assets/Images/homepage_img3.webp';
 // import undpLogo from '../../Assets/Images/undp1.webp';
 // import EBRD from '../../Assets/Images/EBRD.webp';
 // import EBRDff from '../../Assets/Images/EBRD.png';

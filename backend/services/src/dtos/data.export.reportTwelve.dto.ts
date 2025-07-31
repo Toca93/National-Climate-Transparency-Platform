@@ -11,5 +11,6 @@ export class DataExportReportTwelveDto extends DataExportDto {
 	requiredAmountDomestic: number;
 	requiredAmount: number;
 	activityStatus: string;
+	achievedGHGReduction: string | number;
 	additionalInfo: string;
 }

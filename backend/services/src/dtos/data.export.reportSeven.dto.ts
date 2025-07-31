@@ -19,5 +19,6 @@ export class DataExportReportSevenDto extends DataExportDto {
 	techDevelopment: 'Yes' | 'No';
 	capacityBuilding: 'Yes' | 'No';
 	activityStatus: string;
+	achievedGHGReduction: string | number; // Allow both string and number
 	additionalInfo: string;
   }
