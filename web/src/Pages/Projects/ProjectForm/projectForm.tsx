@@ -225,8 +225,8 @@ const ProjectForm: React.FC<FormLoadProps> = ({ method }) => {
       }
 
       // KL : To allow items not associated to a parent
-      if (!payload.actionId) {
-        payload.actionId = '';
+      if (!payload.programmeId) {
+        payload.programmeId = '';
       }
       payload.startYear = parseInt(payload.startYear);
       payload.endYear = parseInt(payload.endYear);

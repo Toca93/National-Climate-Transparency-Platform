@@ -4,5 +4,7 @@
     "reportNineName": "Tables Annex II -09",
     "category": "Category",
     "thisYear": "This year",
-    "data": "From 2000 to 2050"
+    "projection1": "First projection",
+    "projection2": "Second projection",
+    "projection3": "Third projection"
 }

@@ -241,7 +241,7 @@ export class ReportService {
             prepData = this.prepareAnnexTwoReportNineDataForExport(
               resp as AnnexTwoViewEntity[]
             );
-            localFileName = "annexTwoReportNineExport.";
+            localFileName = "annexTwoExport.";
             localTableNameKey = "annexTwoExport.reportNineName";
             break;
 
@@ -635,7 +635,9 @@ export class ReportService {
       const dto: DataExportAnnexTwoReportSevenDto = {
         category: report.category,
         thisYear: report.withM[thisYear - 2000],
-        data: report.withM,
+        projection1: report.withM[(thisYear + 5 - (thisYear % 5)) - 2000] || 0,
+        projection2: report.withM[(thisYear + 10 - (thisYear % 5)) - 2000] || 0,
+        projection3: report.withM[(thisYear + 15 - (thisYear % 5)) - 2000] || 0,
       };
       exportData.push(dto);
     }
@@ -651,7 +653,9 @@ export class ReportService {
       const dto: DataExportAnnexTwoReportSevenDto = {
         category: report.category,
         thisYear: report.withAM[thisYear - 2000],
-        data: report.withAM,
+        projection1: report.withAM[(thisYear + 5 - (thisYear % 5)) - 2000] || 0,
+        projection2: report.withAM[(thisYear + 10 - (thisYear % 5)) - 2000] || 0,
+        projection3: report.withAM[(thisYear + 15 - (thisYear % 5)) - 2000] || 0,
       };
       exportData.push(dto);
     }
@@ -667,7 +671,9 @@ export class ReportService {
       const dto: DataExportAnnexTwoReportSevenDto = {
         category: report.category,
         thisYear: report.withoutM[thisYear - 2000],
-        data: report.withoutM,
+        projection1: report.withoutM[(thisYear + 5 - (thisYear % 5)) - 2000] || 0,
+        projection2: report.withoutM[(thisYear + 10 - (thisYear % 5)) - 2000] || 0,
+        projection3: report.withoutM[(thisYear + 15 - (thisYear % 5)) - 2000] || 0,
       };
       exportData.push(dto);
     }

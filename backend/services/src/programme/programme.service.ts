@@ -448,7 +448,7 @@ export class ProgrammeService {
 						await this.linkUpdatedProgrammeToAction(programmeUpdateDto.actionId, programmeUpdate, user, em);
 					} else if (currentProgramme.action && !programmeUpdateDto.actionId) {
 						await this.unlinkUpdatedProgrammeFromAction(programmeUpdate, user, em);
-					} else if (currentProgramme.action?.actionId != programmeUpdateDto.actionId) {
+					} else if (currentProgramme.action && currentProgramme.action?.actionId != programmeUpdateDto.actionId) {
 						await this.unlinkUpdatedProgrammeFromAction(programmeUpdate, user, em);
 						await this.linkUpdatedProgrammeToAction(programmeUpdateDto.actionId, programmeUpdate, user, em);
 					} else {

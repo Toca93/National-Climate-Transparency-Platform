@@ -500,7 +500,7 @@ export class ProjectService {
 							EntityType.PROJECT
 						);
 						await this.linkUnlinkService.unlinkProjectsFromProgramme([projectUpdate], projectUpdate.projectId, user, em, achievementsToRemove, false);
-					} else if (currentProject.programme?.programmeId != projectUpdateDto.programmeId) {
+					} else if (currentProject.programme && currentProject.programme?.programmeId != projectUpdateDto.programmeId) {
 						const achievementsToRemove = await this.kpiService.getAchievementsOfParentEntity(
 							currentProject.programme.programmeId, 
 							EntityType.PROGRAMME, 

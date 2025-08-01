@@ -12,7 +12,6 @@ import { Recipient, IntImplementor } from "../enums/shared.enum";
 import { ProgrammeEntity } from "./programme.entity";
 import { ActivityEntity } from "./activity.entity";
 import { Sector } from "../enums/sector.enum";
-import { ActionType } from "../enums/action.enum";
 
 @Entity("project")
 export class ProjectEntity {
@@ -51,9 +50,6 @@ export class ProjectEntity {
 
   @Column({ type: "ltree" })
   path: string;
-
-  @Column("varchar", { nullable: true })
-  programmeId: string | null;
 
   @ManyToOne(() => ProgrammeEntity, (programme) => programme.projects, {
     nullable: true,
