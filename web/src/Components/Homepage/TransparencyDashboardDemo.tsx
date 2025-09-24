@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Col, Row } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import PieChart from '../Charts/PieChart/pieChart';
@@ -15,6 +15,19 @@ const TransparencyDashboardDemo: React.FC = () => {
     title: '',
     body: '',
   });
+  const [chartWidth, setChartWidth] = useState<number>(0);
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function updateWidth() {
+      if (chartContainerRef.current) {
+        setChartWidth(chartContainerRef.current.offsetWidth * 0.65);
+      }
+    }
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
 
   const actionChart: ChartData = {
     chartTitle: t('dashboard:actionChartTitle'),
@@ -69,8 +82,6 @@ const TransparencyDashboardDemo: React.FC = () => {
     lastUpdatedTime: Date.now() / 1000,
   };
 
-  const chartWidth = 600;
-
   return (
     <div className="transparency-demo-dashboard section">
       <h2 className="header-title">{t('homepage:dashboard.title')}</h2>
@@ -80,7 +91,7 @@ const TransparencyDashboardDemo: React.FC = () => {
           setOpen={setOpenChartInfo}
           content={chartContent}
         ></ChartInformation>
-        <Row gutter={30}>
+        <Row className="chart-section-card-wrapper" gutter={30}>
           <Col key={'chart_1'} className="gutter-row" {...dashboardHalfColumnBps}>
             <div className="chart-section-card">
               {actionChart && (

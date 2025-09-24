@@ -42,7 +42,7 @@ const PieChart: React.FC<Props> = ({ chart, t, chartWidth }) => {
   }, [chart.chartId]);
 
   return (
-    <div>
+    <div className="pie-chart">
       {total > 0 ? (
         <>
           <Chart

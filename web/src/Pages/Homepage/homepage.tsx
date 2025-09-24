@@ -44,6 +44,14 @@ const Homepage = () => {
 
   const heroImages = [heroImage1, heroImage2, heroImage3];
 
+  // Preload images to avoid white flash
+  useEffect(() => {
+    heroImages.forEach((src) => {
+      const img = new window.Image();
+      img.src = src;
+    });
+  }, [heroImages]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);

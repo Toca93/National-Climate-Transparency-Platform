@@ -76,4 +76,19 @@
       }
     }
   }
+
+  @media screen and (max-width:$sm-size) {
+    .vision-section {
+      border-radius: 1rem;
+
+      .vision-container {
+        padding: 2rem 1rem;
+
+        .vision-description {
+          font-size: 1rem;
+          margin: 0px 0px 20px 0px;
+        }
+      }
+    }
+  }
 }

@@ -30,3 +30,32 @@
         }
     }
 }
+
+@media screen and (max-width:768px) {
+    .transparency-demo-dashboard {
+        .chart-section-card {
+            .chart-update-time {
+                margin-top: 20px;
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width:576px) {
+    .transparency-demo-dashboard {
+        .chart-section-card-wrapper {
+            display: block;
+        }
+
+        .chart-section-card {
+            .apexcharts-legend {
+                height: 90%;
+            }
+
+            .chart-update-time {
+                text-align: left;
+            }
+        }
+    }
+}
