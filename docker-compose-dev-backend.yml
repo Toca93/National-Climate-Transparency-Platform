@@ -85,7 +85,7 @@ services:
       DISABLE_LOW_PRIORITY_EMAIL: "true"
       SYSTEM_TYPE: CARBON_TRANSPARENCY_SYSTEM  
       BACKEND_HOST: http://localhost:9000
-      SYSTEM_NAME: Seychelles Climate Transparency System
+      SYSTEM_NAME: National Climate Transparency System
     volumes:
       - filestore:/app/backend/services/public
       - ./users.csv:/app/backend/services/users.csv
