@@ -286,7 +286,7 @@ const Login: FC<LoginPageProps> = (props: LoginPageProps) => {
                 </Form>
                 <Row className="language-row">
                   <Col span={24} className="language-section">
-]                    <Select
+                    <Select
                       placeholder="Search to Select"
                       disabled
                       defaultValue={

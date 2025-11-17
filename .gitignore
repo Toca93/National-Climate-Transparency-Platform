@@ -17,3 +17,5 @@ web/public/locales/*
 .gitignore
 *.csv
 *.xlsx
+.env-cmdrc
+docker-compose*
