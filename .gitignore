@@ -19,3 +19,4 @@ web/public/locales/*
 *.xlsx
 .env-cmdrc
 docker-compose*
+!docker-compose-prod.yml
