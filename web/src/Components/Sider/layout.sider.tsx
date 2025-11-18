@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Menu, Layout, MenuProps, Row } from 'antd';
-import sliderLogo from '../../Assets/Images/qatarlogo.png';
+import sliderLogo from '../../Assets/Images/mnelogo.png';
 import { useNavigate } from 'react-router-dom';
 import './layout.sider.scss';
 import * as Icon from 'react-bootstrap-icons';
