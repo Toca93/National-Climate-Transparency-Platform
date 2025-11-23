@@ -58,6 +58,14 @@ const LayoutSider = (props: LayoutSiderProps) => {
     ]),
     getItem(t('nav:reporting'), 'reportings', <ClipboardMinus />),
     getItem(t('nav:faq'), 'faqs', <Headset />),
+    // Task 1: New Menu Item
+    getItem('Test Menu', 'test-page', <AppstoreOutlined />),
+
+    // Task 2: Submenu Item
+    getItem('Test Submenu', 'test-sub', <AppstoreOutlined />, [
+      getItem('Sub Option 1', 'sub-option-1'),
+      getItem('Sub Option 2', 'sub-option-2'),
+    ]),
   ];
 
   if (userInfoState?.userRole === Role.Root || userInfoState?.userRole === Role.Admin) {
