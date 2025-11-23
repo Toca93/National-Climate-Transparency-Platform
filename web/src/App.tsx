@@ -95,51 +95,15 @@ const App = () => {
                 <Route path="privacy" element={<PrivacyPolicy />} />
               </Route>
 
-              {/* Protected Routes */}
-              <Route path="/" element={<PrivateRoute />}>
-                <Route path="/dashboard" element={<CustomLayout selectedKey="dashboard" />}>
-                  <Route index element={<Dashboard />} />
-                </Route>
-                <Route path="/actions" element={<CustomLayout selectedKey="actions" />}>
-                  <Route path="" element={<ActionList />} />
-                  <Route path="add" element={<ActionForm method="create" />} />
-                  <Route path="edit/:entId" element={<ActionForm method="update" />} />
-                  <Route path="view/:entId" element={<ActionForm method="view" />} />
-                </Route>
-                <Route path="/programmes" element={<CustomLayout selectedKey="programmes" />}>
-                  <Route path="" element={<ProgrammeList />} />
-                  <Route path="add" element={<ProgrammeForm method="create" />} />
-                  <Route path="edit/:entId" element={<ProgrammeForm method="update" />} />
-                  <Route path="view/:entId" element={<ProgrammeForm method="view" />} />
-                </Route>
-                <Route path="/projects" element={<CustomLayout selectedKey="projects" />}>
-                  <Route path="" element={<ProjectList />} />
-                  <Route path="add" element={<ProjectForm method="create" />} />
-                  <Route path="edit/:entId" element={<ProjectForm method="update" />} />
-                  <Route path="view/:entId" element={<ProjectForm method="view" />} />
-                </Route>
-                <Route path="/activities" element={<CustomLayout selectedKey="activities" />}>
-                  <Route path="" element={<ActivityList />} />
-                  <Route path="add" element={<ActivityForm method="create" />} />
-                  <Route path="edit/:entId" element={<ActivityForm method="update" />} />
-                  <Route path="view/:entId" element={<ActivityForm method="view" />} />
-                </Route>
-                <Route path="/support" element={<CustomLayout selectedKey="support" />}>
-                  <Route path="" element={<SupportList />} />
-                  <Route path="add" element={<SupportForm method="create" />} />
-                  <Route path="edit/:entId" element={<SupportForm method="update" />} />
-                  <Route path="view/:entId" element={<SupportForm method="view" />} />
-                </Route>
-                <Route path="/emissions" element={<CustomLayout selectedKey="emissions" />}>
-                  <Route index element={<GhgEmissions />} />
-                </Route>
-                <Route path="/projections" element={<CustomLayout selectedKey="projections" />}>
-                  <Route index element={<GhgProjections />} />
-                </Route>
-                <Route
+             <Route
                   path="/combinedExpected"
                   element={<CustomLayout selectedKey="combinedExpected" />}
                 >
+                  <Route index element={<GhgCombinedExpected />} />
+                </Route>
+
+                {/* --- CORRECTED LOCATION FOR TEST TASKS --- */}
+                
                 {/* Task 1 & 3: Link for Test Menu */}
                 <Route path="/test-page" element={<CustomLayout selectedKey="test-page" />}>
                   <Route index element={<TestPage />} />
@@ -147,15 +111,18 @@ const App = () => {
 
                 {/* Task 2: Link for Submenu Item 1 */}
                 <Route path="/sub-option-1" element={<CustomLayout selectedKey="sub-option-1" />}>
-                   {/* We are reusing TestPage here, but usually this would be a different component */}
+                   {/* We are reusing TestPage here */}
                   <Route index element={<TestPage />} />
                 </Route>
-                  <Route index element={<GhgCombinedExpected />} />
-                </Route>
+
+                {/* ------------------------------------------ */}
+
                 <Route
                   path="/combinedAchieved"
                   element={<CustomLayout selectedKey="combinedAchieved" />}
                 >
+                  <Route index element={<GhgCombinedAchieved />} />
+                </Route>
                   <Route index element={<GhgCombinedAchieved />} />
                 </Route>
                 <Route
