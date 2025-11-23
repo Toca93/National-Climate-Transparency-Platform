@@ -142,17 +142,6 @@ const App = () => {
                 >
                   <Route index element={<GhgCombinedExpected />} />
                 </Route>
-
-                {/* --- YOUR NEW TEST TASKS (Now correctly placed as siblings) --- */}
-                <Route path="/test-page" element={<CustomLayout selectedKey="test-page" />}>
-                  <Route index element={<TestPage />} />
-                </Route>
-
-                <Route path="/sub-option-1" element={<CustomLayout selectedKey="sub-option-1" />}>
-                  <Route index element={<TestPage />} />
-                </Route>
-                {/* ----------------------------------------------------------- */}
-
                 <Route
                   path="/combinedAchieved"
                   element={<CustomLayout selectedKey="combinedAchieved" />}
@@ -170,6 +159,15 @@ const App = () => {
                 </Route>
                 <Route path="/faqs" element={<CustomLayout selectedKey="faqs" />}>
                   <Route index element={<Faq />} />
+                </Route>
+                {/* Task 1 & 3: Link for Test Menu */}
+                <Route path="/test-page" element={<CustomLayout selectedKey="test-page" />}>
+                  <Route index element={<TestPage />} />
+                </Route>
+                {/* Task 2: Link for Submenu Item 1 */}
+                <Route path="/sub-option-1" element={<CustomLayout selectedKey="sub-option-1" />}>
+                  {/* We are reusing TestPage here, but usually this would be a different component */}
+                  <Route index element={<TestPage />} />
                 </Route>
                 <Route
                   path="/userManagement"
