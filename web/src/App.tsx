@@ -29,6 +29,7 @@ import ReportList from './Pages/Reporting/reportList';
 import Faq from './Pages/Faq/faq';
 import UserProfile from './Pages/Users/UserProfile/UserProfile';
 import InfoLayout from './Components/Layout/infoLayout';
+import TestPage from './Pages/TestPage';
 
 // Lazy Component Loading
 
@@ -139,6 +140,16 @@ const App = () => {
                   path="/combinedExpected"
                   element={<CustomLayout selectedKey="combinedExpected" />}
                 >
+                {/* Task 1 & 3: Link for Test Menu */}
+                <Route path="/test-page" element={<CustomLayout selectedKey="test-page" />}>
+                  <Route index element={<TestPage />} />
+                </Route>
+
+                {/* Task 2: Link for Submenu Item 1 */}
+                <Route path="/sub-option-1" element={<CustomLayout selectedKey="sub-option-1" />}>
+                   {/* We are reusing TestPage here, but usually this would be a different component */}
+                  <Route index element={<TestPage />} />
+                </Route>
                   <Route index element={<GhgCombinedExpected />} />
                 </Route>
                 <Route
