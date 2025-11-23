@@ -29,7 +29,7 @@ import ReportList from './Pages/Reporting/reportList';
 import Faq from './Pages/Faq/faq';
 import UserProfile from './Pages/Users/UserProfile/UserProfile';
 import InfoLayout from './Components/Layout/infoLayout';
-import TestPage from './Pages/TestPage';
+import TestPage from './Pages/TestPage/TestPage';
 
 // Lazy Component Loading
 
