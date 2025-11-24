@@ -178,7 +178,7 @@ const App = () => {
                   <Route index element={<TestPage />} />
                 </Route>
 
-                <Route path="/sub-option-1" element={<CustomLayout selectedKey="sub-option-1" />}>
+                <Route path="/test-page" element={<CustomLayout selectedKey="test-page" />}>
                   <Route index element={<TestPage />} />
                 </Route>
 
