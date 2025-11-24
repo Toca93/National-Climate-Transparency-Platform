@@ -11,7 +11,6 @@ import {
   Space,
   message,
   InputNumber,
-  Divider,
 } from 'antd';
 import { PlusOutlined, SearchOutlined, SaveOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -26,8 +25,6 @@ const TestPage = () => {
   // --- 1. THE SAVE FUNCTION ---
   const handleSave = async (values: any) => {
     console.log('Sending data:', values);
-
-    // Get Token
     const token =
       localStorage.getItem('accessToken') || localStorage.getItem('token');
 
@@ -44,16 +41,13 @@ const TestPage = () => {
       projectStatus: values.projectStatus,
       startYear: parseInt(values.startYear),
       endYear: parseInt(values.endYear),
-      path: '1.1', // Dummy Path
-      programmeId: 1, // Dummy ID
+      path: '1.1',
+      programmeId: 1,
     };
 
     try {
       const baseUrl = process.env.REACT_APP_BACKEND || 'http://localhost:9000';
-
-      // FIX ATTEMPT: Added '/api' prefix.
-      // If this fails, we need to enable the controller in the backend.
-      const url = `${baseUrl}/api/projects/add`; 
+      const url = `${baseUrl}/api/projects/add`;
 
       await axios.post(url, payload, {
         headers: {
@@ -68,8 +62,9 @@ const TestPage = () => {
     } catch (error: any) {
       console.error('Error saving:', error);
       if (error.response) {
-         // If we still get 404, it means the backend file is turned off.
-         message.error(`Error ${error.response.status}: ${JSON.stringify(error.response.data)}`);
+        message.error(
+          `Error ${error.response.status}: ${JSON.stringify(error.response.data)}`
+        );
       } else {
         message.error('Failed to connect to server.');
       }
@@ -83,9 +78,8 @@ const TestPage = () => {
     { title: 'Status', dataIndex: 'status', key: 'status' },
   ];
 
-  const data = [
-    { key: '1', id: 'PROJ-001', title: 'Solar Energy Plant', status: 'Ongoing' },
-  ];
+  // Collapsed to single line for linter
+  const data = [{ key: '1', id: 'PROJ-001', title: 'Solar Energy Plant', status: 'Ongoing' }];
 
   const renderList = () => (
     <div style={{ padding: '24px', background: '#f0f2f5', minHeight: '80vh' }}>
@@ -125,10 +119,6 @@ const TestPage = () => {
 
       <Card>
         <Form form={form} layout="vertical" onFinish={handleSave}>
-          
-          {/* SECTION 1: Basic Info */}
-          <Divider orientation="left">Basic Information</Divider>
-          
           <Row gutter={24}>
             <Col span={12}>
               <Form.Item
@@ -166,11 +156,8 @@ const TestPage = () => {
             </Col>
           </Row>
 
-          {/* SECTION 2: Timeline */}
-          <Divider orientation="left">Timeline</Divider>
-
           <Row gutter={24}>
-            <Col span={8}>
+            <Col span={12}>
               <Form.Item
                 label="Start Year"
                 name="startYear"
@@ -179,7 +166,7 @@ const TestPage = () => {
                 <InputNumber style={{ width: '100%' }} placeholder="2023" />
               </Form.Item>
             </Col>
-            <Col span={8}>
+            <Col span={12}>
               <Form.Item
                 label="End Year"
                 name="endYear"
@@ -190,16 +177,9 @@ const TestPage = () => {
             </Col>
           </Row>
 
-          {/* SECTION 3: Details */}
-          <Divider orientation="left">Details</Divider>
-
           <Row gutter={24}>
             <Col span={24}>
-              <Form.Item
-                label="Description"
-                name="description"
-                rules={[{ required: true }]}
-              >
+              <Form.Item label="Description" name="description" rules={[{ required: true }]}>
                 <TextArea rows={4} placeholder="Describe the project..." />
               </Form.Item>
             </Col>
