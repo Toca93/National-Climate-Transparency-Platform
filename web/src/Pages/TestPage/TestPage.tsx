@@ -25,8 +25,9 @@ const TestPage = () => {
   // --- 1. THE SAVE FUNCTION ---
   const handleSave = async (values: any) => {
     console.log('Sending data:', values);
-    const token =
-      localStorage.getItem('accessToken') || localStorage.getItem('token');
+    
+    // FIXED: Collapsed to single line
+    const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
 
     if (!token) {
       message.error('You are not logged in! Please log in first.');
@@ -62,9 +63,8 @@ const TestPage = () => {
     } catch (error: any) {
       console.error('Error saving:', error);
       if (error.response) {
-        message.error(
-          `Error ${error.response.status}: ${JSON.stringify(error.response.data)}`
-        );
+        // FIXED: Collapsed to single line
+        message.error(`Error ${error.response.status}: ${JSON.stringify(error.response.data)}`);
       } else {
         message.error('Failed to connect to server.');
       }
@@ -78,7 +78,6 @@ const TestPage = () => {
     { title: 'Status', dataIndex: 'status', key: 'status' },
   ];
 
-  // Collapsed to single line for linter
   const data = [{ key: '1', id: 'PROJ-001', title: 'Solar Energy Plant', status: 'Ongoing' }];
 
   const renderList = () => (
