@@ -16,40 +16,42 @@ import { FileHandlerModule } from '../file-handler/filehandler.module';
 import { ValidationModule } from '../validation/validation.module';
 import { ProgrammeModule } from '../programme/programme.module';
 import { ProjectService } from './project.service';
+import { ProjectController } from './project.controller';
 import { ProjectViewEntity } from '../entities/project.view.entity';
 import { KpiModule } from '../kpi/kpi.module';
 
 @Module({
-	imports: [
-		ConfigModule.forRoot({
-			isGlobal: true,
-			load: [configuration],
-			envFilePath: [`.env.${process.env.NODE_ENV}`, `.env`],
-		}),
-		TypeOrmModule.forRootAsync({
-			useClass: TypeOrmConfigService,
-			imports: undefined,
-		}),
-		TypeOrmModule.forFeature([
-			ActionEntity,
-			KpiEntity,
-			LogEntity,
-			ProgrammeEntity,
-			ProjectEntity,
-			AchievementEntity,
-			ActivityEntity,
-			SupportEntity,
-			ProjectViewEntity
-		]),
-		UtilModule,
-		forwardRef(() => ProgrammeModule),
-		FileHandlerModule,
-		ValidationModule,
-		forwardRef(() => KpiModule)
-	],
-	providers: [
-		ProjectService
-	],
-	exports: [ProjectService],
+    imports: [
+        ConfigModule.forRoot({
+            isGlobal: true,
+            load: [configuration],
+            envFilePath: [`.env.${process.env.NODE_ENV}`, `.env`],
+        }),
+        TypeOrmModule.forRootAsync({
+            useClass: TypeOrmConfigService,
+            imports: undefined,
+        }),
+        TypeOrmModule.forFeature([
+            ActionEntity,
+            KpiEntity,
+            LogEntity,
+            ProgrammeEntity,
+            ProjectEntity,
+            AchievementEntity,
+            ActivityEntity,
+            SupportEntity,
+            ProjectViewEntity
+        ]),
+        UtilModule,
+        forwardRef(() => ProgrammeModule),
+        FileHandlerModule,
+        ValidationModule,
+        forwardRef(() => KpiModule)
+    ],
+    controllers: [ProjectController],
+    providers: [
+        ProjectService
+    ],
+    exports: [ProjectService],
 })
 export class ProjectModule { }

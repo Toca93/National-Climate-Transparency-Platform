@@ -46,7 +46,7 @@ const TestPage = () => {
 
     try {
       const baseUrl = process.env.REACT_APP_BACKEND || 'http://localhost:9000';
-      const url = `${baseUrl}/api/projects/add`;
+      const url = `${baseUrl}/projects/add`;
 
       await axios.post(url, payload, {
         headers: {
