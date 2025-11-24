@@ -16,7 +16,7 @@ import { FileHandlerModule } from '../file-handler/filehandler.module';
 import { ValidationModule } from '../validation/validation.module';
 import { ProgrammeModule } from '../programme/programme.module';
 import { ProjectService } from './project.service';
-import { ProjectController } from './project.controller';
+import { ProjectController } from '../national-api/project.controller';
 import { ProjectViewEntity } from '../entities/project.view.entity';
 import { KpiModule } from '../kpi/kpi.module';
 
