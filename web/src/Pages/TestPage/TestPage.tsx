@@ -11,8 +11,9 @@ import {
   Space,
   message,
   InputNumber,
+  Divider,
 } from 'antd';
-import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusOutlined, SearchOutlined, SaveOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 const { Option } = Select;
@@ -22,18 +23,20 @@ const TestPage = () => {
   const [viewState, setViewState] = useState<'list' | 'form'>('list');
   const [form] = Form.useForm();
 
-  // --- 1. THE SAVE FUNCTION (Connected to Real Backend) ---
+  // --- 1. THE SAVE FUNCTION ---
   const handleSave = async (values: any) => {
     console.log('Sending data:', values);
-    // FIXED: Collapsed to single line as requested by linter
-    const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
+
+    // Get Token
+    const token =
+      localStorage.getItem('accessToken') || localStorage.getItem('token');
 
     if (!token) {
       message.error('You are not logged in! Please log in first.');
       return;
     }
 
-    // Format data to match project.entity.ts
+    // Prepare Payload
     const payload = {
       projectId: values.projectId,
       title: values.title,
@@ -41,31 +44,32 @@ const TestPage = () => {
       projectStatus: values.projectStatus,
       startYear: parseInt(values.startYear),
       endYear: parseInt(values.endYear),
-      path: '1.1',
-      programmeId: 1,
+      path: '1.1', // Dummy Path
+      programmeId: 1, // Dummy ID
     };
 
     try {
       const baseUrl = process.env.REACT_APP_BACKEND || 'http://localhost:9000';
 
-      // POST to the correct URL we found: /projects/add
-      await axios.post(`${baseUrl}/projects/add`, payload, {
+      // FIX ATTEMPT: Added '/api' prefix.
+      // If this fails, we need to enable the controller in the backend.
+      const url = `${baseUrl}/api/projects/add`; 
+
+      await axios.post(url, payload, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
 
-      message.success('Project saved to REAL Database!');
+      message.success('Project saved successfully!');
       setViewState('list');
       form.resetFields();
     } catch (error: any) {
       console.error('Error saving:', error);
       if (error.response) {
-        // Keep this multi-line because it was accepted in the last build
-        message.error(
-          `Server Error: ${error.response.status} - ${JSON.stringify(error.response.data)}`
-        );
+         // If we still get 404, it means the backend file is turned off.
+         message.error(`Error ${error.response.status}: ${JSON.stringify(error.response.data)}`);
       } else {
         message.error('Failed to connect to server.');
       }
@@ -76,30 +80,16 @@ const TestPage = () => {
   const columns = [
     { title: 'Project ID', dataIndex: 'id', key: 'id' },
     { title: 'Title of Project', dataIndex: 'title', key: 'title' },
-    { title: 'Project Status', dataIndex: 'status', key: 'status' },
-    { title: 'Type', dataIndex: 'type', key: 'type' },
+    { title: 'Status', dataIndex: 'status', key: 'status' },
   ];
 
-  // Dummy data for the list
   const data = [
-    {
-      key: '1',
-      id: 'PROJ-001',
-      title: 'Solar Energy Plant',
-      status: 'Ongoing',
-      type: 'Mitigation',
-    },
+    { key: '1', id: 'PROJ-001', title: 'Solar Energy Plant', status: 'Ongoing' },
   ];
 
   const renderList = () => (
     <div style={{ padding: '24px', background: '#f0f2f5', minHeight: '80vh' }}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          marginBottom: '20px',
-        }}
-      >
+      <div style={{ marginBottom: '20px' }}>
         <h2 style={{ color: '#880e4f', fontWeight: 'bold' }}>Project List</h2>
       </div>
 
@@ -131,29 +121,31 @@ const TestPage = () => {
   // --- 3. THE FORM VIEW ---
   const renderForm = () => (
     <div style={{ padding: '24px', background: '#f0f2f5', minHeight: '80vh' }}>
-      {/* FIXED: Collapsed to single line as requested by linter */}
-      <h2 style={{ color: '#555', marginBottom: 20 }}>General Project Information</h2>
+      <h2 style={{ color: '#555', marginBottom: 20 }}>Add New Project</h2>
 
       <Card>
         <Form form={form} layout="vertical" onFinish={handleSave}>
+          
+          {/* SECTION 1: Basic Info */}
+          <Divider orientation="left">Basic Information</Divider>
+          
           <Row gutter={24}>
             <Col span={12}>
               <Form.Item
-                label="Project ID (Manual String)"
+                label="Project ID"
                 name="projectId"
-                rules={[{ required: true, message: 'ID is required' }]}
+                rules={[{ required: true, message: 'Required' }]}
               >
-                <Input placeholder="e.g. TEST-001" />
+                <Input placeholder="e.g. MNE-001" />
               </Form.Item>
             </Col>
-
             <Col span={12}>
               <Form.Item
-                label="Status"
+                label="Current Status"
                 name="projectStatus"
-                rules={[{ required: true, message: 'Status is required' }]}
+                rules={[{ required: true, message: 'Required' }]}
               >
-                <Select placeholder="Select...">
+                <Select placeholder="Select Status">
                   <Option value="Planned">Planned</Option>
                   <Option value="Ongoing">Ongoing</Option>
                   <Option value="Completed">Completed</Option>
@@ -165,44 +157,50 @@ const TestPage = () => {
           <Row gutter={24}>
             <Col span={24}>
               <Form.Item
-                label="Title of Project"
+                label="Project Title"
                 name="title"
-                rules={[{ required: true, message: 'Title is required' }]}
+                rules={[{ required: true, message: 'Required' }]}
               >
-                <Input placeholder="Enter title" />
+                <Input placeholder="Enter the official title" />
               </Form.Item>
             </Col>
           </Row>
 
+          {/* SECTION 2: Timeline */}
+          <Divider orientation="left">Timeline</Divider>
+
           <Row gutter={24}>
-            <Col span={12}>
+            <Col span={8}>
               <Form.Item
                 label="Start Year"
                 name="startYear"
-                rules={[{ required: true, message: 'Start Year is required' }]}
+                rules={[{ required: true, message: 'Required' }]}
               >
-                <InputNumber style={{ width: '100%' }} />
+                <InputNumber style={{ width: '100%' }} placeholder="2023" />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={8}>
               <Form.Item
                 label="End Year"
                 name="endYear"
-                rules={[{ required: true, message: 'End Year is required' }]}
+                rules={[{ required: true, message: 'Required' }]}
               >
-                <InputNumber style={{ width: '100%' }} />
+                <InputNumber style={{ width: '100%' }} placeholder="2030" />
               </Form.Item>
             </Col>
           </Row>
+
+          {/* SECTION 3: Details */}
+          <Divider orientation="left">Details</Divider>
 
           <Row gutter={24}>
             <Col span={24}>
               <Form.Item
-                label="Short Description of Project"
+                label="Description"
                 name="description"
                 rules={[{ required: true }]}
               >
-                <TextArea rows={5} />
+                <TextArea rows={4} placeholder="Describe the project..." />
               </Form.Item>
             </Col>
           </Row>
@@ -213,9 +211,10 @@ const TestPage = () => {
               <Button
                 type="primary"
                 htmlType="submit"
+                icon={<SaveOutlined />}
                 style={{ background: '#880e4f', borderColor: '#880e4f' }}
               >
-                SAVE TO DB
+                SAVE PROJECT
               </Button>
             </Space>
           </Row>
