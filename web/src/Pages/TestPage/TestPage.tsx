@@ -27,8 +27,7 @@ const TestPage = () => {
     console.log('Sending data:', values);
 
     // Get Token from LocalStorage
-    const token =
-      localStorage.getItem('accessToken') || localStorage.getItem('token');
+    const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
 
     if (!token) {
       message.error('You are not logged in! Please log in first.');
@@ -64,12 +63,8 @@ const TestPage = () => {
     } catch (error: any) {
       console.error('Error saving:', error);
       if (error.response) {
-        // FIXED: Broken onto multiple lines for Prettier
-        message.error(
-          `Server Error: ${error.response.status} - ${JSON.stringify(
-            error.response.data
-          )}`
-        );
+        // Collapsed to single line to fix Prettier error
+        message.error(`Server Error: ${error.response.status} - ${JSON.stringify(error.response.data)}`);
       } else {
         message.error('Failed to connect to server.');
       }
@@ -96,9 +91,7 @@ const TestPage = () => {
   ];
 
   const renderList = () => (
-    <div
-      style={{ padding: '24px', background: '#f0f2f5', minHeight: '80vh' }}
-    >
+    <div style={{ padding: '24px', background: '#f0f2f5', minHeight: '80vh' }}>
       <div
         style={{
           display: 'flex',
@@ -136,12 +129,8 @@ const TestPage = () => {
 
   // --- 3. THE FORM VIEW ---
   const renderForm = () => (
-    <div
-      style={{ padding: '24px', background: '#f0f2f5', minHeight: '80vh' }}
-    >
-      <h2 style={{ color: '#555', marginBottom: 20 }}>
-        General Project Information
-      </h2>
+    <div style={{ padding: '24px', background: '#f0f2f5', minHeight: '80vh' }}>
+      <h2 style={{ color: '#555', marginBottom: 20 }}>General Project Information</h2>
 
       <Card>
         <Form form={form} layout="vertical" onFinish={handleSave}>
