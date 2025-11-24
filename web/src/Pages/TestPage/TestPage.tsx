@@ -25,8 +25,6 @@ const TestPage = () => {
   // --- 1. THE SAVE FUNCTION ---
   const handleSave = async (values: any) => {
     console.log('Sending data:', values);
-    
-    // FIXED: Collapsed to single line
     const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
 
     if (!token) {
@@ -63,7 +61,6 @@ const TestPage = () => {
     } catch (error: any) {
       console.error('Error saving:', error);
       if (error.response) {
-        // FIXED: Collapsed to single line
         message.error(`Error ${error.response.status}: ${JSON.stringify(error.response.data)}`);
       } else {
         message.error('Failed to connect to server.');
