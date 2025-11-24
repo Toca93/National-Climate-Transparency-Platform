@@ -25,9 +25,9 @@ const TestPage = () => {
   // --- 1. THE SAVE FUNCTION (Connected to Real Backend) ---
   const handleSave = async (values: any) => {
     console.log('Sending data:', values);
-    // Get Token from LocalStorage
-    const token =
-      localStorage.getItem('accessToken') || localStorage.getItem('token');
+    
+    // FIXED: Collapsed to single line as requested by linter
+    const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
 
     if (!token) {
       message.error('You are not logged in! Please log in first.');
@@ -63,7 +63,7 @@ const TestPage = () => {
     } catch (error: any) {
       console.error('Error saving:', error);
       if (error.response) {
-        // FIXED: Exact indentation requested by ESLint log
+        // Keep this multi-line because it was accepted in the last build
         message.error(
           `Server Error: ${error.response.status} - ${JSON.stringify(error.response.data)}`
         );
@@ -132,9 +132,8 @@ const TestPage = () => {
   // --- 3. THE FORM VIEW ---
   const renderForm = () => (
     <div style={{ padding: '24px', background: '#f0f2f5', minHeight: '80vh' }}>
-      <h2 style={{ color: '#555', marginBottom: 20 }}>
-        "General Project Information"
-      </h2>
+      {/* FIXED: Collapsed to single line as requested by linter */}
+      <h2 style={{ color: '#555', marginBottom: 20 }}>General Project Information</h2>
 
       <Card>
         <Form form={form} layout="vertical" onFinish={handleSave}>
