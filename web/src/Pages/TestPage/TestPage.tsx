@@ -8,7 +8,7 @@ const TestPage = () => {
   const [foodList, setFoodList] = useState([]);
   const [form] = Form.useForm();
 
-  const baseUrl = process.env.REACT_APP_BACKEND || 'http://localhost:9100';
+  const baseUrl = process.env.REACT_APP_BACKEND || 'http://localhost:9000';
 
   // 1. FETCH DATA (GET)
   const fetchFood = async () => {
