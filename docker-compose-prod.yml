@@ -166,7 +166,7 @@ services:
       args:
         PORT: 3030
         REACT_APP_BACKEND: http://168.119.164.165:9000
-        REACT_APP_STAT_URL: http://168.119.164.165:9000
+        REACT_APP_STAT_URL: http://168.119.164.165:9100
         REACT_APP_COUNTRY_NAME: "Country X"
     ports:
       - "9030:3030"
