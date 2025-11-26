@@ -1,15 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Button,
-  Input,
-  Table,
-  Card,
-  Row,
-  Col,
-  Form,
-  message,
-  InputNumber,
-} from 'antd';
+import { Button, Input, Table, Card, Row, Col, Form, message, InputNumber } from 'antd';
 import { PlusOutlined, SaveOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
@@ -67,9 +57,7 @@ const TestPage = () => {
     } catch (error: any) {
       console.error('Error saving:', error);
       if (error.response) {
-        message.error(
-          `Error ${error.response.status}: ${JSON.stringify(error.response.data)}`
-        );
+        message.error(`Error ${error.response.status}: ${JSON.stringify(error.response.data)}`);
       } else {
         message.error('Failed to connect to server.');
       }
