@@ -63,7 +63,7 @@ const LayoutSider = (props: LayoutSiderProps) => {
 
     // Task 2: Submenu Item
     getItem('Test Submenu', 'test-sub', <AppstoreOutlined />, [
-      getItem('Sub Option 1', 'sub-option-1'),
+      getItem('Sub Option 1', 'test-page'),
       getItem('Sub Option 2', 'sub-option-2'),
     ]),
   ];
