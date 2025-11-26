@@ -1,6 +1,6 @@
 import './transparencyLogo.scss';
 import { Col, Row } from 'antd';
-import countryLogo from '../../Assets/Images/mrvlogo.svg';
+import countryLogo from '../../Assets/Images/logo.png';
 import { useNavigate } from 'react-router-dom';
 
 const TransparencyLogo: React.FC = () => {
@@ -29,7 +29,7 @@ const TransparencyLogo: React.FC = () => {
             </Col>
             <Col span={24}>
               <div className="country-logo-title">
-                {process.env.REACT_APP_COUNTRY_NAME || 'CountryX'}
+                {process.env.REACT_APP_COUNTRY_NAME || 'Montenegro'}
               </div>
             </Col>
           </Row>
