@@ -37,7 +37,7 @@ import TransparencyDashboardDemo from '../../Components/Homepage/TransparencyDas
 
 const Homepage = () => {
   const { i18n, t } = useTranslation(['common', 'homepage']);
-  const countryName = 'CountryX';
+  const countryName = 'Montenegro';
   const navigate = useNavigate();
   const [Visible, setVisible] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
