@@ -9,6 +9,7 @@ import { AuthModule } from "../auth/auth.module";
 import { CaslModule } from "../casl/casl.module";
 import { ActivityEntity } from "../entities/activity.entity";
 import { UtilModule } from "../util/util.module";
+import { FoodModule } from "../food/food.module"; // ADD THIS LINE
 
 @Module({
 	imports: [
@@ -26,7 +27,8 @@ import { UtilModule } from "../util/util.module";
 		]),
 		AuthModule,
 		CaslModule,
-		UtilModule
+		UtilModule,
+		FoodModule, // ADD THIS LINE
 	],
 	controllers: [AnalyticsController],
 	providers: [Logger, AnalyticsService],
