@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Input, Table, Card, Row, Col, Form, message, InputNumber } from 'antd';
+import { Button, Input, Table, Card, Row, Col, Form, message, InputNumber, Space } from 'antd';
 import { PlusOutlined, SaveOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
