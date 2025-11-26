@@ -21,10 +21,10 @@
   background-color: variables.$outside-background-color;
   
    .container-image {
-    background-image: url("../../Assets/Images/homepageqatar.webp");
+    background-image: url("../../Assets/Images/zabljak.jpg");
     background-image: image-set(
-      "../../Assets/Images/homepageqatar.webp" type("image/png"),
-      "../../Assets/Images/homepageqatar.webp" type("image/webp")
+      "../../Assets/Images/zabljak.jpg" type("image/png"),
+      "../../Assets/Images/zabljak.jpg" type("image/jpeg")
     );
     background-size: cover;
     background-position: top !important;
