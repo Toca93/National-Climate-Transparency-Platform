@@ -28,9 +28,7 @@ const TransparencyLogo: React.FC = () => {
               <div className="logo-title">{'PLATFORM'}</div>
             </Col>
             <Col span={24}>
-              <div className="country-logo-title">
-                {process.env.REACT_APP_COUNTRY_NAME || 'Montenegro'}
-              </div>
+              <div className="country-logo-title">{'Montenegro'}</div>
             </Col>
           </Row>
         </Col>
