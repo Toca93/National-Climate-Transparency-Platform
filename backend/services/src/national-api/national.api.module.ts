@@ -37,7 +37,6 @@ import { SystemResourceModule } from '../system.resource/system.resources.module
 import { GHGCombinedReductionController } from './ghg.combined.controller';
 import { GhgCombinedReductionModule } from 'src/combined.reduction/combined.reduction.module';
 import { FoodModule } from '../food/food.module';
-import { FoodController } from '../food/food.controller';
 
 
 @Module({
@@ -86,7 +85,6 @@ import { FoodController } from '../food/food.controller';
     GHGProjectionController,
     GHGCombinedReductionController,
 		ResourcesController,
-    FoodController
   ],
   providers: [
     NationalAPIService, 
