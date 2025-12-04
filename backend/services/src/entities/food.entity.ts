@@ -14,4 +14,4 @@ export class FoodEntity extends BaseEntity {
 
   @Column('int')
   calories: number; // e.g. 95
-}
+} 
