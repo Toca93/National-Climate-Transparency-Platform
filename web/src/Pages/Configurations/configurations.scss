@@ -8,6 +8,14 @@
     padding-right: 30px;
     padding-bottom: 30px;
 
+    .form-section-title {
+        color: #3A3541;
+        opacity: 1;
+        margin-bottom: 35px;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
     .form-section-header {
         color: #3A3541;
         opacity: 0.8;
@@ -15,11 +23,11 @@
         font-weight: bold;
         font-size: 15px;
 
-        &.sectors{
+        &.sectors {
             margin-bottom: 5px;
         }
     }
-    
+
     .form-section-subheader {
         color: #3A3541;
         opacity: 0.8;
@@ -45,4 +53,15 @@
         height: 35px;
         width: 90px;
     }
+
+    .form-item-submit {
+        justify-content: end;
+
+        .sector-years-save-button {
+            margin-left: calc(100% - 90px);
+            height: 35px;
+            width: 90px;
+        }
+    }
+
 }

@@ -1,6 +1,6 @@
 import { DeleteOutlined } from '@ant-design/icons';
 import { Form, Input, Row, Col, Card } from 'antd';
-import './kpiGrid.scss';
+import './kpiStyles.scss';
 
 interface Props {
   form: any;

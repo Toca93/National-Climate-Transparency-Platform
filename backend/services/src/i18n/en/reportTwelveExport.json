@@ -4,8 +4,8 @@
 
     "nothingToExport": "Data not found for export",
     "activityId": "Activity No.",
-    "titleOfActivity": "Name of Activity",
-    "description": "Activity description",
+    "titleOfActivity": "Title of Activity",
+    "description": "Objectives and Description",
     "startYear": "Start year",
     "activityStatus": "Status of activity",
     "endYear": "End year",

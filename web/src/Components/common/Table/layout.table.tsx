@@ -19,14 +19,14 @@ const LayoutTable: React.FC<Props> = ({
   pagination,
   handleTableChange,
   emptyMessage,
-  handleHorizontalOverflow,
-  addBorders,
-  summary,
+  handleHorizontalOverflow = false,
+  addBorders = false,
+  summary = undefined,
 }) => {
   return (
     <div style={{ overflowX: 'auto' }}>
       <Table
-        bordered={addBorders ?? false}
+        bordered={addBorders}
         dataSource={tableData}
         columns={columns}
         className="common-table-class"
@@ -42,7 +42,7 @@ const LayoutTable: React.FC<Props> = ({
             />
           ),
         }}
-        summary={summary ? summary : undefined}
+        summary={summary}
       />
     </div>
   );

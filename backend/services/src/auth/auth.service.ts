@@ -68,6 +68,19 @@ export class AuthService {
     return null;
   }
 
+  async generateTokens(payload: JWTPayload) {
+    const accessToken = this.jwtService.sign(instanceToPlain(payload), {
+      expiresIn: this.configService.get<string>("jwt.expiresIn"),
+    });
+
+    const refreshToken = this.jwtService.sign(instanceToPlain(payload), {
+      expiresIn: this.configService.get<string>("jwt.refreshExpiresIn") || "7d",
+      secret: this.configService.get<string>("jwt.refreshSecret"),
+    });
+
+    return { accessToken, refreshToken };
+  }
+
   async login(user: any) {
     const payload = new JWTPayload(
       user.organisation,
@@ -82,8 +95,11 @@ export class AuthService {
       user.ghgInventoryPermission,
     );
     const ability = this.caslAbilityFactory.createForUser(user);
+    const { accessToken, refreshToken } = await this.generateTokens(payload);
+
     return {
-      access_token: this.jwtService.sign(instanceToPlain(payload)),
+      access_token: accessToken,
+      refresh_token: refreshToken,
       role: user.role,
 			subRole: user.subRole,
       id: user.id,
@@ -96,6 +112,28 @@ export class AuthService {
       subRolePermission: user.subRolePermission,
       ghgInventoryPermission: user.ghgInventoryPermission,
     };
+  }
+
+    async refreshToken(refreshToken: string) {
+    try {
+      const payload = this.jwtService.verify(refreshToken, {
+        secret: this.configService.get<string>("jwt.refreshSecret"),
+      });
+
+      delete payload.exp;
+      delete payload.iat;
+
+      const tokens = await this.generateTokens(payload);
+      return {
+        access_token: tokens.accessToken,
+        refresh_token: tokens.refreshToken,
+      };
+    } catch (error) {
+      throw new HttpException(
+        'Invalid refresh token',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
   }
 
   async forgotPassword(email: any) {

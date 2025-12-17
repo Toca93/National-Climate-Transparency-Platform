@@ -173,6 +173,11 @@ body {
   color: variables.$primary-color !important;
 }
 
+.content-container .body-subtitle {
+  font-size: 15px;
+  margin-top: 5px;
+}
+
 .custom-tooltip .ant-tooltip-inner {
   border-radius: 5px !important;
   background-color: variables.$primary-color !important;
@@ -285,7 +290,7 @@ body {
 }
 
 .ant-form-item-label>label {
-  flex-direction: row-reverse !important;
+  // flex-direction: row-reverse !important;
   color: rgba(58, 53, 65, 0.5);
 }
 

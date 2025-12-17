@@ -1,8 +1,11 @@
 {
     "combinedExpectedTitle": "Combined - Expected",
     "withMeasuresTitle": "With Measures",
+    "withMeasuresInfoTitle": "Combined expected reduction with measures",
     "withAdditionalMeasuresTitle": "With Additional Measures",
+    "withAdditionalMeasuresInfoTitle": "Combined expected reduction with additional measures",
     "withoutMeasuresTitle": "Without Measures",
+    "withoutMeasuresInfoTitle": "Combined expected emissions without measures (Baseline emissions)",
 
     "1_title": "Energy",
     "2_title": "Industrial Processes & Product Use",

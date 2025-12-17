@@ -1,5 +1,5 @@
 import { Form, Input, Row, Col, Tooltip } from 'antd';
-import './kpiGrid.scss';
+import './kpiStyles.scss';
 import { CreatedKpiData } from '../../Definitions/kpiDefinitions';
 import { UserOutlined, UserSwitchOutlined } from '@ant-design/icons';
 

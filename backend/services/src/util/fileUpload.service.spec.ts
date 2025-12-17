@@ -116,5 +116,43 @@ describe('FileUploadService', () => {
 				[],
 			);
 		});
+
+		it('should upload zip file successfully', async () => {
+			const data = "data:application/zip;base64,UEsDBBQAAAAIA";
+			const fileData = "UEsDBBQAAAAIA";
+			const fileName = 'test_zip';
+			const filetype = 'zip';
+
+			const expectedResponse = 'http://example.com/test_zip.zip';
+
+			fileHandlerMock.uploadFile.mockResolvedValue(expectedResponse);
+
+			const response = await fileUploadService.uploadDocument(data, fileName, EntityType.ACTION);
+
+			expect(response).toEqual(expectedResponse);
+			expect(fileHandlerMock.uploadFile).toHaveBeenCalledWith(
+				expect.stringMatching(new RegExp(`documents/action_documents/${fileName}_[0-9]+\.${filetype}`)),
+				fileData,
+			);
+		});
+
+		it('should upload x-zip-compressed file successfully', async () => {
+			const data = "data:application/x-zip-compressed;base64,UEsDBBQAAAAIA";
+			const fileData = "UEsDBBQAAAAIA";
+			const fileName = 'test_x_zip';
+			const filetype = 'zip';
+
+			const expectedResponse = 'http://example.com/test_x_zip.zip';
+
+			fileHandlerMock.uploadFile.mockResolvedValue(expectedResponse);
+
+			const response = await fileUploadService.uploadDocument(data, fileName, EntityType.ACTION);
+
+			expect(response).toEqual(expectedResponse);
+			expect(fileHandlerMock.uploadFile).toHaveBeenCalledWith(
+				expect.stringMatching(new RegExp(`documents/action_documents/${fileName}_[0-9]+\.${filetype}`)),
+				fileData,
+			);
+		});
 	});
 });

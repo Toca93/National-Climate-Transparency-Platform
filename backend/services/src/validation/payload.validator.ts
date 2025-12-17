@@ -85,8 +85,8 @@ export class PayloadValidator {
 			}
 
 			array.forEach((value, index) => {
-				if (!Number.isInteger(value)) {
-					throw new HttpException(`Mitigation timeline ${property} array should contain only integers. Invalid value at index ${index}: ${value}`, HttpStatus.BAD_REQUEST);
+				if (!Number.isFinite(value)) {
+					throw new HttpException(`Mitigation timeline ${property} array should contain only finite numbers. Invalid value at index ${index}: ${value}`, HttpStatus.BAD_REQUEST);
 				}
 			});
 		}
@@ -101,8 +101,8 @@ export class PayloadValidator {
 				throw new HttpException(`Mitigation timeline ${property} total value is missing`, HttpStatus.BAD_REQUEST);
 			}
 
-			if (!Number.isInteger(value)) {
-				throw new HttpException(`Mitigation timeline ${property} total value should be an integer. Invalid value: ${value}`, HttpStatus.BAD_REQUEST);
+			if (!Number.isFinite(value)) {
+				throw new HttpException(`Mitigation timeline ${property} total value should contain only finite numbers. Invalid value: ${value}`, HttpStatus.BAD_REQUEST);
 			}
 		}
 	}
@@ -122,8 +122,9 @@ export class PayloadValidator {
 
 	private validate_ktCO2e_Values(provided: number[], baseline: number[], reducer: number[], gwp: number, name: string) {
 		for (let index = 0; index < provided.length; index++) {
-			if (provided[index] !== (baseline[index] - reducer[index]) * gwp)
+			if (provided[index] !== parseFloat(((baseline[index] - reducer[index]) * gwp).toFixed(2))) {
 				throw new HttpException(`Element ${index + 1} in the ${name} array is incorrect according to the GWP value.`, HttpStatus.BAD_REQUEST);
+			}
 		}
 	}
 

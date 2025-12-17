@@ -8,4 +8,5 @@ export enum AcceptedFileExtensions {
   png = 'png',
   jpg = 'jpg',
   pdf = 'pdf',
+  zip = 'zip',
 }

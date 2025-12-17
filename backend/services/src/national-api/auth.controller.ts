@@ -45,6 +45,18 @@ export class AuthController {
     ), HttpStatus.UNAUTHORIZED);
   }
 
+  @Post("refresh")
+  async refreshToken(@Body() body: { refresh_token: string }) {
+    try {
+      return await this.authService.refreshToken(body.refresh_token);
+    } catch (error) {
+      throw new HttpException(
+        this.helperService.formatReqMessagesString("common.invalidRefreshToken", []),
+        HttpStatus.UNAUTHORIZED
+      );
+    }
+  }
+
   @Post("forgotPassword")
   async forgotPassword(
     @Body() forgotPassword: ForgotPasswordDto,

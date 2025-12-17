@@ -48,7 +48,7 @@ const AddUser = () => {
   const { post, put } = useConnection();
   const [formOne] = Form.useForm();
   const { state } = useLocation();
-  const { updateToken } = useConnection();
+  const { removeTokens } = useConnection();
   const { removeUserInfo } = useUserContext();
   const { userInfoState, setUserInfo } = useUserContext();
   const ability = useAbilityContext();
@@ -207,7 +207,7 @@ const AddUser = () => {
 
   const signOut = (): void => {
     onNavigateToLogin();
-    updateToken();
+    removeTokens();
     removeUserInfo();
   };
 

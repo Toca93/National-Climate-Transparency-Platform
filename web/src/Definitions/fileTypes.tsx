@@ -8,4 +8,6 @@ export const AcceptedMimeTypes: string[] = [
   'image/png', // .png
   'image/jpeg', // .jpg
   'application/pdf', // .pdf
+  'application/zip', // .zip
+  'application/x-zip-compressed', // .zip
 ];

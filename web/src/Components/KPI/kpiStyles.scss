@@ -1,3 +1,5 @@
+@import '../../Styles/variables.scss';
+
 .kpi-grid {
 
     height: 90px;
@@ -49,4 +51,28 @@
     color: #615d67;
   }
 
+}
+
+.info-kpi {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  background-color: rgba($primary-color, 0.05);
+  padding: 15px;
+  border-radius: 8px;
+  color: #3a3541A5;
+  font-size: 14px;
+  float: right;
+
+  .info-icon {
+    color: $primary-color;
+    font-size: 18px;
+    margin: 5px 4px;
+  }
+
+  .copy-icon {
+    color: $primary-color;
+    margin-left: 8px;
+    cursor: pointer;
+  }
 }

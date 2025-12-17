@@ -66,8 +66,8 @@ SELECT
 	COALESCE(SUM(fullprj."achievedGHGReduction"), 0) + COALESCE(act."achievedGHGReduction", 0) AS "achievedGHGReduction",
 	COALESCE(SUM(fullprj."expectedGHGReduction"), 0) + COALESCE(act."expectedGHGReduction", 0) AS "expectedGHGReduction",
 	CUSTOM_ARRAY_AGG(DISTINCT COALESCE(fullprj."ghgsAffected", '{}') || COALESCE(act."ghgsAffected", '{}')) FILTER (WHERE (fullprj."ghgsAffected" IS NOT NULL OR act."ghgsAffected" IS NOT NULL)) AS "ghgsAffected",
-	MAX(COALESCE(fullprj."estimatedAmount", 0) + COALESCE(act."requiredAmount", 0)) as "estimatedAmount",
-	MAX(COALESCE(fullprj."receivedAmount", 0) + COALESCE(act."receivedAmount", 0)) as "receivedAmount"
+	SUM(COALESCE(fullprj."estimatedAmount", 0) + COALESCE(act."requiredAmount", 0)) as "estimatedAmount",
+	SUM(COALESCE(fullprj."receivedAmount", 0) + COALESCE(act."receivedAmount", 0)) as "receivedAmount"
 FROM 
 	programme p
 LEFT JOIN fullprj ON p."programmeId" = fullprj."programmeId"

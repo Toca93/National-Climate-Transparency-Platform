@@ -20,9 +20,11 @@ export default () => ({
     logging: ["error"],
   },
   jwt: {
-    expiresIn: process.env.EXPIRES_IN || "7200",
+    expiresIn: process.env.EXPIRES_IN || "15m",
     userSecret: process.env.USER_JWT_SECRET || "1324",
     adminSecret: process.env.ADMIN_JWT_SECRET || "8654",
+    refreshSecret: process.env.REFRESH_JWT_SECRET || "refresh1324",
+    refreshExpiresIn: process.env.REFRESH_EXPIRES_IN || "2d",
     encodePassword: process.env.ENCODE_PASSWORD || false
   },
   email: {

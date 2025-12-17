@@ -7,6 +7,7 @@ import { JwtStrategy } from "./strategies/jwt.strategy";
 import { LocalStrategy } from "./strategies/local.strategy";
 import { CaslModule } from "../casl/casl.module";
 import { ApiKeyStrategy } from "./strategies/apikey.strategy";
+import { RefreshTokenStrategy } from "./strategies/refresh-token.strategy";
 import { UserModule } from "../user/user.module";
 import { UtilModule } from "../util/util.module";
 import { AsyncOperationsModule } from "../async-operations/async-operations.module";
@@ -20,9 +21,12 @@ import { PasswordReset } from "../entities/userPasswordResetToken.entity";
     UtilModule,
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
-        secretOrPrivateKey: configService.get<string>("jwt.userSecret"),
+        secret: configService.get<string>("jwt.userSecret"),
         signOptions: {
           expiresIn: parseInt(configService.get<string>("jwt.expiresIn")),
+        },
+        verifyOptions: {
+          ignoreExpiration: false,
         },
       }),
       inject: [ConfigService],
@@ -36,6 +40,7 @@ import { PasswordReset } from "../entities/userPasswordResetToken.entity";
     LocalStrategy,
     JwtStrategy,
     ApiKeyStrategy,
+    RefreshTokenStrategy,
     Logger,
     PasswordReset,
   ],

@@ -4,7 +4,7 @@ export type UploadData = { key: string; title: string; data: string };
 
 export type StoredData = { key: string; title: string; url: string };
 
-export const acceptedFileTypes = '.xlsx,.xls,.ppt,.pptx,.docx,.csv,.png,.jpg,.pdf';
+export const acceptedFileTypes = '.xlsx,.xls,.ppt,.pptx,.docx,.csv,.png,.jpg,.pdf,.zip';
 
 export const extensionColors = {
   [AcceptedFileExtensions.xlsx]: '#207245', // Green, matching Excel
@@ -16,4 +16,5 @@ export const extensionColors = {
   [AcceptedFileExtensions.png]: '#C55BBC', // Light red, neutral for images
   [AcceptedFileExtensions.jpg]: '#9E8CF0', // Light purple, neutral for images
   [AcceptedFileExtensions.pdf]: '#FF0000', // Red, matching PDF (Adobe)
+  [AcceptedFileExtensions.zip]: '#FFC107', // Amber, for zip files
 };

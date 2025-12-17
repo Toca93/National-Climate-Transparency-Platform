@@ -7,7 +7,16 @@
     "growthRateConfigurationTitle": "Projection Growth Rate",
     "sectorMappingConfigurationTitle": "Sector Mapping",
     "sectorMappingDescription": "Use this section to map each IPCC sub-sector to a sector for Annex II – Reports 7, 8, and 9. This mapping determines how data will be populated in those reports. Each IPCC sub-sector should be mapped to one sector.",
-    
+    "sectorConfigurationTitle":"Sector Configurations",
+    "sectorYearConfigurationDescription":"Set the most recent reporting year and the projection years for Annex II Reports 7, 8, and 9.",
+    "sectorMostRecentYear":"Most Recent Year",
+    "sectorProjectionYear1":"First Projection Year",
+    "sectorProjectionYear2":"Second Projection Year",
+    "sectorProjectionYear3":"Third Projection Year",
+    "sectorYearConfigurationNotFound": "Sector Year Configuration not found.",
+    "sectorYearConfigurationUpdateSuccess": "Successfully Saved the Sector Year Configuration",
+    "sectorYearConfigurationUpdateError": "Error updating Sector Year Configuration.",
+
     "growthRate": "Growth Rate (%)",
     "baselineYear": "Baseline Year",
     "co2": "Baseline ktCO2",

@@ -4,21 +4,36 @@ import { Buffer } from 'buffer';
 import { AcceptedFileExtensions } from '../Enums/file.enum';
 import { ActionType } from '../Enums/action.enum';
 
-export const addCommSep = (value: any) => {
-  return (
-    Number(value)
-      // .toString()
-      .toFixed(2)
-      .replace('.00', '')
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  );
+/**
+ * Formats a number with thousand separators and exactly two decimal places.
+ * @param value The number or string to format.
+ * @returns A formatted string, e.g., "1,234.00".
+ */
+export const formatNumberWithThousandSeparators = (
+  value: number | string | undefined | null
+): string => {
+  const num = Number(value);
+  if (isNaN(num)) {
+    return 'NaN';
+  }
+
+  return new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(num);
 };
 
-export const addCommSepRound = (value: any) => {
-  return Number(value)
-    .toFixed(2)
-    .replace('.00', '')
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+/**
+ * Parses a string with thousand separators into a number.
+ * @param value The string to parse, e.g., "1,234.00".
+ * @returns A number. Returns NaN if parsing fails.
+ */
+export const parseNumberWithThousandSeparators = (value: string | undefined | null): number => {
+  if (!value) {
+    return NaN;
+  }
+  const parsedValue = Number(value.replace(/,/g, ''));
+  return isNaN(parsedValue) ? NaN : parsedValue;
 };
 
 export const getBase64 = (file: RcFile): Promise<string> =>

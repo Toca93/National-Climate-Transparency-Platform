@@ -40,7 +40,7 @@ BEGIN
             val1 := obj1->key;
             val2 := obj2->key;
             -- Recursively call the function on the child elements
-            res := jsonb_set(res, ARRAY[key], sum_json_recursively_fn(val1, val2));
+            res := jsonb_set(res, ARRAY[key], public.sum_json_recursively_fn(val1, val2));
         END LOOP;
         RETURN res;
     END IF;

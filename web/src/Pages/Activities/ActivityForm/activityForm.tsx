@@ -1558,32 +1558,34 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
                         </Form.Item>
                       </Col>
                     )}
-                    <Col {...halfColumnBps}>
-                      <Form.Item
-                        label={
-                          <label className="form-item-header">
-                            {t('formHeader:ipccSubSectorHeader')}
-                          </label>
-                        }
-                        name="ipccSubSector"
-                        rules={[validation.required]}
-                      >
-                        <Select
-                          showSearch
-                          size="large"
-                          style={{ fontSize: inputFontSize }}
-                          disabled={isView}
+                    {isGasFlow && (
+                      <Col {...halfColumnBps}>
+                        <Form.Item
+                          label={
+                            <label className="form-item-header">
+                              {t('formHeader:ipccSubSectorHeader')}
+                            </label>
+                          }
+                          name="ipccSubSector"
+                          rules={isGasFlow ? [validation.required] : []}
                         >
-                          {Object.entries(IpccSubSector).map((ipccSubSector) => {
-                            return (
-                              <Option key={ipccSubSector[0]} value={ipccSubSector[1]}>
-                                {ipccSubSector[1]}
-                              </Option>
-                            );
-                          })}
-                        </Select>
-                      </Form.Item>
-                    </Col>
+                          <Select
+                            showSearch
+                            size="large"
+                            style={{ fontSize: inputFontSize }}
+                            disabled={isView}
+                          >
+                            {Object.entries(IpccSubSector).map((ipccSubSector) => {
+                              return (
+                                <Option key={ipccSubSector[0]} value={ipccSubSector[1]}>
+                                  {ipccSubSector[1]}
+                                </Option>
+                              );
+                            })}
+                          </Select>
+                        </Form.Item>
+                      </Col>
+                    )}
                   </Row>
                 </Col>
                 <Col {...halfColumnBps}>
@@ -1980,85 +1982,87 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
                 </Row>
               </div>
             )}
-            <div className="form-section-card">
-              <div className="form-section-header">{t('mtgInfoTitle')}</div>
-              <Row gutter={gutterSize}>
-                <Col {...mtgHalfColumnBps}>
-                  <Form.Item
-                    label={<label className="form-item-header">{t('mtgMethodName')}</label>}
-                    name="mtgMethodName"
-                  >
-                    <Input className="form-input-box" disabled={isView} />
-                  </Form.Item>
-                </Col>
-                <Col {...mtgHalfColumnBps}>
-                  <Form.Item
-                    label={<label className="form-item-header">{t('mtgDocUploadOne')}</label>}
-                  >
-                    <UploadFileGrid
-                      isSingleColumn={true}
-                      usedIn={method}
-                      buttonText={t('entityAction:upload')}
-                      storedFiles={storedMthFiles}
-                      uploadedFiles={uploadedMthFiles}
-                      setUploadedFiles={setUploadedMthFiles}
-                      removedFiles={mthFilesToRemove}
-                      setRemovedFiles={setMthFilesToRemove}
-                      setIsSaveButtonDisabled={setIsSaveButtonDisabled}
-                    ></UploadFileGrid>
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={gutterSize}>
-                <Col {...mtgHalfColumnBps}>
-                  <Form.Item
-                    label={<label className="form-item-header">{t('mtgDescTitle')}</label>}
-                    name="mtgMethodDesc"
-                  >
-                    <TextArea rows={3} disabled={isView} />
-                  </Form.Item>
-                </Col>
-                <Col {...mtgHalfColumnBps}>
-                  <Form.Item
-                    label={<label className="form-item-header">{t('mtgDocUploadTwo')}</label>}
-                  >
-                    <UploadFileGrid
-                      isSingleColumn={true}
-                      usedIn={method}
-                      buttonText={t('entityAction:upload')}
-                      storedFiles={storedRstFiles}
-                      uploadedFiles={uploadedRstFiles}
-                      setUploadedFiles={setUploadedRstFiles}
-                      removedFiles={rstFilesToRemove}
-                      setRemovedFiles={setRstFilesToRemove}
-                      setIsSaveButtonDisabled={setIsSaveButtonDisabled}
-                    ></UploadFileGrid>
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={gutterSize}>
-                <Col {...mtgHalfColumnBps}>
-                  <Form.Item
-                    label={
-                      <label className="form-item-header">{t('mtgCalculateEntityTitle')}</label>
-                    }
-                    name="mtgCalculateEntity"
-                  >
-                    <Input className="form-input-box" disabled={isView} />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={gutterSize}>
-                <Col span={24}>
-                  <Form.Item
-                    label={<label className="form-item-header">{t('mtgComments')}</label>}
-                    name="mtgComments"
-                  >
-                    <TextArea rows={3} disabled={isView} />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </div>
+            {isGasFlow && (
+              <div className="form-section-card">
+                <div className="form-section-header">{t('mtgInfoTitle')}</div>
+                <Row gutter={gutterSize}>
+                  <Col {...mtgHalfColumnBps}>
+                    <Form.Item
+                      label={<label className="form-item-header">{t('mtgMethodName')}</label>}
+                      name="mtgMethodName"
+                    >
+                      <Input className="form-input-box" disabled={isView} />
+                    </Form.Item>
+                  </Col>
+                  <Col {...mtgHalfColumnBps}>
+                    <Form.Item
+                      label={<label className="form-item-header">{t('mtgDocUploadOne')}</label>}
+                    >
+                      <UploadFileGrid
+                        isSingleColumn={true}
+                        usedIn={method}
+                        buttonText={t('entityAction:upload')}
+                        storedFiles={storedMthFiles}
+                        uploadedFiles={uploadedMthFiles}
+                        setUploadedFiles={setUploadedMthFiles}
+                        removedFiles={mthFilesToRemove}
+                        setRemovedFiles={setMthFilesToRemove}
+                        setIsSaveButtonDisabled={setIsSaveButtonDisabled}
+                      ></UploadFileGrid>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={gutterSize}>
+                  <Col {...mtgHalfColumnBps}>
+                    <Form.Item
+                      label={<label className="form-item-header">{t('mtgDescTitle')}</label>}
+                      name="mtgMethodDesc"
+                    >
+                      <TextArea rows={3} disabled={isView} />
+                    </Form.Item>
+                  </Col>
+                  <Col {...mtgHalfColumnBps}>
+                    <Form.Item
+                      label={<label className="form-item-header">{t('mtgDocUploadTwo')}</label>}
+                    >
+                      <UploadFileGrid
+                        isSingleColumn={true}
+                        usedIn={method}
+                        buttonText={t('entityAction:upload')}
+                        storedFiles={storedRstFiles}
+                        uploadedFiles={uploadedRstFiles}
+                        setUploadedFiles={setUploadedRstFiles}
+                        removedFiles={rstFilesToRemove}
+                        setRemovedFiles={setRstFilesToRemove}
+                        setIsSaveButtonDisabled={setIsSaveButtonDisabled}
+                      ></UploadFileGrid>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={gutterSize}>
+                  <Col {...mtgHalfColumnBps}>
+                    <Form.Item
+                      label={
+                        <label className="form-item-header">{t('mtgCalculateEntityTitle')}</label>
+                      }
+                      name="mtgCalculateEntity"
+                    >
+                      <Input className="form-input-box" disabled={isView} />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={gutterSize}>
+                  <Col span={24}>
+                    <Form.Item
+                      label={<label className="form-item-header">{t('mtgComments')}</label>}
+                      name="mtgComments"
+                    >
+                      <TextArea rows={3} disabled={isView} />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </div>
+            )}
             {isGasFlow && mtgStartYear && selectedGhg ? (
               <div className="form-section-card">
                 <Row>
