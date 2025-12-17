@@ -91,8 +91,8 @@ services:
       SYNC_ENABLE: true
       SYNC_ENDPOINT: 'http://168.119.164.165:3000'      
       SYNC_API_TOKEN: ''
-      BACKEND_HOST: http://localhost:9000
-      SYSTEM_NAME: Seychelles Climate Transparency System
+      BACKEND_HOST: http://168.119.164.165:9000
+      SYSTEM_NAME: Montenegro Climate Transparency System
     volumes:
       - filestore:/app/backend/services/public
       - ./users.csv:/app/backend/services/users.csv
@@ -165,9 +165,9 @@ services:
       dockerfile: ./web/Dockerfile # Production Dockerfile
       args:
         PORT: 3030
-        REACT_APP_BACKEND: http://localhost:9000
-        REACT_APP_STAT_URL: http://localhost:9100
-        REACT_APP_COUNTRY_NAME: "Seychelles"
+        REACT_APP_BACKEND: http://168.119.164.165:9000
+        REACT_APP_STAT_URL: http://168.119.164.165:9100
+        REACT_APP_COUNTRY_NAME: "Montenegro"
     ports:
       - "9030:3030"
     depends_on:
