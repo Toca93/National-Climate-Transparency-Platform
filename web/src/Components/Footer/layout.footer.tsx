@@ -1,6 +1,6 @@
 import { Col, Divider, Row } from 'antd';
 import { useTranslation } from 'react-i18next';
-import sliderLogo from '../../Assets/Images/mrvlogo.svg';
+import sliderLogo from '../../Assets/Images/mnelogin.svg';
 import './layout.footer.scss';
 import { CcCircle } from 'react-bootstrap-icons';
 
@@ -17,11 +17,11 @@ const LayoutFooter = () => {
             </div>
             <div>
               <div style={{ display: 'flex' }}>
-                <div className="title">{'NATIONAL CLIMATE TRANSPARENCY '}</div>
-                <div className="title-sub">{'PLATFORM'}</div>
+                <div className="title">{'NACIONALNA PLATFORMA ZA '}</div>
+                <div className="title-sub">{'KLIMATSKU TRANSPARENTNOST'}</div>
               </div>
               <div className="footer-country-name">
-                {process.env.REACT_APP_COUNTRY_NAME || 'CountryX'}
+                {process.env.REACT_APP_COUNTRY_NAME || 'Montenegro'}
               </div>
             </div>
           </div>
@@ -36,7 +36,7 @@ const LayoutFooter = () => {
       <Row>
         <Col md={10} lg={10}>
           <div className="footertext-bottom">
-            {process.env.REACT_APP_COUNTRY_NAME || 'CountryX'}
+            {process.env.REACT_APP_COUNTRY_NAME || 'Montenegro'}
             <CcCircle className="cc" color="#FFFF" size="10px" />
           </div>
         </Col>
