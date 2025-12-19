@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './MapAnimation.module.scss';
 // Import as ReactComponent to allow ref forwarding
 import { ReactComponent as MapSVG } from '../../Assets/Images/animated-map-updated.svg';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 const MapAnimation = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -53,11 +53,12 @@ const MapAnimation = () => {
   return (
     <div>
       <div className="global-impact-container">
-        <h2 className="global-impact-title">Global Impact</h2>
+        <h2 className="global-impact-title">{t('homepage:globalImpact.title')}</h2>
         <div className="global-impact-content">
           <p className="global-impact-description">
-            The following are some of the countries collaborating with UNDP to adapt and scale the
-            open-source Climate Transparency Platform to their national contexts.
+            <Trans i18nKey="homepage:globalImpact.description" components={{ br: <br /> }}>
+              Ovo su neke od zemalja koje sarađuju sa UNDP-em na prilagođavanju i podešavanju platforme za klimatsku transparentnost sopstvenom kontekstu.<br /><br />Senegal - Crna Gora – Sejšeli
+            </Trans>
           </p>
 
           <div className="countries-grid">
