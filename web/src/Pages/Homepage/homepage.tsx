@@ -26,7 +26,7 @@ import LayoutFooter from '../../Components/Footer/layout.footer';
 import './homepage.scss';
 import ProcessFlow from '../../Components/Homepage/Howdoesitwork';
 import FAQ from '../../Components/Homepage/Faq';
-// import MapAnimation from '../../Components/Homepage/MapAnimation';
+import MapAnimation from '../../Components/Homepage/MapAnimation';
 import { ROUTES } from '../../Config/uiRoutingConfig';
 import DigitalPublicGood from '../../Components/Homepage/DigitalPublic';
 // import DemoSite from '../../Components/Homepage/DemoSite';
@@ -172,6 +172,7 @@ const Homepage = () => {
       <WhyThisPlatform />
       <TransparencyDashboardDemo />
       <DigitalPublicGood />
+      <MapAnimation />
       <ProcessFlow />
       <FeatureCards />
       {/* <PartnershipBanner /> */}
