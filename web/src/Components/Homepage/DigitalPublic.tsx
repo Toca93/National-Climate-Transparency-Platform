@@ -18,11 +18,18 @@ const DigitalPublicGood = () => {
         <Trans
           i18nKey={'homepage:digitalPublicBody'}
           components={{
-            a1: <a href="https://digitalpublicgoods.net/digital-public-goods/" target="_blank" />,
+            a1: (
+              <a
+                href="https://digitalpublicgoods.net/digital-public-goods/"
+                target="_blank"
+                rel="noreferrer"
+              />
+            ),
             a2: (
               <a
                 href="https://github.com/undp/National-Climate-Transparency-Platform"
                 target="_blank"
+                rel="noreferrer"
               />
             ),
           }}

@@ -57,7 +57,12 @@ const MapAnimation = () => {
         <div className="global-impact-content">
           <p className="global-impact-description">
             <Trans i18nKey="homepage:globalImpact.description" components={{ br: <br /> }}>
-              Ovo su neke od zemalja koje sarađuju sa UNDP-em na prilagođavanju i podešavanju platforme za klimatsku transparentnost sopstvenom kontekstu.<br /><br />Senegal - Crna Gora – Sejšeli
+              {
+                'Ovo su neke od zemalja koje sarađuju sa UNDP-em na prilagođavanju i podešavanju platforme za klimatsku transparentnost sopstvenom kontekstu.'
+              }
+              <br />
+              <br />
+              {'Senegal - Crna Gora – Sejšeli'}
             </Trans>
           </p>
 
