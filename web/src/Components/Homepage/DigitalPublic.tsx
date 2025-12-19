@@ -18,13 +18,6 @@ const DigitalPublicGood = () => {
         <Trans
           i18nKey={'homepage:digitalPublicBody'}
           components={{
-            a1: (
-              <a
-                href="https://digitalpublicgoods.net/digital-public-goods/"
-                target="_blank"
-                rel="noreferrer"
-              />
-            ),
             a2: (
               <a
                 href="https://github.com/undp/National-Climate-Transparency-Platform"
@@ -33,22 +26,7 @@ const DigitalPublicGood = () => {
               />
             ),
           }}
-        >
-          In response to countries' need for support, UNDP has created the National Climate
-          Transparency Platform as an open-source toolkit that follows the
-          <a href="https://digitalpublicgoods.net/digital-public-goods/" target="_blank">
-            Digital Public Goods Standard.
-          </a>
-          . Countries can access the free, open-source code and installation instructions
-          <a
-            href="https://github.com/undp/National-Climate-Transparency-Platform"
-            target="_blank"
-          >
-            from UNDP's managed Github
-          </a>
-          to customize their own Transparency Platform according to national needs. This approach
-          helps save time, reduce costs, and avoids duplication of effort.
-        </Trans>
+        />
       </motion.div>
     </div>
   );
