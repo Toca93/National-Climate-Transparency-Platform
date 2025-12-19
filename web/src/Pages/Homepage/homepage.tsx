@@ -169,8 +169,8 @@ const Homepage = () => {
         </Col>
       </Row>
       <Vision />
-      <WhyThisPlatform />
       <TransparencyDashboardDemo />
+      <WhyThisPlatform />
       <DigitalPublicGood />
       <MapAnimation />
       <ProcessFlow />
