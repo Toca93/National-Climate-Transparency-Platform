@@ -63,7 +63,7 @@ const LayoutSider = (props: LayoutSiderProps) => {
 
     // MRV Emissions with Monitoring Plans submenu
     getItem('MRV Emissions', 'mrv-emissions', <CloudDownloadOutlined />, [
-      getItem('Monitoring Plans', 'monitoring-plans'),
+      getItem('Monitoring Plans', 'mrv-emissions'),
     ]),
 
     // Gender Reporting
