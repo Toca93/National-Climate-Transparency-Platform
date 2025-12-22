@@ -180,7 +180,10 @@ const App = () => {
                 </Route>
 
                 {/* Climate Financing Routes */}
-                <Route path="/climate-financing" element={<CustomLayout selectedKey="climate-financing" />}>
+                <Route
+                  path="/climate-financing"
+                  element={<CustomLayout selectedKey="climate-financing" />}
+                >
                   <Route index element={<ClimateFinancing />} />
                 </Route>
 
@@ -190,12 +193,18 @@ const App = () => {
                 </Route>
 
                 {/* Monitoring Plans Routes */}
-                <Route path="/monitoring-plans" element={<CustomLayout selectedKey="monitoring-plans" />}>
+                <Route
+                  path="/monitoring-plans"
+                  element={<CustomLayout selectedKey="monitoring-plans" />}
+                >
                   <Route index element={<MonitoringPlans />} />
                 </Route>
 
                 {/* Gender Reporting Routes */}
-                <Route path="/gender-reporting" element={<CustomLayout selectedKey="gender-reporting" />}>
+                <Route
+                  path="/gender-reporting"
+                  element={<CustomLayout selectedKey="gender-reporting" />}
+                >
                   <Route index element={<GenderReporting />} />
                 </Route>
 
