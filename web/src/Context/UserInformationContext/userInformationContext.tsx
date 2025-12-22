@@ -132,7 +132,7 @@ export const UserInformationContextProvider = ({ children }: React.PropsWithChil
     localStorage.removeItem('validatePermission');
     localStorage.removeItem('subRolePermission');
     localStorage.removeItem('ghgInventoryPermission');
-    localStorage.removeItem('token');
+    TokenService.clearTokens();
     setUserInfoState(initialUserProps);
     setIsGhgAllowed(false);
     setIsValidationAllowed(false);
@@ -144,12 +144,13 @@ export const UserInformationContextProvider = ({ children }: React.PropsWithChil
     if (!isValid) {
       removeUserInfo();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Sync user info when token changes
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === 'token' && !event.newValue) {
+      if (event.key === 'access_token' && !event.newValue) {
         removeUserInfo();
       }
     };

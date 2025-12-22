@@ -16,7 +16,7 @@ const ConnectionContext = createContext<{
 export const ConnectionContextProvider: FC<ConnectionContextProviderProps> = (
   props: ConnectionContextProviderProps
 ) => {
-  const [token, setToken] = useState<string>();
+  const [token, setToken] = useState<string>(() => TokenService.getToken() || undefined);
   const { serverURL, t, statServerUrl, children } = props;
 
   // Initialize axios interceptors
