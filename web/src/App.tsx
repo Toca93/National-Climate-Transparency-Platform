@@ -30,6 +30,12 @@ import Faq from './Pages/Faq/faq';
 import UserProfile from './Pages/Users/UserProfile/UserProfile';
 import InfoLayout from './Components/Layout/infoLayout';
 import TestPage from './Pages/TestPage/TestPage';
+import ClimateFinancing from './Pages/ClimateFinancing/climateFinancing';
+import MRVEmissions from './Pages/MRVEmissions/mrvEmissions';
+import MonitoringPlans from './Pages/MonitoringPlans/monitoringPlans';
+import GenderReporting from './Pages/GenderReporting/genderReporting';
+import Verifications from './Pages/Verifications/verifications';
+import Reviews from './Pages/Reviews/reviews';
 
 // Lazy Component Loading
 
@@ -171,6 +177,36 @@ const App = () => {
 
                 <Route path="/faqs" element={<CustomLayout selectedKey="faqs" />}>
                   <Route index element={<Faq />} />
+                </Route>
+
+                {/* Climate Financing Routes */}
+                <Route path="/climate-financing" element={<CustomLayout selectedKey="climate-financing" />}>
+                  <Route index element={<ClimateFinancing />} />
+                </Route>
+
+                {/* MRV Emissions Routes */}
+                <Route path="/mrv-emissions" element={<CustomLayout selectedKey="mrv-emissions" />}>
+                  <Route index element={<MRVEmissions />} />
+                </Route>
+
+                {/* Monitoring Plans Routes */}
+                <Route path="/monitoring-plans" element={<CustomLayout selectedKey="monitoring-plans" />}>
+                  <Route index element={<MonitoringPlans />} />
+                </Route>
+
+                {/* Gender Reporting Routes */}
+                <Route path="/gender-reporting" element={<CustomLayout selectedKey="gender-reporting" />}>
+                  <Route index element={<GenderReporting />} />
+                </Route>
+
+                {/* Verifications Routes */}
+                <Route path="/verifications" element={<CustomLayout selectedKey="verifications" />}>
+                  <Route index element={<Verifications />} />
+                </Route>
+
+                {/* Reviews Routes */}
+                <Route path="/reviews" element={<CustomLayout selectedKey="reviews" />}>
+                  <Route index element={<Reviews />} />
                 </Route>
 
                 {/* Test Routes */}

@@ -59,21 +59,21 @@ const LayoutSider = (props: LayoutSiderProps) => {
     getItem(t('nav:reporting'), 'reportings', <ClipboardMinus />),
     getItem(t('nav:faq'), 'faqs', <Headset />),
     // Climate Financing
-    getItem('Climate Financing', 'climate-financing', <AppstoreOutlined />),
+    getItem('Climate Financing', 'climate-financing', <Coin />),
 
     // MRV Emissions with Monitoring Plans submenu
-    getItem('MRV Emissions', 'mrv-emissions', <AppstoreOutlined />, [
+    getItem('MRV Emissions', 'mrv-emissions', <CloudDownloadOutlined />, [
       getItem('Monitoring Plans', 'monitoring-plans'),
     ]),
 
     // Gender Reporting
-    getItem('Gender Reporting', 'gender-reporting', <AppstoreOutlined />),
+    getItem('Gender Reporting', 'gender-reporting', <GraphUpArrow />),
 
     // Verifications
     getItem('Verifications', 'verifications', <AppstoreOutlined />),
 
     // Reviews
-    getItem('Reviews', 'reviews', <AppstoreOutlined />),
+    getItem('Reviews', 'reviews', <Headset />),
   ];
 
   if (userInfoState?.userRole === Role.Root || userInfoState?.userRole === Role.Admin) {
