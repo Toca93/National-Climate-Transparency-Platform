@@ -144,7 +144,7 @@ export const UserInformationContextProvider = ({ children }: React.PropsWithChil
     if (!isValid) {
       removeUserInfo();
     }
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
   // Sync user info when token changes

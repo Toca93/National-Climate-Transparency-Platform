@@ -4,7 +4,9 @@
       "Bash(dir:*)",
       "Bash(npm run dev:*)",
       "Bash(npm run:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }
