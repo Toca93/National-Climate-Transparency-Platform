@@ -53,9 +53,8 @@
     "startYearOfImplementation": "Start year of implementation",
     "fullImplementingEntities": "Implementing entity or entities",
 
-    "titleOfActivity": "Title of Activity",
+    "titleOfActivity": "Name of Activity",
     "descriptionOfActivity": "Activity description",
-    "descriptionOfActivityAlt": "Objectives and Description",
     "startYear": "Start year",
     "endYear": "End year",
     "amountReceivedTitle": "Amount received (climate-specific)",

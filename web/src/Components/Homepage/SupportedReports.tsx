@@ -60,7 +60,9 @@ const SupportedReports = () => {
             Information on projections of greenhouse gas emissions and removals under a ‘with
             measures’ scenario
           </td>
-          <td>✅ Supported</td>
+          <td>
+            ❌ Not supported <span>(Priority for development)</span>
+          </td>
         </tr>
         <tr>
           <td>Annex II</td>
@@ -69,7 +71,9 @@ const SupportedReports = () => {
             Information on projections of greenhouse gas emissions and removals under a ‘with
             additional measures’ scenario
           </td>
-          <td>✅ Supported</td>
+          <td>
+            ❌ Not supported <span>(Priority for development)</span>
+          </td>
         </tr>
         <tr>
           <td>Annex II</td>
@@ -78,7 +82,9 @@ const SupportedReports = () => {
             Information on projections of greenhouse gas emissions and removals under a ‘without
             measures’ scenario
           </td>
-          <td>✅ Supported</td>
+          <td>
+            ❌ Not supported <span>(Priority for development)</span>
+          </td>
         </tr>
         <tr>
           <td>Annex II</td>

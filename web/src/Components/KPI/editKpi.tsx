@@ -1,5 +1,5 @@
 import { Form, Input, Row, Col, Card } from 'antd';
-import './kpiStyles.scss';
+import './kpiGrid.scss';
 import { CreatedKpiData } from '../../Definitions/kpiDefinitions';
 import { DeleteOutlined } from '@ant-design/icons';
 

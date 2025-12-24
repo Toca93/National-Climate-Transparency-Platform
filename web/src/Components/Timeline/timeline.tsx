@@ -7,10 +7,6 @@ import {
 } from '../../Definitions/mtgTimeline.definition';
 import './timeline.scss';
 import { useEffect, useState } from 'react';
-import {
-  formatNumberWithThousandSeparators,
-  parseNumberWithThousandSeparators,
-} from '../../Utils/utilServices';
 
 interface Props {
   expectedTimeline: any;
@@ -74,10 +70,10 @@ const TimelineTable: React.FC<Props> = ({
     {
       title: t('timelineTable:total'),
       dataIndex: 'total',
-      align: 'right',
-      width: 150,
+      align: 'center',
+      width: 100,
       render: (colValue: any) => {
-        return formatNumberWithThousandSeparators(colValue);
+        return colValue;
       },
     },
   ];
@@ -100,10 +96,10 @@ const TimelineTable: React.FC<Props> = ({
     {
       title: t('timelineTable:total'),
       dataIndex: 'total',
-      align: 'right',
-      width: 150,
+      align: 'center',
+      width: 100,
       render: (colValue: any) => {
-        return formatNumberWithThousandSeparators(colValue);
+        return colValue;
       },
     },
   ];
@@ -124,9 +120,6 @@ const TimelineTable: React.FC<Props> = ({
             disabled={isDisabled}
             value={colValue[year - mtgStartYear]}
             decimalSeparator="."
-            formatter={
-              isDisabled ? (value) => formatNumberWithThousandSeparators(value) : undefined
-            }
             controls={false}
             style={{ width: '100%', height: '30px' }}
             onChange={(value: any) => {
@@ -149,9 +142,6 @@ const TimelineTable: React.FC<Props> = ({
             disabled={isDisabled}
             value={colValue[year - mtgStartYear]}
             decimalSeparator="."
-            formatter={
-              isDisabled ? (value) => formatNumberWithThousandSeparators(value) : undefined
-            }
             controls={false}
             style={{ width: '100%', height: '30px' }}
             onChange={(value: any) => {

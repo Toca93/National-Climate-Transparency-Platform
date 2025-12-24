@@ -1,11 +1,6 @@
 import { Row, Col, DatePicker, Button, message, Collapse, InputNumber, Tooltip } from 'antd';
 import './emissionForm.scss';
-import {
-  formatNumberWithThousandSeparators,
-  getCollapseIcon,
-  parseNumberWithThousandSeparators,
-  parseToTwoDecimals,
-} from '../../Utils/utilServices';
+import { getCollapseIcon, parseToTwoDecimals } from '../../Utils/utilServices';
 import {
   AgrLevels,
   EmissionUnits,
@@ -583,8 +578,6 @@ export const EmissionForm: React.FC<Props> = ({
                       {Object.values(EmissionUnits).map((unit) => (
                         <Col key={`${mainSection}_${unit}`} span={3} className="number-column">
                           <InputNumber
-                            formatter={(value) => formatNumberWithThousandSeparators(value)}
-                            parser={(value) => parseNumberWithThousandSeparators(value)}
                             disabled={isFinalized || !isGhgAllowed}
                             value={getIndividualEntry(section.id, mainSection, null, unit)}
                             onChange={(value) =>
@@ -682,8 +675,6 @@ export const EmissionForm: React.FC<Props> = ({
         {Object.values(EmissionUnits).map((unit) => (
           <Col key={`eqWithout_${unit}`} span={3} className="number-column">
             <InputNumber
-              formatter={(value) => formatNumberWithThousandSeparators(value)}
-              parser={(value) => parseNumberWithThousandSeparators(value)}
               disabled={true}
               value={getOverallEquivalentWithoutLands(unit)}
               decimalSeparator="."
@@ -700,8 +691,6 @@ export const EmissionForm: React.FC<Props> = ({
         {Object.values(EmissionUnits).map((unit) => (
           <Col key={`eqWith_${unit}`} span={3} className="number-column">
             <InputNumber
-              formatter={(value) => formatNumberWithThousandSeparators(value)}
-              parser={(value) => parseNumberWithThousandSeparators(value)}
               disabled={true}
               value={getOverallEquivalentWithLands(unit)}
               decimalSeparator="."

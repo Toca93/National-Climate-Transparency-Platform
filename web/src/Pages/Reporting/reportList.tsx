@@ -48,9 +48,6 @@ import { AnnexType, ReportType } from '../../Enums/report.enum';
 import { Col, Empty, Row, Select, SelectProps, Table, Tag } from 'antd';
 import { ImplMeans } from '../../Enums/activity.enum';
 import { ReportSector } from '../../Enums/report.sector.enum';
-import { ConfigurationSettingsType } from '../../Enums/configuration.enum';
-import { SectorYearConfigurationType } from '../../Definitions/configurationDefinitions';
-import { formatNumberWithThousandSeparators } from '../../Utils/utilServices';
 
 const { Option } = Select;
 type TagRender = SelectProps['tagRender'];
@@ -76,17 +73,20 @@ const transparencyReports: TransparencyReport[] = [
 ];
 
 const reportList = () => {
-  const { get, post } = useConnection();
+  const { post } = useConnection();
   const { t } = useTranslation(['report']);
 
   // General Page State
+
   const [loading, setLoading] = useState<boolean>(false);
 
   // Reports to Display
+
   const [reportsToDisplay, setReportsToDisplay] =
     useState<TransparencyReport[]>(transparencyReports);
 
   // Bulk Report Definitions
+
   const [aggregateReportData, setAggregateReportData] =
     useState<AggregateReportData>(initialAggData);
   const [aggregateReportTotal, setAggregateReportTotal] =
@@ -105,37 +105,6 @@ const reportList = () => {
     useState<AggregateReportCurrentPage>(initialAggCurrentPage);
   const [aggregateAnnexIITotal, setAggregateAnnexIITotal] =
     useState<AggregateReportTotal>(initialAggTotal);
-
-  // Projection Year Configuration
-  const thisYear = new Date().getFullYear();
-  const [projectionYearConfig, setProjectionYearConfig] = useState<SectorYearConfigurationType>({
-    mostRecentYear: thisYear,
-    projectionYear1: 2021,
-    projectionYear2: 2022,
-    projectionYear3: 2023,
-  });
-
-  const getProjectionYearConfig = async () => {
-    try {
-      const response: any = await get(
-        `national/settings/${ConfigurationSettingsType.SECTOR_YEAR_CONFIGURATION}`,
-        {}
-      );
-      if (response) {
-        const data = response.data;
-        setProjectionYearConfig({
-          mostRecentYear: data.mostRecentYear,
-          projectionYear1: data.projectionYear1,
-          projectionYear2: data.projectionYear2,
-          projectionYear3: data.projectionYear3,
-        });
-        console.log('Setting projection years', data);
-      }
-    } catch (error: any) {
-      displayErrorMessage(error);
-    }
-  };
-
   // Functions to Retrieve Table Data
 
   const getAnnexTwoTableFiveData = async () => {
@@ -197,15 +166,16 @@ const reportList = () => {
       const response: any = await post('national/reports/2/7/query', payload);
       if (response) {
         const tempReportSevenData: AnnexIIReportSevenRecord[] = [];
+        const thisyear = new Date().getFullYear();
 
         response.data.forEach((entry: any, index: number) => {
           tempReportSevenData.push({
             key: index,
             category: entry.category,
-            thisyear: entry.withM[projectionYearConfig.mostRecentYear - 2000] ?? 'N/A',
-            projection1: entry.withM[projectionYearConfig.projectionYear1 - 2000] ?? 'N/A',
-            projection2: entry.withM[projectionYearConfig.projectionYear2 - 2000] ?? 'N/A',
-            projection3: entry.withM[projectionYearConfig.projectionYear3 - 2000] ?? 'N/A',
+            thisyear: entry.withM[thisyear - 2000] ?? 'N/A',
+            projection1: entry.withM[thisyear - (thisyear % 5) + 5 - 2000] ?? 'N/A',
+            projection2: entry.withM[thisyear - (thisyear % 5) + 10 - 2000] ?? 'N/A',
+            projection3: entry.withM[thisyear - (thisyear % 5) + 15 - 2000] ?? 'N/A',
           });
         });
 
@@ -238,15 +208,16 @@ const reportList = () => {
       const response: any = await post('national/reports/2/8/query', payload);
       if (response) {
         const tempReportEightData: AnnexIIReportEightRecord[] = [];
+        const thisyear = new Date().getFullYear();
 
         response.data.forEach((entry: any, index: number) => {
           tempReportEightData.push({
             key: index,
             category: entry.category,
-            thisyear: entry.withAM[projectionYearConfig.mostRecentYear - 2000] ?? 'N/A',
-            projection1: entry.withAM[projectionYearConfig.projectionYear1 - 2000] ?? 'N/A',
-            projection2: entry.withAM[projectionYearConfig.projectionYear2 - 2000] ?? 'N/A',
-            projection3: entry.withAM[projectionYearConfig.projectionYear3 - 2000] ?? 'N/A',
+            thisyear: entry.withAM[thisyear - 2000] ?? 'N/A',
+            projection1: entry.withAM[thisyear - (thisyear % 5) + 5 - 2000] ?? 'N/A',
+            projection2: entry.withAM[thisyear - (thisyear % 5) + 10 - 2000] ?? 'N/A',
+            projection3: entry.withAM[thisyear - (thisyear % 5) + 15 - 2000] ?? 'N/A',
           });
         });
 
@@ -279,15 +250,16 @@ const reportList = () => {
       const response: any = await post('national/reports/2/9/query', payload);
       if (response) {
         const tempReportNineData: AnnexIIReportNineRecord[] = [];
+        const thisyear = new Date().getFullYear();
 
         response.data.forEach((entry: any, index: number) => {
           tempReportNineData.push({
             key: index,
             category: entry.category,
-            thisyear: entry.withoutM[projectionYearConfig.mostRecentYear - 2000] ?? 'N/A',
-            projection1: entry.withoutM[projectionYearConfig.projectionYear1 - 2000] ?? 'N/A',
-            projection2: entry.withoutM[projectionYearConfig.projectionYear2 - 2000] ?? 'N/A',
-            projection3: entry.withoutM[projectionYearConfig.projectionYear3 - 2000] ?? 'N/A',
+            thisyear: entry.withoutM[thisyear - 2000] ?? 'N/A',
+            projection1: entry.withoutM[thisyear - (thisyear % 5) + 5 - 2000] ?? 'N/A',
+            projection2: entry.withoutM[thisyear - (thisyear % 5) + 10 - 2000] ?? 'N/A',
+            projection3: entry.withoutM[thisyear - (thisyear % 5) + 15 - 2000] ?? 'N/A',
           });
         });
 
@@ -772,11 +744,11 @@ const reportList = () => {
         case ReportType.FIVE:
           return getReportFiveColumns(t);
         case ReportType.SEVEN:
-          return getAnnexIIReportSevenColumns(t, projectionYearConfig);
+          return getAnnexIIReportSevenColumns(t);
         case ReportType.EIGHT:
-          return getAnnexIIReportEightColumns(t, projectionYearConfig);
+          return getAnnexIIReportEightColumns(t);
         case ReportType.NINE:
-          return getAnnexIIReportNineColumns(t, projectionYearConfig);
+          return getAnnexIIReportNineColumns(t);
       }
     } else {
       switch (reportType) {
@@ -802,22 +774,7 @@ const reportList = () => {
 
   // Function to Handle Table wise Pagination
 
-  const handleTablePagination = (
-    pagination: any,
-    whichAnnex: AnnexType,
-    whichReport: ReportType
-  ) => {
-    if (whichAnnex === AnnexType.TWO) {
-      setAggregateAnnexIICurrentPage((prevState) => ({
-        ...prevState,
-        [whichReport]: pagination.current,
-      }));
-      setAggregateAnnexIIPageSize((prevState) => ({
-        ...prevState,
-        [whichReport]: pagination.pageSize,
-      }));
-      return;
-    }
+  const handleTablePagination = (pagination: any, whichReport: ReportType) => {
     setAggregateCurrentPage((prevState) => ({
       ...prevState,
       [whichReport]: pagination.current,
@@ -844,58 +801,39 @@ const reportList = () => {
               <Table.Summary.Row>
                 <Table.Summary.Cell index={0}>Total with LULUCF</Table.Summary.Cell>
                 <Table.Summary.Cell index={1}>
-                  {formatNumberWithThousandSeparators(
-                    data.reduce((acc, record) => acc + (parseFloat(record.thisyear) || 0), 0)
-                  )}
+                  {data.reduce((acc, record) => acc + (parseInt(record.thisyear) || 0), 0)}
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={2}>
-                  {formatNumberWithThousandSeparators(
-                    data.reduce((acc, record) => acc + (parseFloat(record.projection1) || 0), 0)
-                  )}
+                  {data.reduce((acc, record) => acc + (parseInt(record.projection1) || 0), 0)}
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={3}>
-                  {formatNumberWithThousandSeparators(
-                    data.reduce((acc, record) => acc + (parseFloat(record.projection2) || 0), 0)
-                  )}
+                  {data.reduce((acc, record) => acc + (parseInt(record.projection2) || 0), 0)}
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={4}>
-                  {formatNumberWithThousandSeparators(
-                    data.reduce((acc, record) => acc + (parseFloat(record.projection3) || 0), 0)
-                  )}
+                  {data.reduce((acc, record) => acc + (parseInt(record.projection3) || 0), 0)}
                 </Table.Summary.Cell>
               </Table.Summary.Row>
               <Table.Summary.Row>
                 <Table.Summary.Cell index={0}>Total without LULUCF</Table.Summary.Cell>
                 <Table.Summary.Cell index={1}>
-                  {formatNumberWithThousandSeparators(
-                    filteredData.reduce(
-                      (acc, record) => acc + (parseFloat(record.thisyear) || 0),
-                      0
-                    )
-                  )}
+                  {filteredData.reduce((acc, record) => acc + (parseInt(record.thisyear) || 0), 0)}
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={2}>
-                  {formatNumberWithThousandSeparators(
-                    filteredData.reduce(
-                      (acc, record) => acc + (parseFloat(record.projection1) || 0),
-                      0
-                    )
+                  {filteredData.reduce(
+                    (acc, record) => acc + (parseInt(record.projection1) || 0),
+                    0
                   )}
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={3}>
-                  {formatNumberWithThousandSeparators(
-                    filteredData.reduce(
-                      (acc, record) => acc + (parseFloat(record.projection2) || 0),
-                      0
-                    )
+                  {filteredData.reduce(
+                    (acc, record) => acc + (parseInt(record.projection2) || 0),
+                    0
                   )}
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={4}>
-                  {formatNumberWithThousandSeparators(
-                    filteredData.reduce(
-                      (acc, record) => acc + (parseFloat(record.projection3) || 0),
-                      0
-                    )
+                  {filteredData.reduce(
+                    (acc, record) => acc + (parseInt(record.projection3) || 0),
+                    0
                   )}
                 </Table.Summary.Cell>
               </Table.Summary.Row>
@@ -911,10 +849,6 @@ const reportList = () => {
   };
 
   // Updating the Table Data when the Pagination changes
-  // get config to fetch most recent year and prjection years for Annex II tables 7, 8, 9
-  useEffect(() => {
-    getProjectionYearConfig();
-  }, []);
 
   useEffect(() => {
     getAnnexTwoTableFiveData();
@@ -922,15 +856,15 @@ const reportList = () => {
 
   useEffect(() => {
     getAnnexTwoTableSevenData();
-  }, [aggregateAnnexIICurrentPage?.[7], aggregateAnnexIIPageSize?.[7], projectionYearConfig]);
+  }, [aggregateAnnexIICurrentPage?.[7], aggregateAnnexIIPageSize?.[7]]);
 
   useEffect(() => {
     getAnnexTwoTableEightData();
-  }, [aggregateAnnexIICurrentPage?.[8], aggregateAnnexIIPageSize?.[8], projectionYearConfig]);
+  }, [aggregateAnnexIICurrentPage?.[8], aggregateAnnexIIPageSize?.[8]]);
 
   useEffect(() => {
     getAnnexTwoTableNineData();
-  }, [aggregateAnnexIICurrentPage?.[9], aggregateAnnexIIPageSize?.[9], projectionYearConfig]);
+  }, [aggregateAnnexIICurrentPage?.[9], aggregateAnnexIIPageSize?.[9]]);
 
   useEffect(() => {
     getTableSixData();
@@ -1032,7 +966,7 @@ const reportList = () => {
         <div>
           {reportsToDisplay.map((TransparencyReport) => (
             <ReportCard
-              key={`Annex_${TransparencyReport.annex}_Report_card_${TransparencyReport.report}`}
+              key={`Report_card_${TransparencyReport.report}`}
               loading={loading}
               annex={TransparencyReport.annex}
               whichReport={TransparencyReport.report}
@@ -1048,11 +982,7 @@ const reportList = () => {
                   : aggregateAnnexIIReportData[TransparencyReport.report]
               }
               columns={getReportColumns(TransparencyReport.annex, TransparencyReport.report)}
-              totalEntries={
-                TransparencyReport.annex === AnnexType.THREE
-                  ? aggregateReportTotal[TransparencyReport.report]
-                  : aggregateAnnexIITotal[TransparencyReport.report]
-              }
+              totalEntries={aggregateReportTotal[TransparencyReport.report] ?? 0}
               currentPage={aggregateCurrentPage[TransparencyReport.report]}
               pageSize={aggregatePageSize[TransparencyReport.report]}
               exportButtonNames={[t('exportAsExcel'), t('exportAsCsv')]}

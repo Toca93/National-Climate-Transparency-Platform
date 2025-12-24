@@ -5,10 +5,8 @@ import { EntityManager, Repository } from 'typeorm';
 import { InjectEntityManager, InjectRepository } from "@nestjs/typeorm";
 import { ProjectEntity } from "../entities/project.entity";
 import { ActivityEntity } from "../entities/activity.entity";
-import { SupportDirection } from "../enums/support.enum";
+import { FinanceNature, SupportDirection } from "../enums/support.enum";
 import { HelperService } from "../util/helpers.service";
-import { ConfigurationSettingsService } from "../util/configurationSettings.service";
-import { ConfigurationSettingsType } from "../enums/configuration.settings.type.enum";
 
 @Injectable()
 export class AnalyticsService {
@@ -16,8 +14,7 @@ export class AnalyticsService {
 	constructor(
 		@InjectEntityManager() private entityManager: EntityManager,
 		@InjectRepository(ActivityEntity) private activityRepo: Repository<ActivityEntity>,
-		private helperService: HelperService,
-		private configService: ConfigurationSettingsService
+		private helperService: HelperService
 	) { }
 
 	async getClimateActionChart(): Promise<DataCountResponseDto> {
@@ -95,17 +92,17 @@ export class AnalyticsService {
 			const results = await this.activityRepo.createQueryBuilder('activity')
 				.leftJoin('activity.support', 'support')
 				.select([
-					'COUNT(DISTINCT CASE WHEN support.direction = :directionReceived THEN activity.activityId END) as "supportReceivedActivities"',
-					'COUNT(DISTINCT CASE WHEN support.direction = :directionReceived OR support.direction = :directionNeeded THEN activity.activityId END) as "totalSupportedActivities"',
+					'COUNT(DISTINCT activity.activityId) as "totalActivities"',
+					'COUNT(DISTINCT CASE WHEN support.financeNature = :financeNature AND support.direction = :directionReceived THEN activity.activityId END) as "supportReceivedActivities"',
 					'GREATEST(MAX(activity."updatedTime"), MAX(support."updatedTime")) as "latestTime"'
 				])
+				.setParameter('financeNature', FinanceNature.INTERNATIONAL)
 				.setParameter('directionReceived', SupportDirection.RECEIVED)
-				.setParameter('directionNeeded', SupportDirection.NEEDED)
 				.getRawOne();
 
+			const totalActivities = results.totalActivities ? parseInt(results.totalActivities) : 0;
 			const supportReceivedActivities = results.supportReceivedActivities ? parseInt(results.supportReceivedActivities) : 0;
-			const totalSupportedActivities = results.totalSupportedActivities ? parseInt(results.totalSupportedActivities) : 0;
-			const supportNeededActivities = totalSupportedActivities - supportReceivedActivities;
+			const supportNeededActivities = totalActivities - supportReceivedActivities;
 
 			const latestTime = results.latestTime ? new Date(results.latestTime).getTime() / 1000 : 0;
 
@@ -182,7 +179,7 @@ export class AnalyticsService {
 			// Convert latestTime to epoch if it's not null
 			const latestEpoch = latestTime ? Math.floor(latestTime.getTime() / 1000) : 0;
 
-			return new DataCountResponseDto({ sectors, totals }, latestEpoch, year);
+			return new DataCountResponseDto({ sectors, totals }, latestEpoch);
 		} catch (err) {
 			console.log(err);
 			throw new HttpException(
@@ -201,16 +198,7 @@ export class AnalyticsService {
 		const currentYear = new Date().getFullYear();
 
 		// Calculate the previous year
-		let previousYear = currentYear - 1;
-
-		try {
-			const settings = await this.configService.getSetting(ConfigurationSettingsType.SECTOR_YEAR_CONFIGURATION);
-			if (settings && settings.mostRecentYear) {
-				previousYear = settings.mostRecentYear;
-			}
-		} catch (error) {
-			console.log('Error fetching configuration settings, using default previous year:', error);
-		}
+		const previousYear = currentYear - 1;
 
 		try {
 			const query = `
@@ -241,7 +229,7 @@ export class AnalyticsService {
 			// Convert latestTime to epoch if it's not null
 			const latestEpoch = latestTime ? Math.floor(latestTime.getTime() / 1000) : 0;
 
-			return new DataCountResponseDto({ sectors, totals }, latestEpoch, previousYear);
+			return new DataCountResponseDto({ sectors, totals }, latestEpoch);
 		} catch (err) {
 			console.log(err);
 			throw new HttpException(

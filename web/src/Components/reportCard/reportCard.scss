@@ -1,3 +1,4 @@
+
 .report-card {
     background-color: #ffffff;
     border-radius: 10px;
@@ -7,7 +8,7 @@
     .report-title-bar {
         width: 100%;
         margin-bottom: 0px;
-        padding: 10px 10px 10px 20px;
+        padding: 10px 10px 10px 20px; 
 
         .title-row {
             padding-top: 10px;
@@ -41,7 +42,7 @@
             .export-button {
                 @media (max-width: 576px) {
                     margin-bottom: 10px !important;
-                }
+                } 
             }
 
         }
@@ -62,13 +63,5 @@
     .table-bar {
         padding-left: 20px;
         padding-right: 20px;
-    }
-
-    .spin-container {
-        width: 100%;
-        height: 80px;
-        display: flex;
-        align-items: self-start;
-        justify-content: center;
     }
 }

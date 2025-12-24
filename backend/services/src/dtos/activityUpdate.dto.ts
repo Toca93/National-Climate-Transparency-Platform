@@ -80,11 +80,11 @@ export class ActivityUpdateDto {
 	})
 	recipientEntities: Recipient[];
 
-	@IsOptional()
+	@IsNotEmpty()
 	@IsEnum(IpccSubSector, {
 		message: "Invalid IPCC Sub-Sector. Supported following types:" + Object.values(IpccSubSector),
 	})
-	@ApiPropertyOptional({ enum: IpccSubSector })
+	@ApiProperty({ enum: IpccSubSector })
 	ipccSubSector: IpccSubSector;
 
 	@ValidateIf((c) => c.internationalImplementingEntity)

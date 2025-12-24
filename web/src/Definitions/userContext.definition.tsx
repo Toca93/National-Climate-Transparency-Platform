@@ -1,4 +1,4 @@
-export interface UserProps {
+export type UserProps = {
   id: string;
   userRole: string;
   companyName: string;
@@ -7,15 +7,15 @@ export interface UserProps {
   validatePermission: string;
   subRolePermission: string;
   ghgInventoryPermission: string;
-}
+};
 
 export interface UserContextProps {
   userInfoState?: UserProps;
   isGhgAllowed?: boolean;
   isValidationAllowed?: boolean;
-  setUserInfo: (value: UserProps) => void;
+  setUserInfo: (val: UserProps) => void;
   removeUserInfo: () => void;
-  IsAuthenticated: () => boolean;
+  IsAuthenticated: (tkn?: any) => boolean;
   isTokenExpired: boolean;
   setIsTokenExpired: (val: boolean) => void;
   setIsGhgAllowed: (val: boolean) => void;

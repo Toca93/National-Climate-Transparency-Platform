@@ -69,8 +69,5 @@ export class FileUploadService {
         ['csv', 'csv'],
         ['png', 'png'],
         ['jpeg', 'jpg'],
-        ['zip', 'zip'],
-        ['x-zip-compressed', 'zip'],
-        ['x-zip', 'zip'],
     ]);
 }

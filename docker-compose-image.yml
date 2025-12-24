@@ -52,8 +52,7 @@ services:
       ASYNC_OPERATIONS_TYPE: Database
       HOST: "http://localhost:80"
       DOMAIN_MAP: "true"
-      EXPIRES_IN: "15m"
-      REFRESH_EXPIRES_IN: "2d"
+      EXPIRES_IN: "7200"
       NODE_ENV: 'dev'
       FILE_SERVICE: LOCAL
       S3_COMMON_BUCKET: "<Set when FILE_SERVICE is S3 instead of LOCAL>"

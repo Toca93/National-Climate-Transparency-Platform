@@ -3,7 +3,6 @@ import { useConnection } from '../ConnectionContext/connectionContext';
 import jwt_decode from 'jwt-decode';
 import { UserContextProps, UserProps } from '../../Definitions/userContext.definition';
 import { GHGInventoryManipulate, ValidateEntity } from '../../Enums/user.enum';
-import { TokenService } from '../../Utils/tokenService';
 
 export const UserContext = createContext<UserContextProps>({
   setUserInfo: () => {},
@@ -20,7 +19,7 @@ export const UserContext = createContext<UserContextProps>({
 });
 
 export const UserInformationContextProvider = ({ children }: React.PropsWithChildren) => {
-  const { token, refreshTokenIfNeeded } = useConnection();
+  const { token } = useConnection();
 
   const [isTokenExpired, setIsTokenExpired] = useState<boolean>(false);
 
@@ -109,19 +108,35 @@ export const UserInformationContextProvider = ({ children }: React.PropsWithChil
     localStorage.setItem('ghgInventoryPermission', ghgInventoryPermission + '');
   };
 
-  const IsAuthenticated = useCallback((): boolean => {
-    const currentToken = token || TokenService.getToken();
-    if (!currentToken) {
-      return false;
-    }
-
-    try {
-      const decoded = jwt_decode(currentToken) as any;
-      return decoded.exp * 1000 > Date.now();
-    } catch {
-      return false;
-    }
-  }, [token]);
+  const IsAuthenticated = useCallback(
+    (tokenNew?: any): boolean => {
+      let tokenVal: string | null;
+      if (tokenNew) {
+        tokenVal = tokenNew;
+      } else if (token) {
+        tokenVal = token;
+      } else {
+        tokenVal = localStorage.getItem('token');
+        if (tokenVal === '') {
+          if (history.length !== 1) {
+            setTimeout(() => {
+              setIsTokenExpired(true);
+            }, 0);
+          }
+        }
+      }
+      try {
+        if (tokenVal) {
+          const { exp } = jwt_decode(tokenVal) as any;
+          return Date.now() < exp * 1000;
+        }
+        return false;
+      } catch (err) {
+        return false;
+      }
+    },
+    [token]
+  );
 
   const removeUserInfo = () => {
     localStorage.removeItem('userId');
@@ -132,34 +147,10 @@ export const UserInformationContextProvider = ({ children }: React.PropsWithChil
     localStorage.removeItem('validatePermission');
     localStorage.removeItem('subRolePermission');
     localStorage.removeItem('ghgInventoryPermission');
-    TokenService.clearTokens();
     setUserInfoState(initialUserProps);
     setIsGhgAllowed(false);
     setIsValidationAllowed(false);
   };
-
-  // Initialize authentication state when tab opens
-  useEffect(() => {
-    const isValid = IsAuthenticated();
-    if (!isValid) {
-      removeUserInfo();
-    }
-    // eslint-disable-next-line
-  }, []);
-
-  // Sync user info when token changes
-  useEffect(() => {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === 'access_token' && !event.newValue) {
-        removeUserInfo();
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, []);
 
   return (
     <UserContext.Provider

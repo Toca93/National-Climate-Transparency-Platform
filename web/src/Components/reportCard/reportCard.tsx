@@ -1,5 +1,5 @@
 import './reportCard.scss';
-import { Button, Col, Row, Spin } from 'antd';
+import { Button, Col, Empty, Row } from 'antd';
 import {
   exportBarBps,
   exportButtonBps,
@@ -27,7 +27,7 @@ interface Props {
     annexType: AnnexType,
     whichReport: ReportType
   ) => void;
-  handleTablePagination: (pagination: any, annexType: AnnexType, whichReport: ReportType) => void;
+  handleTablePagination: (pagination: any, whichReport: ReportType) => void;
   summary?: (data: any) => React.ReactNode; // Optional summary function
 }
 
@@ -48,7 +48,7 @@ const ReportCard: React.FC<Props> = ({
   summary,
 }) => {
   const handleTableChange = (pagination: any) => {
-    handleTablePagination(pagination, annex, whichReport);
+    handleTablePagination(pagination, whichReport);
   };
 
   if (!reportData) {
@@ -61,8 +61,10 @@ const ReportCard: React.FC<Props> = ({
             </div>
           </Col>
         </Row>
-        <Row className="spin-container">
-          <Spin size="large" />
+        <Row>
+          <Col span={24}>
+            <Empty description="No Report Data Available" />
+          </Col>
         </Row>
       </div>
     );

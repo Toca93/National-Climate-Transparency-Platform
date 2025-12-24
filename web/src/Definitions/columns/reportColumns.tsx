@@ -1,7 +1,4 @@
-// import { render } from 'sass';
 import ScrollableList from '../../Components/ScrollableList/scrollableList';
-import { formatNumberWithThousandSeparators } from '../../Utils/utilServices';
-import { SectorYearConfigurationType } from '../configurationDefinitions';
 import {
   ReportEightRecord,
   ReportElevenRecord,
@@ -12,6 +9,8 @@ import {
   ReportThirteenRecord,
   ReportTwelveRecord,
 } from '../reportIndividualDefinitions';
+
+const now = new Date();
 
 export const getReportFiveColumns = (t: any) => {
   const reportFiveColumns = [
@@ -72,10 +71,7 @@ export const getReportFiveColumns = (t: any) => {
   return reportFiveColumns;
 };
 
-export const getAnnexIIReportSevenColumns = (
-  t: any,
-  projectionYearConfig: SectorYearConfigurationType
-) => {
+export const getAnnexIIReportSevenColumns = (t: any) => {
   const reportSevenColumns = [
     {
       title: t('sector'),
@@ -87,37 +83,33 @@ export const getAnnexIIReportSevenColumns = (
       title: t('mostRecentYear'),
       children: [
         {
-          title: projectionYearConfig.mostRecentYear,
+          title: now.getFullYear(),
           width: 100,
           key: 'thisyear',
           dataIndex: 'thisyear',
-          render: (value: number) => formatNumberWithThousandSeparators(value),
         },
       ],
     },
     {
       title: t('projectionsofGhg'),
       children: [
-        {
-          title: projectionYearConfig.projectionYear1,
+        now.getFullYear() - (now.getFullYear() % 5) + 5 <= 2050 && {
+          title: now.getFullYear() - (now.getFullYear() % 5) + 5,
           dataIndex: 'projection1',
           key: 'projection1',
           width: 100,
-          render: (value: number) => formatNumberWithThousandSeparators(value),
         },
-        {
-          title: projectionYearConfig.projectionYear2,
+        now.getFullYear() - (now.getFullYear() % 5) + 10 <= 2050 && {
+          title: now.getFullYear() - (now.getFullYear() % 5) + 10,
           dataIndex: 'projection2',
           key: 'projection2',
           width: 100,
-          render: (value: number) => formatNumberWithThousandSeparators(value),
         },
-        {
-          title: projectionYearConfig.projectionYear3,
+        now.getFullYear() - (now.getFullYear() % 5) + 15 <= 2050 && {
+          title: now.getFullYear() - (now.getFullYear() % 5) + 15,
           dataIndex: 'projection3',
           key: 'projection3',
           width: 100,
-          render: (value: number) => formatNumberWithThousandSeparators(value),
         },
       ],
     },
@@ -126,10 +118,7 @@ export const getAnnexIIReportSevenColumns = (
   return reportSevenColumns;
 };
 
-export const getAnnexIIReportEightColumns = (
-  t: any,
-  projectionYearConfig: SectorYearConfigurationType
-) => {
+export const getAnnexIIReportEightColumns = (t: any) => {
   const reportEightColumns = [
     {
       title: t('sector'),
@@ -141,37 +130,33 @@ export const getAnnexIIReportEightColumns = (
       title: t('mostRecentYear'),
       children: [
         {
-          title: projectionYearConfig.mostRecentYear,
+          title: now.getFullYear(),
           width: 100,
           key: 'thisyear',
           dataIndex: 'thisyear',
-          render: (value: number) => formatNumberWithThousandSeparators(value),
         },
       ],
     },
     {
       title: t('projectionsofGhg'),
       children: [
-        +5 <= 2050 && {
-          title: projectionYearConfig.projectionYear1,
+        now.getFullYear() - (now.getFullYear() % 5) + 5 <= 2050 && {
+          title: now.getFullYear() - (now.getFullYear() % 5) + 5,
           dataIndex: 'projection1',
           key: 'projection1',
           width: 100,
-          render: (value: number) => formatNumberWithThousandSeparators(value),
         },
-        +10 <= 2050 && {
-          title: projectionYearConfig.projectionYear2,
+        now.getFullYear() - (now.getFullYear() % 5) + 10 <= 2050 && {
+          title: now.getFullYear() - (now.getFullYear() % 5) + 10,
           dataIndex: 'projection2',
           key: 'projection2',
           width: 100,
-          render: (value: number) => formatNumberWithThousandSeparators(value),
         },
-        +15 <= 2050 && {
-          title: projectionYearConfig.projectionYear3,
+        now.getFullYear() - (now.getFullYear() % 5) + 15 <= 2050 && {
+          title: now.getFullYear() - (now.getFullYear() % 5) + 15,
           dataIndex: 'projection3',
           key: 'projection3',
           width: 100,
-          render: (value: number) => formatNumberWithThousandSeparators(value),
         },
       ],
     },
@@ -180,10 +165,7 @@ export const getAnnexIIReportEightColumns = (
   return reportEightColumns;
 };
 
-export const getAnnexIIReportNineColumns = (
-  t: any,
-  projectionYearConfig: SectorYearConfigurationType
-) => {
+export const getAnnexIIReportNineColumns = (t: any) => {
   const reportNineColumns = [
     {
       title: t('sector'),
@@ -195,37 +177,33 @@ export const getAnnexIIReportNineColumns = (
       title: t('mostRecentYear'),
       children: [
         {
-          title: projectionYearConfig.mostRecentYear,
+          title: now.getFullYear(),
           width: 100,
           key: 'thisyear',
           dataIndex: 'thisyear',
-          render: (value: number) => formatNumberWithThousandSeparators(value),
         },
       ],
     },
     {
       title: t('projectionsofGhg'),
       children: [
-        {
-          title: projectionYearConfig.projectionYear1,
+        now.getFullYear() - (now.getFullYear() % 5) + 5 <= 2050 && {
+          title: now.getFullYear() - (now.getFullYear() % 5) + 5,
           dataIndex: 'projection1',
           key: 'projection1',
           width: 100,
-          render: (value: number) => formatNumberWithThousandSeparators(value),
         },
-        {
-          title: projectionYearConfig.projectionYear2,
+        now.getFullYear() - (now.getFullYear() % 5) + 10 <= 2050 && {
+          title: now.getFullYear() - (now.getFullYear() % 5) + 10,
           dataIndex: 'projection2',
           key: 'projection2',
           width: 100,
-          render: (value: number) => formatNumberWithThousandSeparators(value),
         },
-        {
-          title: projectionYearConfig.projectionYear3,
+        now.getFullYear() - (now.getFullYear() % 5) + 15 <= 2050 && {
+          title: now.getFullYear() - (now.getFullYear() % 5) + 15,
           dataIndex: 'projection3',
           key: 'projection3',
           width: 100,
-          render: (value: number) => formatNumberWithThousandSeparators(value),
         },
       ],
     },
@@ -731,12 +709,7 @@ export const getReportTwelveColumns = (t: any) => {
       key: 'titleOfActivity',
       width: 150,
     },
-    {
-      title: t('descriptionOfActivityAlt'),
-      dataIndex: 'description',
-      key: 'description',
-      width: 150,
-    },
+    { title: t('descriptionOfActivity'), dataIndex: 'description', key: 'description', width: 150 },
     {
       title: t('expectedTimeFrame'),
       children: [
@@ -801,12 +774,7 @@ export const getReportThirteenColumns = (t: any) => {
       key: 'titleOfActivity',
       width: 150,
     },
-    {
-      title: t('descriptionOfActivityAlt'),
-      dataIndex: 'description',
-      key: 'description',
-      width: 150,
-    },
+    { title: t('descriptionOfActivity'), dataIndex: 'description', key: 'description', width: 150 },
     {
       title: t('timeFrame'),
       children: [

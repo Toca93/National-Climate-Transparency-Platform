@@ -44,7 +44,6 @@ import {
 } from '../../../Definitions/breakpoints/breakpoints';
 import { displayErrorMessage } from '../../../Utils/errorMessageHandler';
 import { useUserContext } from '../../../Context/UserInformationContext/userInformationContext';
-import InfoKpi from '../../../Components/KPI/InfoKpi';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -662,11 +661,16 @@ const ProgrammeForm: React.FC<FormLoadProps> = ({ method }) => {
     if (method !== 'create') {
       try {
         const payload = {
-          filterOr: [
+          filterAnd: [
             {
               key: 'parentId',
               operation: '=',
               value: entId,
+            },
+            {
+              key: 'parentType',
+              operation: '=',
+              value: 'programme',
             },
           ],
           sort: {
@@ -674,16 +678,6 @@ const ProgrammeForm: React.FC<FormLoadProps> = ({ method }) => {
             order: 'ASC',
           },
         };
-
-        if (projectData.length > 0) {
-          projectData.forEach((project) => {
-            payload.filterOr.push({
-              key: 'parentId',
-              operation: '=',
-              value: project.projectId,
-            });
-          });
-        }
 
         const activityResponse: any = await post('national/activities/query', payload);
 
@@ -759,27 +753,25 @@ const ProgrammeForm: React.FC<FormLoadProps> = ({ method }) => {
     }
   };
 
+  // Fetching Support data, After Activity Data Loads
+
+  useEffect(() => {
+    fetchSupportData();
+  }, [activityData]);
+
   // Init Job
+
   useEffect(() => {
     Promise.all([
       fetchNonValidatedActions(),
       fetchProgramData(),
       fetchAttachedKPIData(),
       fetchConnectedProjectData(),
+      fetchConnectedActivityData(),
     ]).then(() => {
       setIsFirstRenderDone(true);
     });
   }, []);
-
-  // Fetching Activity data, After Project Data Loads
-  useEffect(() => {
-    fetchConnectedActivityData();
-  }, [projectData]);
-
-  // Fetching Support data, After Activity Data Loads
-  useEffect(() => {
-    fetchSupportData();
-  }, [activityData]);
 
   return (
     <div className="content-container">
@@ -1329,7 +1321,7 @@ const ProgrammeForm: React.FC<FormLoadProps> = ({ method }) => {
                   removeKPI={removeKPI}
                 ></NewKpi>
               ))}
-              <Row justify={'space-between'}>
+              <Row justify={'start'}>
                 <Col span={2}>
                   {!isView && (
                     <Button
@@ -1341,7 +1333,6 @@ const ProgrammeForm: React.FC<FormLoadProps> = ({ method }) => {
                     </Button>
                   )}
                 </Col>
-                <Col span={20}>{!isView && <InfoKpi />}</Col>
               </Row>
             </div>
             {method !== 'create' && (

@@ -1,24 +1,51 @@
-import { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig, AxiosResponseHeaders, RawAxiosResponseHeaders } from 'axios';
+
 import { ReactNode } from 'react';
 
-export type Methods = 'get' | 'post' | 'put' | 'delete' | 'patch';
+export type Methods = 'get' | 'post' | 'delete' | 'put' | 'patch';
 
-export interface ConnectionProps {
-  post: (path: string, data?: any, config?: AxiosRequestConfig, extraUrl?: string) => Promise<any>;
-  put: (path: string, data?: any, config?: AxiosRequestConfig) => Promise<any>;
-  get: (path: string, config?: AxiosRequestConfig, extraUrl?: string) => Promise<any>;
-  patch: (path: string, data?: any, config?: AxiosRequestConfig) => Promise<any>;
-  delete: (path: string, data?: any, config?: AxiosRequestConfig) => Promise<any>;
-  updateTokens: (accessToken: string, refreshToken: string) => void;
-  removeTokens: () => void;
-  refreshTokenIfNeeded: () => Promise<boolean>;
-  token?: string;
-  statServerUrl?: string;
-}
-
-export interface ConnectionContextProviderProps {
+export type ConnectionContextProviderProps = {
   serverURL: string;
+  t: any;
   statServerUrl?: string;
-  t: (key: string) => string;
   children: ReactNode;
+};
+
+export interface Response<T> {
+  data: T;
+  statusText: string;
+  status?: number;
+  headers: RawAxiosResponseHeaders | AxiosResponseHeaders;
+  config?: AxiosRequestConfig;
+  request?: any;
+  message: string;
 }
+
+export type ConnectionProps = {
+  post<T = any, R = Response<T>>(
+    path: string,
+    data?: any,
+    config?: AxiosRequestConfig,
+    extraUrl?: string
+  ): Promise<R>;
+  get<T = any, R = Response<T>>(
+    path: string,
+    config?: AxiosRequestConfig,
+    extraUrl?: string
+  ): Promise<R>;
+  delete<T = any, R = Response<T>>(
+    path: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<R>;
+  put<T = any, R = Response<T>>(path: string, data?: any, config?: AxiosRequestConfig): Promise<R>;
+  patch<T = any, R = Response<T>>(
+    path: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<R>;
+  updateToken: (token?: string) => void;
+  token?: string;
+  removeToken: (tkn?: string) => void;
+  statServerUrl?: string;
+};

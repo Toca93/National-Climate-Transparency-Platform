@@ -49,7 +49,6 @@ import {
   shortButtonBps,
 } from '../../../Definitions/breakpoints/breakpoints';
 import { displayErrorMessage } from '../../../Utils/errorMessageHandler';
-import InfoKpi from '../../../Components/KPI/InfoKpi';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -1164,7 +1163,7 @@ const actionForm: React.FC<FormLoadProps> = ({ method }) => {
                   removeKPI={removeKPI}
                 ></NewKpi>
               ))}
-              <Row justify={'space-between'}>
+              <Row justify={'start'}>
                 <Col span={2}>
                   {!isView && (
                     <Button
@@ -1176,7 +1175,6 @@ const actionForm: React.FC<FormLoadProps> = ({ method }) => {
                     </Button>
                   )}
                 </Col>
-                <Col span={20}>{!isView && <InfoKpi />}</Col>
               </Row>
             </div>
             {method !== 'create' && (

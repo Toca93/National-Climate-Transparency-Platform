@@ -1,7 +1,7 @@
 {
     "actionType": "Type",
     "sectorAffected": "Sector Affected",
-    "financeNeeded": "Estimated Investment Needs (USD)",
+    "financeNeeded": "Finance Needed (USD)",
     "financeReceived": "Finance Received (USD)",
     "nationalImplementingEntity": "National Implementing Entity (s)",
     "validationStatus": "Validation Status",

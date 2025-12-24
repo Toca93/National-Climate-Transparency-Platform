@@ -54,12 +54,12 @@ const UserProfile = () => {
 
   const { get } = useConnection();
   const [userDetails, setUserDetails] = useState<any>(undefined);
-  const { removeTokens } = useConnection();
+  const { updateToken } = useConnection();
   const { removeUserInfo } = useUserContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const signOut = (): void => {
-    removeTokens();
+    updateToken();
     removeUserInfo();
     onNavigateToLogin();
   };

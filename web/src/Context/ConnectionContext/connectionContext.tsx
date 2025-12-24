@@ -1,8 +1,6 @@
 import { createContext, FC, useCallback, useContext, useEffect, useState } from 'react';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import jwt_decode from 'jwt-decode';
-import { TokenService } from '../../Utils/tokenService';
-import { setupAxiosInterceptors } from '../../Utils/axiosInterceptor';
 import {
   ConnectionContextProviderProps,
   ConnectionProps,
@@ -21,26 +19,24 @@ export const ConnectionContextProvider: FC<ConnectionContextProviderProps> = (
   );
   const { serverURL, t, statServerUrl, children } = props;
 
-  // Initialize axios interceptors
-  useEffect(() => {
-    setupAxiosInterceptors(serverURL);
-  }, [serverURL]);
-
   const send = useCallback(
     (method: Methods, path: string, data?: any, config?: AxiosRequestConfig, extraUrl?: string) => {
       return new Promise((resolve, reject) => {
         const url = `${extraUrl ? extraUrl : serverURL}/${path}`;
         let headers: any;
-        const currentToken = TokenService.getToken() || token;
-
-        if (currentToken) {
-          headers = { authorization: `Bearer ${currentToken}` };
+        if (token) {
+          headers = { authorization: `Bearer ${token.toString()}` };
         } else {
-          headers = {
-            authorization: `Bearer ${process.env.STORYBOOK_ACCESS_TOKEN}`,
-          };
+          if (localStorage.getItem('token')) {
+            headers = {
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            };
+          } else {
+            headers = {
+              authorization: `Bearer ${process.env.STORYBOOK_ACCESS_TOKEN}`,
+            };
+          }
         }
-
         axios({
           method,
           url,
@@ -83,6 +79,14 @@ export const ConnectionContextProvider: FC<ConnectionContextProviderProps> = (
                   localStorage.setItem('userState', '0');
                 }
 
+                if (
+                  e.response.data.message === 'jwt expired' ||
+                  e.response.data.message === 'user deactivated'
+                ) {
+                  localStorage.removeItem('token');
+                  window.location.reload();
+                }
+
                 reject({
                   status: e.response.status,
                   statusText: 'ERROR',
@@ -106,35 +110,30 @@ export const ConnectionContextProvider: FC<ConnectionContextProviderProps> = (
     },
     [token, serverURL]
   );
-
   const post = useCallback(
     (path: string, data?: any, config?: AxiosRequestConfig, extraUrl?: string) => {
       return send('post', path, data, config, extraUrl);
     },
     [send]
   );
-
   const put = useCallback(
     (path: string, data?: any, config?: AxiosRequestConfig) => {
       return send('put', path, data, config);
     },
     [send]
   );
-
   const get = useCallback(
     (path: string, config?: AxiosRequestConfig, extraUrl?: string) => {
       return send('get', path, undefined, config, extraUrl);
     },
     [send]
   );
-
   const patch = useCallback(
     (path: string, data?: any, config?: AxiosRequestConfig) => {
       return send('patch', path, data, config);
     },
     [send]
   );
-
   const del = useCallback(
     (path: string, data?: any, config?: AxiosRequestConfig) => {
       return send('delete', path, data, config);
@@ -142,65 +141,38 @@ export const ConnectionContextProvider: FC<ConnectionContextProviderProps> = (
     [send]
   );
 
-  const updateTokens = useCallback((accessToken: string, refreshToken: string) => {
-    TokenService.setToken(accessToken);
-    TokenService.setRefreshToken(refreshToken);
-    setToken(accessToken);
+  const updateToken = useCallback(async (newToken?: string) => {
+    if (newToken) {
+      localStorage.setItem('token', newToken);
+      setToken(newToken);
+    } else {
+      localStorage.setItem('token', '');
+      setToken(undefined);
+    }
   }, []);
 
-  const removeTokens = useCallback(() => {
-    TokenService.clearTokens();
-    setToken(undefined);
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('userId');
-  }, []);
-
-  const refreshTokenIfNeeded = async () => {
-    console.log('Refreshing Token');
-    try {
-      const refreshToken = TokenService.getRefreshToken();
-      if (!refreshToken) return false;
-
-      const response = await post('national/auth/refresh', { refresh_token: refreshToken });
-      if (response.status === 200 || response.status === 201) {
-        const { access_token: newAccessToken, refresh_token: newRefreshToken } = response.data;
-        updateTokens(newAccessToken, newRefreshToken);
-        return true;
+  const removeToken = (tkn?: string) => {
+    if (tkn) {
+      const { exp } = jwt_decode(tkn) as any;
+      if (Date.now() > exp * 1000) {
+        localStorage.setItem('token', '');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userId');
+      } else {
+        const diff = exp * 1000 - Date.now();
+        setTimeout(() => {
+          setToken(undefined);
+          localStorage.setItem('token', '');
+          localStorage.removeItem('userRole');
+          localStorage.removeItem('userId');
+        }, diff);
+        console.log(diff, 'Remaining Token expire time');
       }
-      return false;
-    } catch (error) {
-      removeTokens();
-      return false;
     }
   };
 
-  // Token expiry check
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-
-    if (token) {
-      const { exp } = jwt_decode(token) as any;
-      const diff = exp * 1000 - Date.now();
-
-      if (diff <= 0) {
-        // Token already expired, try to refresh immediately
-        refreshTokenIfNeeded().catch(() => removeTokens());
-      } else {
-        // Token valid, set timeout to refresh before expiry
-        const refreshDelay = Math.max(0, diff - 60000); // Refresh 1 minute before expiry
-
-        timeoutId = setTimeout(() => {
-          console.log('Refreshing Token Automatically');
-          refreshTokenIfNeeded().catch(() => removeTokens());
-        }, refreshDelay);
-      }
-    }
-
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
+    removeToken(token);
   }, [token]);
 
   return (
@@ -212,10 +184,9 @@ export const ConnectionContextProvider: FC<ConnectionContextProviderProps> = (
           get,
           patch,
           delete: del,
-          updateTokens,
-          removeTokens,
-          refreshTokenIfNeeded,
+          updateToken,
           token,
+          removeToken,
           statServerUrl,
         },
       }}

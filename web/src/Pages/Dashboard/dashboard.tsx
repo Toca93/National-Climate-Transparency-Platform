@@ -38,10 +38,7 @@ const Dashboard = () => {
 
   // Year State for the GHG MYG Chart 5
 
-  // Year State for the GHG MYG Chart 5
-
   const [mtgYear, setMtgYear] = useState<number>(new Date().getFullYear());
-  const [mostRecentYear, setMostRecentYear] = useState<number>();
 
   // Individual Chart Data
 
@@ -219,12 +216,8 @@ const Dashboard = () => {
         chartId: 4,
         chartTitle: t('financeChartTitle'),
         chartDescription: t('financeChartDescription'),
-        categories: ['Support Received', 'Support Needs'],
-
-        values: [
-          financeChartData.stats.supportReceived,
-          financeChartData.stats.supportNeeded - financeChartData.stats.supportReceived,
-        ],
+        categories: ['Support Received', 'Support Needed'],
+        values: [financeChartData.stats.supportReceived, financeChartData.stats.supportNeeded],
         lastUpdatedTime: financeChartData.lastUpdate,
       });
     } catch (error: any) {
@@ -252,9 +245,6 @@ const Dashboard = () => {
         ),
         lastUpdatedTime: mitigationIndividualChartData.lastUpdate,
       });
-      if (mitigationIndividualChartData.year) {
-        setMostRecentYear(mitigationIndividualChartData.year);
-      }
     } catch (error: any) {
       displayErrorMessage(error);
     }
@@ -452,7 +442,7 @@ const Dashboard = () => {
                     <Row gutter={30}>
                       <Col span={17}>{mitigationRecentChart.chartTitle}</Col>
                       <Col span={5} style={{ display: 'flex', alignItems: 'flex-end' }}>
-                        <Tag className="year-chip">{mostRecentYear}</Tag>
+                        <Tag className="year-chip">{new Date().getFullYear() - 1}</Tag>
                       </Col>
                       <Col span={2}>
                         <InfoCircleOutlined
