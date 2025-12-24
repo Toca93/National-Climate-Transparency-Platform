@@ -15,7 +15,7 @@ export default () => ({
     username: process.env.DB_USER || "postgres",
     password: process.env.DB_PASSWORD || "root",
     database: process.env.DB_NAME || "Transparency-System-Qatar",
-    synchronize: process.env.NODE_ENV == "prod" ? true : true,
+    synchronize: false,
     autoLoadEntities: true,
     logging: ["error"],
   },
