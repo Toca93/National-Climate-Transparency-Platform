@@ -15,7 +15,7 @@ export const ConnectionContextProvider: FC<ConnectionContextProviderProps> = (
   props: ConnectionContextProviderProps
 ) => {
   const [token, setToken] = useState<string | undefined>(
-    () => TokenService.getToken() || undefined
+    () => localStorage.getItem('token') || undefined
   );
   const { serverURL, t, statServerUrl, children } = props;
 
