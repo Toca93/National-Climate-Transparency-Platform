@@ -1,5 +1,5 @@
 NAME,EMAIL,PHONE,ORGANISATION,ROLE(admin|GovernmentUser|Observer),SUBROLE,SECTOR,Password,APIKey
-Test Dev,palinda+dev@xeptagon.com,,Ministry of Fisheries,GovernmentUser,GovernmentDepartment,Energy,123,
-Test Dev 2,palinda+dev2@xeptagon.com,,Ministry of Lands and Housing,GovernmentUser,GovernmentDepartment,Energy,123,
-Test Dev 3,palinda+dev3@xeptagon.com,,Ministry of Education,GovernmentUser,GovernmentDepartment,Energy-Transport-Land Use,123,
-Test Cert,palinda+cet@xeptagon.com,,Ministry of Education,GovernmentUser,GovernmentDepartment,Energy,123,
+Test Dev,palinda+dev@xeptagon.com,,Ministry of Environment and Climate Change,GovernmentUser,GovernmentDepartment,Energy,123,
+Test Dev 2,palinda+dev2@xeptagon.com,,Ministry of Environment and Climate Change,GovernmentUser,GovernmentDepartment,Energy,123,
+Test Dev 3,palinda+dev3@xeptagon.com,,Ministry of Education and Higher Education,GovernmentUser,GovernmentDepartment,Energy-Transport-Land Use,123,
+Test Cert,palinda+cet@xeptagon.com,,Ministry of Education and Higher Education,GovernmentUser,GovernmentDepartment,Energy,123,
