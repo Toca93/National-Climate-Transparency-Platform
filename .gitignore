@@ -19,3 +19,5 @@ web/public/locales/*
 *.xlsx
 docker-compose*
 !docker-compose-prod.yml
+**/.yarn/
+**/.env-cmdrc

@@ -10,7 +10,8 @@ async function bootstrap() {
   let module: any;
   let httpPath: any;
 
-  const modules = process.env.RUN_MODULE.split(",");
+  const runModule = process.env.RUN_MODULE || "national-api";
+  const modules = runModule.split(",");
   for (const moduleName of modules) {
     console.log("Starting module", moduleName);
     switch (moduleName) {
