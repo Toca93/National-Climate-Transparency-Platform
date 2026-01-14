@@ -133,7 +133,11 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               <Row gutter={gutterSize}>
                 {/* Godina izvještavanja */}
                 <Col span={12}>
-                  <Form.Item label="Reporting Year" name="reportingYear" rules={validation.required}>
+                  <Form.Item
+                    label="Reporting Year"
+                    name="reportingYear"
+                    rules={validation.required}
+                  >
                     <Select
                       size="large"
                       placeholder="Select reporting year"

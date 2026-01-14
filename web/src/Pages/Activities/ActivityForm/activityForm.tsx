@@ -930,8 +930,8 @@ const ActivityForm: React.FC<FormLoadProps> = ({ method }) => {
               parentType === 'action'
                 ? parent.actionId
                 : parentType === 'programme'
-                ? parent.programmeId
-                : parent.projectId,
+                  ? parent.programmeId
+                  : parent.projectId,
             title: parent.title,
             hasChildProgrammes: parent.hasChildProgrammes ?? false,
           });

@@ -314,7 +314,7 @@ const reportList = () => {
             anchoredInNationalStrategy: report.anchoredInNationalStrategy ? 'Yes' : 'No',
             achievedGHGReduction: report.achievedGHGReductionAlternate
               ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
+              : (report.achievedGHGReduction ?? 'N/A'),
             additionalInfo: report.etfDescription,
             supportChannel: report.internationalSupportChannel,
           });
@@ -376,7 +376,7 @@ const reportList = () => {
             activityStatus: report.status,
             achievedGHGReduction: report.achievedGHGReductionAlternate
               ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
+              : (report.achievedGHGReduction ?? 'N/A'),
             additionalInfo: report.etfDescription,
           });
         });
@@ -426,7 +426,7 @@ const reportList = () => {
             endYear: report.endYear,
             achievedGHGReduction: report.achievedGHGReductionAlternate
               ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
+              : (report.achievedGHGReduction ?? 'N/A'),
             additionalInfo: report.etfDescription,
           });
         });
@@ -480,7 +480,7 @@ const reportList = () => {
             activityStatus: report.status,
             achievedGHGReduction: report.achievedGHGReductionAlternate
               ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
+              : (report.achievedGHGReduction ?? 'N/A'),
             additionalInfo: report.etfDescription,
           });
         });
@@ -529,7 +529,7 @@ const reportList = () => {
             endYear: report.endYear,
             achievedGHGReduction: report.achievedGHGReductionAlternate
               ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
+              : (report.achievedGHGReduction ?? 'N/A'),
             additionalInfo: report.etfDescription,
           });
         });
@@ -582,7 +582,7 @@ const reportList = () => {
             activityStatus: report.status,
             achievedGHGReduction: report.achievedGHGReductionAlternate
               ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
+              : (report.achievedGHGReduction ?? 'N/A'),
             additionalInfo: report.etfDescription,
           });
         });
@@ -634,7 +634,7 @@ const reportList = () => {
             activityStatus: report.status,
             achievedGHGReduction: report.achievedGHGReductionAlternate
               ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
+              : (report.achievedGHGReduction ?? 'N/A'),
             additionalInfo: report.etfDescription,
           });
         });
@@ -685,7 +685,7 @@ const reportList = () => {
             activityStatus: report.status,
             achievedGHGReduction: report.achievedGHGReductionAlternate
               ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
+              : (report.achievedGHGReduction ?? 'N/A'),
             additionalInfo: report.etfDescription,
           });
         });
