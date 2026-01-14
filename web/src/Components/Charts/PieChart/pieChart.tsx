@@ -35,8 +35,8 @@ const PieChart: React.FC<Props> = ({ chart, t, chartWidth }) => {
     const tempChartColorMapping: string[] = [1, 2, 5, 6].includes(chart.chartId)
       ? chartColorMappings.sectors
       : chart.chartId === 3
-        ? chartColorMappings.support
-        : chartColorMappings.finance;
+      ? chartColorMappings.support
+      : chartColorMappings.finance;
 
     setChartColorMapping(tempChartColorMapping);
   }, [chart.chartId]);
@@ -108,8 +108,8 @@ const PieChart: React.FC<Props> = ({ chart, t, chartWidth }) => {
             chartWidth === 560
               ? 'empty-chart-xxl'
               : chartWidth === 480
-                ? 'empty-chart-xl'
-                : 'empty-chart'
+              ? 'empty-chart-xl'
+              : 'empty-chart'
           }
           image={Empty.PRESENTED_IMAGE_SIMPLE}
           description={t('noChartDataAvailable')}

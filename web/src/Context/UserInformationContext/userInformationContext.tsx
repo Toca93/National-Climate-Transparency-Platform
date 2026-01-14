@@ -27,18 +27,18 @@ export const UserInformationContextProvider = ({ children }: React.PropsWithChil
     id: localStorage.getItem('userId')
       ? (localStorage.getItem('userId') as string)
       : process.env.STORYBOOK_USER_ID
-        ? process.env.STORYBOOK_USER_ID
-        : '',
+      ? process.env.STORYBOOK_USER_ID
+      : '',
     userRole: localStorage.getItem('userRole')
       ? (localStorage.getItem('userRole') as string)
       : process.env.STORYBOOK_USER_ROLE
-        ? process.env.STORYBOOK_USER_ROLE
-        : '',
+      ? process.env.STORYBOOK_USER_ROLE
+      : '',
     companyName: localStorage.getItem('companyName')
       ? (localStorage.getItem('companyName') as string)
       : process.env.STORYBOOK_COMPANY_NAME
-        ? process.env.STORYBOOK_COMPANY_NAME
-        : '',
+      ? process.env.STORYBOOK_COMPANY_NAME
+      : '',
     userState: localStorage.getItem('userState')
       ? parseInt(localStorage.getItem('userState') as string)
       : 0,

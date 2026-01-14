@@ -45,8 +45,8 @@ export const BaselineForm: React.FC<Props> = ({ index, projectionType }) => {
     projectionType === ProjectionType.WITH_MEASURES
       ? ConfigurationSettingsType.PROJECTIONS_WITH_MEASURES
       : projectionType === ProjectionType.WITH_ADDITIONAL_MEASURES
-        ? ConfigurationSettingsType.PROJECTIONS_WITH_ADDITIONAL_MEASURES
-        : ConfigurationSettingsType.PROJECTIONS_WITHOUT_MEASURES;
+      ? ConfigurationSettingsType.PROJECTIONS_WITH_ADDITIONAL_MEASURES
+      : ConfigurationSettingsType.PROJECTIONS_WITHOUT_MEASURES;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -100,8 +100,8 @@ export const BaselineForm: React.FC<Props> = ({ index, projectionType }) => {
           topicId: topicId,
           values: nonLeafSections.includes(topicId)
             ? new Array(5).fill(0)
-            : (allEditableData.find((entry) => entry.topicId === topicId)?.values ??
-              new Array(5).fill(0)),
+            : allEditableData.find((entry) => entry.topicId === topicId)?.values ??
+              new Array(5).fill(0),
         });
       });
     }

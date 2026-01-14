@@ -332,8 +332,8 @@ const AddUser = () => {
                 isOwnProfile
                   ? onChangedPassword
                   : isForcePasswordReset
-                    ? () => setForcePasswordChangeVisible(true)
-                    : undefined
+                  ? () => setForcePasswordChangeVisible(true)
+                  : undefined
               }
             >
               {t('userProfile:changePassword')}

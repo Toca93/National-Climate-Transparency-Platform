@@ -29,12 +29,12 @@ const getDefaultSectorMapping = (): Record<string, string> => {
     sectormapping[key] = key.startsWith('1')
       ? ReportSector.ENERGY
       : key.startsWith('2')
-        ? ReportSector.INDUSTRIAL_PROCESSES
-        : key.startsWith('3')
-          ? ReportSector.AGRICULTURE
-          : key.startsWith('4')
-            ? ReportSector.WASTE
-            : ReportSector.OTHER;
+      ? ReportSector.INDUSTRIAL_PROCESSES
+      : key.startsWith('3')
+      ? ReportSector.AGRICULTURE
+      : key.startsWith('4')
+      ? ReportSector.WASTE
+      : ReportSector.OTHER;
   });
   return sectormapping;
 };

@@ -80,9 +80,7 @@ const TermsOfUse = () => {
                 <a href="#userdata">USER DATA</a>{' '}
               </li>
               <li>
-                <a href="#electronic">
-                  ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES
-                </a>{' '}
+                <a href="#electronic">ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</a>{' '}
               </li>
               <li>
                 <a href="#california">CALIFORNIA USERS AND RESIDENTS</a>{' '}
