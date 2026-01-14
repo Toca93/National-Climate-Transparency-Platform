@@ -8,7 +8,6 @@ COPY ./web/package.json ./web/yarn.lock .
 
 # Copy .env-cmdrc file
 COPY ./.env-cmdrc .
-COPY ./web/.env-cmdrc .
 
 # Install dependencies
 RUN apk add python3 make g++ && rm -rf /var/cache/apk/* \
