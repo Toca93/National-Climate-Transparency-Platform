@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Row, Col, Input, Button, Form, Select, Spin } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useConnection } from '../../../Context/ConnectionContext/connectionContext';
 import { FormLoadProps } from '../../../Definitions/InterfacesAndType/formInterface';
@@ -60,7 +60,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 
-  const fetchCBTData = async () => {
+  const fetchCBTData = useCallback(async () => {
     setLoading(true);
     try {
       // TODO: Implementirati API poziv
@@ -71,15 +71,14 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [get, entId]);
 
   // Učitavanje podataka za edit/view
   useEffect(() => {
     if (entId && (method === 'update' || method === 'view')) {
       fetchCBTData();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entId, method]);
+  }, [entId, method, fetchCBTData]);
 
   const onFinish = async (values: any) => {
     setLoading(true);
@@ -161,11 +160,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="projectName"
                     rules={validation.required}
                   >
-                    <Input
-                      size="large"
-                      placeholder="Enter project name"
-                      disabled={isView}
-                    />
+                    <Input size="large" placeholder="Enter project name" disabled={isView} />
                   </Form.Item>
                 </Col>
               </Row>
@@ -178,11 +173,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="activityDescription"
                     rules={validation.required}
                   >
-                    <TextArea
-                      rows={6}
-                      placeholder="Enter activity description"
-                      disabled={isView}
-                    />
+                    <TextArea rows={6} placeholder="Enter activity description" disabled={isView} />
                   </Form.Item>
                 </Col>
               </Row>
