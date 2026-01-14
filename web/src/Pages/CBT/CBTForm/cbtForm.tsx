@@ -46,7 +46,7 @@ const generateYears = () => {
 
 const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
   const [form] = Form.useForm();
-  const { t } = useTranslation(['common', 'entityAction', 'formHeader']);
+  const { t } = useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
   const formTitle = getFormTitle('CBT', method);

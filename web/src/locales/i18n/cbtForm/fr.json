@@ -1,0 +1,12 @@
+{
+    "addCBTTitle":"Ajouter un nouveau CBT",
+    "viewCBTTitle":"Voir CBT",
+    "editCBTTitle":"Modifier CBT",
+    "generalInfoTitle": "Informations générales",
+    "cbtCreationSuccess": "CBT ajouté avec succès",
+    "cbtUpdateSuccess": "CBT mis à jour avec succès",
+    "cbtDeleteSuccess": "CBT supprimé avec succès",
+    "noSuchEntity": "Le CBT demandé n'existe pas !",
+    "deletePrimaryMsg": "Êtes-vous sûr de vouloir supprimer le CBT",
+    "deleteSecondaryMsg": "Vous ne pouvez pas annuler cette action"
+}
