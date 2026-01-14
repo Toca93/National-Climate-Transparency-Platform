@@ -136,7 +136,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                   <Form.Item
                     label="Reporting Year"
                     name="reportingYear"
-                    rules={validation.required}
+                    rules={[validation.required]}
                   >
                     <Select
                       size="large"
@@ -155,7 +155,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
 
                 {/* Naziv projekta */}
                 <Col span={12}>
-                  <Form.Item label="Project Name" name="projectName" rules={validation.required}>
+                  <Form.Item label="Project Name" name="projectName" rules={[validation.required]}>
                     <Input size="large" placeholder="Enter project name" disabled={isView} />
                   </Form.Item>
                 </Col>
@@ -167,7 +167,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                   <Form.Item
                     label="Activity Description"
                     name="activityDescription"
-                    rules={validation.required}
+                    rules={[validation.required]}
                   >
                     <TextArea rows={6} placeholder="Enter activity description" disabled={isView} />
                   </Form.Item>
@@ -180,7 +180,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                   <Form.Item
                     label="Responsible Institution"
                     name="responsibleInstitution"
-                    rules={validation.required}
+                    rules={[validation.required]}
                   >
                     <Select
                       size="large"
@@ -199,7 +199,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
 
                 {/* Status */}
                 <Col span={12}>
-                  <Form.Item label="Status" name="status" rules={validation.required}>
+                  <Form.Item label="Status" name="status" rules={[validation.required]}>
                     <Select size="large" placeholder="Select status" disabled={isView}>
                       {statusOptions.map((status) => (
                         <Option key={status} value={status}>
