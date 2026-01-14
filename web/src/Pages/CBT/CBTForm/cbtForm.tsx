@@ -60,13 +60,6 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 
-  // Učitavanje podataka za edit/view
-  useEffect(() => {
-    if (entId && (method === 'update' || method === 'view')) {
-      fetchCBTData();
-    }
-  }, [entId, method]);
-
   const fetchCBTData = async () => {
     setLoading(true);
     try {
@@ -79,6 +72,14 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
       setLoading(false);
     }
   };
+
+  // Učitavanje podataka za edit/view
+  useEffect(() => {
+    if (entId && (method === 'update' || method === 'view')) {
+      fetchCBTData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entId, method]);
 
   const onFinish = async (values: any) => {
     setLoading(true);
@@ -160,7 +161,11 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="projectName"
                     rules={validation.required}
                   >
-                    <Input size="large" placeholder="Enter project name" disabled={isView} />
+                    <Input
+                      size="large"
+                      placeholder="Enter project name"
+                      disabled={isView}
+                    />
                   </Form.Item>
                 </Col>
               </Row>

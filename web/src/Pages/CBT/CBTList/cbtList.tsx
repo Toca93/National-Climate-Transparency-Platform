@@ -44,9 +44,27 @@ const CBTList = () => {
 
   const columns = [
     { title: 'ID', width: 80, dataIndex: 'id', key: 'id', sorter: false },
-    { title: 'Reporting Year', width: 120, dataIndex: 'reportingYear', key: 'reportingYear', sorter: false },
-    { title: 'Project Name', width: 200, dataIndex: 'projectName', key: 'projectName', sorter: false },
-    { title: 'Responsible Institution', width: 200, dataIndex: 'responsibleInstitution', key: 'responsibleInstitution', sorter: false },
+    {
+      title: 'Reporting Year',
+      width: 120,
+      dataIndex: 'reportingYear',
+      key: 'reportingYear',
+      sorter: false,
+    },
+    {
+      title: 'Project Name',
+      width: 200,
+      dataIndex: 'projectName',
+      key: 'projectName',
+      sorter: false,
+    },
+    {
+      title: 'Responsible Institution',
+      width: 200,
+      dataIndex: 'responsibleInstitution',
+      key: 'responsibleInstitution',
+      sorter: false,
+    },
     { title: 'Status', width: 120, dataIndex: 'status', key: 'status', sorter: false },
   ];
 
