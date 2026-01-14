@@ -36,6 +36,7 @@ import MonitoringPlans from './Pages/MonitoringPlans/monitoringPlans';
 import GenderReporting from './Pages/GenderReporting/genderReporting';
 import Verifications from './Pages/Verifications/verifications';
 import Reviews from './Pages/Reviews/reviews';
+import CBTList from './Pages/CBT/CBTList/cbtList';
 
 // Lazy Component Loading
 
@@ -44,6 +45,7 @@ const ProgrammeForm = lazy(() => import('./Pages/Programmes/ProgrammeForm/progra
 const ProjectForm = lazy(() => import('./Pages/Projects/ProjectForm/projectForm'));
 const ActivityForm = lazy(() => import('./Pages/Activities/ActivityForm/activityForm'));
 const SupportForm = lazy(() => import('./Pages/Support/SupportForm/supportForm'));
+const CBTForm = lazy(() => import('./Pages/CBT/CBTForm/cbtForm'));
 const GhgEmissions = lazy(() => import('./Pages/Emissions/emissions'));
 const GhgProjections = lazy(() => import('./Pages/Projections/projections'));
 const GhgCombinedExpected = lazy(() => import('./Pages/CombinedExpected/combinedExpected'));
@@ -216,6 +218,14 @@ const App = () => {
                 {/* Reviews Routes */}
                 <Route path="/reviews" element={<CustomLayout selectedKey="reviews" />}>
                   <Route index element={<Reviews />} />
+                </Route>
+
+                {/* CBT Routes */}
+                <Route path="/cbt" element={<CustomLayout selectedKey="cbt" />}>
+                  <Route path="" element={<CBTList />} />
+                  <Route path="add" element={<CBTForm method="create" />} />
+                  <Route path="edit/:entId" element={<CBTForm method="update" />} />
+                  <Route path="view/:entId" element={<CBTForm method="view" />} />
                 </Route>
 
                 {/* Test Routes */}

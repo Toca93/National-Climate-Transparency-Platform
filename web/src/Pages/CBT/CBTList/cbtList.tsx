@@ -1,0 +1,136 @@
+import { useTranslation } from 'react-i18next';
+import '../../../Styles/app.scss';
+import LayoutTable from '../../../Components/common/Table/layout.table';
+import { Button, Col, Row, Input, Dropdown, MenuProps } from 'antd';
+import { FilterOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  addActionBps,
+  filterDropdownBps,
+  listSearchBarBps,
+  searchBoxBps,
+} from '../../../Definitions/breakpoints/breakpoints';
+
+interface Item {
+  key: number;
+  id: string;
+  reportingYear: string;
+  projectName: string;
+  description: string;
+  responsibleInstitution: string;
+  status: string;
+}
+
+const CBTList = () => {
+  const navigate = useNavigate();
+  const { t } = useTranslation(['common']);
+
+  const [loading] = useState<boolean>(false);
+  const [tableData] = useState<Item[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [totalRowCount] = useState<number>(0);
+  const [tempSearchValue, setTempSearchValue] = useState<string>('');
+
+  const handleTableChange = (pagination: any) => {
+    setCurrentPage(pagination.current);
+    setPageSize(pagination.pageSize);
+  };
+
+  const onSearch = () => {
+    console.log('Search:', tempSearchValue);
+  };
+
+  const columns = [
+    { title: 'ID', width: 80, dataIndex: 'id', key: 'id', sorter: false },
+    { title: 'Reporting Year', width: 120, dataIndex: 'reportingYear', key: 'reportingYear', sorter: false },
+    { title: 'Project Name', width: 200, dataIndex: 'projectName', key: 'projectName', sorter: false },
+    { title: 'Responsible Institution', width: 200, dataIndex: 'responsibleInstitution', key: 'responsibleInstitution', sorter: false },
+    { title: 'Status', width: 120, dataIndex: 'status', key: 'status', sorter: false },
+  ];
+
+  const items: MenuProps['items'] = [];
+
+  return (
+    <div className="content-container">
+      <div className="title-bar">
+        <div className="body-title">CBT</div>
+      </div>
+      <div className="content-card">
+        <Row className="table-actions-section">
+          <Col {...addActionBps}>
+            <div className="action-bar">
+              <Button
+                type="primary"
+                size="large"
+                block
+                icon={<PlusOutlined />}
+                onClick={() => {
+                  navigate('/cbt/add');
+                }}
+              >
+                ADD CBT
+              </Button>
+            </div>
+          </Col>
+          <Col {...listSearchBarBps}>
+            <Row gutter={10}>
+              <Col {...searchBoxBps} className="search-bar">
+                <Input
+                  addonAfter={<SearchOutlined style={{ color: '#615d67' }} onClick={onSearch} />}
+                  placeholder="Search by ID or Project Name"
+                  allowClear
+                  onPressEnter={onSearch}
+                  onChange={(e) => setTempSearchValue(e.target.value)}
+                  style={{ width: 265 }}
+                  value={tempSearchValue}
+                />
+              </Col>
+              <Col {...filterDropdownBps} className="filter-bar">
+                <Dropdown
+                  arrow={false}
+                  placement="bottomRight"
+                  trigger={['click']}
+                  menu={{ items }}
+                  overlayStyle={{ width: '240px' }}
+                >
+                  <FilterOutlined
+                    style={{
+                      color: '#615d67',
+                      fontSize: '20px',
+                    }}
+                  />
+                </Dropdown>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <LayoutTable
+              tableData={tableData}
+              columns={columns}
+              loading={loading}
+              pagination={{
+                total: totalRowCount,
+                current: currentPage,
+                pageSize: pageSize,
+                showQuickJumper: true,
+                pageSizeOptions: ['10', '20', '30'],
+                showSizeChanger: true,
+                style: { textAlign: 'center' },
+                locale: { page: '' },
+                position: ['bottomRight'],
+              }}
+              handleTableChange={handleTableChange}
+              emptyMessage="No CBT Records Available"
+            />
+          </Col>
+        </Row>
+      </div>
+    </div>
+  );
+};
+
+export default CBTList;

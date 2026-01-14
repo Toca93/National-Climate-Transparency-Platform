@@ -74,6 +74,9 @@ const LayoutSider = (props: LayoutSiderProps) => {
 
     // Reviews
     getItem('Reviews', 'reviews', <Headset />),
+
+    // CBT
+    getItem('CBT', 'cbt', <AppstoreOutlined />),
   ];
 
   if (userInfoState?.userRole === Role.Root || userInfoState?.userRole === Role.Admin) {
