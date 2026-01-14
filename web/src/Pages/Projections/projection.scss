@@ -8,3 +8,26 @@
     padding-right: 30px;
     padding-bottom: 30px;
 }
+
+.projection-toolbar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.base-year-label {
+    font-size: 0.75rem;
+    color: #7d858a;
+}
+
+.projection-base-year-select {
+    min-width: 220px;
+
+    .ant-select-selector {
+        padding: 5px;
+        border-width: 1px;
+        border-radius: 10px !important;
+    }
+}
