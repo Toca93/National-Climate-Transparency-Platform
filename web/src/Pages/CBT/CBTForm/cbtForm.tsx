@@ -181,11 +181,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="activityDescription"
                     rules={[validation.required]}
                   >
-                    <TextArea
-                      rows={6}
-                      placeholder="Unesite opis aktivnosti"
-                      disabled={isView}
-                    />
+                    <TextArea rows={6} placeholder="Unesite opis aktivnosti" disabled={isView} />
                   </Form.Item>
                 </Col>
               </Row>
