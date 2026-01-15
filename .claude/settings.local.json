@@ -6,7 +6,8 @@
       "Bash(npm run:*)",
       "Bash(findstr:*)",
       "Bash(npx eslint:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(docker ps:*)"
     ]
   }
 }
