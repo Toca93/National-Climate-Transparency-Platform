@@ -45,22 +45,22 @@ const CBTList = () => {
   const columns = [
     { title: 'ID', width: 80, dataIndex: 'id', key: 'id', sorter: false },
     {
-      title: 'Reporting Year',
-      width: 120,
+      title: 'Godina izvještavanja',
+      width: 140,
       dataIndex: 'reportingYear',
       key: 'reportingYear',
       sorter: false,
     },
     {
-      title: 'Project Name',
-      width: 200,
+      title: 'Naziv projekta / mjere',
+      width: 220,
       dataIndex: 'projectName',
       key: 'projectName',
       sorter: false,
     },
     {
-      title: 'Responsible Institution',
-      width: 200,
+      title: 'Nadležna institucija',
+      width: 220,
       dataIndex: 'responsibleInstitution',
       key: 'responsibleInstitution',
       sorter: false,
@@ -73,7 +73,7 @@ const CBTList = () => {
   return (
     <div className="content-container">
       <div className="title-bar">
-        <div className="body-title">CBT</div>
+        <div className="body-title">H1. Klimatsko finansiranje - Osnovne informacije</div>
       </div>
       <div className="content-card">
         <Row className="table-actions-section">
@@ -88,7 +88,7 @@ const CBTList = () => {
                   navigate('/cbt/add');
                 }}
               >
-                ADD CBT
+                Dodaj novi zapis
               </Button>
             </div>
           </Col>
@@ -97,7 +97,7 @@ const CBTList = () => {
               <Col {...searchBoxBps} className="search-bar">
                 <Input
                   addonAfter={<SearchOutlined style={{ color: '#615d67' }} onClick={onSearch} />}
-                  placeholder="Search by ID or Project Name"
+                  placeholder="Pretraži po ID ili nazivu projekta"
                   allowClear
                   onPressEnter={onSearch}
                   onChange={(e) => setTempSearchValue(e.target.value)}
@@ -142,7 +142,7 @@ const CBTList = () => {
                 position: ['bottomRight'],
               }}
               handleTableChange={handleTableChange}
-              emptyMessage="No CBT Records Available"
+              emptyMessage="Nema dostupnih zapisa klimatskog finansiranja"
             />
           </Col>
         </Row>

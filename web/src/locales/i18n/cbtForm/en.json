@@ -1,12 +1,12 @@
 {
-    "addCBTTitle":"Add New CBT",
-    "viewCBTTitle":"View CBT",
-    "editCBTTitle":"Edit CBT",
-    "generalInfoTitle": "General Information",
-    "cbtCreationSuccess": "CBT Added Successfully",
-    "cbtUpdateSuccess": "CBT Updated Successfully",
-    "cbtDeleteSuccess": "CBT Deleted Successfully",
-    "noSuchEntity": "Requested CBT doesn't exist !",
-    "deletePrimaryMsg": "Are you sure you want to remove the CBT",
-    "deleteSecondaryMsg": "You can't undo this action"
+    "addCBTTitle": "Dodaj novi zapis - H1. Osnovne informacije",
+    "viewCBTTitle": "Pregled zapisa - H1. Osnovne informacije",
+    "editCBTTitle": "Uredi zapis - H1. Osnovne informacije",
+    "generalInfoTitle": "H1. Osnovne informacije",
+    "cbtCreationSuccess": "Zapis klimatskog finansiranja uspješno dodat",
+    "cbtUpdateSuccess": "Zapis klimatskog finansiranja uspješno ažuriran",
+    "cbtDeleteSuccess": "Zapis klimatskog finansiranja uspješno obrisan",
+    "noSuchEntity": "Traženi zapis ne postoji!",
+    "deletePrimaryMsg": "Da li ste sigurni da želite obrisati ovaj zapis",
+    "deleteSecondaryMsg": "Ova akcija se ne može poništiti"
 }

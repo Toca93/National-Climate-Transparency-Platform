@@ -75,8 +75,8 @@ const LayoutSider = (props: LayoutSiderProps) => {
     // Reviews
     getItem('Reviews', 'reviews', <Headset />),
 
-    // CBT
-    getItem('CBT', 'cbt', <AppstoreOutlined />),
+    // H Modul - Klimatsko finansiranje
+    getItem('H1. Klimatsko finansiranje', 'cbt', <AppstoreOutlined />),
   ];
 
   if (userInfoState?.userRole === Role.Root || userInfoState?.userRole === Role.Admin) {

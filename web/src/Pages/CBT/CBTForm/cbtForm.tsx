@@ -31,8 +31,12 @@ const institutions = [
   'Međunarodni partneri',
 ];
 
-// Status opcije
-const statusOptions = ['Planned', 'Ongoing', 'Completed'];
+// Status opcije (H1: planirano / u toku / završeno)
+const statusOptions = [
+  { value: 'planned', label: 'Planirano (Planned)' },
+  { value: 'ongoing', label: 'U toku (Ongoing)' },
+  { value: 'completed', label: 'Završeno (Completed)' },
+];
 
 // Generisanje godina (npr. od 2020 do 2030)
 const generateYears = () => {
@@ -128,19 +132,19 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
             disabled={isView}
           >
             <div className="form-section-card">
-              <div className="form-section-header">General Information</div>
+              <div className="form-section-header">H1. Osnovne informacije (Basic Information)</div>
 
               <Row gutter={gutterSize}>
                 {/* Godina izvještavanja */}
                 <Col span={12}>
                   <Form.Item
-                    label="Reporting Year"
+                    label="Godina izvještavanja (Reporting Year)"
                     name="reportingYear"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
-                      placeholder="Select reporting year"
+                      placeholder="Izaberite godinu izvještavanja"
                       showSearch
                       disabled={isView}
                     >
@@ -153,10 +157,18 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                   </Form.Item>
                 </Col>
 
-                {/* Naziv projekta */}
+                {/* Naziv projekta / mjere */}
                 <Col span={12}>
-                  <Form.Item label="Project Name" name="projectName" rules={[validation.required]}>
-                    <Input size="large" placeholder="Enter project name" disabled={isView} />
+                  <Form.Item
+                    label="Naziv projekta / mjere (Project Name)"
+                    name="projectName"
+                    rules={[validation.required]}
+                  >
+                    <Input
+                      size="large"
+                      placeholder="Unesite naziv projekta ili mjere"
+                      disabled={isView}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -165,11 +177,15 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Opis aktivnosti */}
                 <Col span={24}>
                   <Form.Item
-                    label="Activity Description"
+                    label="Opis aktivnosti (Activity Description)"
                     name="activityDescription"
                     rules={[validation.required]}
                   >
-                    <TextArea rows={6} placeholder="Enter activity description" disabled={isView} />
+                    <TextArea
+                      rows={6}
+                      placeholder="Unesite opis aktivnosti"
+                      disabled={isView}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -178,13 +194,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Nadležna institucija */}
                 <Col span={12}>
                   <Form.Item
-                    label="Responsible Institution"
+                    label="Nadležna institucija (Responsible Institution)"
                     name="responsibleInstitution"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
-                      placeholder="Select responsible institution"
+                      placeholder="Izaberite nadležnu instituciju"
                       showSearch
                       disabled={isView}
                     >
@@ -201,9 +217,9 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 <Col span={12}>
                   <Form.Item label="Status" name="status" rules={[validation.required]}>
                     <Select size="large" placeholder="Select status" disabled={isView}>
-                      {statusOptions.map((status) => (
-                        <Option key={status} value={status}>
-                          {status}
+                      {statusOptions.map((option) => (
+                        <Option key={option.value} value={option.value}>
+                          {option.label}
                         </Option>
                       ))}
                     </Select>
