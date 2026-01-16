@@ -4,7 +4,6 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useConnection } from '../../../Context/ConnectionContext/connectionContext';
 import { FormLoadProps } from '../../../Definitions/InterfacesAndType/formInterface';
-import { getFormTitle } from '../../../Utils/utilServices';
 import { getValidationRules } from '../../../Utils/validationRules';
 import '../../../Styles/app.scss';
 
@@ -53,7 +52,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
   const { t } = useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
-  const formTitle = getFormTitle('CBT', method);
+  const formTitle = 'Osnovne informacije';
 
   const navigate = useNavigate();
   const { get, post, put } = useConnection();
