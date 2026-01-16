@@ -35,7 +35,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
   const { t } = useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
-  const formTitle = getFormTitle('Finansijski instrumenti', method);
+  const formTitle = getFormTitle('CBTInstruments', method);
 
   const navigate = useNavigate();
   const { get, post, put } = useConnection();

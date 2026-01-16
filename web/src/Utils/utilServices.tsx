@@ -62,7 +62,16 @@ export const joinTwoArrays = (arrayOne: any[], arrayTwo: any[]) => {
 };
 
 export const getFormTitle = (
-  formType: 'Action' | 'Programme' | 'Project' | 'Activity' | 'Support' | 'CBT',
+  formType:
+    | 'Action'
+    | 'Programme'
+    | 'Project'
+    | 'Activity'
+    | 'Support'
+    | 'CBT'
+    | 'CBTETF'
+    | 'CBTFunding'
+    | 'CBTInstruments',
   formMethod: 'create' | 'update' | 'view'
 ) => {
   if (formMethod === 'create') {

@@ -49,7 +49,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
   const { t } = useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
-  const formTitle = getFormTitle('Izvori finansiranja', method);
+  const formTitle = getFormTitle('CBTFunding', method);
 
   const navigate = useNavigate();
   const { get, post, put } = useConnection();

@@ -40,7 +40,7 @@ const CBTETFForm: React.FC<FormLoadProps> = ({ method }) => {
   const { t } = useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
-  const formTitle = getFormTitle('ETF klasifikacija', method);
+  const formTitle = getFormTitle('CBTETF', method);
 
   const navigate = useNavigate();
   const { get, post, put } = useConnection();
