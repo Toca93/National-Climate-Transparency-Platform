@@ -73,7 +73,7 @@ const CBTList = () => {
   return (
     <div className="content-container">
       <div className="title-bar">
-        <div className="body-title">H1. Klimatsko finansiranje - Osnovne informacije</div>
+        <div className="body-title">Klimatsko finansiranje - Osnovne informacije</div>
       </div>
       <div className="content-card">
         <Row className="table-actions-section">

@@ -116,7 +116,7 @@ const CBTETFForm: React.FC<FormLoadProps> = ({ method }) => {
             disabled={isView}
           >
             <div className="form-section-card">
-              <div className="form-section-header">H2. Klasifikacija po ETF pravilima</div>
+              <div className="form-section-header">Klasifikacija po ETF pravilima</div>
 
               <Row gutter={gutterSize}>
                 {/* Naziv projekta / mjere - za povezivanje sa H1 */}

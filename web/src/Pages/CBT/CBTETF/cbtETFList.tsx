@@ -72,7 +72,7 @@ const CBTETFList = () => {
   return (
     <div className="content-container">
       <div className="title-bar">
-        <div className="body-title">H2. ETF klasifikacija</div>
+        <div className="body-title">Klimatsko finansiranje - ETF klasifikacija</div>
       </div>
       <div className="content-card">
         <Row className="table-actions-section">

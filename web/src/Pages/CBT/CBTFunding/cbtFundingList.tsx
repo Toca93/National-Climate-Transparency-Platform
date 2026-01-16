@@ -86,7 +86,7 @@ const CBTFundingList = () => {
   return (
     <div className="content-container">
       <div className="title-bar">
-        <div className="body-title">H3. Izvori finansiranja</div>
+        <div className="body-title">Klimatsko finansiranje - Izvori finansiranja</div>
       </div>
       <div className="content-card">
         <Row className="table-actions-section">

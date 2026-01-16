@@ -112,7 +112,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
           >
             <div className="form-section-card">
               <div className="form-section-header">
-                H4. Finansijski instrumenti (Financial Instruments)
+                Finansijski instrumenti (Financial Instruments)
               </div>
 
               <Row gutter={gutterSize}>

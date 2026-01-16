@@ -86,7 +86,7 @@ const CBTInstrumentsList = () => {
   return (
     <div className="content-container">
       <div className="title-bar">
-        <div className="body-title">H4. Finansijski instrumenti</div>
+        <div className="body-title">Klimatsko finansiranje - Finansijski instrumenti</div>
       </div>
       <div className="content-card">
         <Row className="table-actions-section">

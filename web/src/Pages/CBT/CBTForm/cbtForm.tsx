@@ -132,7 +132,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
             disabled={isView}
           >
             <div className="form-section-card">
-              <div className="form-section-header">H1. Osnovne informacije (Basic Information)</div>
+              <div className="form-section-header">Osnovne informacije (Basic Information)</div>
 
               <Row gutter={gutterSize}>
                 {/* Godina izvještavanja */}

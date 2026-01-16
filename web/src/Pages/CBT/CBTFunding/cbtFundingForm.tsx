@@ -125,7 +125,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
             disabled={isView}
           >
             <div className="form-section-card">
-              <div className="form-section-header">H3. Izvori finansiranja (Funding Sources)</div>
+              <div className="form-section-header">Izvori finansiranja (Funding Sources)</div>
 
               <Row gutter={gutterSize}>
                 {/* Naziv projekta / mjere - za povezivanje sa H1 */}
