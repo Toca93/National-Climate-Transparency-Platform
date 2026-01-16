@@ -187,11 +187,7 @@ const CBTETFForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="sector"
                     rules={[validation.required]}
                   >
-                    <Select
-                      size="large"
-                      placeholder="Izaberite sektor"
-                      disabled={isView}
-                    >
+                    <Select size="large" placeholder="Izaberite sektor" disabled={isView}>
                       {sectors.map((option) => (
                         <Option key={option.value} value={option.value}>
                           {option.label}

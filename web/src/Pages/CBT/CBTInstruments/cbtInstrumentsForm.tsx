@@ -111,7 +111,9 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
             disabled={isView}
           >
             <div className="form-section-card">
-              <div className="form-section-header">H4. Finansijski instrumenti (Financial Instruments)</div>
+              <div className="form-section-header">
+                H4. Finansijski instrumenti (Financial Instruments)
+              </div>
 
               <Row gutter={gutterSize}>
                 {/* Naziv projekta / mjere - za povezivanje sa H1 */}
@@ -138,11 +140,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="instrumentType"
                     rules={[validation.required]}
                   >
-                    <Select
-                      size="large"
-                      placeholder="Izaberite tip instrumenta"
-                      disabled={isView}
-                    >
+                    <Select size="large" placeholder="Izaberite tip instrumenta" disabled={isView}>
                       {instrumentTypes.map((option) => (
                         <Option key={option.value} value={option.value}>
                           {option.label}
@@ -154,10 +152,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
 
                 {/* Godina - za iznos po godini */}
                 <Col span={12}>
-                  <Form.Item
-                    label="Godina (Year)"
-                    name="year"
-                  >
+                  <Form.Item label="Godina (Year)" name="year">
                     <Select
                       size="large"
                       placeholder="Izaberite godinu"
@@ -175,7 +170,10 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
                 </Col>
               </Row>
 
-              <div className="form-section-sub-header" style={{ marginTop: 16, marginBottom: 16, fontWeight: 600 }}>
+              <div
+                className="form-section-sub-header"
+                style={{ marginTop: 16, marginBottom: 16, fontWeight: 600 }}
+              >
                 Finansijski podaci (Financial Data) - svi iznosi u EUR (€)
               </div>
 
@@ -202,10 +200,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
 
                 {/* Iznos po godini */}
                 <Col span={12}>
-                  <Form.Item
-                    label="Iznos po godini (Amount per Year) €"
-                    name="amountPerYear"
-                  >
+                  <Form.Item label="Iznos po godini (Amount per Year) €" name="amountPerYear">
                     <InputNumber
                       size="large"
                       style={{ width: '100%' }}

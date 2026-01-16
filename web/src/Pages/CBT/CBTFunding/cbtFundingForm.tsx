@@ -168,10 +168,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
 
                 {/* Naziv fonda */}
                 <Col span={12}>
-                  <Form.Item
-                    label="Naziv fonda (Fund Name)"
-                    name="fundName"
-                  >
+                  <Form.Item label="Naziv fonda (Fund Name)" name="fundName">
                     <Select
                       size="large"
                       placeholder="Izaberite naziv fonda"
@@ -205,10 +202,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
 
                 {/* Godina odobrenja */}
                 <Col span={12}>
-                  <Form.Item
-                    label="Godina odobrenja (Approval Year)"
-                    name="approvalYear"
-                  >
+                  <Form.Item label="Godina odobrenja (Approval Year)" name="approvalYear">
                     <Select
                       size="large"
                       placeholder="Izaberite godinu odobrenja"

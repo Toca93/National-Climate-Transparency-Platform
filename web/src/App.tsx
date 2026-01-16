@@ -251,7 +251,10 @@ const App = () => {
                 </Route>
 
                 {/* CBT Instruments Routes - H4. Finansijski instrumenti */}
-                <Route path="/cbt-instruments" element={<CustomLayout selectedKey="cbt-instruments" />}>
+                <Route
+                  path="/cbt-instruments"
+                  element={<CustomLayout selectedKey="cbt-instruments" />}
+                >
                   <Route path="" element={<CBTInstrumentsList />} />
                   <Route path="add" element={<CBTInstrumentsForm method="create" />} />
                   <Route path="edit/:entId" element={<CBTInstrumentsForm method="update" />} />
