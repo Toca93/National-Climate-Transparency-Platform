@@ -49,7 +49,7 @@ const LayoutSider = (props: LayoutSiderProps) => {
     getItem(t('nav:projects'), 'projects', <Layers />),
     getItem(t('nav:activities'), 'activities', <GraphUpArrow />),
     getItem(t('nav:support'), 'support', <Coin />),
-    getItem(t('nav:ghgInventory'), '', <CloudDownloadOutlined />, [
+    getItem(t('nav:ghgInventory'), 'ghg-inventory', <CloudDownloadOutlined />, [
       getItem(t('nav:emissions'), 'emissions'),
       getItem(t('nav:projections'), 'projections'),
       getItem(t('nav:combinedExpected'), 'combinedExpected'),
@@ -76,7 +76,7 @@ const LayoutSider = (props: LayoutSiderProps) => {
     getItem('Reviews', 'reviews', <Headset />),
 
     // Klimatsko finansiranje
-    getItem('Klimatsko finansiranje', '', <AppstoreOutlined />, [
+    getItem('Klimatsko finansiranje', 'klimatsko-finansiranje', <AppstoreOutlined />, [
       getItem('Osnovne informacije', 'cbt'),
       getItem('ETF klasifikacija', 'cbt-etf'),
       getItem('Izvori finansiranja', 'cbt-funding'),
