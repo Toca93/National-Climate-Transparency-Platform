@@ -37,6 +37,9 @@ import GenderReporting from './Pages/GenderReporting/genderReporting';
 import Verifications from './Pages/Verifications/verifications';
 import Reviews from './Pages/Reviews/reviews';
 import CBTList from './Pages/CBT/CBTList/cbtList';
+import CBTETFList from './Pages/CBT/CBTETF/cbtETFList';
+import CBTFundingList from './Pages/CBT/CBTFunding/cbtFundingList';
+import CBTInstrumentsList from './Pages/CBT/CBTInstruments/cbtInstrumentsList';
 
 // Lazy Component Loading
 
@@ -46,6 +49,9 @@ const ProjectForm = lazy(() => import('./Pages/Projects/ProjectForm/projectForm'
 const ActivityForm = lazy(() => import('./Pages/Activities/ActivityForm/activityForm'));
 const SupportForm = lazy(() => import('./Pages/Support/SupportForm/supportForm'));
 const CBTForm = lazy(() => import('./Pages/CBT/CBTForm/cbtForm'));
+const CBTETFForm = lazy(() => import('./Pages/CBT/CBTETF/cbtETFForm'));
+const CBTFundingForm = lazy(() => import('./Pages/CBT/CBTFunding/cbtFundingForm'));
+const CBTInstrumentsForm = lazy(() => import('./Pages/CBT/CBTInstruments/cbtInstrumentsForm'));
 const GhgEmissions = lazy(() => import('./Pages/Emissions/emissions'));
 const GhgProjections = lazy(() => import('./Pages/Projections/projections'));
 const GhgCombinedExpected = lazy(() => import('./Pages/CombinedExpected/combinedExpected'));
@@ -220,12 +226,36 @@ const App = () => {
                   <Route index element={<Reviews />} />
                 </Route>
 
-                {/* CBT Routes */}
+                {/* CBT Routes - H1. Osnovne informacije */}
                 <Route path="/cbt" element={<CustomLayout selectedKey="cbt" />}>
                   <Route path="" element={<CBTList />} />
                   <Route path="add" element={<CBTForm method="create" />} />
                   <Route path="edit/:entId" element={<CBTForm method="update" />} />
                   <Route path="view/:entId" element={<CBTForm method="view" />} />
+                </Route>
+
+                {/* CBT ETF Routes - H2. ETF klasifikacija */}
+                <Route path="/cbt-etf" element={<CustomLayout selectedKey="cbt-etf" />}>
+                  <Route path="" element={<CBTETFList />} />
+                  <Route path="add" element={<CBTETFForm method="create" />} />
+                  <Route path="edit/:entId" element={<CBTETFForm method="update" />} />
+                  <Route path="view/:entId" element={<CBTETFForm method="view" />} />
+                </Route>
+
+                {/* CBT Funding Routes - H3. Izvori finansiranja */}
+                <Route path="/cbt-funding" element={<CustomLayout selectedKey="cbt-funding" />}>
+                  <Route path="" element={<CBTFundingList />} />
+                  <Route path="add" element={<CBTFundingForm method="create" />} />
+                  <Route path="edit/:entId" element={<CBTFundingForm method="update" />} />
+                  <Route path="view/:entId" element={<CBTFundingForm method="view" />} />
+                </Route>
+
+                {/* CBT Instruments Routes - H4. Finansijski instrumenti */}
+                <Route path="/cbt-instruments" element={<CustomLayout selectedKey="cbt-instruments" />}>
+                  <Route path="" element={<CBTInstrumentsList />} />
+                  <Route path="add" element={<CBTInstrumentsForm method="create" />} />
+                  <Route path="edit/:entId" element={<CBTInstrumentsForm method="update" />} />
+                  <Route path="view/:entId" element={<CBTInstrumentsForm method="view" />} />
                 </Route>
 
                 {/* Test Routes */}

@@ -76,7 +76,12 @@ const LayoutSider = (props: LayoutSiderProps) => {
     getItem('Reviews', 'reviews', <Headset />),
 
     // H Modul - Klimatsko finansiranje
-    getItem('H1. Klimatsko finansiranje', 'cbt', <AppstoreOutlined />),
+    getItem('H. Klimatsko finansiranje', '', <AppstoreOutlined />, [
+      getItem('H1. Osnovne informacije', 'cbt'),
+      getItem('H2. ETF klasifikacija', 'cbt-etf'),
+      getItem('H3. Izvori finansiranja', 'cbt-funding'),
+      getItem('H4. Finansijski instrumenti', 'cbt-instruments'),
+    ]),
   ];
 
   if (userInfoState?.userRole === Role.Root || userInfoState?.userRole === Role.Admin) {
