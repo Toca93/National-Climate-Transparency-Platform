@@ -143,11 +143,7 @@ const CBTETFForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="financingType"
                     rules={[validation.required]}
                   >
-                    <Select
-                      size="large"
-                      placeholder="Izaberite tip finansiranja"
-                      disabled={isView}
-                    >
+                    <Select size="large" placeholder="Izaberite tip finansiranja" disabled={isView}>
                       {financingTypes.map((option) => (
                         <Option key={option.value} value={option.value}>
                           {option.label}
@@ -182,11 +178,7 @@ const CBTETFForm: React.FC<FormLoadProps> = ({ method }) => {
               <Row gutter={gutterSize}>
                 {/* Sektor */}
                 <Col span={12}>
-                  <Form.Item
-                    label="Sektor (Sector)"
-                    name="sector"
-                    rules={[validation.required]}
-                  >
+                  <Form.Item label="Sektor (Sector)" name="sector" rules={[validation.required]}>
                     <Select size="large" placeholder="Izaberite sektor" disabled={isView}>
                       {sectors.map((option) => (
                         <Option key={option.value} value={option.value}>
