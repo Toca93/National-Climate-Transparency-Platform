@@ -254,7 +254,6 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
                 </Col>
               </Row>
             </div>
-
           </Form>
         </div>
 

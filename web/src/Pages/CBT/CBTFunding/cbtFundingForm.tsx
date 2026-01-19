@@ -219,7 +219,6 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 </Col>
               </Row>
             </div>
-
           </Form>
         </div>
 
