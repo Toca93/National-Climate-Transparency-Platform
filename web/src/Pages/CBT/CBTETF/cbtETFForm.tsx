@@ -34,6 +34,12 @@ const sectors = [
   { value: 'water-coast', label: 'Vode / obala (Water / Coast)' },
 ];
 
+// Interface za projekte iz Osnovnih informacija (CBT)
+interface CBTProjectData {
+  id: string;
+  projectName: string;
+}
+
 const CBTETFForm: React.FC<FormLoadProps> = ({ method }) => {
   const [form] = Form.useForm();
   const { t } = useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
@@ -49,6 +55,35 @@ const CBTETFForm: React.FC<FormLoadProps> = ({ method }) => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
+  const [cbtProjectList, setCbtProjectList] = useState<CBTProjectData[]>([]);
+  const [loadingProjects, setLoadingProjects] = useState<boolean>(false);
+
+  // Dohvati projekte iz Osnovnih informacija (CBT) - isto kao programmes u ProjectForm
+  const fetchCBTProjects = async () => {
+    setLoadingProjects(true);
+    try {
+      const payload = {
+        sort: {
+          key: 'id',
+          order: 'ASC',
+        },
+      };
+      const response: any = await post('national/cbt/query', payload);
+
+      const tempCBTData: CBTProjectData[] = [];
+      response.data.forEach((cbt: any) => {
+        tempCBTData.push({
+          id: cbt.id,
+          projectName: cbt.projectName,
+        });
+      });
+      setCbtProjectList(tempCBTData);
+    } catch (error: any) {
+      console.error('Error fetching CBT projects:', error);
+    } finally {
+      setLoadingProjects(false);
+    }
+  };
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -62,6 +97,10 @@ const CBTETFForm: React.FC<FormLoadProps> = ({ method }) => {
       setLoading(false);
     }
   }, [get, entId]);
+
+  useEffect(() => {
+    fetchCBTProjects();
+  }, []);
 
   useEffect(() => {
     if (entId && (method === 'update' || method === 'view')) {
@@ -118,18 +157,30 @@ const CBTETFForm: React.FC<FormLoadProps> = ({ method }) => {
               <div className="form-section-header">Klasifikacija po ETF pravilima</div>
 
               <Row gutter={gutterSize}>
-                {/* Naziv projekta / mjere - za povezivanje sa H1 */}
+                {/* Naziv projekta / mjere - dropdown iz Osnovnih informacija */}
                 <Col span={24}>
                   <Form.Item
                     label="Naziv projekta / mjere (Project Name)"
-                    name="projectName"
+                    name="projectId"
                     rules={[validation.required]}
                   >
-                    <Input
+                    <Select
                       size="large"
-                      placeholder="Unesite naziv projekta ili mjere"
+                      placeholder="Izaberite projekat iz Osnovnih informacija"
                       disabled={isView}
-                    />
+                      loading={loadingProjects}
+                      showSearch
+                      optionFilterProp="children"
+                      filterOption={(input: string, option: any) =>
+                        (option?.children as string)?.toLowerCase().includes(input.toLowerCase())
+                      }
+                    >
+                      {cbtProjectList.map((project) => (
+                        <Option key={project.id} value={project.id}>
+                          {project.projectName}
+                        </Option>
+                      ))}
+                    </Select>
                   </Form.Item>
                 </Col>
               </Row>

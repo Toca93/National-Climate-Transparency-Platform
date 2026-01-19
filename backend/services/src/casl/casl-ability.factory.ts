@@ -22,6 +22,7 @@ import { EmissionEntity } from "../entities/emission.entity";
 import { ProjectionEntity } from "../entities/projection.entity";
 import { ConfigurationSettingsEntity } from "../entities/configuration.settings.entity";
 import { SystemResourcesEntity } from "../entities/systemResource.entity";
+import { CBTEntity } from "../entities/cbt.entity";
 
 type Subjects = InferSubjects<typeof EntitySubject> | "all";
 
@@ -106,6 +107,12 @@ export class CaslAbilityFactory {
         can(Action.Read, SystemResourcesEntity);
         can(Action.Create, SystemResourcesEntity);
         can(Action.Delete, SystemResourcesEntity);
+
+        // CBT - Climate Finance
+        can(Action.Read, CBTEntity);
+        can(Action.Create, CBTEntity);
+        can(Action.Update, CBTEntity);
+        can(Action.Delete, CBTEntity);
       }
 
       if (user.role == Role.Admin) {
@@ -181,6 +188,12 @@ export class CaslAbilityFactory {
         can(Action.Read, SystemResourcesEntity);
         can(Action.Create, SystemResourcesEntity);
         can(Action.Delete, SystemResourcesEntity);
+
+        // CBT - Climate Finance
+        can(Action.Read, CBTEntity);
+        can(Action.Create, CBTEntity);
+        can(Action.Update, CBTEntity);
+        can(Action.Delete, CBTEntity);
       }
 
       if (user.role == Role.GovernmentUser) {
@@ -302,6 +315,12 @@ export class CaslAbilityFactory {
 
         // Settings
         can(Action.Read, SystemResourcesEntity);
+
+        // CBT - Climate Finance
+        can(Action.Read, CBTEntity);
+        can(Action.Create, CBTEntity);
+        can(Action.Update, CBTEntity);
+        can(Action.Delete, CBTEntity);
       }
 
       if (user.role == Role.Observer) {
@@ -422,6 +441,12 @@ export class CaslAbilityFactory {
 
         // Settings
         can(Action.Read, SystemResourcesEntity);
+
+        // CBT - Climate Finance (Read-only for Observer)
+        can(Action.Read, CBTEntity);
+        cannot(Action.Create, CBTEntity);
+        cannot(Action.Update, CBTEntity);
+        cannot(Action.Delete, CBTEntity);
       }
     }
 

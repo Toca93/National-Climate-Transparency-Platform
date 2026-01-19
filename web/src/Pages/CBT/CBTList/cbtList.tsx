@@ -3,8 +3,9 @@ import '../../../Styles/app.scss';
 import LayoutTable from '../../../Components/common/Table/layout.table';
 import { Button, Col, Row, Input, Dropdown, MenuProps } from 'antd';
 import { FilterOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useConnection } from '../../../Context/ConnectionContext/connectionContext';
 import {
   addActionBps,
   filterDropdownBps,
@@ -15,9 +16,9 @@ import {
 interface Item {
   key: number;
   id: string;
-  reportingYear: string;
+  reportingYear: number;
   projectName: string;
-  description: string;
+  activityDescription: string;
   responsibleInstitution: string;
   status: string;
 }
@@ -25,13 +26,68 @@ interface Item {
 const CBTList = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common']);
+  const { post } = useConnection();
 
-  const [loading] = useState<boolean>(false);
-  const [tableData] = useState<Item[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [tableData, setTableData] = useState<Item[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [totalRowCount] = useState<number>(0);
+  const [totalRowCount, setTotalRowCount] = useState<number>(0);
   const [tempSearchValue, setTempSearchValue] = useState<string>('');
+  const [searchValue, setSearchValue] = useState<string>('');
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const payload: any = {
+        page: currentPage,
+        size: pageSize,
+        sort: {
+          key: 'id',
+          order: 'DESC',
+        },
+      };
+
+      // Add search filter if search value exists
+      if (searchValue) {
+        payload.filterOr = [
+          {
+            key: 'id',
+            operation: 'like',
+            value: `%${searchValue}%`,
+          },
+          {
+            key: 'projectName',
+            operation: 'like',
+            value: `%${searchValue}%`,
+          },
+        ];
+      }
+
+      const response: any = await post('national/cbt/query', payload);
+
+      const formattedData: Item[] = response.data.map((item: any, index: number) => ({
+        key: index,
+        id: item.id,
+        reportingYear: item.reportingYear,
+        projectName: item.projectName,
+        activityDescription: item.activityDescription,
+        responsibleInstitution: item.responsibleInstitution,
+        status: item.status,
+      }));
+
+      setTableData(formattedData);
+      setTotalRowCount(response.total);
+    } catch (error: any) {
+      console.error('Error fetching CBT data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [post, currentPage, pageSize, searchValue]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const handleTableChange = (pagination: any) => {
     setCurrentPage(pagination.current);
@@ -39,11 +95,26 @@ const CBTList = () => {
   };
 
   const onSearch = () => {
-    console.log('Search:', tempSearchValue);
+    setSearchValue(tempSearchValue);
+    setCurrentPage(1);
   };
 
   const columns = [
-    { title: 'ID', width: 80, dataIndex: 'id', key: 'id', sorter: false },
+    {
+      title: 'ID',
+      width: 120,
+      dataIndex: 'id',
+      key: 'id',
+      sorter: false,
+      render: (id: string) => (
+        <span
+          style={{ color: '#1890ff', cursor: 'pointer' }}
+          onClick={() => navigate(`/cbt/view/${id}`)}
+        >
+          {id}
+        </span>
+      ),
+    },
     {
       title: 'Godina izvještavanja',
       width: 140,

@@ -1,0 +1,9 @@
+{
+  "notFound": "A CBT record with id {} is not found",
+  "createFailed": "CBT record creation failed due to {}",
+  "createSuccess": "CBT record created successfully",
+  "updateFailed": "CBT record update failed due to {}",
+  "updateSuccess": "CBT record updated successfully",
+  "deleteFailed": "CBT record deletion failed due to {}",
+  "deleteSuccess": "CBT record deleted successfully"
+}
