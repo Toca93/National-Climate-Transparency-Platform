@@ -52,6 +52,7 @@ const LayoutSider = (props: LayoutSiderProps) => {
     getItem(t('nav:ghgInventory'), '', <CloudDownloadOutlined />, [
       getItem(t('nav:emissions'), 'emissions'),
       getItem(t('nav:projections'), 'projections'),
+      getItem(t('nav:projectionParameters'), 'projectionParameters'),
       getItem(t('nav:combinedExpected'), 'combinedExpected'),
       getItem(t('nav:combinedAchieved'), 'combinedAchieved'),
       getItem(t('nav:configurations'), 'configurations'),

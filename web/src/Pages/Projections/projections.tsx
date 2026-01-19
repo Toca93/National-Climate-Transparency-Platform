@@ -2,7 +2,6 @@ import { Select, Tabs } from 'antd';
 import './projection.scss';
 import { useTranslation } from 'react-i18next';
 import { ProjectionForm } from '../../Components/Inventory/projectionForm';
-import { ProjectionParameters } from '../../Components/Inventory/ProjectionParameters';
 import { ProjectionType } from '../../Enums/projection.enum';
 import { useConnection } from '../../Context/ConnectionContext/connectionContext';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -78,7 +77,6 @@ const GhgProjections = () => {
       <div className="title-bar">
         <div className="body-title">{t('projectionTitle')}</div>
       </div>
-      <ProjectionParameters />
       <div className="projection-section-card">
         <div className="projection-toolbar">
           <div className="base-year-label">{t('configuration:baselineYear')}</div>

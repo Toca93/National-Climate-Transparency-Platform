@@ -29,6 +29,7 @@ i18n
       'view',
       'homepage',
       'socialEnvironmentalRisk',
+      'projection',
     ],
   });
 export default i18n;

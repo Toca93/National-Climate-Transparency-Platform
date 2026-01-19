@@ -49,6 +49,9 @@ const GhgProjections = lazy(() => import('./Pages/Projections/projections'));
 const GhgCombinedExpected = lazy(() => import('./Pages/CombinedExpected/combinedExpected'));
 const GhgCombinedAchieved = lazy(() => import('./Pages/CombinedAchieved/combinedAchieved'));
 const GhgConfigurations = lazy(() => import('./Pages/Configurations/configurations'));
+const GhgProjectionParameters = lazy(
+  () => import('./Pages/ProjectionParameters/projectionParameters')
+);
 const TransparencyHelp = lazy(() => import('./Pages/InformationPages/Help/help'));
 const TransparencyStatus = lazy(() => import('./Pages/InformationPages/Status/status'));
 const PrivacyPolicy = lazy(() => import('./Pages/InformationPages/PrivacyPolicy/privacyPolicy'));
@@ -148,6 +151,13 @@ const App = () => {
 
                 <Route path="/projections" element={<CustomLayout selectedKey="projections" />}>
                   <Route index element={<GhgProjections />} />
+                </Route>
+
+                <Route
+                  path="/projectionParameters"
+                  element={<CustomLayout selectedKey="projectionParameters" />}
+                >
+                  <Route index element={<GhgProjectionParameters />} />
                 </Route>
 
                 <Route
