@@ -223,42 +223,43 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
             </div>
 
-            {/* Form Actions */}
-            {!isView && (
-              <Row
-                justify="end"
-                gutter={16}
-                style={{ marginTop: 24, marginRight: 20, marginBottom: 40 }}
-              >
-                <Col>
-                  <Button size="large" onClick={onCancel}>
-                    Cancel
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    type="primary"
-                    size="large"
-                    htmlType="submit"
-                    disabled={isSaveButtonDisabled}
-                  >
-                    {method === 'create' ? 'Create' : 'Update'}
-                  </Button>
-                </Col>
-              </Row>
-            )}
-
-            {isView && (
-              <Row justify="end" style={{ marginTop: 24, marginRight: 20, marginBottom: 40 }}>
-                <Col>
-                  <Button size="large" onClick={onCancel}>
-                    Back
-                  </Button>
-                </Col>
-              </Row>
-            )}
           </Form>
         </div>
+
+        {/* Form Actions - outside content-card */}
+        {!isView && (
+          <Row
+            justify="end"
+            gutter={16}
+            style={{ marginTop: 15, paddingRight: 30, paddingBottom: 30 }}
+          >
+            <Col>
+              <Button size="large" onClick={onCancel}>
+                Cancel
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                type="primary"
+                size="large"
+                onClick={() => form.submit()}
+                disabled={isSaveButtonDisabled}
+              >
+                {method === 'create' ? 'Create' : 'Update'}
+              </Button>
+            </Col>
+          </Row>
+        )}
+
+        {isView && (
+          <Row justify="end" style={{ marginTop: 15, paddingRight: 30, paddingBottom: 30 }}>
+            <Col>
+              <Button size="large" onClick={onCancel}>
+                Back
+              </Button>
+            </Col>
+          </Row>
+        )}
       </Spin>
     </div>
   );
