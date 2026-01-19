@@ -225,7 +225,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
               <Row
                 justify="end"
                 gutter={16}
-                style={{ marginTop: 24, marginRight: 20, marginBottom: 20 }}
+                style={{ marginTop: 24, marginRight: 20, marginBottom: 40 }}
               >
                 <Col>
                   <Button size="large" onClick={onCancel}>
@@ -246,7 +246,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
             )}
 
             {isView && (
-              <Row justify="end" style={{ marginTop: 24, marginRight: 20, marginBottom: 20 }}>
+              <Row justify="end" style={{ marginTop: 24, marginRight: 20, marginBottom: 40 }}>
                 <Col>
                   <Button size="large" onClick={onCancel}>
                     Back
