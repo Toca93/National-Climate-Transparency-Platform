@@ -81,6 +81,8 @@ const LayoutSider = (props: LayoutSiderProps) => {
       getItem('ETF klasifikacija', 'cbt-etf'),
       getItem('Izvori finansiranja', 'cbt-funding'),
       getItem('Finansijski instrumenti', 'cbt-instruments'),
+      getItem('Valuta i metodologija', 'cbt-currency'),
+      getItem('Makro pokazatelji', 'cbt-macro'),
     ]),
   ];
 
