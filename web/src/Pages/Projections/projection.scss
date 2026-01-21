@@ -10,16 +10,31 @@
 }
 
 .projection-toolbar {
+    margin-bottom: 12px;
+}
+
+.projection-toolbar-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.base-year-group {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     gap: 6px;
-    margin-bottom: 12px;
 }
 
 .base-year-label {
     font-size: 0.75rem;
     color: #7d858a;
+}
+
+.export-excel-button {
+    border-radius: 5px;
 }
 
 .projection-base-year-select {

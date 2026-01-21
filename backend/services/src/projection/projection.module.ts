@@ -6,6 +6,7 @@ import { FileHandlerModule } from "../file-handler/filehandler.module";
 import { UserModule } from "../user/user.module";
 import { AsyncOperationsModule } from '../async-operations/async-operations.module';
 import { GhgProjectionService } from "./projection.service";
+import { ProjectionExportService } from "./projection-export.service";
 import { ProjectionEntity } from "src/entities/projection.entity";
 
 @Module({
@@ -17,7 +18,7 @@ import { ProjectionEntity } from "src/entities/projection.entity";
   forwardRef(() => UserModule),
   AsyncOperationsModule,
 ],
-  providers: [Logger, GhgProjectionService],
-  exports: [GhgProjectionService],
+  providers: [Logger, GhgProjectionService, ProjectionExportService],
+  exports: [GhgProjectionService, ProjectionExportService],
 })
 export class GhgProjectionModule {}
