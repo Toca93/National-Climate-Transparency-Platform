@@ -40,7 +40,6 @@ import CBTList from './Pages/CBT/CBTList/cbtList';
 import CBTETFList from './Pages/CBT/CBTETF/cbtETFList';
 import CBTFundingList from './Pages/CBT/CBTFunding/cbtFundingList';
 import CBTInstrumentsList from './Pages/CBT/CBTInstruments/cbtInstrumentsList';
-import CBTCurrencyList from './Pages/CBT/CBTCurrency/cbtCurrencyList';
 import CBTMacroList from './Pages/CBT/CBTMacro/cbtMacroList';
 
 // Lazy Component Loading
@@ -54,7 +53,6 @@ const CBTForm = lazy(() => import('./Pages/CBT/CBTForm/cbtForm'));
 const CBTETFForm = lazy(() => import('./Pages/CBT/CBTETF/cbtETFForm'));
 const CBTFundingForm = lazy(() => import('./Pages/CBT/CBTFunding/cbtFundingForm'));
 const CBTInstrumentsForm = lazy(() => import('./Pages/CBT/CBTInstruments/cbtInstrumentsForm'));
-const CBTCurrencyForm = lazy(() => import('./Pages/CBT/CBTCurrency/cbtCurrencyForm'));
 const CBTMacroForm = lazy(() => import('./Pages/CBT/CBTMacro/cbtMacroForm'));
 const GhgEmissions = lazy(() => import('./Pages/Emissions/emissions'));
 const GhgProjections = lazy(() => import('./Pages/Projections/projections'));
@@ -265,15 +263,7 @@ const App = () => {
                   <Route path="view/:entId" element={<CBTInstrumentsForm method="view" />} />
                 </Route>
 
-                {/* CBT Currency Routes - H5. Valuta i metodologija */}
-                <Route path="/cbt-currency" element={<CustomLayout selectedKey="cbt-currency" />}>
-                  <Route path="" element={<CBTCurrencyList />} />
-                  <Route path="add" element={<CBTCurrencyForm method="create" />} />
-                  <Route path="edit/:entId" element={<CBTCurrencyForm method="update" />} />
-                  <Route path="view/:entId" element={<CBTCurrencyForm method="view" />} />
-                </Route>
-
-                {/* CBT Macro Routes - H6. Makro pokazatelji */}
+                {/* CBT Macro Routes - H6. Makro pokazatelji (uključuje H5 - Valuta i metodologija) */}
                 <Route path="/cbt-macro" element={<CustomLayout selectedKey="cbt-macro" />}>
                   <Route path="" element={<CBTMacroList />} />
                   <Route path="add" element={<CBTMacroForm method="create" />} />

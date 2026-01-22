@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Row, Col, Button, Form, Select, Spin, InputNumber } from 'antd';
+import { Row, Col, Button, Form, Select, Spin, InputNumber, Input } from 'antd';
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useConnection } from '../../../Context/ConnectionContext/connectionContext';
@@ -8,6 +8,7 @@ import { getValidationRules } from '../../../Utils/validationRules';
 import '../../../Styles/app.scss';
 
 const { Option } = Select;
+const { TextArea } = Input;
 
 const gutterSize = 30;
 
@@ -20,6 +21,31 @@ const generateYears = () => {
   }
   return years;
 };
+
+// Lista valuta (Currency List)
+const currencies = [
+  { value: 'EUR', label: 'EUR - Euro' },
+  { value: 'USD', label: 'USD - US Dollar' },
+  { value: 'GBP', label: 'GBP - British Pound' },
+  { value: 'CHF', label: 'CHF - Swiss Franc' },
+  { value: 'JPY', label: 'JPY - Japanese Yen' },
+  { value: 'CNY', label: 'CNY - Chinese Yuan' },
+  { value: 'RSD', label: 'RSD - Serbian Dinar' },
+  { value: 'BAM', label: 'BAM - Bosnian Mark' },
+  { value: 'HRK', label: 'HRK - Croatian Kuna' },
+  { value: 'MKD', label: 'MKD - Macedonian Denar' },
+  { value: 'ALL', label: 'ALL - Albanian Lek' },
+];
+
+// Metode preračuna (Conversion Methods)
+const conversionMethods = [
+  { value: 'ecb-rate', label: 'ECB kurs (ECB Exchange Rate)' },
+  { value: 'annual-average', label: 'Godišnji prosjek (Annual Average)' },
+  { value: 'spot-rate', label: 'Spot kurs na dan transakcije (Spot Rate)' },
+  { value: 'central-bank', label: 'Kurs centralne banke (Central Bank Rate)' },
+  { value: 'fixed-rate', label: 'Fiksni kurs (Fixed Rate)' },
+  { value: 'other', label: 'Ostalo (Other)' },
+];
 
 // Interface za projekte iz Osnovnih informacija (CBT)
 interface CBTProjectData {
@@ -273,6 +299,75 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                       max={100}
                       precision={2}
                       addonAfter="%"
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+            </div>
+
+            {/* Sekcija: Valuta i metodologija (H5) */}
+            <div className="form-section-card">
+              <div className="form-section-header">Valuta i metodologija (Currency & Methodology)</div>
+
+              <Row gutter={gutterSize}>
+                {/* Valuta */}
+                <Col span={12}>
+                  <Form.Item
+                    label="Valuta (Currency)"
+                    name="currency"
+                    rules={[validation.required]}
+                    initialValue="EUR"
+                  >
+                    <Select
+                      size="large"
+                      placeholder="Izaberite valutu"
+                      disabled={isView}
+                      showSearch
+                    >
+                      {currencies.map((option) => (
+                        <Option key={option.value} value={option.value}>
+                          {option.label}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+
+                {/* Metod preračuna */}
+                <Col span={12}>
+                  <Form.Item
+                    label="Metod preračuna (Conversion Method)"
+                    name="conversionMethod"
+                    tooltip="Ako je izvorno u drugoj valuti, navedite metod preračuna u EUR"
+                  >
+                    <Select
+                      size="large"
+                      placeholder="Izaberite metod preračuna"
+                      disabled={isView}
+                      allowClear
+                    >
+                      {conversionMethods.map((option) => (
+                        <Option key={option.value} value={option.value}>
+                          {option.label}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Row gutter={gutterSize}>
+                {/* Napomena o metodologiji */}
+                <Col span={24}>
+                  <Form.Item
+                    label="Napomena o metodologiji (Methodology Note - CBT)"
+                    name="methodologyNote"
+                    tooltip="Dodatne informacije o metodologiji korištenoj za klimatsko finansiranje"
+                  >
+                    <TextArea
+                      rows={4}
+                      placeholder="Unesite napomenu o metodologiji (opciono)"
+                      disabled={isView}
                     />
                   </Form.Item>
                 </Col>

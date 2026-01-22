@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { Row, Col, Input, Button, Form, Select, Spin } from 'antd';
+import { Row, Col, Input, Button, Form, Select, Spin, Upload, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import type { UploadFile, UploadProps } from 'antd';
 import { useConnection } from '../../../Context/ConnectionContext/connectionContext';
 import { FormLoadProps } from '../../../Definitions/InterfacesAndType/formInterface';
 import { getValidationRules } from '../../../Utils/validationRules';
@@ -37,6 +39,20 @@ const statusOptions = [
   { value: 'completed', label: 'Završeno (Completed)' },
 ];
 
+// H7: Status verifikacije opcije
+const verificationStatusOptions = [
+  { value: 'unverified', label: 'Neprovjereno (Unverified)' },
+  { value: 'internally-verified', label: 'Interno verifikovano (Internally Verified)' },
+  { value: 'btr-ready', label: 'Spremno za BTR (BTR Ready)' },
+];
+
+// H7: Tipovi dokumenata
+const documentTypes = [
+  { value: 'contract', label: 'Ugovor (Contract)' },
+  { value: 'government-decision', label: 'Odluka Vlade (Government Decision)' },
+  { value: 'donor-agreement', label: 'Donatorski sporazum (Donor Agreement)' },
+];
+
 // Generisanje godina (npr. od 2020 do 2030)
 const generateYears = () => {
   const currentYear = new Date().getFullYear();
@@ -62,6 +78,44 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
+
+  // H7: State za upload dokumenata
+  const [contractFileList, setContractFileList] = useState<UploadFile[]>([]);
+  const [governmentDecisionFileList, setGovernmentDecisionFileList] = useState<UploadFile[]>([]);
+  const [donorAgreementFileList, setDonorAgreementFileList] = useState<UploadFile[]>([]);
+
+  // Upload props za dokumente
+  const getUploadProps = (
+    fileList: UploadFile[],
+    setFileList: React.Dispatch<React.SetStateAction<UploadFile[]>>
+  ): UploadProps => ({
+    beforeUpload: (file) => {
+      const isPdfOrDoc =
+        file.type === 'application/pdf' ||
+        file.type === 'application/msword' ||
+        file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      if (!isPdfOrDoc) {
+        message.error('Možete učitati samo PDF ili Word dokumente!');
+        return Upload.LIST_IGNORE;
+      }
+      const isLt10M = file.size / 1024 / 1024 < 10;
+      if (!isLt10M) {
+        message.error('Dokument mora biti manji od 10MB!');
+        return Upload.LIST_IGNORE;
+      }
+      return false;
+    },
+    fileList,
+    onChange: ({ fileList: newFileList }) => {
+      setFileList(newFileList);
+      setIsSaveButtonDisabled(false);
+    },
+    onRemove: () => {
+      setIsSaveButtonDisabled(false);
+    },
+    maxCount: 5,
+    multiple: true,
+  });
 
   const fetchCBTData = useCallback(async () => {
     setLoading(true);
@@ -218,6 +272,96 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                         </Option>
                       ))}
                     </Select>
+                  </Form.Item>
+                </Col>
+              </Row>
+            </div>
+
+            {/* H7: Dokumentacija i verifikacija */}
+            <div className="form-section-card">
+              <div className="form-section-header">
+                Dokumentacija i verifikacija (Documentation & Verification)
+              </div>
+
+              <Row gutter={gutterSize}>
+                {/* Ugovor */}
+                <Col span={8}>
+                  <Form.Item
+                    label="Ugovor (Contract)"
+                    name="contractDocuments"
+                    tooltip="Učitajte ugovor ili ugovore vezane za projekat"
+                  >
+                    <Upload {...getUploadProps(contractFileList, setContractFileList)}>
+                      <Button icon={<UploadOutlined />} disabled={isView}>
+                        Učitaj dokument
+                      </Button>
+                    </Upload>
+                  </Form.Item>
+                </Col>
+
+                {/* Odluka Vlade */}
+                <Col span={8}>
+                  <Form.Item
+                    label="Odluka Vlade (Government Decision)"
+                    name="governmentDecisionDocuments"
+                    tooltip="Učitajte odluku Vlade vezanu za projekat"
+                  >
+                    <Upload
+                      {...getUploadProps(governmentDecisionFileList, setGovernmentDecisionFileList)}
+                    >
+                      <Button icon={<UploadOutlined />} disabled={isView}>
+                        Učitaj dokument
+                      </Button>
+                    </Upload>
+                  </Form.Item>
+                </Col>
+
+                {/* Donatorski sporazum */}
+                <Col span={8}>
+                  <Form.Item
+                    label="Donatorski sporazum (Donor Agreement)"
+                    name="donorAgreementDocuments"
+                    tooltip="Učitajte donatorski sporazum vezan za projekat"
+                  >
+                    <Upload {...getUploadProps(donorAgreementFileList, setDonorAgreementFileList)}>
+                      <Button icon={<UploadOutlined />} disabled={isView}>
+                        Učitaj dokument
+                      </Button>
+                    </Upload>
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Row gutter={gutterSize}>
+                {/* Status verifikacije */}
+                <Col span={12}>
+                  <Form.Item
+                    label="Status verifikacije (Verification Status)"
+                    name="verificationStatus"
+                    initialValue="unverified"
+                  >
+                    <Select size="large" placeholder="Izaberite status verifikacije" disabled={isView}>
+                      {verificationStatusOptions.map((option) => (
+                        <Option key={option.value} value={option.value}>
+                          {option.label}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+
+                {/* Napomena o verifikaciji */}
+                <Col span={12}>
+                  <Form.Item
+                    label="Napomena o verifikaciji (Verification Note)"
+                    name="verificationNote"
+                    tooltip="Dodatne informacije o statusu verifikacije"
+                  >
+                    <Input
+                      size="large"
+                      placeholder="Unesite napomenu (opciono)"
+                      disabled={isView}
+                    />
                   </Form.Item>
                 </Col>
               </Row>

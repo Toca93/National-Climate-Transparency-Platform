@@ -17,6 +17,7 @@ interface Item {
   id: string;
   projectName: string;
   year: number;
+  currency: string;
   gdp: number;
   climateFinanceShareGdp: number;
   climateFinanceShareBudget: number;
@@ -53,9 +54,16 @@ const CBTMacroList = () => {
     },
     {
       title: 'Godina',
-      width: 100,
+      width: 80,
       dataIndex: 'year',
       key: 'year',
+      sorter: false,
+    },
+    {
+      title: 'Valuta',
+      width: 80,
+      dataIndex: 'currency',
+      key: 'currency',
       sorter: false,
     },
     {
