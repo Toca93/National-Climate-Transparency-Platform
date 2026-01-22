@@ -20,5 +20,6 @@
     "gwp_ch4": "CH4",
     "gwp_n2o": "N2O",
 
-    "gwpUpdateSuccess": "Successfully Saved the GWP Data"
+    "gwpUpdateSuccess": "Successfully Saved the GWP Data",
+    "projectionParametersUpdateSuccess": "Projection parameters saved successfully"
 }

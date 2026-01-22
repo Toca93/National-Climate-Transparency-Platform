@@ -1,9 +1,14 @@
-import { useState } from 'react';
-import { Row, Col, Table, TableProps, InputNumber, Button } from 'antd';
+import { useEffect, useState } from 'react';
+import { Row, Col, Table, TableProps, InputNumber, Button, message } from 'antd';
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import './projectionParameters.scss';
 import { useTranslation } from 'react-i18next';
 import '../../Pages/Configurations/configurations.scss';
+import { useConnection } from '../../Context/ConnectionContext/connectionContext';
+import { displayErrorMessage } from '../../Utils/errorMessageHandler';
+import { ConfigurationSettingsType } from '../../Enums/configuration.enum';
+import { useUserContext } from '../../Context/UserInformationContext/userInformationContext';
+import { Role } from '../../Enums/role.enum';
 
 // Enum for parameter IDs
 export enum ProjectionParameterId {
@@ -89,7 +94,42 @@ const YEARS = generateYears();
 
 export const ProjectionParameters: React.FC = () => {
   const [isFuelGroupOpen, setIsFuelGroupOpen] = useState<boolean>(false);
-  const { t } = useTranslation(['configuration']);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [parametersData, setParametersData] = useState<
+    Record<string, Record<number, number | null>>
+  >({});
+  const { t } = useTranslation(['configuration', 'entityAction']);
+  const { get, post } = useConnection();
+  const { userInfoState } = useUserContext();
+
+  // Fetch existing data on component load
+  useEffect(() => {
+    const fetchParameters = async () => {
+      setIsLoading(true);
+      try {
+        const response = await get(
+          `national/settings/${ConfigurationSettingsType.PROJECTION_PARAMETERS}`
+        );
+
+        if (response.status === 200 || response.status === 201) {
+          setParametersData(response.data || {});
+        }
+      } catch (error: any) {
+        console.error('Failed to fetch projection parameters', error);
+        if (error?.status === 404) {
+          // No existing data, start with empty state
+          setParametersData({});
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const debounceTimeout = setTimeout(() => {
+      fetchParameters();
+    }, 200);
+    return () => clearTimeout(debounceTimeout);
+  }, []);
 
   // Filter visible rows based on fuel group state
   const visibleRows = PARAMETER_ROWS.filter(
@@ -139,6 +179,30 @@ export const ProjectionParameters: React.FC = () => {
     },
   ];
 
+  const handleSave = async () => {
+    setIsLoading(true);
+    try {
+      const reqBody = {
+        id: ConfigurationSettingsType.PROJECTION_PARAMETERS,
+        settingValue: parametersData,
+      };
+      const response: any = await post('national/settings/update', reqBody);
+
+      if (response.status === 200 || response.status === 201) {
+        message.open({
+          type: 'success',
+          content: t('configuration:projectionParametersUpdateSuccess'),
+          duration: 3,
+          style: { textAlign: 'right', marginRight: 15, marginTop: 10 },
+        });
+      }
+    } catch (error: any) {
+      displayErrorMessage(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Add year columns
   YEARS.forEach((year) => {
     columns.push({
@@ -150,7 +214,22 @@ export const ProjectionParameters: React.FC = () => {
         if (record.isGroup) {
           return null;
         }
-        return <InputNumber controls={false} className="leaf-input-box" />;
+        return (
+          <InputNumber
+            controls={false}
+            className="leaf-input-box"
+            value={parametersData[record.id]?.[year] ?? null}
+            onChange={(value) => {
+              setParametersData((prev) => ({
+                ...prev,
+                [record.id]: {
+                  ...prev[record.id],
+                  [year]: value,
+                },
+              }));
+            }}
+          />
+        );
       },
     });
   });
@@ -167,6 +246,7 @@ export const ProjectionParameters: React.FC = () => {
       <Row className="parameters-table-container">
         <Col span={24}>
           <Table
+            loading={isLoading}
             dataSource={visibleRows}
             columns={columns}
             pagination={false}
@@ -176,13 +256,21 @@ export const ProjectionParameters: React.FC = () => {
         </Col>
       </Row>
 
-      <Row gutter={20} className="action-row" justify={'end'} style={{ marginTop: '20px' }}>
-        <Col>
-          <Button type="primary" style={{ height: '35px', width: '90px' }} block>
-            {t('entityAction:update')}
-          </Button>
-        </Col>
-      </Row>
+      {userInfoState?.userRole === Role.Root && (
+        <Row gutter={20} className="action-row" justify={'end'} style={{ marginTop: '20px' }}>
+          <Col>
+            <Button
+              type="primary"
+              style={{ height: '35px', width: '90px' }}
+              block
+              onClick={handleSave}
+              loading={isLoading}
+            >
+              {t('entityAction:update')}
+            </Button>
+          </Col>
+        </Row>
+      )}
     </div>
   );
 };
