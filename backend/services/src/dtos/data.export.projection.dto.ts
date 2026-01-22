@@ -27,6 +27,9 @@ export const DETAIL_YEARS: number[] = Array.from(
 /** Svi podržani tipovi scenarija za izvoz */
 export type ProjectionScenarioType = 'WM' | 'WAM' | 'WOM';
 
+/** Valid scenario types array for validation */
+export const VALID_SCENARIO_TYPES: ProjectionScenarioType[] = ['WM', 'WAM', 'WOM'];
+
 // ============================================================================
 // SEKTORI
 // ============================================================================

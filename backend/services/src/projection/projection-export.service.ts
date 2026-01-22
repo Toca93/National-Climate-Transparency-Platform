@@ -313,5 +313,27 @@ export class ProjectionExportService {
     const dataset = await this.getProjectionExportDataset(scenarioType);
     return this.exportProjectionToXlsxBuffer(dataset);
   }
+
+  /**
+   * Exports projection and returns buffer with file metadata.
+   *
+   * @param scenarioType - Scenario type ('WM', 'WAM', 'WOM')
+   * @returns Object containing buffer, filename, and content type
+   */
+  async exportProjectionWithMetadata(scenarioType: ProjectionScenarioType): Promise<{
+    buffer: Buffer;
+    filename: string;
+    contentType: string;
+  }> {
+    const buffer = await this.exportProjection(scenarioType);
+    const filename = `ghg-projections-${scenarioType}.xlsx`;
+    const contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+    return {
+      buffer,
+      filename,
+      contentType,
+    };
+  }
 }
 
