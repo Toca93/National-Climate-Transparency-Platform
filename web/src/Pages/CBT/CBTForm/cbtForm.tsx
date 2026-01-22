@@ -340,7 +340,11 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="verificationStatus"
                     initialValue="unverified"
                   >
-                    <Select size="large" placeholder="Izaberite status verifikacije" disabled={isView}>
+                    <Select
+                      size="large"
+                      placeholder="Izaberite status verifikacije"
+                      disabled={isView}
+                    >
                       {verificationStatusOptions.map((option) => (
                         <Option key={option.value} value={option.value}>
                           {option.label}

@@ -307,7 +307,9 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
 
             {/* Sekcija: Valuta i metodologija (H5) */}
             <div className="form-section-card">
-              <div className="form-section-header">Valuta i metodologija (Currency & Methodology)</div>
+              <div className="form-section-header">
+                Valuta i metodologija (Currency & Methodology)
+              </div>
 
               <Row gutter={gutterSize}>
                 {/* Valuta */}
