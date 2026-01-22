@@ -3,7 +3,7 @@ import { Row, Col, Input, Button, Form, Select, Spin, Upload, message } from 'an
 import { UploadOutlined } from '@ant-design/icons';
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import type { UploadFile, UploadProps } from 'antd';
+import { UploadFile, UploadProps } from 'antd/lib/upload/interface';
 import { useConnection } from '../../../Context/ConnectionContext/connectionContext';
 import { FormLoadProps } from '../../../Definitions/InterfacesAndType/formInterface';
 import { getValidationRules } from '../../../Utils/validationRules';
