@@ -1,65 +1,20 @@
 @import '../../Styles/variables.scss';
 
 .projection-parameters {
-  .projection-section-card {
-    background-color: #ffffff;
-    border-radius: 10px;
-    width: 100%;
-    margin-bottom: 10px;
-    padding-top: 25px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-bottom: 30px;
-  }
-
   .parameters-table-container {
     margin-top: 20px;
-    overflow-x: auto;
-
-    &::-webkit-scrollbar {
-      height: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: #f0e9fd;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: #d5d0dd;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      cursor: pointer;
-    }
   }
 
   .collapse-icon {
     cursor: pointer;
-    color: #595959;
-
   }
 
-  .param-input {
-    width: 100%;
-    max-width: 100px;
-    padding: 4px 8px;
-    border: 1px solid #d9d9d9;
-    border-radius: 6px;
-    text-align: center;
-    // font-size: 14px;
+  .leaf-input-box {
+    width: fit-content;
 
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+    .ant-input-number-input {
+      text-align: center;
     }
-
-    &::-webkit-inner-spin-button,
-    &::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    -moz-appearance: textfield;
   }
 
   .group-row {
@@ -73,6 +28,12 @@
   .ant-table-thead > tr > th {
     background-color: #f5f5f5;
     font-weight: 600;
+  }
+
+  // Fix table scroll shadow
+  .ant-table-ping-right .ant-table-cell-fix-right-first::after,
+  .ant-table-ping-left .ant-table-cell-fix-left-last::after {
+    box-shadow: none;
   }
 }
 

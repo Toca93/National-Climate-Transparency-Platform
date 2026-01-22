@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { Row, Col, Table, TableProps } from 'antd';
+import { Row, Col, Table, TableProps, InputNumber, Button } from 'antd';
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import './projectionParameters.scss';
+import { useTranslation } from 'react-i18next';
+import '../../Pages/Configurations/configurations.scss';
 
 // Enum for parameter IDs
 export enum ProjectionParameterId {
@@ -27,12 +29,12 @@ interface ParameterRow {
 
 // Fixed parameter rows
 const PARAMETER_ROWS: ParameterRow[] = [
-  { key: '1', id: ProjectionParameterId.GDP_EUR, name: 'GDP (BDP), EUR' },
+  { key: '1', id: ProjectionParameterId.GDP_EUR, name: 'BDP (€)' },
   { key: '2', id: ProjectionParameterId.POPULATION, name: 'Broj stanovnika' },
   {
     key: '3',
     id: ProjectionParameterId.FUEL_PRICES,
-    name: 'Cijene goriva',
+    name: 'Cijene goriva (€)',
     isGroup: true,
   },
   {
@@ -86,7 +88,8 @@ const generateYears = (): number[] => {
 const YEARS = generateYears();
 
 export const ProjectionParameters: React.FC = () => {
-  const [isFuelGroupOpen, setIsFuelGroupOpen] = useState<boolean>(true);
+  const [isFuelGroupOpen, setIsFuelGroupOpen] = useState<boolean>(false);
+  const { t } = useTranslation(['configuration']);
 
   // Filter visible rows based on fuel group state
   const visibleRows = PARAMETER_ROWS.filter(
@@ -107,11 +110,13 @@ export const ProjectionParameters: React.FC = () => {
             <MinusCircleOutlined
               className="collapse-icon"
               onClick={() => setIsFuelGroupOpen(false)}
+              style={{ color: '#0468B1', fontSize: '14px' }}
             />
           ) : (
             <PlusCircleOutlined
               className="collapse-icon"
               onClick={() => setIsFuelGroupOpen(true)}
+              style={{ color: '#0468B1', fontSize: '14px' }}
             />
           );
         }
@@ -145,43 +150,39 @@ export const ProjectionParameters: React.FC = () => {
         if (record.isGroup) {
           return null;
         }
-        return <input type="number" className="param-input" step="any" />;
+        return <InputNumber controls={false} className="leaf-input-box" />;
       },
     });
   });
 
   return (
-    <div className="projection-parameters">
-      <div className="projection-section-card">
-        <div className="ant-tabs ant-tabs-top ant-tabs-centered">
-          <div className="ant-tabs-nav">
-            <div className="ant-tabs-nav-wrap">
-              <div className="ant-tabs-nav-list">
-                <div className="ant-tabs-tab ant-tabs-tab-active">
-                  <div className="ant-tabs-tab-btn">Projection Parameters</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="ant-tabs-content-holder">
-            <div className="ant-tabs-content">
-              <div className="ant-tabs-tabpane ant-tabs-tabpane-active">
-                <Row className="parameters-table-container">
-                  <Col span={24}>
-                    <Table
-                      dataSource={visibleRows}
-                      columns={columns}
-                      pagination={false}
-                      scroll={{ x: 'max-content' }}
-                      rowClassName={(record) => (record.isGroup ? 'group-row' : '')}
-                    />
-                  </Col>
-                </Row>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="configuration-section-card projection-parameters">
+      <div className="form-section-header sectors">
+        {t('configuration:projectionParametersTitle')}
       </div>
+      <div className="form-section-subheader">
+        {t('configuration:projectionParametersDescription')}
+      </div>
+
+      <Row className="parameters-table-container">
+        <Col span={24}>
+          <Table
+            dataSource={visibleRows}
+            columns={columns}
+            pagination={false}
+            scroll={{ x: 'max-content' }}
+            rowClassName={(record) => (record.isGroup ? 'group-row' : '')}
+          />
+        </Col>
+      </Row>
+
+      <Row gutter={20} className="action-row" justify={'end'} style={{ marginTop: '20px' }}>
+        <Col>
+          <Button type="primary" style={{ height: '35px', width: '90px' }} block>
+            {t('entityAction:update')}
+          </Button>
+        </Col>
+      </Row>
     </div>
   );
 };
