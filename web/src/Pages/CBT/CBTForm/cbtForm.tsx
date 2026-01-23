@@ -113,7 +113,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
   const fetchCBTData = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await get(`cbt/${entId}`);
+      const response = await get(`national/cbt/${entId}`);
       if (response.data) {
         // Convert reportingYear back to string for the Select component
         const formData = {
@@ -147,13 +147,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
       };
 
       if (method === 'create') {
-        const response = await post('cbt/add', payload);
+        const response = await post('national/cbt/add', payload);
         if (response.status === 200 || response.status === 201) {
           message.success(response.message || 'CBT record created successfully');
           navigate('/cbt');
         }
       } else if (method === 'update') {
-        const response = await put('cbt/update', { ...payload, id: entId });
+        const response = await put('national/cbt/update', { ...payload, id: entId });
         if (response.status === 200 || response.status === 201) {
           message.success(response.message || 'CBT record updated successfully');
           navigate('/cbt');
