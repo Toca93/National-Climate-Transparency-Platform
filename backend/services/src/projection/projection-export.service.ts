@@ -17,6 +17,8 @@ import {
   SECTOR_LEAF_CATEGORIES,
   SUMMARY_YEARS,
 } from '../dtos/data.export.projection.dto';
+import { ConfigurationSettingsService } from '../util/configurationSettings.service';
+import { ConfigurationSettingsType } from '../enums/configuration.settings.type.enum';
 
 // ============================================================================
 // CONSTANTS
@@ -40,6 +42,30 @@ const SCENARIO_LABELS: Record<ProjectionScenarioType, string> = {
   WAM: 'With Additional Measures',
   WOM: 'Without Measures',
 };
+
+/** Parameter ID to display name mapping */
+const PARAMETER_NAMES: Record<string, string> = {
+  gdp_eur: 'BDP (€)',
+  population: 'Broj stanovnika',
+  fuel_bmb95: 'Eurosuper 95 (BMB 95)',
+  fuel_bmb98: 'Eurosuper 98 (BMB 98)',
+  fuel_eurodizel: 'Eurodizel',
+  fuel_loz_ulje: 'Lož ulje (ekstra lako / lako)',
+  fuel_lpg: 'TNG / LPG (autogas)',
+  fuel_plinsko_ulje: 'Plinsko ulje',
+};
+
+/** Order of parameters for export */
+const PARAMETER_ORDER = [
+  'gdp_eur',
+  'population',
+  'fuel_bmb95',
+  'fuel_bmb98',
+  'fuel_eurodizel',
+  'fuel_loz_ulje',
+  'fuel_lpg',
+  'fuel_plinsko_ulje',
+];
 
 // ============================================================================
 // HELPER FUNCTIONS
@@ -138,6 +164,7 @@ export class ProjectionExportService {
   constructor(
     @InjectRepository(ProjectionEntity)
     private readonly projectionRepo: Repository<ProjectionEntity>,
+    private readonly configurationSettingsService: ConfigurationSettingsService,
   ) {}
 
   /**
@@ -216,7 +243,10 @@ export class ProjectionExportService {
       this.createSectorSheet(workbook, sectorSheet, dataset.detailYears);
     }
 
-    // 3. Write to buffer
+    // 3. Create projection parameters sheet
+    await this.createProjectionParametersSheet(workbook, dataset.detailYears);
+
+    // 4. Write to buffer
     const buffer = await workbook.xlsx.writeBuffer();
     return Buffer.from(buffer);
   }
@@ -272,10 +302,63 @@ export class ProjectionExportService {
   }
 
   /**
+   * Creates the Projection Parameters sheet with parameter data.
+   */
+  private async createProjectionParametersSheet(
+    workbook: ExcelJS.Workbook,
+    detailYears: number[],
+  ): Promise<void> {
+    const sheet = workbook.addWorksheet('Projection Parameters');
+
+    // Fetch projection parameters from configuration settings
+    let parametersData: Record<string, Record<number, number | null>> = {};
+    try {
+      const settings = (await this.configurationSettingsService.getSetting(
+        ConfigurationSettingsType.PROJECTION_PARAMETERS,
+      )) as Record<string, Record<number, number | null>>;
+      parametersData = settings || {};
+    } catch (error) {
+      this.logger.warn('Failed to fetch projection parameters, using empty data', error);
+    }
+
+    // Header row: "Parameter" + years
+    const headerRow = ['Parameter', ...detailYears.map(String)];
+    sheet.addRow(headerRow);
+
+    // Data rows: one per parameter
+    for (const paramId of PARAMETER_ORDER) {
+      const paramName = PARAMETER_NAMES[paramId] || paramId;
+      const paramData = parametersData[paramId] || {};
+
+      const rowData: (string | number)[] = [paramName];
+      for (const year of detailYears) {
+        const value = paramData[year];
+        rowData.push(value !== null && value !== undefined ? value : 0);
+      }
+      const row = sheet.addRow(rowData);
+
+      // Apply number format based on parameter type
+      // Integer format for GDP and Population
+      const isIntegerParam = paramId === 'gdp_eur' || paramId === 'population';
+      const numFmt = isIntegerParam ? '#,##0' : '#,##0.00';
+
+      for (let i = 2; i <= detailYears.length + 1; i++) {
+        const cell = row.getCell(i);
+        cell.numFmt = numFmt;
+        cell.alignment = { horizontal: 'center', vertical: 'middle' };
+      }
+    }
+
+    // Apply formatting
+    this.applyProjectionParametersFormatting(sheet, detailYears.length + 1);
+  }
+
+  /**
    * Applies basic formatting to a worksheet:
    * - Freeze top row and first column
    * - Auto-fit column widths
    * - Apply number format to data cells
+   * - Center align all columns except the first
    */
   private applySheetFormatting(sheet: ExcelJS.Worksheet, columnCount: number): void {
     // Freeze top row and first column
@@ -291,16 +374,51 @@ export class ProjectionExportService {
     });
     sheet.getColumn(1).width = Math.min(maxWidth, 60); // Cap at 60
 
-    // Set year columns width and number format
+    // Set year columns width, number format, and center alignment
     for (let i = 2; i <= columnCount; i++) {
       const col = sheet.getColumn(i);
       col.width = 12;
       col.numFmt = '#,##0.00';
+      col.alignment = { horizontal: 'center', vertical: 'middle' };
     }
 
     // Bold header row
     const headerRow = sheet.getRow(1);
     headerRow.font = { bold: true };
+    // Center align header cells (except first column)
+    for (let i = 2; i <= columnCount; i++) {
+      headerRow.getCell(i).alignment = { horizontal: 'center', vertical: 'middle' };
+    }
+  }
+
+  private applyProjectionParametersFormatting(sheet: ExcelJS.Worksheet, columnCount: number): void {
+    // Freeze top row and first column
+    sheet.views = [
+      { state: 'frozen', xSplit: 1, ySplit: 1, topLeftCell: 'B2', activeCell: 'B2' },
+    ];
+
+    // Auto-fit first column (parameter names)
+    let maxWidth = 10;
+    sheet.getColumn(1).eachCell((cell) => {
+      const cellValue = cell.value?.toString() || '';
+      maxWidth = Math.max(maxWidth, cellValue.length + 2);
+    });
+    sheet.getColumn(1).width = Math.min(maxWidth, 60); // Cap at 60
+
+    // Set year columns width and center alignment
+    for (let i = 2; i <= columnCount; i++) {
+      const col = sheet.getColumn(i);
+      col.width = 12;
+      col.alignment = { horizontal: 'center', vertical: 'middle' };
+    }
+
+    // Bold header row
+    const headerRow = sheet.getRow(1);
+    headerRow.font = { bold: true };
+    // Center align header cells (except first column)
+    for (let i = 2; i <= columnCount; i++) {
+      headerRow.getCell(i).alignment = { horizontal: 'center', vertical: 'middle' };
+    }
   }
 
   /**
