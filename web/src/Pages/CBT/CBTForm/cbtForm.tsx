@@ -113,15 +113,22 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
   const fetchCBTData = useCallback(async () => {
     setLoading(true);
     try {
-      // TODO: Implementirati API poziv
-      // const response = await get(`cbt/${entId}`);
-      // form.setFieldsValue(response.data);
-    } catch (error) {
+      const response = await get(`cbt/${entId}`);
+      if (response.data) {
+        // Convert reportingYear back to string for the Select component
+        const formData = {
+          ...response.data,
+          reportingYear: response.data.reportingYear?.toString(),
+        };
+        form.setFieldsValue(formData);
+      }
+    } catch (error: any) {
       console.error('Error fetching CBT data:', error);
+      message.error(error.message || 'Failed to load CBT data');
     } finally {
       setLoading(false);
     }
-  }, [get, entId]);
+  }, [get, entId, form]);
 
   // Učitavanje podataka za edit/view
   useEffect(() => {
@@ -133,18 +140,28 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
   const onFinish = async (values: any) => {
     setLoading(true);
     try {
+      // Prepare payload - convert reportingYear to number
+      const payload = {
+        ...values,
+        reportingYear: parseInt(values.reportingYear, 10),
+      };
+
       if (method === 'create') {
-        // TODO: Implementirati API poziv
-        // await post('cbt', values);
-        console.log('Create CBT:', values);
+        const response = await post('cbt/add', payload);
+        if (response.status === 200 || response.status === 201) {
+          message.success(response.message || 'CBT record created successfully');
+          navigate('/cbt');
+        }
       } else if (method === 'update') {
-        // TODO: Implementirati API poziv
-        // await put(`cbt/${entId}`, values);
-        console.log('Update CBT:', values);
+        const response = await put('cbt/update', { ...payload, id: entId });
+        if (response.status === 200 || response.status === 201) {
+          message.success(response.message || 'CBT record updated successfully');
+          navigate('/cbt');
+        }
       }
-      navigate('/cbt');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving CBT:', error);
+      message.error(error.message || 'Failed to save CBT record');
     } finally {
       setLoading(false);
     }
