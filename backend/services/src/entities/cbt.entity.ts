@@ -14,6 +14,13 @@ export enum CBTStatus {
   CANCELLED = "Cancelled",
 }
 
+// H7: Status verifikacije
+export enum CBTVerificationStatus {
+  UNVERIFIED = "Unverified",
+  INTERNALLY_VERIFIED = "InternallyVerified",
+  BTR_READY = "BTRReady",
+}
+
 @Entity("cbt")
 export class CBTEntity {
   @PrimaryColumn()
@@ -38,6 +45,27 @@ export class CBTEntity {
   // Validacija
   @Column({ type: "boolean", default: false })
   validated: boolean;
+
+  // H7 - Dokumentacija i verifikacija
+  @Column({
+    type: "enum",
+    enum: CBTVerificationStatus,
+    default: CBTVerificationStatus.UNVERIFIED,
+    nullable: true,
+  })
+  verificationStatus: CBTVerificationStatus;
+
+  @Column({ nullable: true })
+  verificationNote: string;
+
+  @Column({ type: "text", array: true, nullable: true })
+  contractDocuments: string[];
+
+  @Column({ type: "text", array: true, nullable: true })
+  governmentDecisionDocuments: string[];
+
+  @Column({ type: "text", array: true, nullable: true })
+  donorAgreementDocuments: string[];
 
   @CreateDateColumn({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
   createdTime: Date;

@@ -34,23 +34,16 @@ const institutions = [
 
 // Status opcije (H1: planirano / u toku / završeno)
 const statusOptions = [
-  { value: 'planned', label: 'Planirano (Planned)' },
-  { value: 'ongoing', label: 'U toku (Ongoing)' },
-  { value: 'completed', label: 'Završeno (Completed)' },
+  { value: 'Planned', label: 'Planirano (Planned)' },
+  { value: 'Ongoing', label: 'U toku (Ongoing)' },
+  { value: 'Completed', label: 'Završeno (Completed)' },
 ];
 
 // H7: Status verifikacije opcije
 const verificationStatusOptions = [
-  { value: 'unverified', label: 'Neprovjereno (Unverified)' },
-  { value: 'internally-verified', label: 'Interno verifikovano (Internally Verified)' },
-  { value: 'btr-ready', label: 'Spremno za BTR (BTR Ready)' },
-];
-
-// H7: Tipovi dokumenata
-const documentTypes = [
-  { value: 'contract', label: 'Ugovor (Contract)' },
-  { value: 'government-decision', label: 'Odluka Vlade (Government Decision)' },
-  { value: 'donor-agreement', label: 'Donatorski sporazum (Donor Agreement)' },
+  { value: 'Unverified', label: 'Neprovjereno (Unverified)' },
+  { value: 'InternallyVerified', label: 'Interno verifikovano (Internally Verified)' },
+  { value: 'BTRReady', label: 'Spremno za BTR (BTR Ready)' },
 ];
 
 // Generisanje godina (npr. od 2020 do 2030)
@@ -338,7 +331,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                   <Form.Item
                     label="Status verifikacije (Verification Status)"
                     name="verificationStatus"
-                    initialValue="unverified"
+                    initialValue="Unverified"
                   >
                     <Select
                       size="large"

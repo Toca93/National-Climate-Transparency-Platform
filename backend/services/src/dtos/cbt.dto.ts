@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import {
+  IsArray,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -8,7 +9,7 @@ import {
   Min,
   Max,
 } from "class-validator";
-import { CBTStatus } from "../entities/cbt.entity";
+import { CBTStatus, CBTVerificationStatus } from "../entities/cbt.entity";
 
 export class CBTDto {
   id: string;
@@ -44,6 +45,38 @@ export class CBTDto {
     enum: Object.values(CBTStatus),
   })
   status: CBTStatus;
+
+  // H7 - Dokumentacija i verifikacija
+  @IsOptional()
+  @IsEnum(CBTVerificationStatus, {
+    message:
+      "Invalid Verification Status. Supported following status: " +
+      Object.values(CBTVerificationStatus),
+  })
+  @ApiPropertyOptional({
+    enum: Object.values(CBTVerificationStatus),
+  })
+  verificationStatus: CBTVerificationStatus;
+
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional()
+  verificationNote: string;
+
+  @IsOptional()
+  @IsArray()
+  @ApiPropertyOptional()
+  contractDocuments: string[];
+
+  @IsOptional()
+  @IsArray()
+  @ApiPropertyOptional()
+  governmentDecisionDocuments: string[];
+
+  @IsOptional()
+  @IsArray()
+  @ApiPropertyOptional()
+  donorAgreementDocuments: string[];
 }
 
 export class CBTUpdateDto {
@@ -83,4 +116,36 @@ export class CBTUpdateDto {
     enum: Object.values(CBTStatus),
   })
   status: CBTStatus;
+
+  // H7 - Dokumentacija i verifikacija
+  @IsOptional()
+  @IsEnum(CBTVerificationStatus, {
+    message:
+      "Invalid Verification Status. Supported following status: " +
+      Object.values(CBTVerificationStatus),
+  })
+  @ApiPropertyOptional({
+    enum: Object.values(CBTVerificationStatus),
+  })
+  verificationStatus: CBTVerificationStatus;
+
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional()
+  verificationNote: string;
+
+  @IsOptional()
+  @IsArray()
+  @ApiPropertyOptional()
+  contractDocuments: string[];
+
+  @IsOptional()
+  @IsArray()
+  @ApiPropertyOptional()
+  governmentDecisionDocuments: string[];
+
+  @IsOptional()
+  @IsArray()
+  @ApiPropertyOptional()
+  donorAgreementDocuments: string[];
 }

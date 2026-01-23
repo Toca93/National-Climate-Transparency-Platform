@@ -10,7 +10,8 @@
       "Bash(docker ps:*)",
       "Bash(npx prettier:*)",
       "Bash(npm install:*)",
-      "Bash(./node_modules/.bin/tsc:*)"
+      "Bash(./node_modules/.bin/tsc:*)",
+      "Bash(yarn tsc:*)"
     ]
   }
 }
