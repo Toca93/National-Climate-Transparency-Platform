@@ -17,6 +17,13 @@ const fundingSources = [
   { value: 'international-fund', label: 'Međunarodni fond (International Fund)' },
   { value: 'bilateral-aid', label: 'Bilateralna pomoć (Bilateral Aid)' },
   { value: 'private-sector', label: 'Privatni sektor (Private Sector)' },
+  { value: 'grant', label: 'Grant' },
+  { value: 'concessional-loan', label: 'Koncesioni zajam (Concessional Loan)' },
+  { value: 'non-concessional-loan', label: 'Nekoncesioni zajam (Non-concessional Loan)' },
+  { value: 'equity', label: 'Kapital (Equity)' },
+  { value: 'guarantee', label: 'Garancija (Guarantee)' },
+  { value: 'insurance', label: 'Osiguranje (Insurance)' },
+  { value: 'other', label: 'Ostalo (Other)' },
 ];
 
 // Nazivi fondova (Fund Names)
