@@ -74,8 +74,6 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
 
   // H7: State za upload dokumenata
   const [contractFileList, setContractFileList] = useState<UploadFile[]>([]);
-  const [governmentDecisionFileList, setGovernmentDecisionFileList] = useState<UploadFile[]>([]);
-  const [donorAgreementFileList, setDonorAgreementFileList] = useState<UploadFile[]>([]);
 
   // Upload props za dokumente
   const getUploadProps = (
@@ -294,46 +292,14 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               </div>
 
               <Row gutter={gutterSize}>
-                {/* Ugovor */}
-                <Col span={8}>
+                {/* Dokumenti */}
+                <Col span={12}>
                   <Form.Item
-                    label="Ugovor (Contract)"
-                    name="contractDocuments"
-                    tooltip="Učitajte ugovor ili ugovore vezane za projekat"
+                    label="Dokumenti (Documents)"
+                    name="documents"
+                    tooltip="Učitajte relevantne dokumente vezane za projekat"
                   >
                     <Upload {...getUploadProps(contractFileList, setContractFileList)}>
-                      <Button icon={<UploadOutlined />} disabled={isView}>
-                        Učitaj dokument
-                      </Button>
-                    </Upload>
-                  </Form.Item>
-                </Col>
-
-                {/* Odluka Vlade */}
-                <Col span={8}>
-                  <Form.Item
-                    label="Odluka Vlade (Government Decision)"
-                    name="governmentDecisionDocuments"
-                    tooltip="Učitajte odluku Vlade vezanu za projekat"
-                  >
-                    <Upload
-                      {...getUploadProps(governmentDecisionFileList, setGovernmentDecisionFileList)}
-                    >
-                      <Button icon={<UploadOutlined />} disabled={isView}>
-                        Učitaj dokument
-                      </Button>
-                    </Upload>
-                  </Form.Item>
-                </Col>
-
-                {/* Donatorski sporazum */}
-                <Col span={8}>
-                  <Form.Item
-                    label="Donatorski sporazum (Donor Agreement)"
-                    name="donorAgreementDocuments"
-                    tooltip="Učitajte donatorski sporazum vezan za projekat"
-                  >
-                    <Upload {...getUploadProps(donorAgreementFileList, setDonorAgreementFileList)}>
                       <Button icon={<UploadOutlined />} disabled={isView}>
                         Učitaj dokument
                       </Button>
