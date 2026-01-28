@@ -30,6 +30,8 @@ i18n
       'homepage',
       'socialEnvironmentalRisk',
       'projection',
+      'configuration',
+      'entityAction',
     ],
   });
 export default i18n;
