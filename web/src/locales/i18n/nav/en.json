@@ -12,6 +12,7 @@
   "users": "Users",
   "emissions": "Emissions",
   "projections": "Projections",
+  "projectionParameters": "Projection Parameters",
   "combinedExpected": "Combined - Expected",
   "combinedAchieved": "Combined - Achieved",
   "configurations": "Configurations"

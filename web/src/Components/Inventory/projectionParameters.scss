@@ -1,0 +1,39 @@
+@import '../../Styles/variables.scss';
+
+.projection-parameters {
+  .parameters-table-container {
+    margin-top: 20px;
+  }
+
+  .collapse-icon {
+    cursor: pointer;
+  }
+
+  .leaf-input-box {
+    width: fit-content;
+
+    .ant-input-number-input {
+    text-align: center;
+    }
+  }
+
+  .group-row {
+    background-color: #fafafa;
+
+    td {
+      font-weight: 600;
+    }
+  }
+
+  .ant-table-thead > tr > th {
+    background-color: #f5f5f5;
+    font-weight: 600;
+  }
+
+  // Fix table scroll shadow
+  .ant-table-ping-right .ant-table-cell-fix-right-first::after,
+  .ant-table-ping-left .ant-table-cell-fix-left-last::after {
+    box-shadow: none;
+  }
+}
+

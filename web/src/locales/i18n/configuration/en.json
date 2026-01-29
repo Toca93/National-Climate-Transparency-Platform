@@ -7,6 +7,8 @@
     "growthRateConfigurationTitle": "Projection Growth Rate",
     "sectorMappingConfigurationTitle": "Sector Mapping",
     "sectorMappingDescription": "Use this section to map each IPCC sub-sector to a sector for Annex II – Reports 7, 8, and 9. This mapping determines how data will be populated in those reports. Each IPCC sub-sector should be mapped to one sector.",
+    "projectionParametersTitle": "Projection Parameters",
+    "projectionParametersDescription": "These parameters are exported together with projection exports.",
     
     "growthRate": "Growth Rate (%)",
     "baselineYear": "Baseline Year",
@@ -18,5 +20,6 @@
     "gwp_ch4": "CH4",
     "gwp_n2o": "N2O",
 
-    "gwpUpdateSuccess": "Successfully Saved the GWP Data"
+    "gwpUpdateSuccess": "Successfully Saved the GWP Data",
+    "projectionParametersUpdateSuccess": "Projection parameters saved successfully"
 }
