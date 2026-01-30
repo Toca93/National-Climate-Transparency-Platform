@@ -11,7 +11,8 @@
       "Bash(npx prettier:*)",
       "Bash(npm install:*)",
       "Bash(./node_modules/.bin/tsc:*)",
-      "Bash(yarn tsc:*)"
+      "Bash(yarn tsc:*)",
+      "Bash(git clean:*)"
     ]
   }
 }

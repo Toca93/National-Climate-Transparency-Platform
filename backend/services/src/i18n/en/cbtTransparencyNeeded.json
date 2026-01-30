@@ -1,0 +1,9 @@
+{
+  "notFound": "A CBT Transparency Needed record with id {} is not found",
+  "createFailed": "CBT Transparency Needed record creation failed due to {}",
+  "createSuccess": "CBT Transparency Needed record created successfully",
+  "updateFailed": "CBT Transparency Needed record update failed due to {}",
+  "updateSuccess": "CBT Transparency Needed record updated successfully",
+  "deleteFailed": "CBT Transparency Needed record deletion failed due to {}",
+  "deleteSuccess": "CBT Transparency Needed record deleted successfully"
+}

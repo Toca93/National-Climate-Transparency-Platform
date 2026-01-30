@@ -1,0 +1,9 @@
+{
+  "notFound": "A CBT Finance Received record with id {} is not found",
+  "createFailed": "CBT Finance Received record creation failed due to {}",
+  "createSuccess": "CBT Finance Received record created successfully",
+  "updateFailed": "CBT Finance Received record update failed due to {}",
+  "updateSuccess": "CBT Finance Received record updated successfully",
+  "deleteFailed": "CBT Finance Received record deletion failed due to {}",
+  "deleteSuccess": "CBT Finance Received record deleted successfully"
+}
