@@ -1,5 +1,6 @@
 import { Button, Col, Form, Input, message, Row, Tabs } from 'antd';
 import './configurations.scss';
+import '../../Components/Inventory/projectionParameters.scss';
 import { useTranslation } from 'react-i18next';
 import { BaselineForm } from '../../Components/Inventory/baselineForm';
 import { getValidationRules } from '../../Utils/validationRules';
@@ -11,12 +12,13 @@ import { ProjectionType } from '../../Enums/projection.enum';
 import { useUserContext } from '../../Context/UserInformationContext/userInformationContext';
 import { Role } from '../../Enums/role.enum';
 import SectorMapping from './SectorMapping/sectorMapping';
+import { ProjectionParameters } from '../../Components/Inventory/ProjectionParameters';
 
 const GhgConfigurations = () => {
   // Page Context
 
   const [form] = Form.useForm();
-  const { t } = useTranslation(['configuration']);
+  const { t } = useTranslation(['configuration', 'projection']);
   const { get, post } = useConnection();
   const { userInfoState } = useUserContext();
 
@@ -160,6 +162,7 @@ const GhgConfigurations = () => {
         <Tabs defaultActiveKey="1" centered items={items} />
       </div>
       <SectorMapping />
+      <ProjectionParameters />
     </div>
   );
 };

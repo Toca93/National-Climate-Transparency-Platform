@@ -114,6 +114,8 @@ export async function buildNestApp(
   nestApp.useGlobalPipes(new TrimPipe());
   nestApp.useGlobalPipes(
     new ValidationPipe({
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
       exceptionFactory: (errors) => new ValidationException(errors),
     })
   );

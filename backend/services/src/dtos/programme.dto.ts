@@ -69,16 +69,15 @@ export class ProgrammeDto {
     // @ApiProperty()
     // investment: number;
 
-		@IsNotEmpty()
+	@IsNotEmpty()
     @IsEnum(ProgrammeStatus, {
-			each: true,
-			message: 'Invalid Programme Status. Supported following status:' + Object.values(ProgrammeStatus)
+		message: 'Invalid Programme Status. Supported following status:' + Object.values(ProgrammeStatus)
 	})
 	@ApiProperty({
-		type: [String],
+		type: String,
 		enum: Object.values(ProgrammeStatus),
 	})
-	programmeStatus: number;
+	programmeStatus: ProgrammeStatus;
   
   @IsOptional()
   @ApiPropertyOptional(
