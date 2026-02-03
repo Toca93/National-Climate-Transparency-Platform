@@ -37,7 +37,6 @@ import GenderReporting from './Pages/GenderReporting/genderReporting';
 import Verifications from './Pages/Verifications/verifications';
 import Reviews from './Pages/Reviews/reviews';
 import CBTList from './Pages/CBT/CBTList/cbtList';
-import CBTETFList from './Pages/CBT/CBTETF/cbtETFList';
 import CBTFundingList from './Pages/CBT/CBTFunding/cbtFundingList';
 import CBTInstrumentsList from './Pages/CBT/CBTInstruments/cbtInstrumentsList';
 import CBTMacroList from './Pages/CBT/CBTMacro/cbtMacroList';
@@ -50,7 +49,6 @@ const ProjectForm = lazy(() => import('./Pages/Projects/ProjectForm/projectForm'
 const ActivityForm = lazy(() => import('./Pages/Activities/ActivityForm/activityForm'));
 const SupportForm = lazy(() => import('./Pages/Support/SupportForm/supportForm'));
 const CBTForm = lazy(() => import('./Pages/CBT/CBTForm/cbtForm'));
-const CBTETFForm = lazy(() => import('./Pages/CBT/CBTETF/cbtETFForm'));
 const CBTFundingForm = lazy(() => import('./Pages/CBT/CBTFunding/cbtFundingForm'));
 const CBTInstrumentsForm = lazy(() => import('./Pages/CBT/CBTInstruments/cbtInstrumentsForm'));
 const CBTMacroForm = lazy(() => import('./Pages/CBT/CBTMacro/cbtMacroForm'));
@@ -234,14 +232,6 @@ const App = () => {
                   <Route path="add" element={<CBTForm method="create" />} />
                   <Route path="edit/:entId" element={<CBTForm method="update" />} />
                   <Route path="view/:entId" element={<CBTForm method="view" />} />
-                </Route>
-
-                {/* CBT ETF Routes - H2. ETF klasifikacija */}
-                <Route path="/cbt-etf" element={<CustomLayout selectedKey="cbt-etf" />}>
-                  <Route path="" element={<CBTETFList />} />
-                  <Route path="add" element={<CBTETFForm method="create" />} />
-                  <Route path="edit/:entId" element={<CBTETFForm method="update" />} />
-                  <Route path="view/:entId" element={<CBTETFForm method="view" />} />
                 </Route>
 
                 {/* CBT Funding Routes - H3. Izvori finansiranja */}

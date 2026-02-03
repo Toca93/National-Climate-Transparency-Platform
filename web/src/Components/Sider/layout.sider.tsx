@@ -78,7 +78,6 @@ const LayoutSider = (props: LayoutSiderProps) => {
     // Klimatsko finansiranje
     getItem('Klimatsko finansiranje', 'klimatsko-finansiranje', <AppstoreOutlined />, [
       getItem('Osnovne informacije', 'cbt'),
-      getItem('ETF klasifikacija', 'cbt-etf'),
       getItem('Izvori finansiranja', 'cbt-funding'),
       getItem('Finansijski instrumenti', 'cbt-instruments'),
       getItem('Makro pokazatelji', 'cbt-macro'),

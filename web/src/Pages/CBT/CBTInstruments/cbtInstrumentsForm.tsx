@@ -11,23 +11,8 @@ const { Option } = Select;
 
 const gutterSize = 30;
 
-// Tipovi finansijskih instrumenata (Financial Instrument Types)
-const instrumentTypes = [
-  { value: 'grant', label: 'Grant' },
-  { value: 'credit', label: 'Kredit (Credit)' },
-  { value: 'combined', label: 'Kombinovani instrument (Combined Instrument)' },
-  { value: 'guarantee', label: 'Garancija (Guarantee)' },
-];
-
-// Generisanje godina (npr. od 2010 do 2030)
-const generateYears = () => {
-  const currentYear = new Date().getFullYear();
-  const years = [];
-  for (let year = 2010; year <= currentYear + 10; year++) {
-    years.push(year.toString());
-  }
-  return years;
-};
+// Exchange rate for EUR to USD conversion (this can be made configurable)
+const EUR_TO_USD_RATE = 1.08; // Example rate, should be updated periodically
 
 // Interface za projekte iz Osnovnih informacija (CBT)
 interface CBTProjectData {
@@ -37,13 +22,13 @@ interface CBTProjectData {
 
 const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
   const [form] = Form.useForm();
-  const { t } = useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
+  useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
   const formTitle = 'Finansijski instrumenti';
 
   const navigate = useNavigate();
-  const { get, post, put } = useConnection();
+  const { get, post } = useConnection();
   const { entId } = useParams();
 
   const validation = getValidationRules(method);
@@ -52,6 +37,9 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
   const [cbtProjectList, setCbtProjectList] = useState<CBTProjectData[]>([]);
   const [loadingProjects, setLoadingProjects] = useState<boolean>(false);
+
+  // State za praćenje valute (EUR ili USD)
+  const [currency, setCurrency] = useState<'EUR' | 'USD'>('EUR');
 
   // Dohvati projekte iz Osnovnih informacija (CBT) - isto kao programmes u ProjectForm
   const fetchCBTProjects = async () => {
@@ -86,6 +74,11 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
       // TODO: Implementirati API poziv
       // const response = await get(`cbt-instruments/${entId}`);
       // form.setFieldsValue(response.data);
+      //
+      // // Set currency from loaded data
+      // if (response.data?.currency) {
+      //   setCurrency(response.data.currency);
+      // }
     } catch (error) {
       console.error('Error fetching Instruments data:', error);
     } finally {
@@ -102,6 +95,27 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
       fetchData();
     }
   }, [entId, method, fetchData]);
+
+  // Handler za promenu iznosa koji izračunava konverziju
+  const handleAmountChange = (value: number | null) => {
+    if (value && value > 0) {
+      const convertedAmount =
+        currency === 'EUR'
+          ? Math.round(value * EUR_TO_USD_RATE * 100) / 100
+          : Math.round((value / EUR_TO_USD_RATE) * 100) / 100;
+      form.setFieldsValue({ convertedAmount });
+    } else {
+      form.setFieldsValue({ convertedAmount: undefined });
+    }
+  };
+
+  // Efekat za ponovno izračunavanje konverzije kada se promeni valuta
+  useEffect(() => {
+    const totalAmount = form.getFieldValue('totalAmount');
+    if (totalAmount && totalAmount > 0) {
+      handleAmountChange(totalAmount);
+    }
+  }, [currency]);
 
   const onFinish = async (values: any) => {
     setLoading(true);
@@ -182,84 +196,87 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
                 </Col>
               </Row>
 
-              <Row gutter={gutterSize}>
-                {/* Tip instrumenta */}
-                <Col span={12}>
-                  <Form.Item
-                    label="Tip instrumenta (Instrument Type)"
-                    name="instrumentType"
-                    rules={[validation.required]}
-                  >
-                    <Select size="large" placeholder="Izaberite tip instrumenta" disabled={isView}>
-                      {instrumentTypes.map((option) => (
-                        <Option key={option.value} value={option.value}>
-                          {option.label}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </Col>
-
-                {/* Godina - za iznos po godini */}
-                <Col span={12}>
-                  <Form.Item label="Godina (Year)" name="year">
-                    <Select
-                      size="large"
-                      placeholder="Izaberite godinu"
-                      showSearch
-                      disabled={isView}
-                      allowClear
-                    >
-                      {generateYears().map((year) => (
-                        <Option key={year} value={year}>
-                          {year}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </Col>
-              </Row>
-
               <div
                 className="form-section-sub-header"
                 style={{ marginTop: 16, marginBottom: 16, fontWeight: 600 }}
               >
-                Finansijski podaci (Financial Data) - svi iznosi u EUR (€)
+                Finansijski podaci (Financial Data) - konverzija EUR/USD
               </div>
 
               <Row gutter={gutterSize}>
-                {/* Ukupan iznos */}
+                {/* Valuta selector */}
+                <Col span={12}>
+                  <Form.Item label="Valuta (Currency)" name="currency" initialValue="EUR">
+                    <Select
+                      size="large"
+                      placeholder="Izaberite valutu"
+                      disabled={isView}
+                      onChange={(value: 'EUR' | 'USD') => {
+                        setCurrency(value);
+                      }}
+                    >
+                      <Option value="EUR">EUR (€)</Option>
+                      <Option value="USD">USD ($)</Option>
+                    </Select>
+                  </Form.Item>
+                </Col>
+
+                {/* Kurs (readonly) */}
                 <Col span={12}>
                   <Form.Item
-                    label="Ukupan iznos (Total Amount) €"
+                    label="Kurs EUR/USD (Exchange Rate)"
+                    tooltip="Srednji kurs za konverziju"
+                  >
+                    <Input
+                      size="large"
+                      value={`1 EUR = ${EUR_TO_USD_RATE} USD`}
+                      disabled={true}
+                      style={{ width: '100%' }}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Row gutter={gutterSize}>
+                {/* Ukupan iznos u izabranoj valuti */}
+                <Col span={12}>
+                  <Form.Item
+                    label={`Ukupan iznos (Total Amount) ${currency === 'EUR' ? '€' : '$'}`}
                     name="totalAmount"
                     rules={[validation.required]}
                   >
                     <InputNumber
                       size="large"
                       style={{ width: '100%' }}
-                      placeholder="Unesite ukupan iznos"
+                      placeholder={`Unesite ukupan iznos u ${currency}`}
                       disabled={isView}
                       min={0}
                       formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       parser={(value) => value!.replace(/,/g, '') as any}
-                      addonAfter="€"
+                      addonAfter={currency === 'EUR' ? '€' : '$'}
+                      onChange={handleAmountChange}
                     />
                   </Form.Item>
                 </Col>
 
-                {/* Iznos po godini */}
+                {/* Konvertovani iznos */}
                 <Col span={12}>
-                  <Form.Item label="Iznos po godini (Amount per Year) €" name="amountPerYear">
+                  <Form.Item
+                    label={`Konvertovani iznos (Converted Amount) ${
+                      currency === 'EUR' ? '$' : '€'
+                    }`}
+                    name="convertedAmount"
+                    tooltip="Automatski izračunato preko srednjeg kursa"
+                  >
                     <InputNumber
                       size="large"
                       style={{ width: '100%' }}
-                      placeholder="Unesite iznos po godini"
-                      disabled={isView}
+                      placeholder="Automatska konverzija"
+                      disabled={true}
                       min={0}
                       formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       parser={(value) => value!.replace(/,/g, '') as any}
-                      addonAfter="€"
+                      addonAfter={currency === 'EUR' ? '$' : '€'}
                     />
                   </Form.Item>
                 </Col>
@@ -269,7 +286,9 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Nacionalna komponenta */}
                 <Col span={12}>
                   <Form.Item
-                    label="Nacionalna komponenta (National Component) €"
+                    label={`Nacionalna komponenta (National Component) ${
+                      currency === 'EUR' ? '€' : '$'
+                    }`}
                     name="nationalComponent"
                   >
                     <InputNumber
@@ -280,7 +299,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
                       min={0}
                       formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       parser={(value) => value!.replace(/,/g, '') as any}
-                      addonAfter="€"
+                      addonAfter={currency === 'EUR' ? '€' : '$'}
                     />
                   </Form.Item>
                 </Col>
@@ -288,7 +307,9 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Međunarodna komponenta */}
                 <Col span={12}>
                   <Form.Item
-                    label="Međunarodna komponenta (International Component) €"
+                    label={`Međunarodna komponenta (International Component) ${
+                      currency === 'EUR' ? '€' : '$'
+                    }`}
                     name="internationalComponent"
                   >
                     <InputNumber
@@ -299,7 +320,23 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
                       min={0}
                       formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       parser={(value) => value!.replace(/,/g, '') as any}
-                      addonAfter="€"
+                      addonAfter={currency === 'EUR' ? '€' : '$'}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Row gutter={gutterSize}>
+                {/* Dodatne informacije */}
+                <Col span={24}>
+                  <Form.Item
+                    label="Dodatne informacije (Additional information)"
+                    name="additionalInformation"
+                  >
+                    <Input.TextArea
+                      rows={4}
+                      placeholder="Unesite dodatne informacije o finansijskim instrumentima"
+                      disabled={isView}
                     />
                   </Form.Item>
                 </Col>

@@ -69,7 +69,6 @@ export const getFormTitle = (
     | 'Activity'
     | 'Support'
     | 'CBT'
-    | 'CBTETF'
     | 'CBTFunding'
     | 'CBTInstruments',
   formMethod: 'create' | 'update' | 'view'

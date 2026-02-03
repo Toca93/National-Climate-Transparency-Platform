@@ -11,12 +11,8 @@ const { Option } = Select;
 
 const gutterSize = 30;
 
-// Izvori finansiranja (Funding Sources)
-const fundingSources = [
-  { value: 'national-budget', label: 'Nacionalni budžet (National Budget)' },
-  { value: 'international-fund', label: 'Međunarodni fond (International Fund)' },
-  { value: 'bilateral-aid', label: 'Bilateralna pomoć (Bilateral Aid)' },
-  { value: 'private-sector', label: 'Privatni sektor (Private Sector)' },
+// Predviđeni finansijski instrumenti (Planned Financial Instruments)
+const financialInstruments = [
   { value: 'grant', label: 'Grant' },
   { value: 'concessional-loan', label: 'Koncesioni zajam (Concessional Loan)' },
   { value: 'non-concessional-loan', label: 'Nekoncesioni zajam (Non-concessional Loan)' },
@@ -26,29 +22,25 @@ const fundingSources = [
   { value: 'other', label: 'Ostalo (Other)' },
 ];
 
-// Nazivi fondova (Fund Names)
-const fundNames = [
-  { value: 'gcf', label: 'GCF (Green Climate Fund)' },
-  { value: 'gef', label: 'GEF (Global Environment Facility)' },
-  { value: 'eu-ipa', label: 'EU IPA' },
-  { value: 'ebrd', label: 'EBRD (European Bank for Reconstruction and Development)' },
-  { value: 'world-bank', label: 'World Bank' },
-  { value: 'undp', label: 'UNDP' },
-  { value: 'unep', label: 'UNEP' },
-  { value: 'eib', label: 'EIB (European Investment Bank)' },
-  { value: 'kfw', label: 'KfW' },
-  { value: 'other', label: 'Ostalo (Other)' },
+// Status opcije
+const statusOptions = [
+  { value: 'Committed', label: 'Ugovoreno (Committed)' },
+  { value: 'Received', label: 'Isplaćeno (Received)' },
 ];
 
-// Generisanje godina (npr. od 2010 do 2030)
-const generateYears = () => {
-  const currentYear = new Date().getFullYear();
-  const years = [];
-  for (let year = 2010; year <= currentYear + 10; year++) {
-    years.push(year.toString());
-  }
-  return years;
-};
+// Support Needed or Received opcije
+const supportNeededOrReceivedOptions = [
+  { value: 'Needed', label: 'Potrebno (Needed)' },
+  { value: 'Received', label: 'Primljeno (Received)' },
+];
+
+// Način finansiranja (Funding Method)
+const fundingMethodOptions = [
+  { value: 'Multilateral', label: 'Multilateralni (Multilateral)' },
+  { value: 'Bilateral', label: 'Bilateralni (Bilateral)' },
+  { value: 'Regional', label: 'Regionalni (Regional)' },
+  { value: 'Other', label: 'Ostalo (navesti) - Other (please specify)' },
+];
 
 // Interface za projekte iz Osnovnih informacija (CBT)
 interface CBTProjectData {
@@ -58,13 +50,13 @@ interface CBTProjectData {
 
 const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
   const [form] = Form.useForm();
-  const { t } = useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
+  useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
   const formTitle = 'Izvori finansiranja';
 
   const navigate = useNavigate();
-  const { get, post, put } = useConnection();
+  const { get, post } = useConnection();
   const { entId } = useParams();
 
   const validation = getValidationRules(method);
@@ -73,6 +65,12 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
   const [cbtProjectList, setCbtProjectList] = useState<CBTProjectData[]>([]);
   const [loadingProjects, setLoadingProjects] = useState<boolean>(false);
+
+  // State za prikaz polja "Other" kada je izabran Ostalo za Način finansiranja
+  const [showOtherFundingMethod, setShowOtherFundingMethod] = useState<boolean>(false);
+
+  // State za praćenje da li je izabrano "Received" za Support Needed or Received
+  const [isSupportReceived, setIsSupportReceived] = useState<boolean>(false);
 
   // Dohvati projekte iz Osnovnih informacija (CBT) - isto kao programmes u ProjectForm
   const fetchCBTProjects = async () => {
@@ -107,6 +105,18 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
       // TODO: Implementirati API poziv
       // const response = await get(`cbt-funding/${entId}`);
       // form.setFieldsValue(response.data);
+      //
+      // // Show other funding method field if fundingMethod is Other
+      // if (response.data?.fundingMethod === 'Other') {
+      //   setShowOtherFundingMethod(true);
+      // }
+      //
+      // // Set support received state based on loaded data
+      // if (response.data?.supportNeededOrReceived === 'Received') {
+      //   setIsSupportReceived(true);
+      // } else {
+      //   setIsSupportReceived(false);
+      // }
     } catch (error) {
       console.error('Error fetching Funding data:', error);
     } finally {
@@ -202,19 +212,19 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Izvor finansiranja */}
+                {/* Predviđeni finansijski instrument */}
                 <Col span={12}>
                   <Form.Item
-                    label="Izvor finansiranja (Funding Source)"
-                    name="fundingSource"
+                    label="Predviđeni finansijski instrument (Planned Financial Instrument)"
+                    name="financialInstrument"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
-                      placeholder="Izaberite izvor finansiranja"
+                      placeholder="Izaberite finansijski instrument"
                       disabled={isView}
                     >
-                      {fundingSources.map((option) => (
+                      {financialInstruments.map((option) => (
                         <Option key={option.value} value={option.value}>
                           {option.label}
                         </Option>
@@ -223,16 +233,11 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                   </Form.Item>
                 </Col>
 
-                {/* Naziv fonda */}
+                {/* Status */}
                 <Col span={12}>
-                  <Form.Item label="Naziv fonda (Fund Name)" name="fundName">
-                    <Select
-                      size="large"
-                      placeholder="Izaberite naziv fonda"
-                      disabled={isView}
-                      allowClear
-                    >
-                      {fundNames.map((option) => (
+                  <Form.Item label="Status" name="status" rules={[validation.required]}>
+                    <Select size="large" placeholder="Izaberite status" disabled={isView}>
+                      {statusOptions.map((option) => (
                         <Option key={option.value} value={option.value}>
                           {option.label}
                         </Option>
@@ -243,39 +248,101 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Donatorska institucija */}
+                {/* Support Needed or Received */}
                 <Col span={12}>
                   <Form.Item
-                    label="Donatorska institucija (Donor Institution)"
-                    name="donorInstitution"
+                    label="Podrška potrebna ili primljena (Support needed or received)"
+                    name="supportNeededOrReceived"
+                    rules={[validation.required]}
                   >
-                    <Input
-                      size="large"
-                      placeholder="Unesite naziv donatorske institucije"
-                      disabled={isView}
-                    />
-                  </Form.Item>
-                </Col>
-
-                {/* Godina odobrenja */}
-                <Col span={12}>
-                  <Form.Item label="Godina odobrenja (Approval Year)" name="approvalYear">
                     <Select
                       size="large"
-                      placeholder="Izaberite godinu odobrenja"
-                      showSearch
+                      placeholder="Izaberite status podrške"
                       disabled={isView}
-                      allowClear
+                      onChange={(value) => {
+                        setIsSupportReceived(value === 'Received');
+                        if (value !== 'Received') {
+                          form.setFieldsValue({
+                            fundingMethod: undefined,
+                            otherFundingMethodText: undefined,
+                          });
+                          setShowOtherFundingMethod(false);
+                        }
+                      }}
                     >
-                      {generateYears().map((year) => (
-                        <Option key={year} value={year}>
-                          {year}
+                      {supportNeededOrReceivedOptions.map((option) => (
+                        <Option key={option.value} value={option.value}>
+                          {option.label}
                         </Option>
                       ))}
                     </Select>
                   </Form.Item>
                 </Col>
+
+                {/* Način finansiranja */}
+                <Col span={12}>
+                  <Form.Item
+                    label="Način finansiranja (Funding Method)"
+                    name="fundingMethod"
+                    rules={isSupportReceived ? [validation.required] : undefined}
+                  >
+                    <Select
+                      size="large"
+                      placeholder={
+                        isSupportReceived
+                          ? 'Izaberite način finansiranja'
+                          : 'Dostupno samo kada je primljeno'
+                      }
+                      disabled={isView || !isSupportReceived}
+                      onChange={(value) => {
+                        setShowOtherFundingMethod(value === 'Other');
+                        if (value !== 'Other') {
+                          form.setFieldsValue({ otherFundingMethodText: undefined });
+                        }
+                      }}
+                    >
+                      {fundingMethodOptions.map((option) => (
+                        <Option key={option.value} value={option.value}>
+                          {option.label}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+
+                {/* Očekivana upotreba, uticaj i procijenjeni rezultati */}
+                <Col span={12}>
+                  <Form.Item
+                    label="Očekivana upotreba, uticaj i procijenjeni rezultati (Expected use, impact and estimated results)"
+                    name="expectedImpact"
+                  >
+                    <Input
+                      size="large"
+                      placeholder="Unesite očekivane rezultate"
+                      disabled={isView}
+                    />
+                  </Form.Item>
+                </Col>
               </Row>
+
+              {/* Ostalo - tekstualno polje (prikazuje se samo ako je izabran Ostalo i primljeno) */}
+              {showOtherFundingMethod && isSupportReceived && (
+                <Row gutter={gutterSize}>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Navedite drugi način finansiranja (Please specify other funding method)"
+                      name="otherFundingMethodText"
+                      rules={[validation.required]}
+                    >
+                      <Input
+                        size="large"
+                        placeholder="Unesite način finansiranja"
+                        disabled={isView}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              )}
             </div>
           </Form>
         </div>

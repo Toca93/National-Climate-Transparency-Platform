@@ -16,7 +16,8 @@ import {
 interface Item {
   key: number;
   id: string;
-  reportingYear: number;
+  startYear: number;
+  endYear: number;
   projectName: string;
   activityDescription: string;
   responsibleInstitution: string;
@@ -69,7 +70,8 @@ const CBTList = () => {
       const formattedData: Item[] = response.data.map((item: any, index: number) => ({
         key: index,
         id: item.id,
-        reportingYear: item.reportingYear,
+        startYear: item.startYear,
+        endYear: item.endYear,
         projectName: item.projectName,
         activityDescription: item.activityDescription,
         responsibleInstitution: item.responsibleInstitution,
@@ -116,15 +118,22 @@ const CBTList = () => {
       ),
     },
     {
-      title: 'Godina izvještavanja',
-      width: 140,
-      dataIndex: 'reportingYear',
-      key: 'reportingYear',
+      title: 'Godina početka',
+      width: 120,
+      dataIndex: 'startYear',
+      key: 'startYear',
       sorter: false,
     },
     {
-      title: 'Naziv projekta / mjere',
-      width: 220,
+      title: 'Godina završetka',
+      width: 120,
+      dataIndex: 'endYear',
+      key: 'endYear',
+      sorter: false,
+    },
+    {
+      title: 'Naziv projekta, programa ili aktivnosti',
+      width: 280,
       dataIndex: 'projectName',
       key: 'projectName',
       sorter: false,
