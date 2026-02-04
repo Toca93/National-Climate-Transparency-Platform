@@ -9,22 +9,31 @@ import {
   Min,
   Max,
 } from "class-validator";
-import { CBTStatus, CBTVerificationStatus } from "../entities/cbt.entity";
+import { Sector } from "../enums/sector.enum";
+import { SubSector } from "../enums/shared.enum";
+import { CBTStatus, CBTVerificationStatus, CBTTypeOfSupport, CBTYesNo } from "../entities/cbt.entity";
 
 export class CBTDto {
   id: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  @Min(2010)
-  @Max(2050)
-  @ApiProperty()
-  reportingYear: number;
-
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  @ApiProperty()
+  @ApiPropertyOptional()
   projectName: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(2000)
+  @Max(2100)
+  @ApiPropertyOptional()
+  startYear: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(2000)
+  @Max(2100)
+  @ApiPropertyOptional()
+  endYear: number;
 
   @IsOptional()
   @IsString()
@@ -36,15 +45,94 @@ export class CBTDto {
   @ApiPropertyOptional()
   responsibleInstitution: string;
 
-  @IsNotEmpty()
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional()
+  recipientEntity: string;
+
+  @IsOptional()
   @IsEnum(CBTStatus, {
     message:
       "Invalid Status. Supported following status: " + Object.values(CBTStatus),
   })
-  @ApiProperty({
+  @ApiPropertyOptional({
     enum: Object.values(CBTStatus),
   })
   status: CBTStatus;
+
+  // ETF klasifikacija
+  @IsOptional()
+  @IsEnum(Sector, {
+    message:
+      "Invalid Sector. Supported following sectors: " + Object.values(Sector),
+  })
+  @ApiPropertyOptional({
+    enum: Object.values(Sector),
+  })
+  sector: Sector;
+
+  @IsOptional()
+  @IsArray()
+  @IsEnum(SubSector, {
+    each: true,
+    message:
+      "Invalid SubSector. Supported following subsectors: " + Object.values(SubSector),
+  })
+  @ApiPropertyOptional({
+    enum: Object.values(SubSector),
+    isArray: true,
+  })
+  subSector: SubSector[];
+
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional()
+  otherSectorText: string;
+
+  @IsOptional()
+  @IsEnum(CBTYesNo, {
+    message:
+      "Invalid value. Supported values: " + Object.values(CBTYesNo),
+  })
+  @ApiPropertyOptional({
+    enum: Object.values(CBTYesNo),
+  })
+  basedOnNDC: CBTYesNo;
+
+  @IsOptional()
+  @IsEnum(CBTYesNo, {
+    message:
+      "Invalid value. Supported values: " + Object.values(CBTYesNo),
+  })
+  @ApiPropertyOptional({
+    enum: Object.values(CBTYesNo),
+  })
+  technologyTransferContribution: CBTYesNo;
+
+  @IsOptional()
+  @IsEnum(CBTYesNo, {
+    message:
+      "Invalid value. Supported values: " + Object.values(CBTYesNo),
+  })
+  @ApiPropertyOptional({
+    enum: Object.values(CBTYesNo),
+  })
+  capacityBuildingContribution: CBTYesNo;
+
+  @IsOptional()
+  @IsEnum(CBTTypeOfSupport, {
+    message:
+      "Invalid Type of Support. Supported values: " + Object.values(CBTTypeOfSupport),
+  })
+  @ApiPropertyOptional({
+    enum: Object.values(CBTTypeOfSupport),
+  })
+  typeOfSupport: CBTTypeOfSupport;
+
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional()
+  additionalInformation: string;
 
   // H7 - Dokumentacija i verifikacija
   @IsOptional()
@@ -66,17 +154,7 @@ export class CBTDto {
   @IsOptional()
   @IsArray()
   @ApiPropertyOptional()
-  contractDocuments: string[];
-
-  @IsOptional()
-  @IsArray()
-  @ApiPropertyOptional()
-  governmentDecisionDocuments: string[];
-
-  @IsOptional()
-  @IsArray()
-  @ApiPropertyOptional()
-  donorAgreementDocuments: string[];
+  documents: string[];
 }
 
 export class CBTUpdateDto {
@@ -86,16 +164,23 @@ export class CBTUpdateDto {
   id: string;
 
   @IsOptional()
-  @IsNumber()
-  @Min(2010)
-  @Max(2050)
-  @ApiPropertyOptional()
-  reportingYear: number;
-
-  @IsOptional()
   @IsString()
   @ApiPropertyOptional()
   projectName: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(2000)
+  @Max(2100)
+  @ApiPropertyOptional()
+  startYear: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(2000)
+  @Max(2100)
+  @ApiPropertyOptional()
+  endYear: number;
 
   @IsOptional()
   @IsString()
@@ -108,6 +193,11 @@ export class CBTUpdateDto {
   responsibleInstitution: string;
 
   @IsOptional()
+  @IsString()
+  @ApiPropertyOptional()
+  recipientEntity: string;
+
+  @IsOptional()
   @IsEnum(CBTStatus, {
     message:
       "Invalid Status. Supported following status: " + Object.values(CBTStatus),
@@ -116,6 +206,80 @@ export class CBTUpdateDto {
     enum: Object.values(CBTStatus),
   })
   status: CBTStatus;
+
+  // ETF klasifikacija
+  @IsOptional()
+  @IsEnum(Sector, {
+    message:
+      "Invalid Sector. Supported following sectors: " + Object.values(Sector),
+  })
+  @ApiPropertyOptional({
+    enum: Object.values(Sector),
+  })
+  sector: Sector;
+
+  @IsOptional()
+  @IsArray()
+  @IsEnum(SubSector, {
+    each: true,
+    message:
+      "Invalid SubSector. Supported following subsectors: " + Object.values(SubSector),
+  })
+  @ApiPropertyOptional({
+    enum: Object.values(SubSector),
+    isArray: true,
+  })
+  subSector: SubSector[];
+
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional()
+  otherSectorText: string;
+
+  @IsOptional()
+  @IsEnum(CBTYesNo, {
+    message:
+      "Invalid value. Supported values: " + Object.values(CBTYesNo),
+  })
+  @ApiPropertyOptional({
+    enum: Object.values(CBTYesNo),
+  })
+  basedOnNDC: CBTYesNo;
+
+  @IsOptional()
+  @IsEnum(CBTYesNo, {
+    message:
+      "Invalid value. Supported values: " + Object.values(CBTYesNo),
+  })
+  @ApiPropertyOptional({
+    enum: Object.values(CBTYesNo),
+  })
+  technologyTransferContribution: CBTYesNo;
+
+  @IsOptional()
+  @IsEnum(CBTYesNo, {
+    message:
+      "Invalid value. Supported values: " + Object.values(CBTYesNo),
+  })
+  @ApiPropertyOptional({
+    enum: Object.values(CBTYesNo),
+  })
+  capacityBuildingContribution: CBTYesNo;
+
+  @IsOptional()
+  @IsEnum(CBTTypeOfSupport, {
+    message:
+      "Invalid Type of Support. Supported values: " + Object.values(CBTTypeOfSupport),
+  })
+  @ApiPropertyOptional({
+    enum: Object.values(CBTTypeOfSupport),
+  })
+  typeOfSupport: CBTTypeOfSupport;
+
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional()
+  additionalInformation: string;
 
   // H7 - Dokumentacija i verifikacija
   @IsOptional()
@@ -137,15 +301,5 @@ export class CBTUpdateDto {
   @IsOptional()
   @IsArray()
   @ApiPropertyOptional()
-  contractDocuments: string[];
-
-  @IsOptional()
-  @IsArray()
-  @ApiPropertyOptional()
-  governmentDecisionDocuments: string[];
-
-  @IsOptional()
-  @IsArray()
-  @ApiPropertyOptional()
-  donorAgreementDocuments: string[];
+  documents: string[];
 }
