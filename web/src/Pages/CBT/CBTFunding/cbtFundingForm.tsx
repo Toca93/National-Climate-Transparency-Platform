@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Row, Col, Input, Button, Form, Select, Spin } from 'antd';
+import { Row, Col, Input, Button, Form, Select, Spin, message } from 'antd';
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useConnection } from '../../../Context/ConnectionContext/connectionContext';
@@ -56,7 +56,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
   const formTitle = 'Izvori finansiranja';
 
   const navigate = useNavigate();
-  const { get, post } = useConnection();
+  const { get, post, put } = useConnection();
   const { entId } = useParams();
 
   const validation = getValidationRules(method);
@@ -102,27 +102,29 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      // TODO: Implementirati API poziv
-      // const response = await get(`cbt-funding/${entId}`);
-      // form.setFieldsValue(response.data);
-      //
-      // // Show other funding method field if fundingMethod is Other
-      // if (response.data?.fundingMethod === 'Other') {
-      //   setShowOtherFundingMethod(true);
-      // }
-      //
-      // // Set support received state based on loaded data
-      // if (response.data?.supportNeededOrReceived === 'Received') {
-      //   setIsSupportReceived(true);
-      // } else {
-      //   setIsSupportReceived(false);
-      // }
-    } catch (error) {
+      const response: any = await get(`national/cbt-funding/${entId}`);
+      if (response.data) {
+        form.setFieldsValue(response.data);
+
+        // Show other funding method field if fundingMethod is Other
+        if (response.data.fundingMethod === 'Other') {
+          setShowOtherFundingMethod(true);
+        }
+
+        // Set support received state based on loaded data
+        if (response.data.supportNeededOrReceived === 'Received') {
+          setIsSupportReceived(true);
+        } else {
+          setIsSupportReceived(false);
+        }
+      }
+    } catch (error: any) {
       console.error('Error fetching Funding data:', error);
+      message.error(error.message || 'Failed to load CBT Funding data');
     } finally {
       setLoading(false);
     }
-  }, [get, entId]);
+  }, [get, entId, form]);
 
   useEffect(() => {
     fetchCBTProjects();
@@ -138,15 +140,21 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
     setLoading(true);
     try {
       if (method === 'create') {
-        // TODO: Implementirati API poziv
-        console.log('Create Funding:', values);
+        const response: any = await post('national/cbt-funding/add', values);
+        if (response.status === 200 || response.status === 201) {
+          message.success(response.message || 'CBT Funding record created successfully');
+          navigate('/cbt-funding');
+        }
       } else if (method === 'update') {
-        // TODO: Implementirati API poziv
-        console.log('Update Funding:', values);
+        const response: any = await put('national/cbt-funding/update', { ...values, id: entId });
+        if (response.status === 200 || response.status === 201) {
+          message.success(response.message || 'CBT Funding record updated successfully');
+          navigate('/cbt-funding');
+        }
       }
-      navigate('/cbt-funding');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving Funding:', error);
+      message.error(error.message || 'Failed to save CBT Funding record');
     } finally {
       setLoading(false);
     }
@@ -201,11 +209,18 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                         (option?.children as string)?.toLowerCase().includes(input.toLowerCase())
                       }
                     >
-                      {cbtProjectList.map((project: CBTProjectData) => (
-                        <Option key={project.id} value={project.id}>
-                          {project.projectName}
-                        </Option>
-                      ))}
+                      {cbtProjectList.map((project: CBTProjectData) => {
+                        const displayName = project.projectName
+                          ? project.projectName.length > 40
+                            ? project.projectName.substring(0, 40) + '...'
+                            : project.projectName
+                          : '';
+                        return (
+                          <Option key={project.id} value={project.id}>
+                            {`${project.id} - ${displayName}`}
+                          </Option>
+                        );
+                      })}
                     </Select>
                   </Form.Item>
                 </Col>

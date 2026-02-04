@@ -1,0 +1,10 @@
+{
+  "notFound": "A CBT Funding record with id {} is not found",
+  "cbtNotFound": "The referenced CBT project with id {} is not found",
+  "createFailed": "CBT Funding record creation failed due to {}",
+  "createSuccess": "CBT Funding record created successfully",
+  "updateFailed": "CBT Funding record update failed due to {}",
+  "updateSuccess": "CBT Funding record updated successfully",
+  "deleteFailed": "CBT Funding record deletion failed due to {}",
+  "deleteSuccess": "CBT Funding record deleted successfully"
+}

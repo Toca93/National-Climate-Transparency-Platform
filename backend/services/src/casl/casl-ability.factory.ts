@@ -23,6 +23,7 @@ import { ProjectionEntity } from "../entities/projection.entity";
 import { ConfigurationSettingsEntity } from "../entities/configuration.settings.entity";
 import { SystemResourcesEntity } from "../entities/systemResource.entity";
 import { CBTEntity } from "../entities/cbt.entity";
+import { CBTFundingEntity } from "../entities/cbt.funding.entity";
 
 type Subjects = InferSubjects<typeof EntitySubject> | "all";
 
@@ -113,6 +114,12 @@ export class CaslAbilityFactory {
         can(Action.Create, CBTEntity);
         can(Action.Update, CBTEntity);
         can(Action.Delete, CBTEntity);
+
+        // CBT Funding
+        can(Action.Read, CBTFundingEntity);
+        can(Action.Create, CBTFundingEntity);
+        can(Action.Update, CBTFundingEntity);
+        can(Action.Delete, CBTFundingEntity);
       }
 
       if (user.role == Role.Admin) {
@@ -194,6 +201,12 @@ export class CaslAbilityFactory {
         can(Action.Create, CBTEntity);
         can(Action.Update, CBTEntity);
         can(Action.Delete, CBTEntity);
+
+        // CBT Funding
+        can(Action.Read, CBTFundingEntity);
+        can(Action.Create, CBTFundingEntity);
+        can(Action.Update, CBTFundingEntity);
+        can(Action.Delete, CBTFundingEntity);
       }
 
       if (user.role == Role.GovernmentUser) {
@@ -321,6 +334,12 @@ export class CaslAbilityFactory {
         can(Action.Create, CBTEntity);
         can(Action.Update, CBTEntity);
         can(Action.Delete, CBTEntity);
+
+        // CBT Funding
+        can(Action.Read, CBTFundingEntity);
+        can(Action.Create, CBTFundingEntity);
+        can(Action.Update, CBTFundingEntity);
+        can(Action.Delete, CBTFundingEntity);
       }
 
       if (user.role == Role.Observer) {
@@ -447,6 +466,12 @@ export class CaslAbilityFactory {
         cannot(Action.Create, CBTEntity);
         cannot(Action.Update, CBTEntity);
         cannot(Action.Delete, CBTEntity);
+
+        // CBT Funding (Read-only for Observer)
+        can(Action.Read, CBTFundingEntity);
+        cannot(Action.Create, CBTFundingEntity);
+        cannot(Action.Update, CBTFundingEntity);
+        cannot(Action.Delete, CBTFundingEntity);
       }
     }
 

@@ -2,11 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { Sector } from "../enums/sector.enum";
 import { SubSector } from "../enums/shared.enum";
+import { CBTFundingEntity } from "./cbt.funding.entity";
 
 // Status projekta klimatskog finansiranja (H1)
 export enum CBTStatus {
@@ -101,6 +103,10 @@ export class CBTEntity {
 
   @Column({ type: "text", array: true, nullable: true })
   documents: string[];
+
+  // Relationships
+  @OneToMany(() => CBTFundingEntity, (funding) => funding.cbt)
+  fundings: CBTFundingEntity[];
 
   @CreateDateColumn({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
   createdTime: Date;

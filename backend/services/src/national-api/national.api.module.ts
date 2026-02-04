@@ -39,6 +39,7 @@ import { GhgCombinedReductionModule } from "src/combined.reduction/combined.redu
 import { FoodModule } from "../food/food.module";
 import { CBTModule } from "../cbt/cbt.module";
 import { CBTController } from "./cbt.controller";
+import { CBTFundingController } from "./cbt.funding.controller";
 
 @Module({
   imports: [
@@ -88,6 +89,7 @@ import { CBTController } from "./cbt.controller";
     GHGCombinedReductionController,
     ResourcesController,
     CBTController,
+    CBTFundingController,
   ],
   providers: [NationalAPIService, Logger],
 })

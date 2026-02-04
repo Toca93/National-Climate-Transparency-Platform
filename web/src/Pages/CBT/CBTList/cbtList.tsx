@@ -1,8 +1,15 @@
 import { useTranslation } from 'react-i18next';
 import '../../../Styles/app.scss';
 import LayoutTable from '../../../Components/common/Table/layout.table';
-import { Button, Col, Row, Input, Dropdown, MenuProps } from 'antd';
-import { FilterOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Col, Row, Input, Dropdown, Popover, List, Typography, MenuProps } from 'antd';
+import {
+  EditOutlined,
+  EllipsisOutlined,
+  FilterOutlined,
+  InfoCircleOutlined,
+  PlusOutlined,
+  SearchOutlined,
+} from '@ant-design/icons';
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useConnection } from '../../../Context/ConnectionContext/connectionContext';
@@ -26,7 +33,7 @@ interface Item {
 
 const CBTList = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation(['common', 'tableAction']);
   const { post } = useConnection();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -36,6 +43,32 @@ const CBTList = () => {
   const [totalRowCount, setTotalRowCount] = useState<number>(0);
   const [tempSearchValue, setTempSearchValue] = useState<string>('');
   const [searchValue, setSearchValue] = useState<string>('');
+
+  // Action menu content
+  const actionMenuContent = (record: Item) => (
+    <List
+      className="action-menu"
+      size="small"
+      dataSource={[
+        {
+          text: t('tableAction:View'),
+          icon: <InfoCircleOutlined style={{ color: '#8A1538' }} />,
+          click: () => navigate(`/cbt/view/${record.id}`),
+        },
+        {
+          text: t('tableAction:Edit'),
+          icon: <EditOutlined style={{ color: '#8A1538' }} />,
+          click: () => navigate(`/cbt/edit/${record.id}`),
+        },
+      ]}
+      renderItem={(item) => (
+        <List.Item onClick={item.click} style={{ cursor: 'pointer' }}>
+          <Typography.Text className="action-icon">{item.icon}</Typography.Text>
+          <span>{item.text}</span>
+        </List.Item>
+      )}
+    />
+  );
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -146,6 +179,25 @@ const CBTList = () => {
       sorter: false,
     },
     { title: 'Status', width: 120, dataIndex: 'status', key: 'status', sorter: false },
+    {
+      title: '',
+      key: 'actions',
+      align: 'right' as const,
+      width: 50,
+      render: (_: any, record: Item) => (
+        <Popover
+          showArrow={false}
+          trigger={'click'}
+          placement="bottomRight"
+          content={actionMenuContent(record)}
+        >
+          <EllipsisOutlined
+            rotate={90}
+            style={{ fontWeight: 600, fontSize: '1rem', cursor: 'pointer' }}
+          />
+        </Popover>
+      ),
+    },
   ];
 
   const items: MenuProps['items'] = [];
