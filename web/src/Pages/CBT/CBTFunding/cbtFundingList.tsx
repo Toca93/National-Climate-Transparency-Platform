@@ -185,6 +185,14 @@ const CBTFundingList = () => {
       dataIndex: 'projectId',
       key: 'projectId',
       sorter: false,
+      render: (projectId: string) => (
+        <span
+          style={{ color: '#1890ff', cursor: 'pointer' }}
+          onClick={() => navigate(`/cbt/view/${projectId}`)}
+        >
+          {projectId}
+        </span>
+      ),
     },
     {
       title: 'Finansijski instrument',
