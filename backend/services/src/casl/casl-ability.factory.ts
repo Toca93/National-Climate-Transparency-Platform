@@ -24,6 +24,7 @@ import { ConfigurationSettingsEntity } from "../entities/configuration.settings.
 import { SystemResourcesEntity } from "../entities/systemResource.entity";
 import { CBTEntity } from "../entities/cbt.entity";
 import { CBTFundingEntity } from "../entities/cbt.funding.entity";
+import { CBTInstrumentsEntity } from "../entities/cbt.instruments.entity";
 
 type Subjects = InferSubjects<typeof EntitySubject> | "all";
 
@@ -120,6 +121,12 @@ export class CaslAbilityFactory {
         can(Action.Create, CBTFundingEntity);
         can(Action.Update, CBTFundingEntity);
         can(Action.Delete, CBTFundingEntity);
+
+        // CBT Instruments
+        can(Action.Read, CBTInstrumentsEntity);
+        can(Action.Create, CBTInstrumentsEntity);
+        can(Action.Update, CBTInstrumentsEntity);
+        can(Action.Delete, CBTInstrumentsEntity);
       }
 
       if (user.role == Role.Admin) {
@@ -207,6 +214,12 @@ export class CaslAbilityFactory {
         can(Action.Create, CBTFundingEntity);
         can(Action.Update, CBTFundingEntity);
         can(Action.Delete, CBTFundingEntity);
+
+        // CBT Instruments
+        can(Action.Read, CBTInstrumentsEntity);
+        can(Action.Create, CBTInstrumentsEntity);
+        can(Action.Update, CBTInstrumentsEntity);
+        can(Action.Delete, CBTInstrumentsEntity);
       }
 
       if (user.role == Role.GovernmentUser) {
@@ -340,6 +353,12 @@ export class CaslAbilityFactory {
         can(Action.Create, CBTFundingEntity);
         can(Action.Update, CBTFundingEntity);
         can(Action.Delete, CBTFundingEntity);
+
+        // CBT Instruments
+        can(Action.Read, CBTInstrumentsEntity);
+        can(Action.Create, CBTInstrumentsEntity);
+        can(Action.Update, CBTInstrumentsEntity);
+        can(Action.Delete, CBTInstrumentsEntity);
       }
 
       if (user.role == Role.Observer) {

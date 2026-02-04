@@ -1,0 +1,10 @@
+{
+  "notFound": "A CBT Instruments record with id {} is not found",
+  "cbtNotFound": "The referenced CBT project with id {} is not found",
+  "createFailed": "CBT Instruments record creation failed due to {}",
+  "createSuccess": "CBT Instruments record created successfully",
+  "updateFailed": "CBT Instruments record update failed due to {}",
+  "updateSuccess": "CBT Instruments record updated successfully",
+  "deleteFailed": "CBT Instruments record deletion failed due to {}",
+  "deleteSuccess": "CBT Instruments record deleted successfully"
+}

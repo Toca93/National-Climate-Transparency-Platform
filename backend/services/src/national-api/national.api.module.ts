@@ -40,6 +40,7 @@ import { FoodModule } from "../food/food.module";
 import { CBTModule } from "../cbt/cbt.module";
 import { CBTController } from "./cbt.controller";
 import { CBTFundingController } from "./cbt.funding.controller";
+import { CBTInstrumentsController } from "./cbt.instruments.controller";
 
 @Module({
   imports: [
@@ -90,6 +91,7 @@ import { CBTFundingController } from "./cbt.funding.controller";
     ResourcesController,
     CBTController,
     CBTFundingController,
+    CBTInstrumentsController,
   ],
   providers: [NationalAPIService, Logger],
 })

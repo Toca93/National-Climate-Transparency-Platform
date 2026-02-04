@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Row, Col, Input, Button, Form, Select, Spin } from 'antd';
+import { Row, Col, Input, Button, Form, Select, Spin, message } from 'antd';
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useConnection } from '../../../Context/ConnectionContext/connectionContext';
@@ -26,7 +26,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
   const formTitle = 'Finansijski instrumenti';
 
   const navigate = useNavigate();
-  const { get, post } = useConnection();
+  const { get, post, put } = useConnection();
   const { entId } = useParams();
 
   const validation = getValidationRules(method);
@@ -72,20 +72,21 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      // TODO: Implementirati API poziv
-      // const response = await get(`cbt-instruments/${entId}`);
-      // form.setFieldsValue(response.data);
-      //
-      // // Set currency from loaded data
-      // if (response.data?.currency) {
-      //   setCurrency(response.data.currency);
-      // }
-    } catch (error) {
+      const response: any = await get(`national/cbt-instruments/${entId}`);
+      if (response.data) {
+        form.setFieldsValue(response.data);
+        // Set exchange rate for calculation
+        if (response.data.exchangeRate) {
+          setExchangeRate(response.data.exchangeRate);
+        }
+      }
+    } catch (error: any) {
       console.error('Error fetching Instruments data:', error);
+      message.error(error.message || 'Failed to load CBT Instruments data');
     } finally {
       setLoading(false);
     }
-  }, [get, entId]);
+  }, [get, entId, form]);
 
   useEffect(() => {
     fetchCBTProjects();
@@ -126,15 +127,24 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
     setLoading(true);
     try {
       if (method === 'create') {
-        // TODO: Implementirati API poziv
-        console.log('Create Instruments:', values);
+        const response: any = await post('national/cbt-instruments/add', values);
+        if (response.status === 200 || response.status === 201) {
+          message.success(response.message || 'CBT Instruments record created successfully');
+          navigate('/cbt-instruments');
+        }
       } else if (method === 'update') {
-        // TODO: Implementirati API poziv
-        console.log('Update Instruments:', values);
+        const response: any = await put('national/cbt-instruments/update', {
+          ...values,
+          id: entId,
+        });
+        if (response.status === 200 || response.status === 201) {
+          message.success(response.message || 'CBT Instruments record updated successfully');
+          navigate('/cbt-instruments');
+        }
       }
-      navigate('/cbt-instruments');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving Instruments:', error);
+      message.error(error.message || 'Failed to save CBT Instruments record');
     } finally {
       setLoading(false);
     }
@@ -191,11 +201,18 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
                         (option?.children as string)?.toLowerCase().includes(input.toLowerCase())
                       }
                     >
-                      {cbtProjectList.map((project: CBTProjectData) => (
-                        <Option key={project.id} value={project.id}>
-                          {project.projectName}
-                        </Option>
-                      ))}
+                      {cbtProjectList.map((project: CBTProjectData) => {
+                        const displayName = project.projectName
+                          ? project.projectName.length > 40
+                            ? project.projectName.substring(0, 40) + '...'
+                            : project.projectName
+                          : '';
+                        return (
+                          <Option key={project.id} value={project.id}>
+                            {`${project.id} - ${displayName}`}
+                          </Option>
+                        );
+                      })}
                     </Select>
                   </Form.Item>
                 </Col>
