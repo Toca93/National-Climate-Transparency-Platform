@@ -14,6 +14,10 @@ body {
     --antd-arrow-background-color: linear-gradient(to right bottom, variables.$primary-color, variables.$primary-color) !important;
   }
 
+  .ant-form-item-tooltip {
+    padding-right: 4px !important;
+  }
+
   .login-language-selection-container .ant-select-selector {
     color: variables.$primary-color !important;
     border: 1px solid variables.$primary-color !important;

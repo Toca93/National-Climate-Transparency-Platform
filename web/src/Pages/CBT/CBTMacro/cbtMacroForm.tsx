@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Row, Col, Button, Form, Select, Spin, InputNumber, Input } from 'antd';
+import { Row, Col, Button, Form, Select, Spin, Input } from 'antd';
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useConnection } from '../../../Context/ConnectionContext/connectionContext';
@@ -230,14 +230,18 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="gdp"
                     tooltip="Bruto domaći proizvod u posmatranoj godini izražen u EUR"
                   >
-                    <InputNumber
+                    <Input
                       size="large"
-                      style={{ width: '100%' }}
+                      type="number"
                       placeholder="Unesite BDP u EUR"
                       disabled={isView}
-                      formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
-                      parser={(value) => value!.replace(/\./g, '') as any}
                       min={0}
+                      step={0.01}
+                      onKeyDown={(e) => {
+                        if (e.key === '-' || e.key === 'e' || e.key === '+') {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </Form.Item>
                 </Col>
@@ -249,14 +253,18 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="climateFinanceAmount"
                     tooltip="Ukupan iznos klimatskog finansiranja za posmatranu godinu"
                   >
-                    <InputNumber
+                    <Input
                       size="large"
-                      style={{ width: '100%' }}
+                      type="number"
                       placeholder="Unesite iznos u EUR"
                       disabled={isView}
-                      formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
-                      parser={(value) => value!.replace(/\./g, '') as any}
                       min={0}
+                      step={0.01}
+                      onKeyDown={(e) => {
+                        if (e.key === '-' || e.key === 'e' || e.key === '+') {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </Form.Item>
                 </Col>
@@ -270,15 +278,19 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="climateFinanceShareGdp"
                     tooltip="Procenat klimatskog finansiranja u odnosu na BDP"
                   >
-                    <InputNumber
+                    <Input
                       size="large"
-                      style={{ width: '100%' }}
+                      type="number"
                       placeholder="Unesite procenat"
                       disabled={isView}
                       min={0}
                       max={100}
-                      precision={2}
-                      addonAfter="%"
+                      step={0.01}
+                      onKeyDown={(e) => {
+                        if (e.key === '-' || e.key === 'e' || e.key === '+') {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </Form.Item>
                 </Col>
@@ -290,15 +302,19 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="climateFinanceShareBudget"
                     tooltip="Procenat klimatskog finansiranja u odnosu na ukupni državni budžet"
                   >
-                    <InputNumber
+                    <Input
                       size="large"
-                      style={{ width: '100%' }}
+                      type="number"
                       placeholder="Unesite procenat"
                       disabled={isView}
                       min={0}
                       max={100}
-                      precision={2}
-                      addonAfter="%"
+                      step={0.01}
+                      onKeyDown={(e) => {
+                        if (e.key === '-' || e.key === 'e' || e.key === '+') {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </Form.Item>
                 </Col>
