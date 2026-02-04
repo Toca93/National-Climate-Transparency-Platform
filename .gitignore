@@ -21,3 +21,6 @@ docker-compose*
 !docker-compose-prod.yml
 **/.yarn/
 **/.env-cmdrc
+**/.claude
+**/.cursor
+**/.vscode
