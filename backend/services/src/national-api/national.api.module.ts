@@ -41,6 +41,7 @@ import { CBTModule } from "../cbt/cbt.module";
 import { CBTController } from "./cbt.controller";
 import { CBTFundingController } from "./cbt.funding.controller";
 import { CBTInstrumentsController } from "./cbt.instruments.controller";
+import { CBTMacroController } from "./cbt.macro.controller";
 
 @Module({
   imports: [
@@ -92,6 +93,7 @@ import { CBTInstrumentsController } from "./cbt.instruments.controller";
     CBTController,
     CBTFundingController,
     CBTInstrumentsController,
+    CBTMacroController,
   ],
   providers: [NationalAPIService, Logger],
 })

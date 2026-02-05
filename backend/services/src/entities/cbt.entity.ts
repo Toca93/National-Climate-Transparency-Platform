@@ -10,6 +10,7 @@ import { Sector } from "../enums/sector.enum";
 import { SubSector } from "../enums/shared.enum";
 import { CBTFundingEntity } from "./cbt.funding.entity";
 import { CBTInstrumentsEntity } from "./cbt.instruments.entity";
+import { CBTMacroEntity } from "./cbt.macro.entity";
 
 // Status projekta klimatskog finansiranja (H1)
 export enum CBTStatus {
@@ -114,6 +115,9 @@ export class CBTEntity {
 
   @OneToMany(() => CBTInstrumentsEntity, (instruments) => instruments.cbt)
   instruments: CBTInstrumentsEntity[];
+
+  @OneToMany(() => CBTMacroEntity, (macro) => macro.cbt)
+  macros: CBTMacroEntity[];
 
   @CreateDateColumn({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
   createdTime: Date;
