@@ -70,7 +70,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
   // State za prikaz polja "Other" kada je izabran Ostalo za Način finansiranja
   const [showOtherFundingMethod, setShowOtherFundingMethod] = useState<boolean>(false);
 
-  // State za praćenje da li je izabrano "Received" za Support Needed or Received
+  // State za prikaz polja "Other" teksta
   const [isSupportReceived, setIsSupportReceived] = useState<boolean>(false);
 
   // Dohvati projekte iz Osnovnih informacija (CBT) - isto kao programmes u ProjectForm
@@ -112,11 +112,9 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
           setShowOtherFundingMethod(true);
         }
 
-        // Set support received state based on loaded data
-        if (response.data.supportNeededOrReceived === 'Received') {
-          setIsSupportReceived(true);
-        } else {
-          setIsSupportReceived(false);
+        // Set other funding method visibility based on loaded data
+        if (response.data.fundingMethod === 'Other') {
+          setShowOtherFundingMethod(true);
         }
       }
     } catch (error: any) {
@@ -285,13 +283,6 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                       disabled={isView}
                       onChange={(value) => {
                         setIsSupportReceived(value === 'Received');
-                        if (value !== 'Received') {
-                          form.setFieldsValue({
-                            fundingMethod: undefined,
-                            otherFundingMethodText: undefined,
-                          });
-                          setShowOtherFundingMethod(false);
-                        }
                       }}
                     >
                       {supportNeededOrReceivedOptions.map((option) => (
@@ -308,17 +299,13 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                   <Form.Item
                     label="Način finansiranja"
                     name="fundingMethod"
-                    rules={isSupportReceived ? [validation.required] : undefined}
+                    rules={[validation.required]}
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={
-                        isSupportReceived
-                          ? 'Izaberite način finansiranja'
-                          : 'Dostupno samo kada je primljeno'
-                      }
-                      disabled={isView || !isSupportReceived}
+                      placeholder="Izaberite način finansiranja"
+                      disabled={isView}
                       onChange={(value) => {
                         setShowOtherFundingMethod(value === 'Other');
                         if (value !== 'Other') {
@@ -351,8 +338,8 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 </Col>
               </Row>
 
-              {/* Ostalo - tekstualno polje (prikazuje se samo ako je izabran Ostalo i primljeno) */}
-              {showOtherFundingMethod && isSupportReceived && (
+              {/* Ostalo - tekstualno polje (prikazuje se samo ako je izabran Ostalo) */}
+              {showOtherFundingMethod && (
                 <Row gutter={gutterSize}>
                   <Col span={24}>
                     <Form.Item
