@@ -10,6 +10,16 @@ SELECT
     cbt."activityDescription",
     cbt."nationalImplementingEntities",
     cbt."internationalImplementingEntities",
+    -- Combine national and international implementing entities
+    CASE 
+        WHEN cbt."nationalImplementingEntities" IS NOT NULL AND cbt."internationalImplementingEntities" IS NOT NULL 
+        THEN array_to_string(cbt."nationalImplementingEntities", ', ') || ', ' || array_to_string(cbt."internationalImplementingEntities", ', ')
+        WHEN cbt."nationalImplementingEntities" IS NOT NULL 
+        THEN array_to_string(cbt."nationalImplementingEntities", ', ')
+        WHEN cbt."internationalImplementingEntities" IS NOT NULL 
+        THEN array_to_string(cbt."internationalImplementingEntities", ', ')
+        ELSE NULL 
+    END AS "responsibleInstitution",
     cbt."recipientEntity",
     cbt.status,
     cbt.sector,
@@ -116,6 +126,9 @@ export class CBTView {
 
   @ViewColumn()
   internationalImplementingEntities: string[];
+
+  @ViewColumn()
+  responsibleInstitution: string;
 
   @ViewColumn()
   recipientEntity: string;

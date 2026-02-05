@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import '../../../Styles/app.scss';
 import LayoutTable from '../../../Components/common/Table/layout.table';
-import { Button, Col, Row, Input, Dropdown, Popover, List, Typography, MenuProps } from 'antd';
+import { Button, Col, Row, Input, Dropdown, Popover, List, Typography, MenuProps, Tag } from 'antd';
 import {
   EditOutlined,
   EllipsisOutlined,
@@ -27,7 +27,8 @@ interface Item {
   endYear: number;
   projectName: string;
   activityDescription: string;
-  responsibleInstitution: string;
+  nationalImplementingEntities: string[];
+  internationalImplementingEntities: string[];
   status: string;
 }
 
@@ -107,7 +108,8 @@ const CBTList = () => {
         endYear: item.endYear,
         projectName: item.projectName,
         activityDescription: item.activityDescription,
-        responsibleInstitution: item.responsibleInstitution,
+        nationalImplementingEntities: item.nationalImplementingEntities || [],
+        internationalImplementingEntities: item.internationalImplementingEntities || [],
         status: item.status,
       }));
 
@@ -174,9 +176,25 @@ const CBTList = () => {
     {
       title: 'Nadležna institucija',
       width: 220,
-      dataIndex: 'responsibleInstitution',
-      key: 'responsibleInstitution',
-      sorter: false,
+      key: 'implementingEntity',
+      render: (_: any, record: Item) => {
+        const national = record.nationalImplementingEntities || [];
+        const international = record.internationalImplementingEntities || [];
+        const combined = [...national, ...international].slice(0, 2);
+        return (
+          <div>
+            {combined.map((entity, idx) => (
+              <Tag
+                key={idx}
+                color="rgba(233, 68, 118, 0.11)"
+                style={{ color: '#8A1538', marginBottom: 4, marginRight: 4 }}
+              >
+                {entity.length > 25 ? entity.substring(0, 25) + '...' : entity}
+              </Tag>
+            ))}
+          </div>
+        );
+      },
     },
     { title: 'Status', width: 120, dataIndex: 'status', key: 'status', sorter: false },
     {
