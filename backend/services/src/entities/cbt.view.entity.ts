@@ -13,7 +13,9 @@ SELECT
     cbt."recipientEntity",
     cbt.status,
     cbt.sector,
-    cbt."subSector",
+    CASE WHEN cbt."subSector" IS NOT NULL 
+         THEN string_to_array(array_to_string(cbt."subSector"::text[], ','), ',') 
+         ELSE NULL END AS "subSector",
     cbt."otherSectorText",
     cbt."basedOnNDC",
     cbt."technologyTransferContribution",
