@@ -177,6 +177,7 @@ const CBTList = () => {
       title: 'Nadležna institucija',
       width: 220,
       key: 'implementingEntity',
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       render: (_: any, record: Item) => {
         const national = record.nationalImplementingEntities || [];
         const international = record.internationalImplementingEntities || [];
@@ -202,6 +203,7 @@ const CBTList = () => {
       key: 'actions',
       align: 'right' as const,
       width: 50,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       render: (_: any, record: Item) => (
         <Popover
           showArrow={false}

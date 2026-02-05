@@ -45,7 +45,7 @@ interface Item {
 const CBTMacroList = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'tableAction']);
-  const { post, delete: deleteRequest } = useConnection();
+  const { post } = useConnection();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [tableData, setTableData] = useState<Item[]>([]);
@@ -224,6 +224,7 @@ const CBTMacroList = () => {
       key: 'actions',
       align: 'right' as const,
       width: 50,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       render: (_: any, record: Item) => (
         <Popover
           showArrow={false}

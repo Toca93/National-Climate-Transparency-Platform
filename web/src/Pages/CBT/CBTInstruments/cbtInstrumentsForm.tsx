@@ -40,8 +40,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
   // State za praćenje kursa konverzije (valuta je fiksno EUR)
   const [exchangeRate, setExchangeRate] = useState<number | null>(null);
 
-  // Fiksna valuta EUR
-  const currency = 'EUR';
+  // Fiksna valuta EUR - koristi se u formi kao initialValue
 
   // Dohvati projekte iz Osnovnih informacija (CBT) - isto kao programmes u ProjectForm
   const fetchCBTProjects = async () => {

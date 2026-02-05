@@ -56,7 +56,7 @@ interface CBTProjectData {
 
 const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
   const [form] = Form.useForm();
-  const { t } = useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
+  useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
   const formTitle = 'Makro pokazatelji';

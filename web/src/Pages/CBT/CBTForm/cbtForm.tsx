@@ -133,7 +133,7 @@ const generateYears = () => {
 
 const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
   const [form] = Form.useForm();
-  const { t } = useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
+  useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
   const formTitle = 'Osnovne informacije';
