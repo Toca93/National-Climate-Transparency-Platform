@@ -89,14 +89,25 @@ export class ReportService {
         return qb;
       }
     } else {
-      // For reports 6, 7, 12, 13 - use CBT View
+      // For reports 6, 7, 12, 13 - use CBT View with support type filtering
       if (
         reportNumber === Reports.SIX ||
         reportNumber === Reports.SEVEN ||
         reportNumber === Reports.TWELVE ||
         reportNumber === Reports.THIRTEEN
       ) {
-        return this.cbtViewRepo.createQueryBuilder("cbt_view");
+        const qb = this.cbtViewRepo.createQueryBuilder("cbt_view");
+        
+        // Filter by support type (Needed or Received)
+        if (reportNumber === Reports.SIX || reportNumber === Reports.TWELVE) {
+          // Table 6 (Finance Needed) and Table 12 (Transparency Needed)
+          qb.where("'Needed' = ANY(cbt_view.supportTypes)");
+        } else if (reportNumber === Reports.SEVEN || reportNumber === Reports.THIRTEEN) {
+          // Table 7 (Finance Received) and Table 13 (Transparency Received)
+          qb.where("'Received' = ANY(cbt_view.supportTypes)");
+        }
+        
+        return qb;
       }
 
       // For reports 8, 9, 10, 11 - use legacy AnnexThreeView
@@ -366,6 +377,12 @@ export class ReportService {
       const financialInstruments = Array.isArray(report.financialInstruments)
         ? report.financialInstruments
         : report.financialInstruments ? [report.financialInstruments] : [];
+      const fundingMethods = Array.isArray(report.fundingMethods)
+        ? report.fundingMethods
+        : report.fundingMethods ? [report.fundingMethods] : [];
+      const supportChannel = report.otherFundingMethodText
+        ? [...fundingMethods, report.otherFundingMethodText].join(", ")
+        : fundingMethods.join(", ");
 
       const dto: DataExportReportSixDto = {
         activityId: report.id,
@@ -382,7 +399,7 @@ export class ReportService {
         techDevelopment: report.technologyTransferContribution ? "Yes" : "No",
         capacityBuilding: report.capacityBuildingContribution ? "Yes" : "No",
         anchoredInNationalStrategy: report.basedOnNDC ? "Yes" : "No",
-        supportChannel: report.responsibleInstitution,
+        supportChannel: supportChannel || "",
         achievedGHGReduction: report.expectedImpacts || "N/A",
         additionalInfo: report.projectAdditionalInformation,
       };
@@ -402,12 +419,18 @@ export class ReportService {
       const fundingStatuses = Array.isArray(report.fundingStatuses)
         ? report.fundingStatuses
         : report.fundingStatuses ? [report.fundingStatuses] : [];
+      const fundingMethods = Array.isArray(report.fundingMethods)
+        ? report.fundingMethods
+        : report.fundingMethods ? [report.fundingMethods] : [];
+      const supportChannel = report.otherFundingMethodText
+        ? [...fundingMethods, report.otherFundingMethodText].join(", ")
+        : fundingMethods.join(", ");
 
       const dto: DataExportReportSevenDto = {
         activityId: report.id,
         titleOfActivity: report.projectName,
         description: report.activityDescription,
-        supportChannel: report.responsibleInstitution,
+        supportChannel: supportChannel || "",
         recipientEntities: report.recipientEntity ? [report.recipientEntity] : [],
         nationalImplementingEntities: report.responsibleInstitution ? [report.responsibleInstitution] : [],
         internationalImplementingEntities: [],
@@ -551,6 +574,13 @@ export class ReportService {
     const exportData: DataExportReportTwelveDto[] = [];
 
     for (const report of data) {
+      const fundingMethods = Array.isArray(report.fundingMethods)
+        ? report.fundingMethods
+        : report.fundingMethods ? [report.fundingMethods] : [];
+      const supportChannel = report.otherFundingMethodText
+        ? [...fundingMethods, report.otherFundingMethodText].join(", ")
+        : fundingMethods.join(", ");
+
       const dto: DataExportReportTwelveDto = {
         activityId: report.id,
         titleOfActivity: report.projectName,
@@ -558,7 +588,7 @@ export class ReportService {
         startYear: report.startYear?.toString(),
         endYear: report.endYear?.toString(),
         recipientEntities: report.recipientEntity ? [report.recipientEntity] : [],
-        supportChannel: report.responsibleInstitution,
+        supportChannel: supportChannel || "",
         requiredAmountDomestic: report.totalAmount,
         requiredAmount: report.convertedAmount,
         activityStatus: report.status,
@@ -576,6 +606,13 @@ export class ReportService {
     const exportData: DataExportReportThirteenDto[] = [];
 
     for (const report of data) {
+      const fundingMethods = Array.isArray(report.fundingMethods)
+        ? report.fundingMethods
+        : report.fundingMethods ? [report.fundingMethods] : [];
+      const supportChannel = report.otherFundingMethodText
+        ? [...fundingMethods, report.otherFundingMethodText].join(", ")
+        : fundingMethods.join(", ");
+
       const dto: DataExportReportThirteenDto = {
         activityId: report.id,
         titleOfActivity: report.projectName,
@@ -583,7 +620,7 @@ export class ReportService {
         startYear: report.startYear?.toString(),
         endYear: report.endYear?.toString(),
         recipientEntities: report.recipientEntity ? [report.recipientEntity] : [],
-        supportChannel: report.responsibleInstitution,
+        supportChannel: supportChannel || "",
         receivedAmountDomestic: report.totalAmount,
         receivedAmount: report.convertedAmount,
         activityStatus: report.status,

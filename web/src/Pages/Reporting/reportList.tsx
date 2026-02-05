@@ -306,6 +306,15 @@ const reportList = () => {
             : report.subSector
             ? [report.subSector]
             : [];
+          // Support Channel = fundingMethods + otherFundingMethodText
+          const fundingMethods = Array.isArray(report.fundingMethods)
+            ? report.fundingMethods
+            : report.fundingMethods
+            ? [report.fundingMethods]
+            : [];
+          const supportChannel = report.otherFundingMethodText
+            ? [...fundingMethods, report.otherFundingMethodText].join(', ')
+            : fundingMethods.join(', ');
 
           tempReportSixData.push({
             key: index,
@@ -325,7 +334,7 @@ const reportList = () => {
             anchoredInNationalStrategy: report.basedOnNDC ? 'Yes' : 'No',
             achievedGHGReduction: report.expectedImpacts || 'N/A',
             additionalInfo: report.projectAdditionalInformation,
-            supportChannel: report.responsibleInstitution,
+            supportChannel: supportChannel || '',
           });
         });
 
@@ -388,13 +397,22 @@ const reportList = () => {
             : report.responsibleInstitution
             ? [report.responsibleInstitution]
             : [];
+          // Support Channel = fundingMethods + otherFundingMethodText
+          const fundingMethods = Array.isArray(report.fundingMethods)
+            ? report.fundingMethods
+            : report.fundingMethods
+            ? [report.fundingMethods]
+            : [];
+          const supportChannel = report.otherFundingMethodText
+            ? [...fundingMethods, report.otherFundingMethodText].join(', ')
+            : fundingMethods.join(', ');
 
           tempReportSevenData.push({
             key: index,
             activityId: report.id,
             titleOfActivity: report.projectName,
             description: report.activityDescription,
-            supportChannel: report.responsibleInstitution,
+            supportChannel: supportChannel || '',
             recipientEntities: recipientEntity,
             nationalImplementingEntities: responsibleInstitution,
             internationalImplementingEntities: [],
@@ -660,6 +678,15 @@ const reportList = () => {
             : report.recipientEntity
             ? [report.recipientEntity]
             : [];
+          // Support Channel = fundingMethods + otherFundingMethodText
+          const fundingMethods = Array.isArray(report.fundingMethods)
+            ? report.fundingMethods
+            : report.fundingMethods
+            ? [report.fundingMethods]
+            : [];
+          const supportChannel = report.otherFundingMethodText
+            ? [...fundingMethods, report.otherFundingMethodText].join(', ')
+            : fundingMethods.join(', ');
 
           tempReportTwelveData.push({
             key: index,
@@ -669,7 +696,7 @@ const reportList = () => {
             startYear: report.startYear?.toString(),
             endYear: report.endYear?.toString(),
             recipientEntities: recipientEntity,
-            supportChannel: report.responsibleInstitution,
+            supportChannel: supportChannel || '',
             requiredAmountDomestic: Math.round(report.totalAmount || 0),
             requiredAmount: Math.round(report.convertedAmount || 0),
             activityStatus: report.status,
@@ -717,6 +744,15 @@ const reportList = () => {
             : report.recipientEntity
             ? [report.recipientEntity]
             : [];
+          // Support Channel = fundingMethods + otherFundingMethodText
+          const fundingMethods = Array.isArray(report.fundingMethods)
+            ? report.fundingMethods
+            : report.fundingMethods
+            ? [report.fundingMethods]
+            : [];
+          const supportChannel = report.otherFundingMethodText
+            ? [...fundingMethods, report.otherFundingMethodText].join(', ')
+            : fundingMethods.join(', ');
 
           tempReportThirteenData.push({
             key: index,
@@ -726,7 +762,7 @@ const reportList = () => {
             startYear: report.startYear?.toString(),
             endYear: report.endYear?.toString(),
             recipientEntities: recipientEntity,
-            supportChannel: report.responsibleInstitution,
+            supportChannel: supportChannel || '',
             receivedAmountDomestic: report.totalAmount,
             receivedAmount: report.convertedAmount,
             activityStatus: report.status,
