@@ -23,6 +23,7 @@ import { SupportDirection } from "../enums/support.enum";
 import { ActionType } from "../enums/action.enum";
 import { AnnexTwoViewEntity } from "../entities/annexTwo.view.entity";
 import { DataExportAnnexTwoReportSevenDto } from "src/dtos/data.export.annexTwo.reportSeven.dto";
+import { CBTView } from "../entities/cbt.view.entity";
 
 export class ReportService {
   constructor(
@@ -32,6 +33,8 @@ export class ReportService {
     private annexTwoViewRepo: Repository<AnnexTwoViewEntity>,
     @InjectRepository(AnnexThreeViewEntity)
     private annexThreeViewRepo: Repository<AnnexThreeViewEntity>,
+    @InjectRepository(CBTView)
+    private cbtViewRepo: Repository<CBTView>,
     private helperService: HelperService,
     private dataExportService: DataExportService
   ) {}
@@ -86,31 +89,21 @@ export class ReportService {
         return qb;
       }
     } else {
+      // For reports 6, 7, 12, 13 - use CBT View
+      if (
+        reportNumber === Reports.SIX ||
+        reportNumber === Reports.SEVEN ||
+        reportNumber === Reports.TWELVE ||
+        reportNumber === Reports.THIRTEEN
+      ) {
+        return this.cbtViewRepo.createQueryBuilder("cbt_view");
+      }
+
+      // For reports 8, 9, 10, 11 - use legacy AnnexThreeView
       let direction: SupportDirection;
       let mitigationType: ActionType[];
       let meansOfImplementation: ImpleMeans[];
-      // ML - removed ActionType.TRANSPARENCY in SIX and SEVEN and Add it to TWELVE and THIRTEEN
       switch (reportNumber) {
-        case Reports.SIX:
-          direction = SupportDirection.NEEDED;
-          mitigationType = [
-            ActionType.MITIGATION,
-            ActionType.ADAPTION,
-            ActionType.CROSSCUT,
-            ActionType.OTHER,
-          ];
-          meansOfImplementation = [ImpleMeans.FINANCE];
-          break;
-        case Reports.SEVEN:
-          direction = SupportDirection.RECEIVED;
-          mitigationType = [
-            ActionType.MITIGATION,
-            ActionType.ADAPTION,
-            ActionType.CROSSCUT,
-            ActionType.OTHER,
-          ];
-          meansOfImplementation = [ImpleMeans.FINANCE];
-          break;
         case Reports.EIGHT:
           direction = SupportDirection.NEEDED;
           mitigationType = [
@@ -150,22 +143,6 @@ export class ReportService {
             ActionType.OTHER,
           ];
           meansOfImplementation = [ImpleMeans.CAPACITY_BUILD];
-          break;
-        case Reports.TWELVE:
-          direction = SupportDirection.NEEDED;
-          mitigationType = [ActionType.TRANSPARENCY];
-          meansOfImplementation = [
-            ImpleMeans.TRANSP,
-            ImpleMeans.CAPACITY_BUILD,
-          ];
-          break;
-        case Reports.THIRTEEN:
-          direction = SupportDirection.RECEIVED;
-          mitigationType = [ActionType.TRANSPARENCY];
-          meansOfImplementation = [
-            ImpleMeans.TRANSP,
-            ImpleMeans.CAPACITY_BUILD,
-          ];
           break;
       }
 
@@ -266,7 +243,7 @@ export class ReportService {
 
           case Reports.SIX:
             prepData = this.prepareReportSixDataForExport(
-              resp as AnnexThreeViewEntity[]
+              resp as CBTView[]
             );
             localFileName = "reportSixExport.";
             localTableNameKey = "reportSixExport.tableSix";
@@ -274,7 +251,7 @@ export class ReportService {
 
           case Reports.SEVEN:
             prepData = this.prepareReportSevenDataForExport(
-              resp as AnnexThreeViewEntity[]
+              resp as CBTView[]
             );
             localFileName = "reportSevenExport.";
             localTableNameKey = "reportSevenExport.tableSeven";
@@ -314,7 +291,7 @@ export class ReportService {
 
           case Reports.TWELVE:
             prepData = this.prepareReportTwelveDataForExport(
-              resp as AnnexThreeViewEntity[]
+              resp as CBTView[]
             );
             localFileName = "reportTwelveExport.";
             localTableNameKey = "reportTwelveExport.tableTwelve";
@@ -322,7 +299,7 @@ export class ReportService {
 
           case Reports.THIRTEEN:
             prepData = this.prepareReportThirteenDataForExport(
-              resp as AnnexThreeViewEntity[]
+              resp as CBTView[]
             );
             localFileName = "reportTwelveExport.";
             localTableNameKey = "reportTwelveExport.tableThirteen";
@@ -382,37 +359,32 @@ export class ReportService {
     return exportData;
   }
 
-  private prepareReportSixDataForExport(data: AnnexThreeViewEntity[]) {
+  private prepareReportSixDataForExport(data: CBTView[]) {
     const exportData: DataExportReportSixDto[] = [];
 
     for (const report of data) {
+      const financialInstruments = Array.isArray(report.financialInstruments)
+        ? report.financialInstruments
+        : report.financialInstruments ? [report.financialInstruments] : [];
+
       const dto: DataExportReportSixDto = {
-        activityId: report.activityId,
+        activityId: report.id,
         sector: report.sector,
         subSectors: report.subSector,
-        titleOfActivity: report.title,
-        description: report.description,
-        requiredAmountDomestic: report.requiredAmountDomestic,
-        requiredAmount: report.requiredAmount,
-        startYear: report.startYear,
-        endYear: report.endYear,
-        financialInstrument: report.internationalFinancialInstrument,
-        type: report.type,
-        techDevelopment:
-          report.meansOfImplementation === ImpleMeans.TECH_DEV ? "Yes" : "No",
-        capacityBuilding:
-          report.meansOfImplementation === ImpleMeans.CAPACITY_BUILD
-            ? "Yes"
-            : "No",
-        anchoredInNationalStrategy: report.anchoredInNationalStrategy
-          ? "Yes"
-          : "No",
-        supportChannel: report.internationalSupportChannel,
-        achievedGHGReduction:
-          report.achievedGHGReductionAlternate ||
-          report.achievedGHGReduction ||
-          "N/A",
-        additionalInfo: report.etfDescription,
+        titleOfActivity: report.projectName,
+        description: report.activityDescription,
+        requiredAmountDomestic: report.totalAmount,
+        requiredAmount: report.convertedAmount,
+        startYear: report.startYear?.toString(),
+        endYear: report.endYear?.toString(),
+        financialInstrument: financialInstruments.join(", ") || "",
+        type: report.typeOfSupport,
+        techDevelopment: report.technologyTransferContribution ? "Yes" : "No",
+        capacityBuilding: report.capacityBuildingContribution ? "Yes" : "No",
+        anchoredInNationalStrategy: report.basedOnNDC ? "Yes" : "No",
+        supportChannel: report.responsibleInstitution,
+        achievedGHGReduction: report.expectedImpacts || "N/A",
+        additionalInfo: report.projectAdditionalInformation,
       };
       exportData.push(dto);
     }
@@ -420,40 +392,39 @@ export class ReportService {
     return exportData;
   }
 
-  private prepareReportSevenDataForExport(data: AnnexThreeViewEntity[]) {
+  private prepareReportSevenDataForExport(data: CBTView[]) {
     const exportData: DataExportReportSevenDto[] = [];
 
     for (const report of data) {
+      const financialInstruments = Array.isArray(report.financialInstruments)
+        ? report.financialInstruments
+        : report.financialInstruments ? [report.financialInstruments] : [];
+      const fundingStatuses = Array.isArray(report.fundingStatuses)
+        ? report.fundingStatuses
+        : report.fundingStatuses ? [report.fundingStatuses] : [];
+
       const dto: DataExportReportSevenDto = {
-        activityId: report.activityId,
-        titleOfActivity: report.title,
-        description: report.description,
-        supportChannel: report.internationalSupportChannel,
-        recipientEntities: report.recipientEntities,
-        nationalImplementingEntities: report.nationalImplementingEntity,
-        internationalImplementingEntities:
-          report.internationalImplementingEntity,
-        receivedAmountDomestic: report.receivedAmountDomestic,
-        receivedAmount: report.receivedAmount,
-        startYear: report.startYear,
-        endYear: report.endYear,
-        financialInstrument: report.internationalFinancialInstrument,
-        financingStatus: report.financingStatus,
-        type: report.type,
+        activityId: report.id,
+        titleOfActivity: report.projectName,
+        description: report.activityDescription,
+        supportChannel: report.responsibleInstitution,
+        recipientEntities: report.recipientEntity ? [report.recipientEntity] : [],
+        nationalImplementingEntities: report.responsibleInstitution ? [report.responsibleInstitution] : [],
+        internationalImplementingEntities: [],
+        receivedAmountDomestic: report.totalAmount,
+        receivedAmount: report.convertedAmount,
+        startYear: report.startYear?.toString(),
+        endYear: report.endYear?.toString(),
+        financialInstrument: financialInstruments.join(", ") || "",
+        financingStatus: fundingStatuses.join(", ") || "",
+        type: report.typeOfSupport,
         sector: report.sector,
         subSectors: report.subSector,
-        techDevelopment:
-          report.meansOfImplementation === ImpleMeans.TECH_DEV ? "Yes" : "No",
-        capacityBuilding:
-          report.meansOfImplementation === ImpleMeans.CAPACITY_BUILD
-            ? "Yes"
-            : "No",
+        techDevelopment: report.technologyTransferContribution ? "Yes" : "No",
+        capacityBuilding: report.capacityBuildingContribution ? "Yes" : "No",
         activityStatus: report.status,
-        achievedGHGReduction:
-          report.achievedGHGReductionAlternate ||
-          report.achievedGHGReduction ||
-          "N/A",
-        additionalInfo: report.etfDescription,
+        achievedGHGReduction: report.expectedImpacts || "N/A",
+        additionalInfo: report.projectAdditionalInformation,
       };
       exportData.push(dto);
     }
@@ -576,26 +547,23 @@ export class ReportService {
     return exportData;
   }
 
-  private prepareReportTwelveDataForExport(data: AnnexThreeViewEntity[]) {
+  private prepareReportTwelveDataForExport(data: CBTView[]) {
     const exportData: DataExportReportTwelveDto[] = [];
 
     for (const report of data) {
       const dto: DataExportReportTwelveDto = {
-        activityId: report.activityId,
-        titleOfActivity: report.title,
-        description: report.description,
-        startYear: report.startYear,
-        endYear: report.endYear,
-        recipientEntities: report.recipientEntities,
-        supportChannel: report.internationalSupportChannel,
-        requiredAmountDomestic: report.requiredAmountDomestic,
-        requiredAmount: report.requiredAmount,
+        activityId: report.id,
+        titleOfActivity: report.projectName,
+        description: report.activityDescription,
+        startYear: report.startYear?.toString(),
+        endYear: report.endYear?.toString(),
+        recipientEntities: report.recipientEntity ? [report.recipientEntity] : [],
+        supportChannel: report.responsibleInstitution,
+        requiredAmountDomestic: report.totalAmount,
+        requiredAmount: report.convertedAmount,
         activityStatus: report.status,
-        achievedGHGReduction:
-          report.achievedGHGReductionAlternate ||
-          report.achievedGHGReduction ||
-          "N/A",
-        additionalInfo: report.etfDescription,
+        achievedGHGReduction: report.expectedImpacts || "N/A",
+        additionalInfo: report.projectAdditionalInformation,
       };
 
       exportData.push(dto);
@@ -604,22 +572,22 @@ export class ReportService {
     return exportData;
   }
 
-  private prepareReportThirteenDataForExport(data: AnnexThreeViewEntity[]) {
+  private prepareReportThirteenDataForExport(data: CBTView[]) {
     const exportData: DataExportReportThirteenDto[] = [];
 
     for (const report of data) {
       const dto: DataExportReportThirteenDto = {
-        activityId: report.activityId,
-        titleOfActivity: report.title,
-        description: report.description,
-        startYear: report.startYear,
-        endYear: report.endYear,
-        recipientEntities: report.recipientEntities,
-        supportChannel: report.internationalSupportChannel,
-        receivedAmountDomestic: report.receivedAmountDomestic,
-        receivedAmount: report.receivedAmount,
+        activityId: report.id,
+        titleOfActivity: report.projectName,
+        description: report.activityDescription,
+        startYear: report.startYear?.toString(),
+        endYear: report.endYear?.toString(),
+        recipientEntities: report.recipientEntity ? [report.recipientEntity] : [],
+        supportChannel: report.responsibleInstitution,
+        receivedAmountDomestic: report.totalAmount,
+        receivedAmount: report.convertedAmount,
         activityStatus: report.status,
-        additionalInfo: report.etfDescription,
+        additionalInfo: report.projectAdditionalInformation,
       };
       exportData.push(dto);
     }

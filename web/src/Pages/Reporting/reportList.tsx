@@ -282,7 +282,7 @@ const reportList = () => {
   };
 
   const getTableSixData = async () => {
-    // ML - rounded up requiredAmountDomestic and requiredAmount
+    // CBT View - Table 6 (Finance Needed)
     setLoading(true);
     try {
       const payload: any = {
@@ -295,28 +295,37 @@ const reportList = () => {
         const tempReportSixData: ReportSixRecord[] = [];
 
         response.data.forEach((report: any, index: number) => {
+          // Arrays can be returned as strings from PostgreSQL, normalize them
+          const financialInstruments = Array.isArray(report.financialInstruments)
+            ? report.financialInstruments
+            : report.financialInstruments
+            ? [report.financialInstruments]
+            : [];
+          const subSector = Array.isArray(report.subSector)
+            ? report.subSector
+            : report.subSector
+            ? [report.subSector]
+            : [];
+
           tempReportSixData.push({
             key: index,
-            activityId: report.activityId,
+            activityId: report.id,
             sector: report.sector,
-            subSectors: report.subSector ?? [],
-            titleOfActivity: report.title,
-            description: report.description,
-            requiredAmountDomestic: Math.round(report.requiredAmountDomestic),
-            requiredAmount: Math.round(report.requiredAmount),
-            startYear: report.startYear,
-            endYear: report.endYear,
-            financialInstrument: report.internationalFinancialInstrument,
-            type: report.type,
-            techDevelopment: report.meansOfImplementation === ImplMeans.TECH_DEV ? 'Yes' : 'No',
-            capacityBuilding:
-              report.meansOfImplementation === ImplMeans.CAPACITY_BUILD ? 'Yes' : 'No',
-            anchoredInNationalStrategy: report.anchoredInNationalStrategy ? 'Yes' : 'No',
-            achievedGHGReduction: report.achievedGHGReductionAlternate
-              ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
-            additionalInfo: report.etfDescription,
-            supportChannel: report.internationalSupportChannel,
+            subSectors: subSector,
+            titleOfActivity: report.projectName,
+            description: report.activityDescription,
+            requiredAmountDomestic: Math.round(report.totalAmount || 0),
+            requiredAmount: Math.round(report.convertedAmount || 0),
+            startYear: report.startYear?.toString(),
+            endYear: report.endYear?.toString(),
+            financialInstrument: financialInstruments.join(', ') || '',
+            type: report.typeOfSupport,
+            techDevelopment: report.technologyTransferContribution ? 'Yes' : 'No',
+            capacityBuilding: report.capacityBuildingContribution ? 'Yes' : 'No',
+            anchoredInNationalStrategy: report.basedOnNDC ? 'Yes' : 'No',
+            achievedGHGReduction: report.expectedImpacts || 'N/A',
+            additionalInfo: report.projectAdditionalInformation,
+            supportChannel: report.responsibleInstitution,
           });
         });
 
@@ -339,6 +348,7 @@ const reportList = () => {
   };
 
   const getTableSevenData = async () => {
+    // CBT View - Table 7 (Finance Received)
     setLoading(true);
     try {
       const payload: any = {
@@ -352,32 +362,56 @@ const reportList = () => {
         const tempReportSevenData: ReportSevenRecord[] = [];
 
         response.data.forEach((report: any, index: number) => {
+          // Arrays can be returned as strings from PostgreSQL, normalize them
+          const financialInstruments = Array.isArray(report.financialInstruments)
+            ? report.financialInstruments
+            : report.financialInstruments
+            ? [report.financialInstruments]
+            : [];
+          const fundingStatuses = Array.isArray(report.fundingStatuses)
+            ? report.fundingStatuses
+            : report.fundingStatuses
+            ? [report.fundingStatuses]
+            : [];
+          const subSector = Array.isArray(report.subSector)
+            ? report.subSector
+            : report.subSector
+            ? [report.subSector]
+            : [];
+          const recipientEntity = Array.isArray(report.recipientEntity)
+            ? report.recipientEntity
+            : report.recipientEntity
+            ? [report.recipientEntity]
+            : [];
+          const responsibleInstitution = Array.isArray(report.responsibleInstitution)
+            ? report.responsibleInstitution
+            : report.responsibleInstitution
+            ? [report.responsibleInstitution]
+            : [];
+
           tempReportSevenData.push({
             key: index,
-            activityId: report.activityId,
-            titleOfActivity: report.title,
-            description: report.description,
-            supportChannel: report.internationalSupportChannel,
-            recipientEntities: report.recipientEntities ?? [],
-            nationalImplementingEntities: report.nationalImplementingEntity ?? [],
-            internationalImplementingEntities: report.internationalImplementingEntity ?? [],
-            receivedAmount: report.receivedAmount,
-            receivedAmountDomestic: report.receivedAmountDomestic,
-            startYear: report.startYear,
-            endYear: report.endYear,
-            financialInstrument: report.internationalFinancialInstrument,
-            financingStatus: report.financingStatus,
-            type: report.type,
+            activityId: report.id,
+            titleOfActivity: report.projectName,
+            description: report.activityDescription,
+            supportChannel: report.responsibleInstitution,
+            recipientEntities: recipientEntity,
+            nationalImplementingEntities: responsibleInstitution,
+            internationalImplementingEntities: [],
+            receivedAmount: report.convertedAmount,
+            receivedAmountDomestic: report.totalAmount,
+            startYear: report.startYear?.toString(),
+            endYear: report.endYear?.toString(),
+            financialInstrument: financialInstruments.join(', ') || '',
+            financingStatus: fundingStatuses.join(', ') || '',
+            type: report.typeOfSupport,
             sector: report.sector,
-            subSectors: report.subSector ?? [],
-            techDevelopment: report.meansOfImplementation === ImplMeans.TECH_DEV ? 'Yes' : 'No',
-            capacityBuilding:
-              report.meansOfImplementation === ImplMeans.CAPACITY_BUILD ? 'Yes' : 'No',
+            subSectors: subSector,
+            techDevelopment: report.technologyTransferContribution ? 'Yes' : 'No',
+            capacityBuilding: report.capacityBuildingContribution ? 'Yes' : 'No',
             activityStatus: report.status,
-            achievedGHGReduction: report.achievedGHGReductionAlternate
-              ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
-            additionalInfo: report.etfDescription,
+            achievedGHGReduction: report.expectedImpacts || 'N/A',
+            additionalInfo: report.projectAdditionalInformation,
           });
         });
 
@@ -606,7 +640,7 @@ const reportList = () => {
   };
 
   const getTableTwelveData = async () => {
-    // ML - rounded up requiredAmountDomestic and requiredAmount
+    // CBT View - Table 12 (Transparency Support Needed)
     setLoading(true);
     try {
       const payload: any = {
@@ -620,22 +654,27 @@ const reportList = () => {
         const tempReportTwelveData: ReportTwelveRecord[] = [];
 
         response.data.forEach((report: any, index: number) => {
+          // Arrays can be returned as strings from PostgreSQL, normalize them
+          const recipientEntity = Array.isArray(report.recipientEntity)
+            ? report.recipientEntity
+            : report.recipientEntity
+            ? [report.recipientEntity]
+            : [];
+
           tempReportTwelveData.push({
             key: index,
-            activityId: report.activityId,
-            titleOfActivity: report.title,
-            description: report.description,
-            startYear: report.startYear,
-            endYear: report.endYear,
-            recipientEntities: report.recipientEntities ?? [],
-            supportChannel: report.internationalSupportChannel ?? [],
-            requiredAmountDomestic: Math.round(report.requiredAmountDomestic) ?? [],
-            requiredAmount: Math.round(report.requiredAmount),
+            activityId: report.id,
+            titleOfActivity: report.projectName,
+            description: report.activityDescription,
+            startYear: report.startYear?.toString(),
+            endYear: report.endYear?.toString(),
+            recipientEntities: recipientEntity,
+            supportChannel: report.responsibleInstitution,
+            requiredAmountDomestic: Math.round(report.totalAmount || 0),
+            requiredAmount: Math.round(report.convertedAmount || 0),
             activityStatus: report.status,
-            achievedGHGReduction: report.achievedGHGReductionAlternate
-              ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
-            additionalInfo: report.etfDescription,
+            achievedGHGReduction: report.expectedImpacts || 'N/A',
+            additionalInfo: report.projectAdditionalInformation,
           });
         });
 
@@ -658,6 +697,7 @@ const reportList = () => {
   };
 
   const getTableThirteenData = async () => {
+    // CBT View - Table 13 (Transparency Support Received)
     setLoading(true);
     try {
       const payload: any = {
@@ -671,22 +711,27 @@ const reportList = () => {
         const tempReportThirteenData: ReportThirteenRecord[] = [];
 
         response.data.forEach((report: any, index: number) => {
+          // Arrays can be returned as strings from PostgreSQL, normalize them
+          const recipientEntity = Array.isArray(report.recipientEntity)
+            ? report.recipientEntity
+            : report.recipientEntity
+            ? [report.recipientEntity]
+            : [];
+
           tempReportThirteenData.push({
             key: index,
-            activityId: report.activityId,
-            titleOfActivity: report.title,
-            description: report.description,
-            startYear: report.startYear,
-            endYear: report.endYear,
-            recipientEntities: report.recipientEntities ?? [],
-            supportChannel: report.internationalSupportChannel,
-            receivedAmountDomestic: report.receivedAmountDomestic,
-            receivedAmount: report.receivedAmount,
+            activityId: report.id,
+            titleOfActivity: report.projectName,
+            description: report.activityDescription,
+            startYear: report.startYear?.toString(),
+            endYear: report.endYear?.toString(),
+            recipientEntities: recipientEntity,
+            supportChannel: report.responsibleInstitution,
+            receivedAmountDomestic: report.totalAmount,
+            receivedAmount: report.convertedAmount,
             activityStatus: report.status,
-            achievedGHGReduction: report.achievedGHGReductionAlternate
-              ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
-            additionalInfo: report.etfDescription,
+            achievedGHGReduction: report.expectedImpacts || 'N/A',
+            additionalInfo: report.projectAdditionalInformation,
           });
         });
 
