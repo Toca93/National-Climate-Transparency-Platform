@@ -10,6 +10,7 @@ import '../../../Styles/app.scss';
 const { Option } = Select;
 
 const gutterSize = 30;
+const inputFontSize = '15px';
 
 // Predviđeni finansijski instrumenti (Planned Financial Instruments)
 const financialInstruments = [
@@ -194,12 +195,13 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Naziv projekta / mjere - dropdown iz Osnovnih informacija */}
                 <Col span={24}>
                   <Form.Item
-                    label="Naziv projekta / mjere (Project Name)"
+                    label="Naziv projekta / mjere"
                     name="projectId"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Izaberite projekat iz Osnovnih informacija"
                       disabled={isView}
                       loading={loadingProjects}
@@ -230,12 +232,13 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Predviđeni finansijski instrument */}
                 <Col span={12}>
                   <Form.Item
-                    label="Predviđeni finansijski instrument (Planned Financial Instrument)"
+                    label="Predviđeni finansijski instrument"
                     name="financialInstrument"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Izaberite finansijski instrument"
                       disabled={isView}
                     >
@@ -251,7 +254,12 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Status */}
                 <Col span={12}>
                   <Form.Item label="Status" name="status" rules={[validation.required]}>
-                    <Select size="large" placeholder="Izaberite status" disabled={isView}>
+                    <Select
+                      size="large"
+                      style={{ fontSize: inputFontSize }}
+                      placeholder="Izaberite status"
+                      disabled={isView}
+                    >
                       {statusOptions.map((option) => (
                         <Option key={option.value} value={option.value}>
                           {option.label}
@@ -266,12 +274,13 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Support Needed or Received */}
                 <Col span={12}>
                   <Form.Item
-                    label="Podrška potrebna ili primljena (Support needed or received)"
+                    label="Podrška potrebna ili primljena"
                     name="supportNeededOrReceived"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Izaberite status podrške"
                       disabled={isView}
                       onChange={(value) => {
@@ -297,12 +306,13 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Način finansiranja */}
                 <Col span={12}>
                   <Form.Item
-                    label="Način finansiranja (Funding Method)"
+                    label="Način finansiranja"
                     name="fundingMethod"
                     rules={isSupportReceived ? [validation.required] : undefined}
                   >
                     <Select
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder={
                         isSupportReceived
                           ? 'Izaberite način finansiranja'
@@ -328,11 +338,12 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Očekivana upotreba, uticaj i procijenjeni rezultati */}
                 <Col span={12}>
                   <Form.Item
-                    label="Očekivana upotreba, uticaj i procijenjeni rezultati (Expected use, impact and estimated results)"
+                    label="Očekivana upotreba, uticaj i procijenjeni rezultati"
                     name="expectedImpact"
                   >
                     <Input
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Unesite očekivane rezultate"
                       disabled={isView}
                     />
@@ -345,12 +356,13 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 <Row gutter={gutterSize}>
                   <Col span={24}>
                     <Form.Item
-                      label="Navedite drugi način finansiranja (Please specify other funding method)"
+                      label="Navedite drugi način finansiranja"
                       name="otherFundingMethodText"
                       rules={[validation.required]}
                     >
                       <Input
                         size="large"
+                        style={{ fontSize: inputFontSize }}
                         placeholder="Unesite način finansiranja"
                         disabled={isView}
                       />

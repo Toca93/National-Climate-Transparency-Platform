@@ -11,6 +11,7 @@ import '../../../Styles/app.scss';
 const { Option } = Select;
 
 const gutterSize = 30;
+const inputFontSize = '15px';
 
 // Interface za projekte iz Osnovnih informacija (CBT)
 interface CBTProjectData {
@@ -186,12 +187,13 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Naziv projekta / mjere - dropdown iz Osnovnih informacija */}
                 <Col span={24}>
                   <Form.Item
-                    label="Naziv projekta / mjere (Project Name)"
+                    label="Naziv projekta / mjere"
                     name="projectId"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Izaberite projekat iz Osnovnih informacija"
                       disabled={isView}
                       loading={loadingProjects}
@@ -229,13 +231,14 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Kurs (editable) */}
                 <Col span={24}>
                   <Form.Item
-                    label="Kurs EUR/USD (Exchange Rate)"
+                    label="Kurs EUR/USD"
                     name="exchangeRate"
                     tooltip="Unesite kurs za konverziju EUR u USD"
                     rules={[validation.required]}
                   >
                     <Input
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       type="number"
                       placeholder="npr. 1.08"
                       disabled={isView}
@@ -255,12 +258,13 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Ukupan iznos u EUR */}
                 <Col span={12}>
                   <Form.Item
-                    label="Ukupan iznos (Total Amount) €"
+                    label="Ukupan iznos €"
                     name="totalAmount"
                     rules={[validation.required]}
                   >
                     <Input
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       type="number"
                       placeholder="Unesite ukupan iznos u EUR"
                       disabled={isView}
@@ -279,12 +283,13 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Konvertovani iznos u USD */}
                 <Col span={12}>
                   <Form.Item
-                    label="Konvertovani iznos (Converted Amount) $"
+                    label="Konvertovani iznos $"
                     name="convertedAmount"
                     tooltip="Automatski izračunato preko kursa"
                   >
                     <Input
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       type="number"
                       placeholder="Automatska konverzija"
                       disabled={true}
@@ -297,12 +302,10 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
               <Row gutter={gutterSize}>
                 {/* Nacionalna komponenta */}
                 <Col span={12}>
-                  <Form.Item
-                    label="Nacionalna komponenta (National Component) €"
-                    name="nationalComponent"
-                  >
+                  <Form.Item label="Nacionalna komponenta €" name="nationalComponent">
                     <Input
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       type="number"
                       placeholder="Unesite nacionalnu komponentu"
                       disabled={isView}
@@ -319,12 +322,10 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
 
                 {/* Međunarodna komponenta */}
                 <Col span={12}>
-                  <Form.Item
-                    label="Međunarodna komponenta (International Component) €"
-                    name="internationalComponent"
-                  >
+                  <Form.Item label="Međunarodna komponenta €" name="internationalComponent">
                     <Input
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       type="number"
                       placeholder="Unesite međunarodnu komponentu"
                       disabled={isView}
@@ -343,14 +344,12 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
               <Row gutter={gutterSize}>
                 {/* Dodatne informacije */}
                 <Col span={24}>
-                  <Form.Item
-                    label="Dodatne informacije (Additional information)"
-                    name="additionalInformation"
-                  >
+                  <Form.Item label="Dodatne informacije" name="additionalInformation">
                     <Input.TextArea
                       rows={4}
                       placeholder="Unesite dodatne informacije o finansijskim instrumentima"
                       disabled={isView}
+                      style={{ fontSize: inputFontSize }}
                     />
                   </Form.Item>
                 </Col>

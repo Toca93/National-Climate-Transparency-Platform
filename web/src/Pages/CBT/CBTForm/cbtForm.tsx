@@ -13,6 +13,7 @@ const { Option } = Select;
 const { TextArea } = Input;
 
 const gutterSize = 30;
+const inputFontSize = '15px';
 
 // Nadležne institucije
 const institutions = [
@@ -283,12 +284,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Naziv projekta, programa ili aktivnosti */}
                 <Col span={24}>
                   <Form.Item
-                    label="Naziv projekta, programa ili aktivnosti (Project, program or activity name)"
+                    label="Naziv projekta, programa ili aktivnosti"
                     name="projectName"
                     rules={[validation.required]}
                   >
                     <Input
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Unesite naziv projekta, programa ili aktivnosti"
                       disabled={isView}
                     />
@@ -299,13 +301,10 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               <Row gutter={gutterSize}>
                 {/* Godina početka */}
                 <Col span={12}>
-                  <Form.Item
-                    label="Godina početka (Start Year)"
-                    name="startYear"
-                    rules={[validation.required]}
-                  >
+                  <Form.Item label="Godina početka" name="startYear" rules={[validation.required]}>
                     <Select
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Izaberite godinu početka"
                       showSearch
                       disabled={isView}
@@ -321,13 +320,10 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
 
                 {/* Godina završetka */}
                 <Col span={12}>
-                  <Form.Item
-                    label="Godina završetka (End Year)"
-                    name="endYear"
-                    rules={[validation.required]}
-                  >
+                  <Form.Item label="Godina završetka" name="endYear" rules={[validation.required]}>
                     <Select
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Izaberite godinu završetka"
                       showSearch
                       disabled={isView}
@@ -346,11 +342,16 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Ciljevi i opis */}
                 <Col span={24}>
                   <Form.Item
-                    label="Ciljevi i opis (Objectives and description)"
+                    label="Ciljevi i opis"
                     name="activityDescription"
                     rules={[validation.required]}
                   >
-                    <TextArea rows={6} placeholder="Unesite ciljeve i opis" disabled={isView} />
+                    <TextArea
+                      rows={6}
+                      placeholder="Unesite ciljeve i opis"
+                      disabled={isView}
+                      style={{ fontSize: inputFontSize }}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -359,12 +360,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* National Implementing Entities */}
                 <Col span={12}>
                   <Form.Item
-                    label="Nacionalni implementirajući entitet(i) (National Implementing Entity(s))"
+                    label="Nacionalni implementirajući entitet(i)"
                     name="nationalImplementingEntities"
                   >
                     <Select
                       mode="multiple"
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Izaberite nacionalne entitete"
                       showSearch
                       disabled={isView}
@@ -381,12 +383,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* International Implementing Entities */}
                 <Col span={12}>
                   <Form.Item
-                    label="Međunarodni implementirajući entitet(i) (International Implementing Entity(s))"
+                    label="Međunarodni implementirajući entitet(i)"
                     name="internationalImplementingEntities"
                   >
                     <Select
                       mode="tags"
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Unesite međunarodne entitete"
                       disabled={isView}
                     ></Select>
@@ -397,9 +400,10 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               <Row gutter={gutterSize}>
                 {/* Primalac sredstava - Recipient entity */}
                 <Col span={12}>
-                  <Form.Item label="Primalac sredstava (Recipient entity)" name="recipientEntity">
+                  <Form.Item label="Primalac sredstava" name="recipientEntity">
                     <Input
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Unesite primaoca sredstava"
                       disabled={isView}
                     />
@@ -410,13 +414,10 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               <Row gutter={gutterSize}>
                 {/* Status aktivnosti */}
                 <Col span={12}>
-                  <Form.Item
-                    label="Status aktivnosti (Status of activity)"
-                    name="status"
-                    rules={[validation.required]}
-                  >
+                  <Form.Item label="Status aktivnosti" name="status" rules={[validation.required]}>
                     <Select
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Izaberite status aktivnosti"
                       disabled={isView}
                     >
@@ -438,9 +439,10 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               <Row gutter={gutterSize}>
                 {/* Sektor */}
                 <Col span={12}>
-                  <Form.Item label="Sektor (Sector)" name="sector" rules={[validation.required]}>
+                  <Form.Item label="Sektor" name="sector" rules={[validation.required]}>
                     <Select
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Izaberite sektor"
                       showSearch
                       disabled={isView}
@@ -462,13 +464,10 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
 
                 {/* Podsektor */}
                 <Col span={12}>
-                  <Form.Item
-                    label="Podsektor (Subsector)"
-                    name="subSector"
-                    rules={[validation.required]}
-                  >
+                  <Form.Item label="Podsektor" name="subSector" rules={[validation.required]}>
                     <Select
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Izaberite podsektor"
                       showSearch
                       disabled={isView}
@@ -490,11 +489,16 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 <Row gutter={gutterSize}>
                   <Col span={24}>
                     <Form.Item
-                      label="Navedite drugi sektor (Please specify other sector)"
+                      label="Navedite drugi sektor"
                       name="otherSectorText"
                       rules={[validation.required]}
                     >
-                      <Input size="large" placeholder="Unesite naziv sektora" disabled={isView} />
+                      <Input
+                        size="large"
+                        style={{ fontSize: inputFontSize }}
+                        placeholder="Unesite naziv sektora"
+                        disabled={isView}
+                      />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -508,7 +512,12 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="basedOnNDC"
                     rules={[validation.required]}
                   >
-                    <Select size="large" placeholder="Izaberite odgovor" disabled={isView}>
+                    <Select
+                      size="large"
+                      style={{ fontSize: inputFontSize }}
+                      placeholder="Izaberite odgovor"
+                      disabled={isView}
+                    >
                       {yesNoOptions.map((option) => (
                         <Option key={option.value} value={option.value}>
                           {option.label}
@@ -527,7 +536,12 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="technologyTransferContribution"
                     rules={[validation.required]}
                   >
-                    <Select size="large" placeholder="Izaberite odgovor" disabled={isView}>
+                    <Select
+                      size="large"
+                      style={{ fontSize: inputFontSize }}
+                      placeholder="Izaberite odgovor"
+                      disabled={isView}
+                    >
                       {yesNoOptions.map((option) => (
                         <Option key={option.value} value={option.value}>
                           {option.label}
@@ -544,7 +558,12 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     name="capacityBuildingContribution"
                     rules={[validation.required]}
                   >
-                    <Select size="large" placeholder="Izaberite odgovor" disabled={isView}>
+                    <Select
+                      size="large"
+                      style={{ fontSize: inputFontSize }}
+                      placeholder="Izaberite odgovor"
+                      disabled={isView}
+                    >
                       {yesNoOptions.map((option) => (
                         <Option key={option.value} value={option.value}>
                           {option.label}
@@ -559,12 +578,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Tip finansijske podrške */}
                 <Col span={12}>
                   <Form.Item
-                    label="Tip finansijske podrške (Type of support)"
+                    label="Tip finansijske podrške"
                     name="typeOfSupport"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Izaberite tip finansijske podrške"
                       disabled={isView}
                     >
@@ -581,14 +601,12 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               <Row gutter={gutterSize}>
                 {/* Dodatne informacije */}
                 <Col span={24}>
-                  <Form.Item
-                    label="Dodatne informacije (Additional information)"
-                    name="additionalInformation"
-                  >
+                  <Form.Item label="Dodatne informacije" name="additionalInformation">
                     <TextArea
                       rows={4}
                       placeholder="Unesite dodatne informacije (opciono)"
                       disabled={isView}
+                      style={{ fontSize: inputFontSize }}
                     />
                   </Form.Item>
                 </Col>
@@ -605,7 +623,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Dokumenti */}
                 <Col span={12}>
                   <Form.Item
-                    label="Dokumenti (Documents)"
+                    label="Dokumenti"
                     name="documents"
                     tooltip="Učitajte relevantne dokumente vezane za projekat"
                   >
@@ -622,12 +640,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Status verifikacije */}
                 <Col span={12}>
                   <Form.Item
-                    label="Status verifikacije (Verification Status)"
+                    label="Status verifikacije"
                     name="verificationStatus"
                     initialValue="Unverified"
                   >
                     <Select
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Izaberite status verifikacije"
                       disabled={isView}
                     >
@@ -643,12 +662,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Napomena o verifikaciji */}
                 <Col span={12}>
                   <Form.Item
-                    label="Napomena o verifikaciji (Verification Note)"
+                    label="Napomena o verifikaciji"
                     name="verificationNote"
                     tooltip="Dodatne informacije o statusu verifikacije"
                   >
                     <Input
                       size="large"
+                      style={{ fontSize: inputFontSize }}
                       placeholder="Unesite napomenu (opciono)"
                       disabled={isView}
                     />
