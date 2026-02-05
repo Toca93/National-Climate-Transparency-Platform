@@ -101,10 +101,10 @@ export class ReportService {
         // Filter by support type (Needed or Received)
         if (reportNumber === Reports.SIX || reportNumber === Reports.TWELVE) {
           // Table 6 (Finance Needed) and Table 12 (Transparency Needed)
-          qb.where("'Needed' = ANY(cbt_view.supportTypes)");
+          qb.where("cbt_view.supportTypes @> ARRAY['Needed']::text[]");
         } else if (reportNumber === Reports.SEVEN || reportNumber === Reports.THIRTEEN) {
           // Table 7 (Finance Received) and Table 13 (Transparency Received)
-          qb.where("'Received' = ANY(cbt_view.supportTypes)");
+          qb.where("cbt_view.supportTypes @> ARRAY['Received']::text[]");
         }
         
         return qb;
@@ -432,8 +432,8 @@ export class ReportService {
         description: report.activityDescription,
         supportChannel: supportChannel || "",
         recipientEntities: report.recipientEntity ? [report.recipientEntity] : [],
-        nationalImplementingEntities: report.responsibleInstitution ? [report.responsibleInstitution] : [],
-        internationalImplementingEntities: [],
+        nationalImplementingEntities: report.nationalImplementingEntities || [],
+        internationalImplementingEntities: report.internationalImplementingEntities || [],
         receivedAmountDomestic: report.totalAmount,
         receivedAmount: report.convertedAmount,
         startYear: report.startYear?.toString(),

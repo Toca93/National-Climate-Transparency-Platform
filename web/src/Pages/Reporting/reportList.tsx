@@ -392,10 +392,15 @@ const reportList = () => {
             : report.recipientEntity
             ? [report.recipientEntity]
             : [];
-          const responsibleInstitution = Array.isArray(report.responsibleInstitution)
-            ? report.responsibleInstitution
-            : report.responsibleInstitution
-            ? [report.responsibleInstitution]
+          const nationalEntities = Array.isArray(report.nationalImplementingEntities)
+            ? report.nationalImplementingEntities
+            : report.nationalImplementingEntities
+            ? [report.nationalImplementingEntities]
+            : [];
+          const internationalEntities = Array.isArray(report.internationalImplementingEntities)
+            ? report.internationalImplementingEntities
+            : report.internationalImplementingEntities
+            ? [report.internationalImplementingEntities]
             : [];
           // Support Channel = fundingMethods + otherFundingMethodText
           const fundingMethods = Array.isArray(report.fundingMethods)
@@ -414,8 +419,8 @@ const reportList = () => {
             description: report.activityDescription,
             supportChannel: supportChannel || '',
             recipientEntities: recipientEntity,
-            nationalImplementingEntities: responsibleInstitution,
-            internationalImplementingEntities: [],
+            nationalImplementingEntities: nationalEntities,
+            internationalImplementingEntities: internationalEntities,
             receivedAmount: report.convertedAmount,
             receivedAmountDomestic: report.totalAmount,
             startYear: report.startYear?.toString(),

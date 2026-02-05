@@ -56,8 +56,11 @@ export class CBTEntity {
   @Column({ type: "text", nullable: true })
   activityDescription: string;
 
-  @Column({ nullable: true })
-  responsibleInstitution: string;
+  @Column({ type: "text", array: true, nullable: true })
+  nationalImplementingEntities: string[];
+
+  @Column({ type: "text", array: true, nullable: true })
+  internationalImplementingEntities: string[];
 
   @Column({ nullable: true })
   recipientEntity: string;

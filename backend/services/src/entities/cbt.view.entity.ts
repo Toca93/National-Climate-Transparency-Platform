@@ -8,7 +8,8 @@ SELECT
     cbt."startYear",
     cbt."endYear",
     cbt."activityDescription",
-    cbt."responsibleInstitution",
+    cbt."nationalImplementingEntities",
+    cbt."internationalImplementingEntities",
     cbt."recipientEntity",
     cbt.status,
     cbt.sector,
@@ -26,10 +27,19 @@ SELECT
     cbt.documents,
     
     -- Agregirani podaci iz cbt_funding (finansijski instrumenti)
-    funding."financialInstruments",
-    funding."fundingStatuses",
-    funding."supportTypes",
-    funding."fundingMethods",
+    -- Convert comma-separated strings back to arrays
+    CASE WHEN funding."financialInstrumentsStr" IS NOT NULL 
+         THEN string_to_array(funding."financialInstrumentsStr", ',') 
+         ELSE NULL END AS "financialInstruments",
+    CASE WHEN funding."fundingStatusesStr" IS NOT NULL 
+         THEN string_to_array(funding."fundingStatusesStr", ',') 
+         ELSE NULL END AS "fundingStatuses",
+    CASE WHEN funding."supportTypesStr" IS NOT NULL 
+         THEN string_to_array(funding."supportTypesStr", ',') 
+         ELSE NULL END AS "supportTypes",
+    CASE WHEN funding."fundingMethodsStr" IS NOT NULL 
+         THEN string_to_array(funding."fundingMethodsStr", ',') 
+         ELSE NULL END AS "fundingMethods",
     funding."otherFundingMethodText",
     funding."expectedImpacts",
     
@@ -49,10 +59,11 @@ FROM
 LEFT JOIN (
     SELECT 
         cf."projectId",
-        ARRAY_AGG(DISTINCT cf."financialInstrument") FILTER (WHERE cf."financialInstrument" IS NOT NULL) AS "financialInstruments",
-        ARRAY_AGG(DISTINCT cf.status) FILTER (WHERE cf.status IS NOT NULL) AS "fundingStatuses",
-        ARRAY_AGG(DISTINCT cf."supportNeededOrReceived") FILTER (WHERE cf."supportNeededOrReceived" IS NOT NULL) AS "supportTypes",
-        ARRAY_AGG(DISTINCT cf."fundingMethod") FILTER (WHERE cf."fundingMethod" IS NOT NULL) AS "fundingMethods",
+        -- Use string_agg for enums to avoid PostgreSQL enum array formatting issues
+        STRING_AGG(DISTINCT cf."financialInstrument"::text, ',') FILTER (WHERE cf."financialInstrument" IS NOT NULL) AS "financialInstrumentsStr",
+        STRING_AGG(DISTINCT cf.status::text, ',') FILTER (WHERE cf.status IS NOT NULL) AS "fundingStatusesStr",
+        STRING_AGG(DISTINCT cf."supportNeededOrReceived"::text, ',') FILTER (WHERE cf."supportNeededOrReceived" IS NOT NULL) AS "supportTypesStr",
+        STRING_AGG(DISTINCT cf."fundingMethod"::text, ',') FILTER (WHERE cf."fundingMethod" IS NOT NULL) AS "fundingMethodsStr",
         STRING_AGG(DISTINCT cf."otherFundingMethodText", '; ') FILTER (WHERE cf."otherFundingMethodText" IS NOT NULL) AS "otherFundingMethodText",
         STRING_AGG(cf."expectedImpact", '; ') FILTER (WHERE cf."expectedImpact" IS NOT NULL) AS "expectedImpacts"
     FROM 
@@ -79,6 +90,7 @@ LEFT JOIN (
 @ViewEntity({
   name: "cbt_view",
   expression: cbtViewSQL,
+  synchronize: false,
 })
 export class CBTView {
   @ViewColumn()
@@ -98,7 +110,10 @@ export class CBTView {
   activityDescription: string;
 
   @ViewColumn()
-  responsibleInstitution: string;
+  nationalImplementingEntities: string[];
+
+  @ViewColumn()
+  internationalImplementingEntities: string[];
 
   @ViewColumn()
   recipientEntity: string;

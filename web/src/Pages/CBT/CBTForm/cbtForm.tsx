@@ -356,16 +356,16 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Nadležna institucija - Implementing entity */}
+                {/* National Implementing Entities */}
                 <Col span={12}>
                   <Form.Item
-                    label="Nadležna institucija (Implementing entity)"
-                    name="responsibleInstitution"
-                    rules={[validation.required]}
+                    label="Nacionalni implementirajući entitet(i) (National Implementing Entity(s))"
+                    name="nationalImplementingEntities"
                   >
                     <Select
+                      mode="multiple"
                       size="large"
-                      placeholder="Izaberite nadležnu instituciju"
+                      placeholder="Izaberite nacionalne entitete"
                       showSearch
                       disabled={isView}
                     >
@@ -378,6 +378,23 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                   </Form.Item>
                 </Col>
 
+                {/* International Implementing Entities */}
+                <Col span={12}>
+                  <Form.Item
+                    label="Međunarodni implementirajući entitet(i) (International Implementing Entity(s))"
+                    name="internationalImplementingEntities"
+                  >
+                    <Select
+                      mode="tags"
+                      size="large"
+                      placeholder="Unesite međunarodne entitete"
+                      disabled={isView}
+                    ></Select>
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Row gutter={gutterSize}>
                 {/* Primalac sredstava - Recipient entity */}
                 <Col span={12}>
                   <Form.Item label="Primalac sredstava (Recipient entity)" name="recipientEntity">
