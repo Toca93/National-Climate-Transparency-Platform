@@ -1,10 +1,29 @@
 import { useTranslation } from 'react-i18next';
 import '../../../Styles/app.scss';
 import LayoutTable from '../../../Components/common/Table/layout.table';
-import { Button, Col, Row, Input, Dropdown, MenuProps } from 'antd';
-import { FilterOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import {
+  Button,
+  Col,
+  Row,
+  Input,
+  Dropdown,
+  Popover,
+  List,
+  Typography,
+  MenuProps,
+  message,
+} from 'antd';
+import {
+  EditOutlined,
+  EllipsisOutlined,
+  FilterOutlined,
+  InfoCircleOutlined,
+  PlusOutlined,
+  SearchOutlined,
+} from '@ant-design/icons';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useConnection } from '../../../Context/ConnectionContext/connectionContext';
 import {
   addActionBps,
   filterDropdownBps,
@@ -13,8 +32,8 @@ import {
 } from '../../../Definitions/breakpoints/breakpoints';
 
 interface Item {
-  key: number;
   id: string;
+  projectId: string;
   projectName: string;
   year: number;
   currency: string;
@@ -25,14 +44,94 @@ interface Item {
 
 const CBTMacroList = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation(['common', 'tableAction']);
+  const { post, delete: deleteRequest } = useConnection();
 
-  const [loading] = useState<boolean>(false);
-  const [tableData] = useState<Item[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [tableData, setTableData] = useState<Item[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [totalRowCount] = useState<number>(0);
+  const [totalRowCount, setTotalRowCount] = useState<number>(0);
   const [tempSearchValue, setTempSearchValue] = useState<string>('');
+  const [searchValue, setSearchValue] = useState<string>('');
+
+  // Action menu content
+  const actionMenuContent = (record: Item) => (
+    <List
+      className="action-menu"
+      size="small"
+      dataSource={[
+        {
+          text: t('tableAction:View'),
+          icon: <InfoCircleOutlined style={{ color: '#8A1538' }} />,
+          click: () => navigate(`/cbt-macro/view/${record.id}`),
+        },
+        {
+          text: t('tableAction:Edit'),
+          icon: <EditOutlined style={{ color: '#8A1538' }} />,
+          click: () => navigate(`/cbt-macro/edit/${record.id}`),
+        },
+      ]}
+      renderItem={(item) => (
+        <List.Item onClick={item.click} style={{ cursor: 'pointer' }}>
+          <Typography.Text className="action-icon">{item.icon}</Typography.Text>
+          <span>{item.text}</span>
+        </List.Item>
+      )}
+    />
+  );
+
+  // Fetch CBT Macro data
+  const fetchData = async (page: number, size: number, search?: string) => {
+    setLoading(true);
+    try {
+      const payload: any = {
+        page: page,
+        size: size,
+        sort: {
+          key: 'id',
+          order: 'DESC',
+        },
+      };
+
+      if (search) {
+        payload.filterAnd = [
+          {
+            key: 'projectId',
+            operation: 'like',
+            value: `%${search}%`,
+          },
+        ];
+      }
+
+      const response: any = await post('national/cbt-macro/query', payload);
+
+      if (response.data) {
+        const formattedData = response.data.map((item: any) => ({
+          id: item.id,
+          projectId: item.projectId,
+          projectName: item.cbt?.projectName || '-',
+          year: item.year,
+          currency: item.currency,
+          gdp: item.gdp,
+          climateFinanceShareGdp: item.climateFinanceShareGdp,
+          climateFinanceShareBudget: item.climateFinanceShareBudget,
+        }));
+        setTableData(formattedData);
+        setTotalRowCount(response.total || response.data.length);
+      }
+    } catch (error: any) {
+      console.error('Error fetching CBT Macro data:', error);
+      message.error(error.message || 'Failed to load CBT Macro data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load data on mount and when pagination/search changes
+  useEffect(() => {
+    fetchData(currentPage, pageSize, searchValue);
+  }, [currentPage, pageSize, searchValue]);
 
   const handleTableChange = (pagination: any) => {
     setCurrentPage(pagination.current);
@@ -40,13 +139,43 @@ const CBTMacroList = () => {
   };
 
   const onSearch = () => {
-    console.log('Search:', tempSearchValue);
+    setSearchValue(tempSearchValue);
+    setCurrentPage(1);
   };
 
   const columns = [
-    { title: 'ID', width: 80, dataIndex: 'id', key: 'id', sorter: false },
     {
-      title: 'Naziv projekta / mjere',
+      title: 'ID',
+      width: 120,
+      dataIndex: 'id',
+      key: 'id',
+      sorter: false,
+      render: (id: string) => (
+        <span
+          style={{ color: '#1890ff', cursor: 'pointer' }}
+          onClick={() => navigate(`/cbt-macro/view/${id}`)}
+        >
+          {id}
+        </span>
+      ),
+    },
+    {
+      title: 'ID Projekta',
+      width: 150,
+      dataIndex: 'projectId',
+      key: 'projectId',
+      sorter: false,
+      render: (projectId: string) => (
+        <span
+          style={{ color: '#1890ff', cursor: 'pointer' }}
+          onClick={() => navigate(`/cbt/view/${projectId}`)}
+        >
+          {projectId}
+        </span>
+      ),
+    },
+    {
+      title: 'Naziv projekta',
       width: 200,
       dataIndex: 'projectName',
       key: 'projectName',
@@ -72,7 +201,7 @@ const CBTMacroList = () => {
       dataIndex: 'gdp',
       key: 'gdp',
       sorter: false,
-      render: (value: number) => value?.toLocaleString('de-DE'),
+      render: (value: number | string) => (value ? Number(value).toLocaleString('de-DE') : '-'),
     },
     {
       title: 'Udio u BDP-u (%)',
@@ -80,7 +209,7 @@ const CBTMacroList = () => {
       dataIndex: 'climateFinanceShareGdp',
       key: 'climateFinanceShareGdp',
       sorter: false,
-      render: (value: number) => (value ? `${value.toFixed(2)}%` : '-'),
+      render: (value: number | string) => (value ? `${Number(value).toFixed(2)}%` : '-'),
     },
     {
       title: 'Udio u budžetu (%)',
@@ -88,7 +217,26 @@ const CBTMacroList = () => {
       dataIndex: 'climateFinanceShareBudget',
       key: 'climateFinanceShareBudget',
       sorter: false,
-      render: (value: number) => (value ? `${value.toFixed(2)}%` : '-'),
+      render: (value: number | string) => (value ? `${Number(value).toFixed(2)}%` : '-'),
+    },
+    {
+      title: '',
+      key: 'actions',
+      align: 'right' as const,
+      width: 50,
+      render: (_: any, record: Item) => (
+        <Popover
+          showArrow={false}
+          trigger={'click'}
+          placement="bottomRight"
+          content={actionMenuContent(record)}
+        >
+          <EllipsisOutlined
+            rotate={90}
+            style={{ fontWeight: 600, fontSize: '1rem', cursor: 'pointer' }}
+          />
+        </Popover>
+      ),
     },
   ];
 

@@ -25,6 +25,7 @@ import { SystemResourcesEntity } from "../entities/systemResource.entity";
 import { CBTEntity } from "../entities/cbt.entity";
 import { CBTFundingEntity } from "../entities/cbt.funding.entity";
 import { CBTInstrumentsEntity } from "../entities/cbt.instruments.entity";
+import { CBTMacroEntity } from "../entities/cbt.macro.entity";
 
 type Subjects = InferSubjects<typeof EntitySubject> | "all";
 
@@ -127,6 +128,12 @@ export class CaslAbilityFactory {
         can(Action.Create, CBTInstrumentsEntity);
         can(Action.Update, CBTInstrumentsEntity);
         can(Action.Delete, CBTInstrumentsEntity);
+
+        // CBT Macro
+        can(Action.Read, CBTMacroEntity);
+        can(Action.Create, CBTMacroEntity);
+        can(Action.Update, CBTMacroEntity);
+        can(Action.Delete, CBTMacroEntity);
       }
 
       if (user.role == Role.Admin) {
@@ -220,6 +227,12 @@ export class CaslAbilityFactory {
         can(Action.Create, CBTInstrumentsEntity);
         can(Action.Update, CBTInstrumentsEntity);
         can(Action.Delete, CBTInstrumentsEntity);
+
+        // CBT Macro
+        can(Action.Read, CBTMacroEntity);
+        can(Action.Create, CBTMacroEntity);
+        can(Action.Update, CBTMacroEntity);
+        can(Action.Delete, CBTMacroEntity);
       }
 
       if (user.role == Role.GovernmentUser) {
@@ -359,6 +372,12 @@ export class CaslAbilityFactory {
         can(Action.Create, CBTInstrumentsEntity);
         can(Action.Update, CBTInstrumentsEntity);
         can(Action.Delete, CBTInstrumentsEntity);
+
+        // CBT Macro
+        can(Action.Read, CBTMacroEntity);
+        can(Action.Create, CBTMacroEntity);
+        can(Action.Update, CBTMacroEntity);
+        can(Action.Delete, CBTMacroEntity);
       }
 
       if (user.role == Role.Observer) {
@@ -491,6 +510,12 @@ export class CaslAbilityFactory {
         cannot(Action.Create, CBTFundingEntity);
         cannot(Action.Update, CBTFundingEntity);
         cannot(Action.Delete, CBTFundingEntity);
+
+        // CBT Macro (Read-only for Observer)
+        can(Action.Read, CBTMacroEntity);
+        cannot(Action.Create, CBTMacroEntity);
+        cannot(Action.Update, CBTMacroEntity);
+        cannot(Action.Delete, CBTMacroEntity);
       }
     }
 

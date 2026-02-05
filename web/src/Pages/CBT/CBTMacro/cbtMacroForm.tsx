@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Row, Col, Button, Form, Select, Spin, Input } from 'antd';
+import { Row, Col, Button, Form, Select, Spin, Input, message } from 'antd';
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useConnection } from '../../../Context/ConnectionContext/connectionContext';
@@ -94,6 +94,7 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
       setCbtProjectList(tempCBTData);
     } catch (error: any) {
       console.error('Error fetching CBT projects:', error);
+      message.error(error.message || 'Failed to load CBT projects');
     } finally {
       setLoadingProjects(false);
     }
@@ -102,15 +103,17 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      // TODO: Implementirati API poziv
-      // const response = await get(`cbt-macro/${entId}`);
-      // form.setFieldsValue(response.data);
-    } catch (error) {
+      const response: any = await get(`national/cbt-macro/${entId}`);
+      if (response.data) {
+        form.setFieldsValue(response.data);
+      }
+    } catch (error: any) {
       console.error('Error fetching Macro data:', error);
+      message.error(error.message || 'Failed to load CBT Macro data');
     } finally {
       setLoading(false);
     }
-  }, [get, entId]);
+  }, [get, entId, form]);
 
   useEffect(() => {
     fetchCBTProjects();
@@ -126,15 +129,21 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
     setLoading(true);
     try {
       if (method === 'create') {
-        // TODO: Implementirati API poziv
-        console.log('Create Macro:', values);
+        const response: any = await post('national/cbt-macro/add', values);
+        if (response.status === 200 || response.status === 201) {
+          message.success(response.message || 'CBT Macro record created successfully');
+          navigate('/cbt-macro');
+        }
       } else if (method === 'update') {
-        // TODO: Implementirati API poziv
-        console.log('Update Macro:', values);
+        const response: any = await put('national/cbt-macro/update', { ...values, id: entId });
+        if (response.status === 200 || response.status === 201) {
+          message.success(response.message || 'CBT Macro record updated successfully');
+          navigate('/cbt-macro');
+        }
       }
-      navigate('/cbt-macro');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving Macro:', error);
+      message.error(error.message || 'Failed to save CBT Macro record');
     } finally {
       setLoading(false);
     }
@@ -192,11 +201,18 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                         (option?.children as string)?.toLowerCase().includes(input.toLowerCase())
                       }
                     >
-                      {cbtProjectList.map((project: CBTProjectData) => (
-                        <Option key={project.id} value={project.id}>
-                          {project.projectName}
-                        </Option>
-                      ))}
+                      {cbtProjectList.map((project: CBTProjectData) => {
+                        const displayName = project.projectName
+                          ? project.projectName.length > 40
+                            ? project.projectName.substring(0, 40) + '...'
+                            : project.projectName
+                          : '';
+                        return (
+                          <Option key={project.id} value={project.id}>
+                            {`${project.id} - ${displayName}`}
+                          </Option>
+                        );
+                      })}
                     </Select>
                   </Form.Item>
                 </Col>
