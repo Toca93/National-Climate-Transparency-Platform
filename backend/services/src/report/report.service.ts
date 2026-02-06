@@ -329,11 +329,20 @@ export class ReportService {
         );
       }
 
+      // Apply formatting for reports 6, 7, 12, 13 (Annex 3 CBT reports)
+      const applyFormatting = (
+        tableNumber === Reports.SIX ||
+        tableNumber === Reports.SEVEN ||
+        tableNumber === Reports.TWELVE ||
+        tableNumber === Reports.THIRTEEN
+      );
+
       const path = await this.dataExportService.generateCsvOrExcel(
         prepData,
         headers,
         this.helperService.formatReqMessagesString(localTableNameKey, []),
-        dataExportQueryDto.fileType
+        dataExportQueryDto.fileType,
+        applyFormatting
       );
 
       return path;

@@ -4,6 +4,7 @@ import { FileHandlerInterface } from '../file-handler/filehandler.interface';
 import { ExportFileType } from "../enums/shared.enum";
 import { DataExportDto } from "../dtos/data.export.dto";
 import * as XLSX from 'xlsx';
+import * as ExcelJS from 'exceljs';
 
 @Injectable()
 export class DataExportService {
@@ -11,7 +12,7 @@ export class DataExportService {
 
   };
 
-	async generateCsvOrExcel(data: DataExportDto[], headers: string[], fileName: string, fileType: ExportFileType) {
+	async generateCsvOrExcel(data: DataExportDto[], headers: string[], fileName: string, fileType: ExportFileType, applyFormatting: boolean = false) {
 
 		const currentDate = new Date();
 		const year = currentDate.getFullYear();
@@ -43,17 +44,23 @@ export class DataExportService {
 	
 			fs.writeFileSync(outputFileName, csvContent);
 		} else if (fileType === ExportFileType.XLSX) {
-			const worksheetData = [headers, ...data.map(item => Object.values(item).map(value => {
-				if (Array.isArray(value)) {
-					return value.join('; '); // Convert array to a semicolon-separated string
-				}
-				return value === undefined || value === null ? "" : value;
-			}))];
-	
-			const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
-			const workbook = XLSX.utils.book_new();
-			XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-			XLSX.writeFile(workbook, outputFileName);
+			if (applyFormatting) {
+				// Use ExcelJS for formatted exports (reports 6, 7, 12, 13)
+				await this.generateFormattedExcel(data, headers, outputFileName);
+			} else {
+				// Use standard XLSX for simple exports
+				const worksheetData = [headers, ...data.map(item => Object.values(item).map(value => {
+					if (Array.isArray(value)) {
+						return value.join('; '); // Convert array to a semicolon-separated string
+					}
+					return value === undefined || value === null ? "" : value;
+				}))];
+		
+				const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+				const workbook = XLSX.utils.book_new();
+				XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+				XLSX.writeFile(workbook, outputFileName);
+			}
 		}
 	
 		const content = fs.readFileSync(outputFileName, { encoding: 'base64' });
@@ -61,6 +68,50 @@ export class DataExportService {
 	
 		console.log('Export completed', 'exports/', url);
 		return { url, outputFileName };
+	}
+
+	private async generateFormattedExcel(data: DataExportDto[], headers: string[], outputFileName: string) {
+		const workbook = new ExcelJS.Workbook();
+		const worksheet = workbook.addWorksheet('Sheet1');
+
+		// Add headers with bold formatting and center alignment
+		const headerRow = worksheet.addRow(headers);
+		headerRow.eachCell((cell) => {
+			cell.font = { bold: true };
+			cell.alignment = { horizontal: 'center', vertical: 'middle' };
+		});
+
+		// Add data rows with center alignment
+		data.forEach(item => {
+			const rowValues = Object.values(item).map(value => {
+				if (Array.isArray(value)) {
+					return value.join('; ');
+				}
+				return value === undefined || value === null ? "" : value;
+			});
+			const dataRow = worksheet.addRow(rowValues);
+			dataRow.eachCell((cell) => {
+				cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+			});
+		});
+
+		// Auto-fit column widths based on content
+		worksheet.columns.forEach(column => {
+			let maxLength = 0;
+			column.eachCell({ includeEmpty: true }, cell => {
+				const cellValue = cell.value ? cell.value.toString() : '';
+				maxLength = Math.max(maxLength, cellValue.length);
+			});
+			// Set width with some padding (min 10, max 50)
+			column.width = Math.min(Math.max(maxLength + 4, 10), 50);
+		});
+
+		// Freeze header row
+		worksheet.views = [
+			{ state: 'frozen', ySplit: 1 }
+		];
+
+		await workbook.xlsx.writeFile(outputFileName);
 	}
 }
 
