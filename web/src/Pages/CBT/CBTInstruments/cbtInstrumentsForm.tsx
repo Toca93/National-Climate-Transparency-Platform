@@ -13,7 +13,7 @@ const { Option } = Select;
 const gutterSize = 30;
 const inputFontSize = '15px';
 
-// Interface za projekte iz Osnovnih informacija (CBT)
+// Interface for projects from Basic Information (CBT)
 interface CBTProjectData {
   id: string;
   projectName: string;
@@ -37,12 +37,12 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
   const [cbtProjectList, setCbtProjectList] = useState<CBTProjectData[]>([]);
   const [loadingProjects, setLoadingProjects] = useState<boolean>(false);
 
-  // State za praćenje kursa konverzije (valuta je fiksno EUR)
+  // State for tracking exchange rate (currency is fixed to EUR)
   const [exchangeRate, setExchangeRate] = useState<number | null>(null);
 
-  // Fiksna valuta EUR - koristi se u formi kao initialValue
+  // Fixed currency EUR - used in form as initialValue
 
-  // Dohvati projekte iz Osnovnih informacija (CBT) - isto kao programmes u ProjectForm
+  // Fetch projects from Basic Information (CBT) - same as programmes in ProjectForm
   const fetchCBTProjects = async () => {
     setLoadingProjects(true);
     try {
@@ -98,7 +98,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
     }
   }, [entId, method, fetchData]);
 
-  // Handler za promenu iznosa koji izračunava konverziju
+  // Handler for amount change that calculates conversion
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
     if (!isNaN(value) && value > 0 && exchangeRate && exchangeRate > 0) {
@@ -109,11 +109,11 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
     }
   };
 
-  // Handler za promenu kursa
+  // Handler for exchange rate change
   const handleExchangeRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
     setExchangeRate(value);
-    // Ponovo izračunaj konverziju ako postoji iznos i kurs
+    // Recalculate conversion if amount and rate exist
     const totalAmount = parseFloat(form.getFieldValue('totalAmount'));
     if (!isNaN(totalAmount) && totalAmount > 0 && !isNaN(value) && value > 0) {
       const convertedAmount = Math.round(totalAmount * value * 100) / 100;
@@ -181,7 +181,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
               <div className="form-section-header">Financial Instruments</div>
 
               <Row gutter={gutterSize}>
-                {/* Project Name / Measure - dropdown iz Osnovnih informacija */}
+                {/* Project Name / Measure - dropdown from Basic Information */}
                 <Col span={24}>
                   <Form.Item
                     label="Project Name / Measure"
@@ -225,7 +225,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
               </div>
 
               <Row gutter={gutterSize}>
-                {/* Kurs (editable) */}
+                {/* Exchange Rate (editable) */}
                 <Col span={24}>
                   <Form.Item
                     label="EUR/USD Exchange Rate"
@@ -252,7 +252,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Ukupan iznos u EUR */}
+                {/* Total amount in EUR */}
                 <Col span={12}>
                   <Form.Item
                     label="Total Amount €"
@@ -277,7 +277,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
                   </Form.Item>
                 </Col>
 
-                {/* Konvertovani iznos u USD */}
+                {/* Converted amount in USD */}
                 <Col span={12}>
                   <Form.Item
                     label="Converted Amount $"

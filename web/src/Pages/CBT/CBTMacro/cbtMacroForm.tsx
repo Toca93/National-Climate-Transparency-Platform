@@ -13,7 +13,7 @@ const { TextArea } = Input;
 const gutterSize = 30;
 const inputFontSize = '15px';
 
-// Generisanje godina
+// Generate years
 const generateYears = () => {
   const currentYear = new Date().getFullYear();
   const years = [];
@@ -23,7 +23,7 @@ const generateYears = () => {
   return years;
 };
 
-// Lista valuta (Currency List)
+// Currency List
 const currencies = [
   { value: 'EUR', label: 'EUR - Euro' },
   { value: 'USD', label: 'USD - US Dollar' },
@@ -38,7 +38,7 @@ const currencies = [
   { value: 'ALL', label: 'ALL - Albanian Lek' },
 ];
 
-// Metode preračuna (Conversion Methods)
+// Conversion Methods
 const conversionMethods = [
   { value: 'ecb-rate', label: 'ECB Exchange Rate' },
   { value: 'annual-average', label: 'Annual Average' },
@@ -48,7 +48,7 @@ const conversionMethods = [
   { value: 'other', label: 'Other' },
 ];
 
-// Interface za projekte iz Osnovnih informacija (CBT)
+// Interface for projects from Basic Information (CBT)
 interface CBTProjectData {
   id: string;
   projectName: string;
@@ -72,7 +72,7 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
   const [cbtProjectList, setCbtProjectList] = useState<CBTProjectData[]>([]);
   const [loadingProjects, setLoadingProjects] = useState<boolean>(false);
 
-  // Dohvati projekte iz Osnovnih informacija (CBT)
+  // Fetch projects from Basic Information (CBT)
   const fetchCBTProjects = async () => {
     setLoadingProjects(true);
     try {
@@ -179,7 +179,7 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
             <div className="form-section-card">
               <div className="form-section-header">Macro Indicators</div>
               <Row gutter={gutterSize}>
-                {/* Project Name / Measure - dropdown iz Osnovnih informacija */}
+                {/* Project Name / Measure - dropdown from Basic Information */}
                 <Col span={12}>
                   <Form.Item
                     label="Project Name / Measure"
@@ -214,7 +214,7 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                   </Form.Item>
                 </Col>
 
-                {/* Godina */}
+                {/* Year */}
                 <Col span={12}>
                   <Form.Item label="Reference Year" name="year" rules={[validation.required]}>
                     <Select
@@ -235,7 +235,7 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* BDP */}
+                {/* GDP */}
                 <Col span={12}>
                   <Form.Item
                     label="GDP in Reference Year"
@@ -285,7 +285,7 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Udio klimatskog finansiranja u BDP-u */}
+                {/* Climate Finance Share of GDP */}
                 <Col span={12}>
                   <Form.Item
                     label="Climate Finance Share of GDP (%)"
@@ -310,7 +310,7 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                   </Form.Item>
                 </Col>
 
-                {/* Udio u državnom budžetu */}
+                {/* Share of State Budget */}
                 <Col span={12}>
                   <Form.Item
                     label="Share of State Budget (%)"
@@ -337,12 +337,12 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
             </div>
 
-            {/* Sekcija: Valuta i metodologija (H5) */}
+            {/* Section: Currency & Methodology (H5) */}
             <div className="form-section-card">
               <div className="form-section-header">Currency & Methodology</div>
 
               <Row gutter={gutterSize}>
-                {/* Valuta */}
+                {/* Currency */}
                 <Col span={12}>
                   <Form.Item
                     label="Currency"

@@ -12,7 +12,7 @@ const { Option } = Select;
 const gutterSize = 30;
 const inputFontSize = '15px';
 
-// Predviđeni finansijski instrumenti (Planned Financial Instruments)
+// Planned Financial Instruments
 const financialInstruments = [
   { value: 'grant', label: 'Grant' },
   { value: 'concessional-loan', label: 'Concessional Loan' },
@@ -23,19 +23,19 @@ const financialInstruments = [
   { value: 'other', label: 'Other' },
 ];
 
-// Status opcije
+// Status options
 const statusOptions = [
   { value: 'Committed', label: 'Committed' },
   { value: 'Received', label: 'Received' },
 ];
 
-// Support Needed or Received opcije
+// Support Needed or Received options
 const supportNeededOrReceivedOptions = [
   { value: 'Needed', label: 'Needed' },
   { value: 'Received', label: 'Received' },
 ];
 
-// Način finansiranja (Funding Method)
+// Funding Method
 const fundingMethodOptions = [
   { value: 'Multilateral', label: 'Multilateral' },
   { value: 'Bilateral', label: 'Bilateral' },
@@ -43,7 +43,7 @@ const fundingMethodOptions = [
   { value: 'Other', label: 'Other (please specify)' },
 ];
 
-// Interface za projekte iz Osnovnih informacija (CBT)
+// Interface for projects from Basic Information (CBT)
 interface CBTProjectData {
   id: string;
   projectName: string;
@@ -67,13 +67,13 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
   const [cbtProjectList, setCbtProjectList] = useState<CBTProjectData[]>([]);
   const [loadingProjects, setLoadingProjects] = useState<boolean>(false);
 
-  // State za prikaz polja "Other" kada je izabran Ostalo za Način finansiranja
+  // State for showing "Other" field when Other is selected for Funding Method
   const [showOtherFundingMethod, setShowOtherFundingMethod] = useState<boolean>(false);
 
-  // State za prikaz polja "Other" teksta
+  // State for showing "Other" text field
   const [isSupportReceived, setIsSupportReceived] = useState<boolean>(false);
 
-  // Dohvati projekte iz Osnovnih informacija (CBT) - isto kao programmes u ProjectForm
+  // Fetch projects from Basic Information (CBT) - same as programmes in ProjectForm
   const fetchCBTProjects = async () => {
     setLoadingProjects(true);
     try {
@@ -190,7 +190,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
               <div className="form-section-header">Funding Sources</div>
 
               <Row gutter={gutterSize}>
-                {/* Naziv projekta / mjere - dropdown iz Osnovnih informacija */}
+                {/* Project Name / Measure - dropdown from Basic Information */}
                 <Col span={24}>
                   <Form.Item
                     label="Project Name / Measure"
@@ -227,7 +227,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Predviđeni finansijski instrument */}
+                {/* Planned Financial Instrument */}
                 <Col span={12}>
                   <Form.Item
                     label="Planned Financial Instrument"
@@ -294,7 +294,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                   </Form.Item>
                 </Col>
 
-                {/* Način finansiranja */}
+                {/* Funding Method */}
                 <Col span={12}>
                   <Form.Item
                     label="Funding Method"
@@ -322,7 +322,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                   </Form.Item>
                 </Col>
 
-                {/* Očekivana upotreba, uticaj i procijenjeni rezultati */}
+                {/* Expected Use, Impact and Estimated Results */}
                 <Col span={12}>
                   <Form.Item
                     label="Expected Use, Impact and Estimated Results"
@@ -338,7 +338,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 </Col>
               </Row>
 
-              {/* Ostalo - tekstualno polje (prikazuje se samo ako je izabran Ostalo) */}
+              {/* Other - text field (shown only when Other is selected) */}
               {showOtherFundingMethod && (
                 <Row gutter={gutterSize}>
                   <Col span={24}>

@@ -15,57 +15,57 @@ const { TextArea } = Input;
 const gutterSize = 30;
 const inputFontSize = '15px';
 
-// Nadležne institucije
+// Responsible institutions
 const institutions = [
-  'Ministarstvo ekologije, održivog razvoja i razvoja sjevera',
-  'Ministarstvo finansija',
-  'Ministarstvo energetike i rudarstva',
-  'Ministarstvo saobraćaja',
-  'Ministarstvo poljoprivrede, šumarstva i vodoprivrede',
-  'Ministarstvo prostornog planiranja, urbanizma i državne imovine',
-  'Ministarstvo zdravlja',
-  'Agencija za zaštitu životne sredine',
-  'Uprava za vode',
-  'Uprava za šume',
-  'Zavod za hidrometeorologiju i seizmologiju',
-  'Investiciono-razvojni fond',
-  'Eko fond',
-  'Međunarodni partneri',
+  'Ministry of Ecology, Sustainable Development and Northern Development',
+  'Ministry of Finance',
+  'Ministry of Energy and Mining',
+  'Ministry of Transport',
+  'Ministry of Agriculture, Forestry and Water Management',
+  'Ministry of Spatial Planning, Urbanism and State Property',
+  'Ministry of Health',
+  'Environmental Protection Agency',
+  'Water Administration',
+  'Forest Administration',
+  'Institute for Hydrometeorology and Seismology',
+  'Investment and Development Fund',
+  'Eco Fund',
+  'International Partners',
 ];
 
-// Status opcije (H1: planirano / u toku / završeno)
+// Status options (H1: planned / ongoing / completed)
 const statusOptions = [
-  { value: 'Planned', label: 'Planirano (Planned)' },
-  { value: 'Ongoing', label: 'U toku (Ongoing)' },
-  { value: 'Completed', label: 'Završeno (Completed)' },
+  { value: 'Planned', label: 'Planned' },
+  { value: 'Ongoing', label: 'Ongoing' },
+  { value: 'Completed', label: 'Completed' },
 ];
 
-// H7: Status verifikacije opcije
+// H7: Verification status options
 const verificationStatusOptions = [
-  { value: 'Unverified', label: 'Neprovjereno (Unverified)' },
-  { value: 'InternallyVerified', label: 'Interno verifikovano (Internally Verified)' },
-  { value: 'BTRReady', label: 'Spremno za BTR (BTR Ready)' },
+  { value: 'Unverified', label: 'Unverified' },
+  { value: 'InternallyVerified', label: 'Internally Verified' },
+  { value: 'BTRReady', label: 'BTR Ready' },
 ];
 
-// ETF Sector opcije (poklapaju se sa backend Sector enum)
+// ETF Sector options (matching backend Sector enum)
 const sectorOptions = [
-  { value: 'Energy', label: 'Energija (Energy)' },
-  { value: 'Transport', label: 'Transport (Transport)' },
-  { value: 'Industry (IPPU)', label: 'Industrija (Industry)' },
-  { value: 'Agriculture', label: 'Poljoprivreda (Agriculture)' },
-  { value: 'Forestry', label: 'Šumarstvo (Forestry)' },
-  { value: 'Water and Sanitation', label: 'Vodovod i kanalizacija (Water and Sanitation)' },
-  { value: 'Land Use', label: 'Korišćenje zemljišta (Land Use)' },
-  { value: 'Coastal Resilience', label: 'Otpornost obalnog područja (Coastal Resilience)' },
-  { value: 'Health', label: 'Zdravlje (Health)' },
-  { value: 'Hazards Management', label: 'Upravljanje rizicima (Hazards Management)' },
-  { value: 'Nature Based Solutions', label: 'Prirodno bazirana rješenja (Nature Based Solutions)' },
-  { value: 'Blue Economy', label: 'Plava ekonomija (Blue Economy)' },
-  { value: 'Cross-cutting', label: 'Međusektorski (Cross-cutting)' },
-  { value: 'Other', label: 'Drugo (Other)' },
+  { value: 'Energy', label: 'Energy' },
+  { value: 'Transport', label: 'Transport' },
+  { value: 'Industry (IPPU)', label: 'Industry (IPPU)' },
+  { value: 'Agriculture', label: 'Agriculture' },
+  { value: 'Forestry', label: 'Forestry' },
+  { value: 'Water and Sanitation', label: 'Water and Sanitation' },
+  { value: 'Land Use', label: 'Land Use' },
+  { value: 'Coastal Resilience', label: 'Coastal Resilience' },
+  { value: 'Health', label: 'Health' },
+  { value: 'Hazards Management', label: 'Hazards Management' },
+  { value: 'Nature Based Solutions', label: 'Nature Based Solutions' },
+  { value: 'Blue Economy', label: 'Blue Economy' },
+  { value: 'Cross-cutting', label: 'Cross-cutting' },
+  { value: 'Other', label: 'Other' },
 ];
 
-// SubSector opcije (poklapaju se sa backend SubSector enum vrednostima)
+// SubSector options (matching backend SubSector enum values)
 const subSectorOptions = [
   {
     value: 'Grid-Connected Generation (electricity)',
@@ -108,20 +108,20 @@ const subSectorOptions = [
   { value: 'Not Applicable', label: 'Not Applicable' },
 ];
 
-// Da/Ne opcije
+// Yes/No options
 const yesNoOptions = [
-  { value: 'Yes', label: 'Da (Yes)' },
-  { value: 'No', label: 'Ne (No)' },
+  { value: 'Yes', label: 'Yes' },
+  { value: 'No', label: 'No' },
 ];
 
-// Tip finansijske podrške opcije (Adaptation, Mitigation, Cross-cutting)
+// Type of financial support options (Adaptation, Mitigation, Cross-cutting)
 const typeOfSupportOptions = [
-  { value: 'Adaptation', label: 'Adaptacija' },
-  { value: 'Mitigation', label: 'Mitigacija' },
-  { value: 'CrossCutting', label: 'Međusektorski' },
+  { value: 'Adaptation', label: 'Adaptation' },
+  { value: 'Mitigation', label: 'Mitigation' },
+  { value: 'CrossCutting', label: 'Cross-cutting' },
 ];
 
-// Generisanje godina (npr. od 2020 do 2030)
+// Generate years (e.g. from 2020 to 2030)
 const generateYears = () => {
   const currentYear = new Date().getFullYear();
   const years = [];
@@ -136,7 +136,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
   useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
-  const formTitle = 'Osnovne informacije';
+  const formTitle = 'Basic Information';
 
   const navigate = useNavigate();
   const { get, post, put } = useConnection();
@@ -147,13 +147,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 
-  // H7: State za upload dokumenata
+  // H7: State for document upload
   const [contractFileList, setContractFileList] = useState<UploadFile[]>([]);
 
-  // State za prikaz polja "Other (specify)" kada je izabran Other sector
+  // State for showing "Other (specify)" field when Other sector is selected
   const [showOtherSectorField, setShowOtherSectorField] = useState<boolean>(false);
 
-  // Upload props za dokumente
+  // Upload props for documents
   const getUploadProps = (
     fileList: UploadFile[],
     setFileList: React.Dispatch<React.SetStateAction<UploadFile[]>>
@@ -164,12 +164,12 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
         file.type === 'application/msword' ||
         file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
       if (!isPdfOrDoc) {
-        message.error('Možete učitati samo PDF ili Word dokumente!');
+        message.error('You can only upload PDF or Word documents!');
         return Upload.LIST_IGNORE;
       }
       const isLt10M = file.size / 1024 / 1024 < 10;
       if (!isLt10M) {
-        message.error('Dokument mora biti manji od 10MB!');
+        message.error('Document must be smaller than 10MB!');
         return Upload.LIST_IGNORE;
       }
       return false;
@@ -212,7 +212,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
     }
   }, [get, entId, form]);
 
-  // Učitavanje podataka za edit/view
+  // Load data for edit/view
   useEffect(() => {
     if (entId && (method === 'update' || method === 'view')) {
       fetchCBTData();
@@ -278,20 +278,20 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
             disabled={isView}
           >
             <div className="form-section-card">
-              <div className="form-section-header">Osnovne informacije (Basic Information)</div>
+              <div className="form-section-header">Basic Information</div>
 
               <Row gutter={gutterSize}>
-                {/* Naziv projekta, programa ili aktivnosti */}
+                {/* Project, programme or activity name */}
                 <Col span={24}>
                   <Form.Item
-                    label="Naziv projekta, programa ili aktivnosti"
+                    label="Project, Programme or Activity Name"
                     name="projectName"
                     rules={[validation.required]}
                   >
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Unesite naziv projekta, programa ili aktivnosti"
+                      placeholder="Enter project, programme or activity name"
                       disabled={isView}
                     />
                   </Form.Item>
@@ -299,13 +299,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Godina početka */}
+                {/* Start Year */}
                 <Col span={12}>
-                  <Form.Item label="Godina početka" name="startYear" rules={[validation.required]}>
+                  <Form.Item label="Start Year" name="startYear" rules={[validation.required]}>
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite godinu početka"
+                      placeholder="Select start year"
                       showSearch
                       disabled={isView}
                     >
@@ -318,13 +318,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                   </Form.Item>
                 </Col>
 
-                {/* Godina završetka */}
+                {/* End Year */}
                 <Col span={12}>
-                  <Form.Item label="Godina završetka" name="endYear" rules={[validation.required]}>
+                  <Form.Item label="End Year" name="endYear" rules={[validation.required]}>
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite godinu završetka"
+                      placeholder="Select end year"
                       showSearch
                       disabled={isView}
                     >
@@ -339,16 +339,16 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Ciljevi i opis */}
+                {/* Objectives and Description */}
                 <Col span={24}>
                   <Form.Item
-                    label="Ciljevi i opis"
+                    label="Objectives and Description"
                     name="activityDescription"
                     rules={[validation.required]}
                   >
                     <TextArea
                       rows={6}
-                      placeholder="Unesite ciljeve i opis"
+                      placeholder="Enter objectives and description"
                       disabled={isView}
                       style={{ fontSize: inputFontSize }}
                     />
@@ -360,14 +360,14 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* National Implementing Entities */}
                 <Col span={12}>
                   <Form.Item
-                    label="Nacionalni implementirajući entitet(i)"
+                    label="National Implementing Entity(ies)"
                     name="nationalImplementingEntities"
                   >
                     <Select
                       mode="multiple"
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite nacionalne entitete"
+                      placeholder="Select national entities"
                       showSearch
                       disabled={isView}
                     >
@@ -383,14 +383,14 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* International Implementing Entities */}
                 <Col span={12}>
                   <Form.Item
-                    label="Međunarodni implementirajući entitet(i)"
+                    label="International Implementing Entity(ies)"
                     name="internationalImplementingEntities"
                   >
                     <Select
                       mode="tags"
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Unesite međunarodne entitete"
+                      placeholder="Enter international entities"
                       disabled={isView}
                     ></Select>
                   </Form.Item>
@@ -398,13 +398,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Primalac sredstava - Recipient entity */}
+                {/* Recipient Entity */}
                 <Col span={12}>
-                  <Form.Item label="Primalac sredstava" name="recipientEntity">
+                  <Form.Item label="Recipient Entity" name="recipientEntity">
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Unesite primaoca sredstava"
+                      placeholder="Enter recipient entity"
                       disabled={isView}
                     />
                   </Form.Item>
@@ -412,13 +412,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Status aktivnosti */}
+                {/* Activity Status */}
                 <Col span={12}>
-                  <Form.Item label="Status aktivnosti" name="status" rules={[validation.required]}>
+                  <Form.Item label="Activity Status" name="status" rules={[validation.required]}>
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite status aktivnosti"
+                      placeholder="Select activity status"
                       disabled={isView}
                     >
                       {statusOptions.map((option) => (
@@ -432,18 +432,18 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
             </div>
 
-            {/* ETF klasifikacija */}
+            {/* ETF Classification */}
             <div className="form-section-card">
-              <div className="form-section-header">ETF klasifikacija (ETF Classification)</div>
+              <div className="form-section-header">ETF Classification</div>
 
               <Row gutter={gutterSize}>
-                {/* Sektor */}
+                {/* Sector */}
                 <Col span={12}>
-                  <Form.Item label="Sektor" name="sector" rules={[validation.required]}>
+                  <Form.Item label="Sector" name="sector" rules={[validation.required]}>
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite sektor"
+                      placeholder="Select sector"
                       showSearch
                       disabled={isView}
                       onChange={(value) => {
@@ -462,13 +462,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                   </Form.Item>
                 </Col>
 
-                {/* Podsektor */}
+                {/* Sub-sector */}
                 <Col span={12}>
-                  <Form.Item label="Podsektor" name="subSector" rules={[validation.required]}>
+                  <Form.Item label="Sub-sector" name="subSector" rules={[validation.required]}>
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite podsektor"
+                      placeholder="Select sub-sector"
                       showSearch
                       disabled={isView}
                       mode="multiple"
@@ -484,19 +484,19 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 </Col>
               </Row>
 
-              {/* Other Sector tekst (prikazuje se samo ako je izabran Other) */}
+              {/* Other Sector text (shown only when Other is selected) */}
               {showOtherSectorField && (
                 <Row gutter={gutterSize}>
                   <Col span={24}>
                     <Form.Item
-                      label="Navedite drugi sektor"
+                      label="Specify Other Sector"
                       name="otherSectorText"
                       rules={[validation.required]}
                     >
                       <Input
                         size="large"
                         style={{ fontSize: inputFontSize }}
-                        placeholder="Unesite naziv sektora"
+                        placeholder="Enter sector name"
                         disabled={isView}
                       />
                     </Form.Item>
@@ -505,17 +505,17 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               )}
 
               <Row gutter={gutterSize}>
-                {/* NDC pitanje */}
+                {/* NDC question */}
                 <Col span={24}>
                   <Form.Item
-                    label="Da li je aktivnost zasnovana na nacionalnoj strategiji i/ili NDC-u?"
+                    label="Is the activity based on a national strategy and/or NDC?"
                     name="basedOnNDC"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite odgovor"
+                      placeholder="Select answer"
                       disabled={isView}
                     >
                       {yesNoOptions.map((option) => (
@@ -529,17 +529,17 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Doprinos transferu tehnologija */}
+                {/* Technology transfer contribution */}
                 <Col span={12}>
                   <Form.Item
-                    label="Doprinos ciljevima razvoja i transfera tehnologija?"
+                    label="Contribution to technology development and transfer objectives?"
                     name="technologyTransferContribution"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite odgovor"
+                      placeholder="Select answer"
                       disabled={isView}
                     >
                       {yesNoOptions.map((option) => (
@@ -551,17 +551,17 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                   </Form.Item>
                 </Col>
 
-                {/* Doprinos jačanju kapaciteta */}
+                {/* Capacity building contribution */}
                 <Col span={12}>
                   <Form.Item
-                    label="Doprinos ciljevima jačanja kapaciteta?"
+                    label="Contribution to capacity building objectives?"
                     name="capacityBuildingContribution"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite odgovor"
+                      placeholder="Select answer"
                       disabled={isView}
                     >
                       {yesNoOptions.map((option) => (
@@ -575,17 +575,17 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Tip finansijske podrške */}
+                {/* Type of financial support */}
                 <Col span={12}>
                   <Form.Item
-                    label="Tip finansijske podrške"
+                    label="Type of Financial Support"
                     name="typeOfSupport"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite tip finansijske podrške"
+                      placeholder="Select type of financial support"
                       disabled={isView}
                     >
                       {typeOfSupportOptions.map((option) => (
@@ -599,12 +599,12 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Dodatne informacije */}
+                {/* Additional Information */}
                 <Col span={24}>
-                  <Form.Item label="Dodatne informacije" name="additionalInformation">
+                  <Form.Item label="Additional Information" name="additionalInformation">
                     <TextArea
                       rows={4}
-                      placeholder="Unesite dodatne informacije (opciono)"
+                      placeholder="Enter additional information (optional)"
                       disabled={isView}
                       style={{ fontSize: inputFontSize }}
                     />
@@ -613,23 +613,21 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
             </div>
 
-            {/* H7: Dokumentacija i verifikacija */}
+            {/* H7: Documentation & Verification */}
             <div className="form-section-card">
-              <div className="form-section-header">
-                Dokumentacija i verifikacija (Documentation & Verification)
-              </div>
+              <div className="form-section-header">Documentation & Verification</div>
 
               <Row gutter={gutterSize}>
-                {/* Dokumenti */}
+                {/* Documents */}
                 <Col span={12}>
                   <Form.Item
-                    label="Dokumenti"
+                    label="Documents"
                     name="documents"
-                    tooltip="Učitajte relevantne dokumente vezane za projekat"
+                    tooltip="Upload relevant documents related to the project"
                   >
                     <Upload {...getUploadProps(contractFileList, setContractFileList)}>
                       <Button icon={<UploadOutlined />} disabled={isView}>
-                        Učitaj dokument
+                        Upload Document
                       </Button>
                     </Upload>
                   </Form.Item>
@@ -637,17 +635,17 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Status verifikacije */}
+                {/* Verification Status */}
                 <Col span={12}>
                   <Form.Item
-                    label="Status verifikacije"
+                    label="Verification Status"
                     name="verificationStatus"
                     initialValue="Unverified"
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite status verifikacije"
+                      placeholder="Select verification status"
                       disabled={isView}
                     >
                       {verificationStatusOptions.map((option) => (
@@ -659,17 +657,17 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                   </Form.Item>
                 </Col>
 
-                {/* Napomena o verifikaciji */}
+                {/* Verification Note */}
                 <Col span={12}>
                   <Form.Item
-                    label="Napomena o verifikaciji"
+                    label="Verification Note"
                     name="verificationNote"
-                    tooltip="Dodatne informacije o statusu verifikacije"
+                    tooltip="Additional information about verification status"
                   >
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Unesite napomenu (opciono)"
+                      placeholder="Enter note (optional)"
                       disabled={isView}
                     />
                   </Form.Item>
