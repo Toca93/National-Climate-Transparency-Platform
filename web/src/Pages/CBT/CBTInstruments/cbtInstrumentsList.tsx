@@ -164,7 +164,7 @@ const CBTInstrumentsList = () => {
       ),
     },
     {
-      title: 'ID Projekta',
+      title: 'Project ID',
       width: 150,
       dataIndex: 'projectId',
       key: 'projectId',
@@ -179,7 +179,7 @@ const CBTInstrumentsList = () => {
       ),
     },
     {
-      title: 'Kurs EUR/USD',
+      title: 'EUR/USD Rate',
       width: 130,
       dataIndex: 'exchangeRate',
       key: 'exchangeRate',
@@ -187,7 +187,7 @@ const CBTInstrumentsList = () => {
       render: (value?: number) => value || '-',
     },
     {
-      title: 'Ukupan iznos (€)',
+      title: 'Total Amount (€)',
       width: 150,
       dataIndex: 'totalAmount',
       key: 'totalAmount',
@@ -195,7 +195,7 @@ const CBTInstrumentsList = () => {
       render: (value?: number) => formatCurrency(value),
     },
     {
-      title: 'Konvertovano ($)',
+      title: 'Converted ($)',
       width: 150,
       dataIndex: 'convertedAmount',
       key: 'convertedAmount',
@@ -203,7 +203,7 @@ const CBTInstrumentsList = () => {
       render: (value?: number) => formatCurrency(value),
     },
     {
-      title: 'Nacionalna (€)',
+      title: 'National (€)',
       width: 140,
       dataIndex: 'nationalComponent',
       key: 'nationalComponent',
@@ -211,7 +211,7 @@ const CBTInstrumentsList = () => {
       render: (value?: number) => formatCurrency(value),
     },
     {
-      title: 'Međunarodna (€)',
+      title: 'International (€)',
       width: 150,
       dataIndex: 'internationalComponent',
       key: 'internationalComponent',
@@ -244,7 +244,7 @@ const CBTInstrumentsList = () => {
   return (
     <div className="content-container">
       <div className="title-bar">
-        <div className="body-title">Klimatsko finansiranje - Finansijski instrumenti</div>
+        <div className="body-title">Climate Financing - Financial Instruments</div>
       </div>
       <div className="content-card">
         <Row className="table-actions-section">
@@ -259,7 +259,7 @@ const CBTInstrumentsList = () => {
                   navigate('/cbt-instruments/add');
                 }}
               >
-                Dodaj novi zapis
+                Add New Record
               </Button>
             </div>
           </Col>
@@ -268,7 +268,7 @@ const CBTInstrumentsList = () => {
               <Col {...searchBoxBps} className="search-bar">
                 <Input
                   addonAfter={<SearchOutlined style={{ color: '#615d67' }} onClick={onSearch} />}
-                  placeholder="Pretraži po ID ili nazivu projekta"
+                  placeholder="Search by ID or project name"
                   allowClear
                   onPressEnter={onSearch}
                   onChange={(e) => setTempSearchValue(e.target.value)}
@@ -313,7 +313,7 @@ const CBTInstrumentsList = () => {
                 position: ['bottomRight'],
               }}
               handleTableChange={handleTableChange}
-              emptyMessage="Nema dostupnih zapisa finansijskih instrumenata"
+              emptyMessage="No financial instrument records available"
             />
           </Col>
         </Row>

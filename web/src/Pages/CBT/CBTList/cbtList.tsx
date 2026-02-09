@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+﻿import { useTranslation } from 'react-i18next';
 import '../../../Styles/app.scss';
 import LayoutTable from '../../../Components/common/Table/layout.table';
 import { Button, Col, Row, Input, Dropdown, Popover, List, Typography, MenuProps, Tag } from 'antd';
@@ -153,28 +153,28 @@ const CBTList = () => {
       ),
     },
     {
-      title: 'Godina početka',
+      title: 'Start Year',
       width: 120,
       dataIndex: 'startYear',
       key: 'startYear',
       sorter: false,
     },
     {
-      title: 'Godina završetka',
+      title: 'End Year',
       width: 120,
       dataIndex: 'endYear',
       key: 'endYear',
       sorter: false,
     },
     {
-      title: 'Naziv projekta, programa ili aktivnosti',
+      title: 'Project, Programme or Activity Name',
       width: 280,
       dataIndex: 'projectName',
       key: 'projectName',
       sorter: false,
     },
     {
-      title: 'Nadležna institucija',
+      title: 'Implementing Entity',
       width: 220,
       key: 'implementingEntity',
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -225,7 +225,7 @@ const CBTList = () => {
   return (
     <div className="content-container">
       <div className="title-bar">
-        <div className="body-title">Klimatsko finansiranje - Osnovne informacije</div>
+        <div className="body-title">Climate Financing - Basic Information</div>
       </div>
       <div className="content-card">
         <Row className="table-actions-section">
@@ -240,7 +240,7 @@ const CBTList = () => {
                   navigate('/cbt/add');
                 }}
               >
-                Dodaj novi zapis
+                Add New Record
               </Button>
             </div>
           </Col>
@@ -249,7 +249,7 @@ const CBTList = () => {
               <Col {...searchBoxBps} className="search-bar">
                 <Input
                   addonAfter={<SearchOutlined style={{ color: '#615d67' }} onClick={onSearch} />}
-                  placeholder="Pretraži po ID ili nazivu projekta"
+                  placeholder="Search by ID or project name"
                   allowClear
                   onPressEnter={onSearch}
                   onChange={(e) => setTempSearchValue(e.target.value)}
@@ -294,7 +294,7 @@ const CBTList = () => {
                 position: ['bottomRight'],
               }}
               handleTableChange={handleTableChange}
-              emptyMessage="Nema dostupnih zapisa klimatskog finansiranja"
+              emptyMessage="No climate financing records available"
             />
           </Col>
         </Row>

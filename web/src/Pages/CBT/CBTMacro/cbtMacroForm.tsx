@@ -40,12 +40,12 @@ const currencies = [
 
 // Metode preračuna (Conversion Methods)
 const conversionMethods = [
-  { value: 'ecb-rate', label: 'ECB kurs (ECB Exchange Rate)' },
-  { value: 'annual-average', label: 'Godišnji prosjek (Annual Average)' },
-  { value: 'spot-rate', label: 'Spot kurs na dan transakcije (Spot Rate)' },
-  { value: 'central-bank', label: 'Kurs centralne banke (Central Bank Rate)' },
-  { value: 'fixed-rate', label: 'Fiksni kurs (Fixed Rate)' },
-  { value: 'other', label: 'Ostalo (Other)' },
+  { value: 'ecb-rate', label: 'ECB Exchange Rate' },
+  { value: 'annual-average', label: 'Annual Average' },
+  { value: 'spot-rate', label: 'Spot Rate on Transaction Date' },
+  { value: 'central-bank', label: 'Central Bank Rate' },
+  { value: 'fixed-rate', label: 'Fixed Rate' },
+  { value: 'other', label: 'Other' },
 ];
 
 // Interface za projekte iz Osnovnih informacija (CBT)
@@ -59,7 +59,7 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
   useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
-  const formTitle = 'Makro pokazatelji';
+  const formTitle = 'Macro Indicators';
 
   const navigate = useNavigate();
   const { get, post, put } = useConnection();
@@ -178,21 +178,21 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
           >
             <div className="form-section-card">
               <div className="form-section-header">
-                Povezanost sa makro pokazateljima (Macro Indicators)
+                Macro Indicators
               </div>
 
               <Row gutter={gutterSize}>
-                {/* Naziv projekta / mjere - dropdown iz Osnovnih informacija */}
+                {/* Project Name / Measure - dropdown iz Osnovnih informacija */}
                 <Col span={12}>
                   <Form.Item
-                    label="Naziv projekta / mjere"
+                    label="Project Name / Measure"
                     name="projectId"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite projekat iz Osnovnih informacija"
+                      placeholder="Select project from Basic Information"
                       disabled={isView}
                       loading={loadingProjects}
                       showSearch
@@ -219,11 +219,11 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
 
                 {/* Godina */}
                 <Col span={12}>
-                  <Form.Item label="Posmatrana godina" name="year" rules={[validation.required]}>
+                  <Form.Item label="Reference Year" name="year" rules={[validation.required]}>
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite godinu"
+                      placeholder="Select year"
                       showSearch
                       disabled={isView}
                     >
@@ -241,15 +241,15 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* BDP */}
                 <Col span={12}>
                   <Form.Item
-                    label="BDP u posmatranoj godini"
+                    label="GDP in Reference Year"
                     name="gdp"
-                    tooltip="Bruto domaći proizvod u posmatranoj godini izražen u EUR"
+                    tooltip="Gross domestic product in reference year expressed in EUR"
                   >
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
                       type="number"
-                      placeholder="Unesite BDP u EUR"
+                      placeholder="Enter GDP in EUR"
                       disabled={isView}
                       min={0}
                       step={0.01}
@@ -262,18 +262,18 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                   </Form.Item>
                 </Col>
 
-                {/* Iznos klimatskog finansiranja */}
+                {/* Climate Finance Amount */}
                 <Col span={12}>
                   <Form.Item
-                    label="Iznos klimatskog finansiranja"
+                    label="Climate Finance Amount"
                     name="climateFinanceAmount"
-                    tooltip="Ukupan iznos klimatskog finansiranja za posmatranu godinu"
+                    tooltip="Total climate finance amount for reference year"
                   >
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
                       type="number"
-                      placeholder="Unesite iznos u EUR"
+                      placeholder="Enter amount in EUR"
                       disabled={isView}
                       min={0}
                       step={0.01}
@@ -291,15 +291,15 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Udio klimatskog finansiranja u BDP-u */}
                 <Col span={12}>
                   <Form.Item
-                    label="Udio klimatskog finansiranja u BDP-u (%)"
+                    label="Climate Finance Share of GDP (%)"
                     name="climateFinanceShareGdp"
-                    tooltip="Procenat klimatskog finansiranja u odnosu na BDP"
+                    tooltip="Percentage of climate finance relative to GDP"
                   >
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
                       type="number"
-                      placeholder="Unesite procenat"
+                      placeholder="Enter percentage"
                       disabled={isView}
                       min={0}
                       max={100}
@@ -316,15 +316,15 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Udio u državnom budžetu */}
                 <Col span={12}>
                   <Form.Item
-                    label="Udio u državnom budžetu (%)"
+                    label="Share of State Budget (%)"
                     name="climateFinanceShareBudget"
-                    tooltip="Procenat klimatskog finansiranja u odnosu na ukupni državni budžet"
+                    tooltip="Percentage of climate finance relative to total state budget"
                   >
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
                       type="number"
-                      placeholder="Unesite procenat"
+                      placeholder="Enter percentage"
                       disabled={isView}
                       min={0}
                       max={100}
@@ -343,14 +343,14 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
             {/* Sekcija: Valuta i metodologija (H5) */}
             <div className="form-section-card">
               <div className="form-section-header">
-                Valuta i metodologija (Currency & Methodology)
+                Currency & Methodology
               </div>
 
               <Row gutter={gutterSize}>
                 {/* Valuta */}
                 <Col span={12}>
                   <Form.Item
-                    label="Valuta"
+                    label="Currency"
                     name="currency"
                     rules={[validation.required]}
                     initialValue="EUR"
@@ -358,7 +358,7 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite valutu"
+                      placeholder="Select currency"
                       disabled={isView}
                       showSearch
                     >
@@ -371,17 +371,17 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                   </Form.Item>
                 </Col>
 
-                {/* Metod preračuna */}
+                {/* Conversion Method */}
                 <Col span={12}>
                   <Form.Item
-                    label="Metod preračuna"
+                    label="Conversion Method"
                     name="conversionMethod"
-                    tooltip="Ako je izvorno u drugoj valuti, navedite metod preračuna u EUR"
+                    tooltip="If originally in another currency, specify conversion method to EUR"
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Izaberite metod preračuna"
+                      placeholder="Select conversion method"
                       disabled={isView}
                       allowClear
                     >
@@ -396,16 +396,16 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
               </Row>
 
               <Row gutter={gutterSize}>
-                {/* Napomena o metodologiji */}
+                {/* Methodology Note */}
                 <Col span={24}>
                   <Form.Item
-                    label="Napomena o metodologiji"
+                    label="Methodology Note"
                     name="methodologyNote"
-                    tooltip="Dodatne informacije o metodologiji korištenoj za klimatsko finansiranje"
+                    tooltip="Additional information about methodology used for climate financing"
                   >
                     <TextArea
                       rows={4}
-                      placeholder="Unesite napomenu o metodologiji (opciono)"
+                      placeholder="Enter methodology note (optional)"
                       disabled={isView}
                       style={{ fontSize: inputFontSize }}
                     />

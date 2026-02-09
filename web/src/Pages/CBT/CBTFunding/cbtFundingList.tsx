@@ -58,12 +58,12 @@ const CBTFundingList = () => {
   const getFinancialInstrumentLabel = (value?: string) => {
     const map: Record<string, string> = {
       grant: 'Grant',
-      'concessional-loan': 'Koncesioni zajam',
-      'non-concessional-loan': 'Nekoncesioni zajam',
-      equity: 'Kapital',
-      guarantee: 'Garancija',
-      insurance: 'Osiguranje',
-      other: 'Ostalo',
+      'concessional-loan': 'Concessional Loan',
+      'non-concessional-loan': 'Non-concessional Loan',
+      equity: 'Equity',
+      guarantee: 'Guarantee',
+      insurance: 'Insurance',
+      other: 'Other',
     };
     return map[value || ''] || value;
   };
@@ -71,8 +71,8 @@ const CBTFundingList = () => {
   // Map status values to labels
   const getStatusLabel = (value?: string) => {
     const map: Record<string, string> = {
-      Committed: 'Ugovoreno',
-      Received: 'Isplaćeno',
+      Committed: 'Committed',
+      Received: 'Received',
     };
     return map[value || ''] || value;
   };
@@ -180,7 +180,7 @@ const CBTFundingList = () => {
       ),
     },
     {
-      title: 'ID Projekta',
+      title: 'Project ID',
       width: 150,
       dataIndex: 'projectId',
       key: 'projectId',
@@ -195,7 +195,7 @@ const CBTFundingList = () => {
       ),
     },
     {
-      title: 'Finansijski instrument',
+      title: 'Financial Instrument',
       width: 200,
       dataIndex: 'financialInstrument',
       key: 'financialInstrument',
@@ -209,14 +209,14 @@ const CBTFundingList = () => {
       sorter: false,
     },
     {
-      title: 'Podrška',
+      title: 'Support',
       width: 130,
       dataIndex: 'supportNeededOrReceived',
       key: 'supportNeededOrReceived',
       sorter: false,
     },
     {
-      title: 'Način finansiranja',
+      title: 'Funding Method',
       width: 150,
       dataIndex: 'fundingMethod',
       key: 'fundingMethod',
@@ -248,7 +248,7 @@ const CBTFundingList = () => {
   return (
     <div className="content-container">
       <div className="title-bar">
-        <div className="body-title">Klimatsko finansiranje - Izvori finansiranja</div>
+        <div className="body-title">Climate Financing - Funding Sources</div>
       </div>
       <div className="content-card">
         <Row className="table-actions-section">
@@ -263,7 +263,7 @@ const CBTFundingList = () => {
                   navigate('/cbt-funding/add');
                 }}
               >
-                Dodaj novi zapis
+                Add New Record
               </Button>
             </div>
           </Col>
@@ -272,7 +272,7 @@ const CBTFundingList = () => {
               <Col {...searchBoxBps} className="search-bar">
                 <Input
                   addonAfter={<SearchOutlined style={{ color: '#615d67' }} onClick={onSearch} />}
-                  placeholder="Pretraži po ID ili nazivu projekta"
+                  placeholder="Search by ID or project name"
                   allowClear
                   onPressEnter={onSearch}
                   onChange={(e) => setTempSearchValue(e.target.value)}
@@ -317,7 +317,7 @@ const CBTFundingList = () => {
                 position: ['bottomRight'],
               }}
               handleTableChange={handleTableChange}
-              emptyMessage="Nema dostupnih zapisa izvora finansiranja"
+              emptyMessage="No funding source records available"
             />
           </Col>
         </Row>

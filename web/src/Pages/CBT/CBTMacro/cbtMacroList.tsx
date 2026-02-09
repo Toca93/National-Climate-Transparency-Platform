@@ -160,7 +160,7 @@ const CBTMacroList = () => {
       ),
     },
     {
-      title: 'ID Projekta',
+      title: 'Project ID',
       width: 150,
       dataIndex: 'projectId',
       key: 'projectId',
@@ -175,28 +175,28 @@ const CBTMacroList = () => {
       ),
     },
     {
-      title: 'Naziv projekta',
+      title: 'Project Name',
       width: 200,
       dataIndex: 'projectName',
       key: 'projectName',
       sorter: false,
     },
     {
-      title: 'Godina',
+      title: 'Year',
       width: 80,
       dataIndex: 'year',
       key: 'year',
       sorter: false,
     },
     {
-      title: 'Valuta',
+      title: 'Currency',
       width: 80,
       dataIndex: 'currency',
       key: 'currency',
       sorter: false,
     },
     {
-      title: 'BDP (EUR)',
+      title: 'GDP (EUR)',
       width: 150,
       dataIndex: 'gdp',
       key: 'gdp',
@@ -204,7 +204,7 @@ const CBTMacroList = () => {
       render: (value: number | string) => (value ? Number(value).toLocaleString('de-DE') : '-'),
     },
     {
-      title: 'Udio u BDP-u (%)',
+      title: 'Share of GDP (%)',
       width: 130,
       dataIndex: 'climateFinanceShareGdp',
       key: 'climateFinanceShareGdp',
@@ -212,7 +212,7 @@ const CBTMacroList = () => {
       render: (value: number | string) => (value ? `${Number(value).toFixed(2)}%` : '-'),
     },
     {
-      title: 'Udio u budžetu (%)',
+      title: 'Share of Budget (%)',
       width: 130,
       dataIndex: 'climateFinanceShareBudget',
       key: 'climateFinanceShareBudget',
@@ -246,7 +246,7 @@ const CBTMacroList = () => {
   return (
     <div className="content-container">
       <div className="title-bar">
-        <div className="body-title">Klimatsko finansiranje - Makro pokazatelji</div>
+        <div className="body-title">Climate Financing - Macro Indicators</div>
       </div>
       <div className="content-card">
         <Row className="table-actions-section">
@@ -261,7 +261,7 @@ const CBTMacroList = () => {
                   navigate('/cbt-macro/add');
                 }}
               >
-                Dodaj novi zapis
+                Add New Record
               </Button>
             </div>
           </Col>
@@ -270,7 +270,7 @@ const CBTMacroList = () => {
               <Col {...searchBoxBps} className="search-bar">
                 <Input
                   addonAfter={<SearchOutlined style={{ color: '#615d67' }} onClick={onSearch} />}
-                  placeholder="Pretraži po ID ili nazivu projekta"
+                  placeholder="Search by ID or project name"
                   allowClear
                   onPressEnter={onSearch}
                   onChange={(e) => setTempSearchValue(e.target.value)}
@@ -315,7 +315,7 @@ const CBTMacroList = () => {
                 position: ['bottomRight'],
               }}
               handleTableChange={handleTableChange}
-              emptyMessage="Nema dostupnih zapisa makro pokazatelja"
+              emptyMessage="No macro indicator records available"
             />
           </Col>
         </Row>

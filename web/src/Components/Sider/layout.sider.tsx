@@ -75,12 +75,12 @@ const LayoutSider = (props: LayoutSiderProps) => {
     // Reviews
     getItem('Reviews', 'reviews', <Headset />),
 
-    // Klimatsko finansiranje
-    getItem('Klimatsko finansiranje', 'klimatsko-finansiranje', <AppstoreOutlined />, [
-      getItem('Osnovne informacije', 'cbt'),
-      getItem('Izvori finansiranja', 'cbt-funding'),
-      getItem('Finansijski instrumenti', 'cbt-instruments'),
-      getItem('Makro pokazatelji', 'cbt-macro'),
+    // Climate Financing (Module H)
+    getItem('Climate Financing', 'klimatsko-finansiranje', <AppstoreOutlined />, [
+      getItem('Basic Information', 'cbt'),
+      getItem('Funding Sources', 'cbt-funding'),
+      getItem('Financial Instruments', 'cbt-instruments'),
+      getItem('Macro Indicators', 'cbt-macro'),
     ]),
   ];
 
