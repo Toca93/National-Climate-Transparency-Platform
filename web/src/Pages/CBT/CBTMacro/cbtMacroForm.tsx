@@ -178,7 +178,6 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
           >
             <div className="form-section-card">
               <div className="form-section-header">Macro Indicators</div>
-              
               <Row gutter={gutterSize}>
                 {/* Project Name / Measure - dropdown iz Osnovnih informacija */}
                 <Col span={12}>
