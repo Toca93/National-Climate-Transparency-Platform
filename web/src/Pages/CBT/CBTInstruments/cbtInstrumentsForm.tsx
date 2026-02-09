@@ -178,9 +178,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
             disabled={isView}
           >
             <div className="form-section-card">
-              <div className="form-section-header">
-                Financial Instruments
-              </div>
+              <div className="form-section-header">Financial Instruments</div>
 
               <Row gutter={gutterSize}>
                 {/* Project Name / Measure - dropdown iz Osnovnih informacija */}

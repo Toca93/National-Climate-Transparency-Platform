@@ -177,10 +177,8 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
             disabled={isView}
           >
             <div className="form-section-card">
-              <div className="form-section-header">
-                Macro Indicators
-              </div>
-
+              <div className="form-section-header">Macro Indicators</div>
+              
               <Row gutter={gutterSize}>
                 {/* Project Name / Measure - dropdown iz Osnovnih informacija */}
                 <Col span={12}>
@@ -342,9 +340,7 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
 
             {/* Sekcija: Valuta i metodologija (H5) */}
             <div className="form-section-card">
-              <div className="form-section-header">
-                Currency & Methodology
-              </div>
+              <div className="form-section-header">Currency & Methodology</div>
 
               <Row gutter={gutterSize}>
                 {/* Valuta */}
