@@ -36,7 +36,6 @@ interface Item {
   projectId: string;
   projectName: string;
   year: number;
-  currency: string;
   gdp: number;
   climateFinanceShareGdp: number;
   climateFinanceShareBudget: number;
@@ -112,7 +111,6 @@ const CBTMacroList = () => {
           projectId: item.projectId,
           projectName: item.cbt?.projectName || '-',
           year: item.year,
-          currency: item.currency,
           gdp: item.gdp,
           climateFinanceShareGdp: item.climateFinanceShareGdp,
           climateFinanceShareBudget: item.climateFinanceShareBudget,
@@ -186,13 +184,6 @@ const CBTMacroList = () => {
       width: 80,
       dataIndex: 'year',
       key: 'year',
-      sorter: false,
-    },
-    {
-      title: 'Currency',
-      width: 80,
-      dataIndex: 'currency',
-      key: 'currency',
       sorter: false,
     },
     {

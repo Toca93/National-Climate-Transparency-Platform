@@ -8,7 +8,6 @@ import { getValidationRules } from '../../../Utils/validationRules';
 import '../../../Styles/app.scss';
 
 const { Option } = Select;
-const { TextArea } = Input;
 
 const gutterSize = 30;
 const inputFontSize = '15px';
@@ -22,31 +21,6 @@ const generateYears = () => {
   }
   return years;
 };
-
-// Currency List
-const currencies = [
-  { value: 'EUR', label: 'EUR - Euro' },
-  { value: 'USD', label: 'USD - US Dollar' },
-  { value: 'GBP', label: 'GBP - British Pound' },
-  { value: 'CHF', label: 'CHF - Swiss Franc' },
-  { value: 'JPY', label: 'JPY - Japanese Yen' },
-  { value: 'CNY', label: 'CNY - Chinese Yuan' },
-  { value: 'RSD', label: 'RSD - Serbian Dinar' },
-  { value: 'BAM', label: 'BAM - Bosnian Mark' },
-  { value: 'HRK', label: 'HRK - Croatian Kuna' },
-  { value: 'MKD', label: 'MKD - Macedonian Denar' },
-  { value: 'ALL', label: 'ALL - Albanian Lek' },
-];
-
-// Conversion Methods
-const conversionMethods = [
-  { value: 'ecb-rate', label: 'ECB Exchange Rate' },
-  { value: 'annual-average', label: 'Annual Average' },
-  { value: 'spot-rate', label: 'Spot Rate on Transaction Date' },
-  { value: 'central-bank', label: 'Central Bank Rate' },
-  { value: 'fixed-rate', label: 'Fixed Rate' },
-  { value: 'other', label: 'Other' },
-];
 
 // Interface for projects from Basic Information (CBT)
 interface CBTProjectData {
@@ -331,78 +305,6 @@ const CBTMacroForm: React.FC<FormLoadProps> = ({ method }) => {
                           e.preventDefault();
                         }
                       }}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </div>
-
-            {/* Section: Currency & Methodology (H5) */}
-            <div className="form-section-card">
-              <div className="form-section-header">Currency & Methodology</div>
-
-              <Row gutter={gutterSize}>
-                {/* Currency */}
-                <Col span={12}>
-                  <Form.Item
-                    label="Currency"
-                    name="currency"
-                    rules={[validation.required]}
-                    initialValue="EUR"
-                  >
-                    <Select
-                      size="large"
-                      style={{ fontSize: inputFontSize }}
-                      placeholder="Select currency"
-                      disabled={isView}
-                      showSearch
-                    >
-                      {currencies.map((option) => (
-                        <Option key={option.value} value={option.value}>
-                          {option.label}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </Col>
-
-                {/* Conversion Method */}
-                <Col span={12}>
-                  <Form.Item
-                    label="Conversion Method"
-                    name="conversionMethod"
-                    tooltip="If originally in another currency, specify conversion method to EUR"
-                  >
-                    <Select
-                      size="large"
-                      style={{ fontSize: inputFontSize }}
-                      placeholder="Select conversion method"
-                      disabled={isView}
-                      allowClear
-                    >
-                      {conversionMethods.map((option) => (
-                        <Option key={option.value} value={option.value}>
-                          {option.label}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <Row gutter={gutterSize}>
-                {/* Methodology Note */}
-                <Col span={24}>
-                  <Form.Item
-                    label="Methodology Note"
-                    name="methodologyNote"
-                    tooltip="Additional information about methodology used for climate financing"
-                  >
-                    <TextArea
-                      rows={4}
-                      placeholder="Enter methodology note (optional)"
-                      disabled={isView}
-                      style={{ fontSize: inputFontSize }}
                     />
                   </Form.Item>
                 </Col>

@@ -1,6 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import {
-  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -8,7 +7,6 @@ import {
   Max,
   Min,
 } from "class-validator";
-import { CBTMacroConversionMethod } from "../entities/cbt.macro.entity";
 
 export class CBTMacroDto {
   id: string;
@@ -46,27 +44,6 @@ export class CBTMacroDto {
   @Max(100)
   @ApiPropertyOptional()
   climateFinanceShareBudget: number;
-
-  @IsNotEmpty()
-  @IsString()
-  @ApiProperty({ default: "EUR" })
-  currency: string;
-
-  @IsOptional()
-  @IsEnum(CBTMacroConversionMethod, {
-    message:
-      "Invalid Conversion Method. Supported values: " +
-      Object.values(CBTMacroConversionMethod),
-  })
-  @ApiPropertyOptional({
-    enum: Object.values(CBTMacroConversionMethod),
-  })
-  conversionMethod: CBTMacroConversionMethod;
-
-  @IsOptional()
-  @IsString()
-  @ApiPropertyOptional()
-  methodologyNote: string;
 }
 
 export class CBTMacroUpdateDto {
@@ -108,25 +85,4 @@ export class CBTMacroUpdateDto {
   @Max(100)
   @ApiPropertyOptional()
   climateFinanceShareBudget: number;
-
-  @IsOptional()
-  @IsString()
-  @ApiPropertyOptional()
-  currency: string;
-
-  @IsOptional()
-  @IsEnum(CBTMacroConversionMethod, {
-    message:
-      "Invalid Conversion Method. Supported values: " +
-      Object.values(CBTMacroConversionMethod),
-  })
-  @ApiPropertyOptional({
-    enum: Object.values(CBTMacroConversionMethod),
-  })
-  conversionMethod: CBTMacroConversionMethod;
-
-  @IsOptional()
-  @IsString()
-  @ApiPropertyOptional()
-  methodologyNote: string;
 }
