@@ -9,16 +9,6 @@ import {
 } from "typeorm";
 import { CBTEntity } from "./cbt.entity";
 
-// Metodi preračuna (Conversion Methods)
-export enum CBTMacroConversionMethod {
-  ECB_RATE = "ecb-rate",
-  ANNUAL_AVERAGE = "annual-average",
-  SPOT_RATE = "spot-rate",
-  CENTRAL_BANK = "central-bank",
-  FIXED_RATE = "fixed-rate",
-  OTHER = "other",
-}
-
 @Entity("cbt_macro")
 export class CBTMacroEntity {
   @PrimaryColumn()
@@ -51,22 +41,6 @@ export class CBTMacroEntity {
   // Udio u državnom budžetu (%)
   @Column({ type: "decimal", precision: 5, scale: 2, nullable: true })
   climateFinanceShareBudget: number;
-
-  // Valuta (default: EUR)
-  @Column({ default: "EUR" })
-  currency: string;
-
-  // Metod preračuna u EUR
-  @Column({
-    type: "enum",
-    enum: CBTMacroConversionMethod,
-    nullable: true,
-  })
-  conversionMethod: CBTMacroConversionMethod;
-
-  // Napomena o metodologiji
-  @Column({ type: "text", nullable: true })
-  methodologyNote: string;
 
   @CreateDateColumn({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
   createdTime: Date;
