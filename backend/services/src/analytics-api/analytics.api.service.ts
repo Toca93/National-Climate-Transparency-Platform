@@ -5,7 +5,13 @@ import { EntityManager, Repository } from 'typeorm';
 import { InjectEntityManager, InjectRepository } from "@nestjs/typeorm";
 import { ProjectEntity } from "../entities/project.entity";
 import { ActivityEntity } from "../entities/activity.entity";
-import { FinanceNature, SupportDirection } from "../enums/support.enum";
+import { SupportEntity } from "../entities/support.entity";
+import { CBTEntity, CBTTypeOfSupport } from "../entities/cbt.entity";
+import { CBTFundingEntity, CBTFundingInstrument, CBTFundingMethod } from "../entities/cbt.funding.entity";
+import { FinanceNature, SupportDirection, IntSupChannel, IntFinInstrument } from "../enums/support.enum";
+import { ActivityStatus } from "../enums/activity.enum";
+import { ActionType } from "../enums/action.enum";
+import { Sector } from "../enums/sector.enum";
 import { HelperService } from "../util/helpers.service";
 
 @Injectable()
@@ -237,6 +243,201 @@ export class AnalyticsService {
 					"common.unableToGetStats",
 					[]
 				),
+				HttpStatus.INTERNAL_SERVER_ERROR
+			);
+		}
+	}
+
+	// New methods for CBT-related pie charts with typeOfSupport filter
+
+	async getSupportByTypeChart(typeOfSupport?: CBTTypeOfSupport): Promise<DataCountResponseDto> {
+		try {
+			// Chart 7: Distribution by Type of Support (from CBTEntity)
+			let query = `
+				SELECT 
+					c."typeOfSupport" as type,
+					COUNT(DISTINCT c.id) as count,
+					MAX(c."updatedTime") as "latestTime"
+				FROM cbt c
+				WHERE c."typeOfSupport" IS NOT NULL
+			`;
+
+			if (typeOfSupport) {
+				query += ` AND c."typeOfSupport" = '${typeOfSupport}'`;
+			}
+
+			query += `
+				GROUP BY c."typeOfSupport"
+				ORDER BY MAX(c."updatedTime") DESC
+			`;
+
+			const result = await this.entityManager.query(query);
+
+			const types = result.map(row => row.type);
+			const counts = result.map(row => parseInt(row.count, 10));
+			const latestTime = result.length ? new Date(result[0].latestTime) : null;
+			const latestEpoch = latestTime ? Math.floor(latestTime.getTime() / 1000) : 0;
+
+			return new DataCountResponseDto({ sectors: types, counts }, latestEpoch);
+		} catch (err) {
+			console.log('getSupportByTypeChart error:', err);
+			throw new HttpException(
+				this.helperService.formatReqMessagesString("common.unableToGetStats", []),
+				HttpStatus.INTERNAL_SERVER_ERROR
+			);
+		}
+	}
+
+	async getSupportByActivityStatusChart(typeOfSupport?: CBTTypeOfSupport): Promise<DataCountResponseDto> {
+		try {
+			// Chart 8: Distribution by Activity Status (Planned / Ongoing / Completed)
+			let query = `
+				SELECT 
+					c.status,
+					COUNT(DISTINCT c.id) as count,
+					MAX(c."updatedTime") as "latestTime"
+				FROM cbt c
+				WHERE c.status IS NOT NULL
+			`;
+
+			if (typeOfSupport) {
+				query += ` AND c."typeOfSupport" = '${typeOfSupport}'`;
+			}
+
+			query += `
+				GROUP BY c.status
+				ORDER BY MAX(c."updatedTime") DESC
+			`;
+
+			const result = await this.entityManager.query(query);
+
+			const statuses = result.map(row => row.status);
+			const counts = result.map(row => parseInt(row.count, 10));
+			const latestTime = result.length ? new Date(result[0].latestTime) : null;
+			const latestEpoch = latestTime ? Math.floor(latestTime.getTime() / 1000) : 0;
+
+			return new DataCountResponseDto({ sectors: statuses, counts }, latestEpoch);
+		} catch (err) {
+			console.log('getSupportByActivityStatusChart error:', err);
+			throw new HttpException(
+				this.helperService.formatReqMessagesString("common.unableToGetStats", []),
+				HttpStatus.INTERNAL_SERVER_ERROR
+			);
+		}
+	}
+
+	async getSupportByETFSectorChart(typeOfSupport?: CBTTypeOfSupport): Promise<DataCountResponseDto> {
+		try {
+			// Chart 9: Distribution by ETF Sector (Energy, Transport, Industry, Agriculture)
+			let query = `
+				SELECT 
+					c.sector,
+					COUNT(DISTINCT c.id) as count,
+					MAX(c."updatedTime") as "latestTime"
+				FROM cbt c
+				WHERE c.sector IS NOT NULL
+				AND c.sector IN ('Energy', 'Transport', 'Industry (IPPU)', 'Agriculture')
+			`;
+
+			if (typeOfSupport) {
+				query += ` AND c."typeOfSupport" = '${typeOfSupport}'`;
+			}
+
+			query += `
+				GROUP BY c.sector
+				ORDER BY MAX(c."updatedTime") DESC
+			`;
+
+			const result = await this.entityManager.query(query);
+
+			const sectors = result.map(row => row.sector);
+			const counts = result.map(row => parseInt(row.count, 10));
+			const latestTime = result.length ? new Date(result[0].latestTime) : null;
+			const latestEpoch = latestTime ? Math.floor(latestTime.getTime() / 1000) : 0;
+
+			return new DataCountResponseDto({ sectors, counts }, latestEpoch);
+		} catch (err) {
+			console.log('getSupportByETFSectorChart error:', err);
+			throw new HttpException(
+				this.helperService.formatReqMessagesString("common.unableToGetStats", []),
+				HttpStatus.INTERNAL_SERVER_ERROR
+			);
+		}
+	}
+
+	async getSupportByFinancialInstrumentChart(typeOfSupport?: CBTTypeOfSupport): Promise<DataCountResponseDto> {
+		try {
+			// Chart 10: Distribution by Financial Instrument (from CBTFundingEntity)
+			let query = `
+				SELECT 
+					f."financialInstrument" as instrument,
+					COUNT(DISTINCT f.id) as count,
+					MAX(f."updatedTime") as "latestTime"
+				FROM cbt_funding f
+				JOIN cbt c ON f."projectId" = c.id
+				WHERE f."financialInstrument" IS NOT NULL
+			`;
+
+			if (typeOfSupport) {
+				query += ` AND c."typeOfSupport" = '${typeOfSupport}'`;
+			}
+
+			query += `
+				GROUP BY f."financialInstrument"
+				ORDER BY MAX(f."updatedTime") DESC
+			`;
+
+			const result = await this.entityManager.query(query);
+
+			const instruments = result.map(row => row.instrument);
+			const counts = result.map(row => parseInt(row.count, 10));
+			const latestTime = result.length ? new Date(result[0].latestTime) : null;
+			const latestEpoch = latestTime ? Math.floor(latestTime.getTime() / 1000) : 0;
+
+			return new DataCountResponseDto({ sectors: instruments, counts }, latestEpoch);
+		} catch (err) {
+			console.log('getSupportByFinancialInstrumentChart error:', err);
+			throw new HttpException(
+				this.helperService.formatReqMessagesString("common.unableToGetStats", []),
+				HttpStatus.INTERNAL_SERVER_ERROR
+			);
+		}
+	}
+
+	async getSupportByFinancingChannelChart(typeOfSupport?: CBTTypeOfSupport): Promise<DataCountResponseDto> {
+		try {
+			// Chart 11: Distribution by Financing Channel/Multilateralni (from CBTFundingEntity)
+			let query = `
+				SELECT 
+					f."fundingMethod" as channel,
+					COUNT(DISTINCT f.id) as count,
+					MAX(f."updatedTime") as "latestTime"
+				FROM cbt_funding f
+				JOIN cbt c ON f."projectId" = c.id
+				WHERE f."fundingMethod" IS NOT NULL
+			`;
+
+			if (typeOfSupport) {
+				query += ` AND c."typeOfSupport" = '${typeOfSupport}'`;
+			}
+
+			query += `
+				GROUP BY f."fundingMethod"
+				ORDER BY MAX(f."updatedTime") DESC
+			`;
+
+			const result = await this.entityManager.query(query);
+
+			const channels = result.map(row => row.channel);
+			const counts = result.map(row => parseInt(row.count, 10));
+			const latestTime = result.length ? new Date(result[0].latestTime) : null;
+			const latestEpoch = latestTime ? Math.floor(latestTime.getTime() / 1000) : 0;
+
+			return new DataCountResponseDto({ sectors: channels, counts }, latestEpoch);
+		} catch (err) {
+			console.log('getSupportByFinancingChannelChart error:', err);
+			throw new HttpException(
+				this.helperService.formatReqMessagesString("common.unableToGetStats", []),
 				HttpStatus.INTERNAL_SERVER_ERROR
 			);
 		}

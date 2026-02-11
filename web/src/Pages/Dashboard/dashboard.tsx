@@ -16,6 +16,53 @@ import BarChart from '../../Components/Charts/BarChart/barChart';
 const { Option } = Select;
 const { useBreakpoint } = Grid;
 
+// Compact Pie Chart Component for CBT Dashboard
+interface CompactPieChartProps {
+  chart: ChartData;
+  onInfoClick: (content: { title: string; body: string }) => void;
+  setOpenChartInfo: (open: boolean) => void;
+  t: any;
+}
+
+const CompactPieChart: React.FC<CompactPieChartProps> = ({
+  chart,
+  onInfoClick,
+  setOpenChartInfo,
+  t,
+}) => (
+  <div style={{ width: '100%' }}>
+    <div
+      style={{
+        fontSize: '13px',
+        fontWeight: 500,
+        marginBottom: '15px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        gap: '6px',
+        whiteSpace: 'nowrap',
+        width: '100%',
+        paddingLeft: '40px',
+      }}
+    >
+      <span>{chart.chartTitle}</span>
+      <InfoCircleOutlined
+        style={{ cursor: 'pointer', color: '#8c8c8c', fontSize: '13px', flexShrink: 0 }}
+        onClick={() => {
+          onInfoClick({
+            title: chart.chartTitle,
+            body: chart.chartDescription,
+          });
+          setOpenChartInfo(true);
+        }}
+      />
+    </div>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <PieChart chart={chart} t={t} chartWidth={330} showDate={false} isCompact={true} />
+    </div>
+  </div>
+);
+
 const Dashboard = () => {
   // Context Information
 
@@ -48,6 +95,17 @@ const Dashboard = () => {
   const [financeChart, setFinanceChart] = useState<ChartData>();
   const [mitigationRecentChart, setMitigationRecentChart] = useState<ChartData>();
   const [mitigationIndividualChart, setMitigationIndividualChart] = useState<ChartData>();
+
+  // Type of Support Filter State for New Charts
+  const [typeOfSupportFilter, setTypeOfSupportFilter] = useState<string | undefined>(undefined);
+
+  // New Chart Data (Support-related charts with filter)
+  const [supportByTypeChart, setSupportByTypeChart] = useState<ChartData>();
+  const [supportByActivityStatusChart, setSupportByActivityStatusChart] = useState<ChartData>();
+  const [supportByETFSectorChart, setSupportByETFSectorChart] = useState<ChartData>();
+  const [supportByFinancialInstrumentChart, setSupportByFinancialInstrumentChart] =
+    useState<ChartData>();
+  const [supportByFinancingChannelChart, setSupportByFinancingChannelChart] = useState<ChartData>();
 
   // Chart Dimensions
 
@@ -250,6 +308,150 @@ const Dashboard = () => {
     }
   };
 
+  // New fetch functions for support-related charts
+
+  const getSupportByTypeChartData = async () => {
+    try {
+      const queryParam = typeOfSupportFilter ? `?typeOfSupport=${typeOfSupportFilter}` : '';
+      const response: any = await get(
+        `stats/analytics/supportByType${queryParam}`,
+        undefined,
+        statServerUrl
+      );
+      const chartData = response.data;
+      setSupportByTypeChart({
+        chartId: 7,
+        chartTitle: t('supportByTypeChartTitle'),
+        chartDescription: t('supportByTypeChartDescription'),
+        categories: chartData.stats.sectors.map((sector: string) =>
+          sector === null ? 'No Type Attached' : sector
+        ),
+        values: chartData.stats.counts.map((count: string) => parseInt(count, 10)),
+        lastUpdatedTime: chartData.lastUpdate,
+      });
+    } catch (error: any) {
+      displayErrorMessage(error);
+    }
+  };
+
+  const getSupportByActivityStatusChartData = async () => {
+    try {
+      const queryParam = typeOfSupportFilter ? `?typeOfSupport=${typeOfSupportFilter}` : '';
+      const response: any = await get(
+        `stats/analytics/supportByActivityStatus${queryParam}`,
+        undefined,
+        statServerUrl
+      );
+      const chartData = response.data;
+      setSupportByActivityStatusChart({
+        chartId: 8,
+        chartTitle: t('supportByActivityStatusChartTitle'),
+        chartDescription: t('supportByActivityStatusChartDescription'),
+        categories: chartData.stats.sectors.map((sector: string) => {
+          // Map English status to localized names
+          if (sector === 'Planned') return 'Planirano';
+          if (sector === 'Ongoing') return 'U toku';
+          if (sector === 'Completed') return 'Završeno';
+          return sector === null ? 'No Status Attached' : sector;
+        }),
+        values: chartData.stats.counts.map((count: string) => parseInt(count, 10)),
+        lastUpdatedTime: chartData.lastUpdate,
+      });
+    } catch (error: any) {
+      displayErrorMessage(error);
+    }
+  };
+
+  const getSupportByETFSectorChartData = async () => {
+    try {
+      const queryParam = typeOfSupportFilter ? `?typeOfSupport=${typeOfSupportFilter}` : '';
+      const response: any = await get(
+        `stats/analytics/supportByETFSector${queryParam}`,
+        undefined,
+        statServerUrl
+      );
+      const chartData = response.data;
+      setSupportByETFSectorChart({
+        chartId: 9,
+        chartTitle: t('supportByETFSectorChartTitle'),
+        chartDescription: t('supportByETFSectorChartDescription'),
+        categories: chartData.stats.sectors.map((sector: string) => {
+          // Map English sector names to localized names
+          if (sector === 'Energy') return 'Energija';
+          if (sector === 'Transport') return 'Transport';
+          if (sector === 'Industry (IPPU)') return 'Industrija';
+          if (sector === 'Agriculture') return 'Poljoprivreda';
+          return sector === null ? 'No Sector Attached' : sector;
+        }),
+        values: chartData.stats.counts.map((count: string) => parseInt(count, 10)),
+        lastUpdatedTime: chartData.lastUpdate,
+      });
+    } catch (error: any) {
+      displayErrorMessage(error);
+    }
+  };
+
+  const getSupportByFinancialInstrumentChartData = async () => {
+    try {
+      const queryParam = typeOfSupportFilter ? `?typeOfSupport=${typeOfSupportFilter}` : '';
+      const response: any = await get(
+        `stats/analytics/supportByFinancialInstrument${queryParam}`,
+        undefined,
+        statServerUrl
+      );
+      const chartData = response.data;
+      setSupportByFinancialInstrumentChart({
+        chartId: 10,
+        chartTitle: t('supportByFinancialInstrumentChartTitle'),
+        chartDescription: t('supportByFinancialInstrumentChartDescription'),
+        categories: chartData.stats.sectors.map((sector: string) => {
+          // Map instrument names (CBT uses kebab-case values)
+          if (sector === 'grant') return 'Grant';
+          if (sector === 'concessional-loan') return 'Koncesioni zajam';
+          if (sector === 'non-concessional-loan') return 'Nekoncesioni zajam';
+          if (sector === 'equity') return 'Equity';
+          if (sector === 'guarantee') return 'Garancija';
+          if (sector === 'insurance') return 'Osiguranje';
+          if (sector === 'other') return 'Ostalo';
+          return sector === null ? 'No Instrument Attached' : sector;
+        }),
+        values: chartData.stats.counts.map((count: string) => parseInt(count, 10)),
+        lastUpdatedTime: chartData.lastUpdate,
+      });
+    } catch (error: any) {
+      displayErrorMessage(error);
+    }
+  };
+
+  const getSupportByFinancingChannelChartData = async () => {
+    try {
+      const queryParam = typeOfSupportFilter ? `?typeOfSupport=${typeOfSupportFilter}` : '';
+      const response: any = await get(
+        `stats/analytics/supportByFinancingChannel${queryParam}`,
+        undefined,
+        statServerUrl
+      );
+      const chartData = response.data;
+      setSupportByFinancingChannelChart({
+        chartId: 11,
+        chartTitle: t('supportByFinancingChannelChartTitle'),
+        chartDescription: t('supportByFinancingChannelChartDescription'),
+        categories: chartData.stats.sectors.map((sector: string) => {
+          // Map channel names to localized names
+          if (sector === 'Multilateral') return 'Multilateralni';
+          if (sector === 'Bilateral') return 'Bilateralni';
+          if (sector === 'Regional') return 'Regionalni';
+          if (sector === 'Other') return 'Ostalo';
+          return sector === null ? 'No Channel Attached' : sector;
+        }),
+        values: chartData.stats.counts.map((count: string) => parseInt(count, 10)),
+        lastUpdatedTime: chartData.lastUpdate,
+      });
+    } catch (error: any) {
+      displayErrorMessage(error);
+    }
+  };
+
   // Action List Table Columns
 
   const columns = getActionTableColumns(t);
@@ -273,6 +475,16 @@ const Dashboard = () => {
     getAllData();
   }, [currentPage, pageSize]);
 
+  // Data Fetching for Support Charts when filter changes
+
+  useEffect(() => {
+    getSupportByTypeChartData();
+    getSupportByActivityStatusChartData();
+    getSupportByETFSectorChartData();
+    getSupportByFinancialInstrumentChartData();
+    getSupportByFinancingChannelChartData();
+  }, [typeOfSupportFilter]);
+
   // Init Job
 
   useEffect(() => {
@@ -281,6 +493,12 @@ const Dashboard = () => {
     getSupportChartData();
     getFinanceChartData();
     getRecentMitigationChartData();
+    // Also fetch the new support charts on init
+    getSupportByTypeChartData();
+    getSupportByActivityStatusChartData();
+    getSupportByETFSectorChartData();
+    getSupportByFinancialInstrumentChartData();
+    getSupportByFinancingChannelChartData();
   }, []);
 
   return (
@@ -291,7 +509,90 @@ const Dashboard = () => {
           setOpen={setOpenChartInfo}
           content={chartContent}
         ></ChartInformation>
+
         <Row gutter={30}>
+          {/* CBT Support Charts Container - Full Width with Filter and 5 Pies */}
+          <Col span={24} className="gutter-row" style={{ marginBottom: 30 }}>
+            <div className="chart-section-card">
+              {/* Filter Row */}
+              <div style={{ padding: '15px 20px', borderBottom: '1px solid #f0f0f0' }}>
+                <Row gutter={30} align="middle">
+                  <Col xs={24} sm={8} md={6} lg={4}>
+                    <span style={{ fontWeight: 500 }}>{t('typeOfSupportFilter')}:</span>
+                  </Col>
+                  <Col xs={24} sm={16} md={18} lg={20}>
+                    <Select
+                      style={{ width: '100%', maxWidth: 300 }}
+                      placeholder={t('selectTypeOfSupport')}
+                      allowClear
+                      onChange={(value) => setTypeOfSupportFilter(value)}
+                      value={typeOfSupportFilter}
+                    >
+                      <Option value="Adaptation">{t('adaptation')}</Option>
+                      <Option value="Mitigation">{t('mitigation')}</Option>
+                      <Option value="CrossCutting">{t('crossCutting')}</Option>
+                    </Select>
+                  </Col>
+                </Row>
+              </div>
+
+              <div style={{ padding: '20px' }}>
+                <Row gutter={[32, 32]} justify="center">
+                  {supportByTypeChart && (
+                    <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                      <CompactPieChart
+                        chart={supportByTypeChart}
+                        onInfoClick={setChartContent}
+                        setOpenChartInfo={setOpenChartInfo}
+                        t={t}
+                      />
+                    </Col>
+                  )}
+                  {supportByActivityStatusChart && (
+                    <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                      <CompactPieChart
+                        chart={supportByActivityStatusChart}
+                        onInfoClick={setChartContent}
+                        setOpenChartInfo={setOpenChartInfo}
+                        t={t}
+                      />
+                    </Col>
+                  )}
+                  {supportByETFSectorChart && (
+                    <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                      <CompactPieChart
+                        chart={supportByETFSectorChart}
+                        onInfoClick={setChartContent}
+                        setOpenChartInfo={setOpenChartInfo}
+                        t={t}
+                      />
+                    </Col>
+                  )}
+                  {supportByFinancialInstrumentChart && (
+                    <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                      <CompactPieChart
+                        chart={supportByFinancialInstrumentChart}
+                        onInfoClick={setChartContent}
+                        setOpenChartInfo={setOpenChartInfo}
+                        t={t}
+                      />
+                    </Col>
+                  )}
+                  {supportByFinancingChannelChart && (
+                    <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                      <CompactPieChart
+                        chart={supportByFinancingChannelChart}
+                        onInfoClick={setChartContent}
+                        setOpenChartInfo={setOpenChartInfo}
+                        t={t}
+                      />
+                    </Col>
+                  )}
+                </Row>
+              </div>
+            </div>
+          </Col>
+
           <Col key={'chart_1'} className="gutter-row" {...dashboardHalfColumnBps}>
             <div className="chart-section-card">
               {actionChart && (

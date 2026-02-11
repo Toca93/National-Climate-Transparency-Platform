@@ -12,9 +12,17 @@ interface Props {
   chart: ChartData;
   t: any;
   chartWidth: number;
+  showDate?: boolean;
+  isCompact?: boolean;
 }
 
-const PieChart: React.FC<Props> = ({ chart, t, chartWidth }) => {
+const PieChart: React.FC<Props> = ({
+  chart,
+  t,
+  chartWidth,
+  showDate = true,
+  isCompact = false,
+}) => {
   // Screen Dimension Context
 
   // Pie Chart General State
@@ -32,11 +40,39 @@ const PieChart: React.FC<Props> = ({ chart, t, chartWidth }) => {
   // Setting the Color Mapping
 
   useEffect(() => {
-    const tempChartColorMapping: string[] = [1, 2, 5, 6].includes(chart.chartId)
-      ? chartColorMappings.sectors
-      : chart.chartId === 3
-      ? chartColorMappings.support
-      : chartColorMappings.finance;
+    let tempChartColorMapping: string[];
+
+    switch (chart.chartId) {
+      case 1:
+      case 2:
+      case 5:
+      case 6:
+        tempChartColorMapping = chartColorMappings.sectors;
+        break;
+      case 3:
+        tempChartColorMapping = chartColorMappings.support;
+        break;
+      case 4:
+        tempChartColorMapping = chartColorMappings.finance;
+        break;
+      case 7:
+        tempChartColorMapping = chartColorMappings.typeOfSupport;
+        break;
+      case 8:
+        tempChartColorMapping = chartColorMappings.activityStatus;
+        break;
+      case 9:
+        tempChartColorMapping = chartColorMappings.etfSector;
+        break;
+      case 10:
+        tempChartColorMapping = chartColorMappings.finInstrument;
+        break;
+      case 11:
+        tempChartColorMapping = chartColorMappings.financingChannel;
+        break;
+      default:
+        tempChartColorMapping = chartColorMappings.sectors;
+    }
 
     setChartColorMapping(tempChartColorMapping);
   }, [chart.chartId]);
@@ -59,6 +95,7 @@ const PieChart: React.FC<Props> = ({ chart, t, chartWidth }) => {
               plotOptions: {
                 pie: {
                   donut: {
+                    size: isCompact ? '75%' : '65%',
                     labels: {
                       show: true,
                       name: {
@@ -75,6 +112,7 @@ const PieChart: React.FC<Props> = ({ chart, t, chartWidth }) => {
                         label: 'Total',
                         color: '#373d3f',
                         fontWeight: 500,
+                        fontSize: isCompact ? '13px' : '14px',
                         formatter: function (w) {
                           return DashboardTotalFormatter(
                             w.globals.seriesTotals.reduce((a: number, b: number) => {
@@ -89,18 +127,25 @@ const PieChart: React.FC<Props> = ({ chart, t, chartWidth }) => {
                 },
               },
               legend: {
-                width: 200,
-                fontSize: '12px',
+                width: isCompact ? 120 : 200,
+                fontSize: isCompact ? '11px' : '12px',
                 position: 'right',
                 floating: false,
+                offsetY: isCompact ? 10 : 0,
+                itemMargin: {
+                  horizontal: 8,
+                  vertical: isCompact ? 4 : 0,
+                },
               },
             }}
             series={chart.values}
             width={chartWidth}
           />
-          <div className="chart-update-time">
-            <Tag className="time-chip">{CustomFormatDate(chart.lastUpdatedTime)}</Tag>
-          </div>
+          {showDate && (
+            <div className="chart-update-time">
+              <Tag className="time-chip">{CustomFormatDate(chart.lastUpdatedTime)}</Tag>
+            </div>
+          )}
         </>
       ) : (
         <Empty
