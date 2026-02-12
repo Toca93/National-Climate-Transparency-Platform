@@ -65,11 +65,17 @@ const CompactChartLoadingPlaceholder: React.FC<CompactChartLoadingPlaceholderPro
   </div>
 );
 
-const CompactPieChart: React.FC<CompactPieChartProps> = ({
+// Extended interface with loading prop
+interface CompactPieChartExtendedProps extends CompactPieChartProps {
+  loading?: boolean;
+}
+
+const CompactPieChart: React.FC<CompactPieChartExtendedProps> = ({
   chart,
   onInfoClick,
   setOpenChartInfo,
   t,
+  loading = false,
 }) => (
   <div style={{ width: '100%' }}>
     <div
@@ -99,7 +105,14 @@ const CompactPieChart: React.FC<CompactPieChartProps> = ({
       />
     </div>
     <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <PieChart chart={chart} t={t} chartWidth={330} showDate={false} isCompact={true} />
+      <PieChart
+        chart={chart}
+        t={t}
+        chartWidth={330}
+        showDate={false}
+        isCompact={true}
+        loading={loading}
+      />
     </div>
   </div>
 );
@@ -139,6 +152,7 @@ const Dashboard = () => {
 
   // Type of Support Filter State for New Charts
   const [typeOfSupportFilter, setTypeOfSupportFilter] = useState<string | undefined>(undefined);
+  const [supportChartsLoading, setSupportChartsLoading] = useState<boolean>(false);
 
   // New Chart Data (Support-related charts with filter)
   const [supportByTypeChart, setSupportByTypeChart] = useState<ChartData>();
@@ -349,152 +363,9 @@ const Dashboard = () => {
     }
   };
 
-  // New fetch functions for support-related charts
-
-  const getSupportByTypeChartData = async () => {
-    try {
-      const queryParam = typeOfSupportFilter ? `?typeOfSupport=${typeOfSupportFilter}` : '';
-      const response: any = await get(
-        `stats/analytics/supportByType${queryParam}`,
-        undefined,
-        statServerUrl
-      );
-      const chartData = response.data;
-      setSupportByTypeChart({
-        chartId: 7,
-        chartTitle: t('supportByTypeChartTitle'),
-        chartDescription: t('supportByTypeChartDescription'),
-        categories: chartData.stats.sectors.map((sector: string) =>
-          sector === null ? 'No Type Attached' : sector
-        ),
-        values: chartData.stats.counts.map((count: string) => parseInt(count, 10)),
-        lastUpdatedTime: chartData.lastUpdate,
-      });
-    } catch (error: any) {
-      displayErrorMessage(error);
-    }
-  };
-
-  const getSupportByActivityStatusChartData = async () => {
-    try {
-      const queryParam = typeOfSupportFilter ? `?typeOfSupport=${typeOfSupportFilter}` : '';
-      const response: any = await get(
-        `stats/analytics/supportByActivityStatus${queryParam}`,
-        undefined,
-        statServerUrl
-      );
-      const chartData = response.data;
-      setSupportByActivityStatusChart({
-        chartId: 8,
-        chartTitle: t('supportByActivityStatusChartTitle'),
-        chartDescription: t('supportByActivityStatusChartDescription'),
-        categories: chartData.stats.sectors.map((sector: string) => {
-          // Map English status to localized names
-          if (sector === 'Planned') return 'Planirano';
-          if (sector === 'Ongoing') return 'U toku';
-          if (sector === 'Completed') return 'Završeno';
-          return sector === null ? 'No Status Attached' : sector;
-        }),
-        values: chartData.stats.counts.map((count: string) => parseInt(count, 10)),
-        lastUpdatedTime: chartData.lastUpdate,
-      });
-    } catch (error: any) {
-      displayErrorMessage(error);
-    }
-  };
-
-  const getSupportByETFSectorChartData = async () => {
-    try {
-      const queryParam = typeOfSupportFilter ? `?typeOfSupport=${typeOfSupportFilter}` : '';
-      const response: any = await get(
-        `stats/analytics/supportByETFSector${queryParam}`,
-        undefined,
-        statServerUrl
-      );
-      const chartData = response.data;
-      setSupportByETFSectorChart({
-        chartId: 9,
-        chartTitle: t('supportByETFSectorChartTitle'),
-        chartDescription: t('supportByETFSectorChartDescription'),
-        categories: chartData.stats.sectors.map((sector: string) => {
-          // Map English sector names to localized names
-          if (sector === 'Energy') return 'Energija';
-          if (sector === 'Transport') return 'Transport';
-          if (sector === 'Industry (IPPU)') return 'Industrija';
-          if (sector === 'Agriculture') return 'Poljoprivreda';
-          return sector === null ? 'No Sector Attached' : sector;
-        }),
-        values: chartData.stats.counts.map((count: string) => parseInt(count, 10)),
-        lastUpdatedTime: chartData.lastUpdate,
-      });
-    } catch (error: any) {
-      displayErrorMessage(error);
-    }
-  };
-
-  const getSupportByFinancialInstrumentChartData = async () => {
-    try {
-      const queryParam = typeOfSupportFilter ? `?typeOfSupport=${typeOfSupportFilter}` : '';
-      const response: any = await get(
-        `stats/analytics/supportByFinancialInstrument${queryParam}`,
-        undefined,
-        statServerUrl
-      );
-      const chartData = response.data;
-      setSupportByFinancialInstrumentChart({
-        chartId: 10,
-        chartTitle: t('supportByFinancialInstrumentChartTitle'),
-        chartDescription: t('supportByFinancialInstrumentChartDescription'),
-        categories: chartData.stats.sectors.map((sector: string) => {
-          // Map instrument names (CBT uses kebab-case values)
-          if (sector === 'grant') return 'Grant';
-          if (sector === 'concessional-loan') return 'Koncesioni zajam';
-          if (sector === 'non-concessional-loan') return 'Nekoncesioni zajam';
-          if (sector === 'equity') return 'Equity';
-          if (sector === 'guarantee') return 'Garancija';
-          if (sector === 'insurance') return 'Osiguranje';
-          if (sector === 'other') return 'Ostalo';
-          return sector === null ? 'No Instrument Attached' : sector;
-        }),
-        values: chartData.stats.counts.map((count: string) => parseInt(count, 10)),
-        lastUpdatedTime: chartData.lastUpdate,
-      });
-    } catch (error: any) {
-      displayErrorMessage(error);
-    }
-  };
-
-  const getSupportByFinancingChannelChartData = async () => {
-    try {
-      const queryParam = typeOfSupportFilter ? `?typeOfSupport=${typeOfSupportFilter}` : '';
-      const response: any = await get(
-        `stats/analytics/supportByFinancingChannel${queryParam}`,
-        undefined,
-        statServerUrl
-      );
-      const chartData = response.data;
-      setSupportByFinancingChannelChart({
-        chartId: 11,
-        chartTitle: t('supportByFinancingChannelChartTitle'),
-        chartDescription: t('supportByFinancingChannelChartDescription'),
-        categories: chartData.stats.sectors.map((sector: string) => {
-          // Map channel names to localized names
-          if (sector === 'Multilateral') return 'Multilateralni';
-          if (sector === 'Bilateral') return 'Bilateralni';
-          if (sector === 'Regional') return 'Regionalni';
-          if (sector === 'Other') return 'Ostalo';
-          return sector === null ? 'No Channel Attached' : sector;
-        }),
-        values: chartData.stats.counts.map((count: string) => parseInt(count, 10)),
-        lastUpdatedTime: chartData.lastUpdate,
-      });
-    } catch (error: any) {
-      displayErrorMessage(error);
-    }
-  };
-
   // Batch fetch function - gets all 5 charts in one request
   const getAllSupportChartsData = async () => {
+    setSupportChartsLoading(true);
     try {
       const queryParam = typeOfSupportFilter ? `?typeOfSupport=${typeOfSupportFilter}` : '';
       const response: any = await get(
@@ -586,8 +457,12 @@ const Dashboard = () => {
         values: supportByFinancingChannel.stats.counts.map((count: string) => parseInt(count, 10)),
         lastUpdatedTime: supportByFinancingChannel.lastUpdate,
       });
+
+      // Only turn off loading after all data is set
+      setSupportChartsLoading(false);
     } catch (error: any) {
       displayErrorMessage(error);
+      setSupportChartsLoading(false);
     }
   };
 
@@ -617,14 +492,8 @@ const Dashboard = () => {
   // Data Fetching for Support Charts when filter changes
 
   useEffect(() => {
-    // Reset chart data to show loading state
-    setSupportByTypeChart(undefined);
-    setSupportByActivityStatusChart(undefined);
-    setSupportByETFSectorChart(undefined);
-    setSupportByFinancialInstrumentChart(undefined);
-    setSupportByFinancingChannelChart(undefined);
-
     // Fetch all charts in one batch request
+    // Loading state is handled inside getAllSupportChartsData
     getAllSupportChartsData();
   }, [typeOfSupportFilter]);
 
@@ -686,6 +555,7 @@ const Dashboard = () => {
                         onInfoClick={setChartContent}
                         setOpenChartInfo={setOpenChartInfo}
                         t={t}
+                        loading={supportChartsLoading}
                       />
                     )}
                   </Col>
@@ -701,6 +571,7 @@ const Dashboard = () => {
                         onInfoClick={setChartContent}
                         setOpenChartInfo={setOpenChartInfo}
                         t={t}
+                        loading={supportChartsLoading}
                       />
                     )}
                   </Col>
@@ -716,6 +587,7 @@ const Dashboard = () => {
                         onInfoClick={setChartContent}
                         setOpenChartInfo={setOpenChartInfo}
                         t={t}
+                        loading={supportChartsLoading}
                       />
                     )}
                   </Col>
@@ -731,6 +603,7 @@ const Dashboard = () => {
                         onInfoClick={setChartContent}
                         setOpenChartInfo={setOpenChartInfo}
                         t={t}
+                        loading={supportChartsLoading}
                       />
                     )}
                   </Col>
@@ -746,6 +619,7 @@ const Dashboard = () => {
                         onInfoClick={setChartContent}
                         setOpenChartInfo={setOpenChartInfo}
                         t={t}
+                        loading={supportChartsLoading}
                       />
                     )}
                   </Col>

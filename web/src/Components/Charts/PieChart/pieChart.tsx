@@ -1,4 +1,4 @@
-import { Empty, Tag } from 'antd';
+import { Empty, Spin, Tag } from 'antd';
 import Chart from 'react-apexcharts';
 import {
   CustomFormatDate,
@@ -6,7 +6,7 @@ import {
   getArraySum,
 } from '../../../Utils/utilServices';
 import { ChartData, chartColorMappings } from '../../../Definitions/dashboard.definitions';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 interface Props {
   chart: ChartData;
@@ -14,6 +14,7 @@ interface Props {
   chartWidth: number;
   showDate?: boolean;
   isCompact?: boolean;
+  loading?: boolean;
 }
 
 const PieChart: React.FC<Props> = ({
@@ -22,20 +23,15 @@ const PieChart: React.FC<Props> = ({
   chartWidth,
   showDate = true,
   isCompact = false,
+  loading = false,
 }) => {
   // Screen Dimension Context
 
   // Pie Chart General State
-
-  const [total, setTotal] = useState<number>(0);
   const [chartColorMapping, setChartColorMapping] = useState<string[]>([]);
 
-  // Setting the Total value
-
-  useEffect(() => {
-    const arraySum = getArraySum(chart.values);
-    setTotal(arraySum);
-  }, [chart.values]);
+  // Calculate total synchronously to avoid flashing empty state
+  const total = useMemo(() => getArraySum(chart.values), [chart.values]);
 
   // Setting the Color Mapping
 
@@ -147,6 +143,17 @@ const PieChart: React.FC<Props> = ({
             </div>
           )}
         </>
+      ) : loading ? (
+        <div
+          style={{
+            height: isCompact ? 188 : 200,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Spin size="small" />
+        </div>
       ) : isCompact ? (
         <div
           style={{ height: 188, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
