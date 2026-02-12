@@ -8,8 +8,6 @@ import { plainToClass } from "class-transformer";
 import { CounterType } from "../enums/counter.type.enum";
 import { CounterService } from "../util/counter.service";
 import { HelperService } from "../util/helpers.service";
-import { FileUploadService } from "../util/fileUpload.service";
-import { DocumentEntityDto } from "../dtos/document.entity.dto";
 import { QueryDto } from "../dtos/query.dto";
 import { DataListResponseDto } from "../dtos/data.list.response";
 import { DataResponseMessageDto } from "../dtos/data.response.message";
@@ -22,7 +20,6 @@ export class CBTService {
     @InjectRepository(CBTEntity) private cbtRepo: Repository<CBTEntity>,
     private counterService: CounterService,
     private helperService: HelperService,
-    private fileUploadService: FileUploadService,
   ) {}
 
   // Create CBT Record
@@ -31,24 +28,6 @@ export class CBTService {
 
     cbt.id =
       "CBT" + (await this.counterService.incrementCount(CounterType.CBT, 5));
-
-    // Upload documents
-    if (cbtDto.documents && cbtDto.documents.length > 0) {
-      const documents = [];
-      for (const documentItem of cbtDto.documents) {
-        const response = await this.fileUploadService.uploadDocument(
-          documentItem.data,
-          documentItem.title,
-          "cbt" as any,
-        );
-        const docEntity = new DocumentEntityDto();
-        docEntity.title = documentItem.title;
-        docEntity.url = response;
-        docEntity.createdTime = new Date().getTime();
-        documents.push(docEntity);
-      }
-      cbt.documents = documents;
-    }
 
     const savedCBT = await this.entityManager
       .transaction(async (em) => {
@@ -138,45 +117,6 @@ export class CBTService {
 
     // Preserve fields that shouldn't change
     cbtUpdate.createdTime = currentCBT.createdTime;
-
-    // Handle new documents upload
-    if (cbtUpdateDto.newDocuments && cbtUpdateDto.newDocuments.length > 0) {
-      const newDocuments = [];
-      for (const documentItem of cbtUpdateDto.newDocuments) {
-        const response = await this.fileUploadService.uploadDocument(
-          documentItem.data,
-          documentItem.title,
-          "cbt" as any,
-        );
-        const docEntity = new DocumentEntityDto();
-        docEntity.title = documentItem.title;
-        docEntity.url = response;
-        docEntity.createdTime = new Date().getTime();
-        newDocuments.push(docEntity);
-      }
-
-      // Merge with existing documents
-      const existingDocs = currentCBT.documents || [];
-      cbtUpdate.documents = [...existingDocs, ...newDocuments];
-    } else {
-      // Preserve existing documents if no new ones are added
-      cbtUpdate.documents = currentCBT.documents;
-    }
-
-    // Handle removed documents
-    if (
-      cbtUpdateDto.removedDocuments &&
-      cbtUpdateDto.removedDocuments.length > 0
-    ) {
-      const currentDocs = cbtUpdate.documents || [];
-      cbtUpdate.documents = currentDocs.filter(
-        (item: any) =>
-          !cbtUpdateDto.removedDocuments.some((url) => url === item.url),
-      );
-      if (cbtUpdate.documents.length === 0) {
-        cbtUpdate.documents = null;
-      }
-    }
 
     const updatedCBT = await this.entityManager
       .transaction(async (em) => {
