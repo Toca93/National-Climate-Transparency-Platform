@@ -1,4 +1,4 @@
-import { Col, Grid, Row, Select, Tag } from 'antd';
+import { Col, Grid, Row, Select, Spin, Tag } from 'antd';
 import './dashboard.scss';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import ChartInformation from '../../Components/Popups/chartInformation';
@@ -23,6 +23,47 @@ interface CompactPieChartProps {
   setOpenChartInfo: (open: boolean) => void;
   t: any;
 }
+
+// Compact Chart Loading Placeholder Component
+interface CompactChartLoadingPlaceholderProps {
+  t: any;
+  title: string;
+}
+
+const CompactChartLoadingPlaceholder: React.FC<CompactChartLoadingPlaceholderProps> = ({
+  t,
+  title,
+}) => (
+  <div style={{ width: '100%' }}>
+    <div
+      style={{
+        fontSize: '13px',
+        fontWeight: 500,
+        marginBottom: '15px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        gap: '6px',
+        whiteSpace: 'nowrap',
+        width: '100%',
+        paddingLeft: '40px',
+      }}
+    >
+      <span>{title}</span>
+    </div>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 188,
+        width: 330,
+      }}
+    >
+      <Spin size="small" />
+    </div>
+  </div>
+);
 
 const CompactPieChart: React.FC<CompactPieChartProps> = ({
   chart,
@@ -98,6 +139,7 @@ const Dashboard = () => {
 
   // Type of Support Filter State for New Charts
   const [typeOfSupportFilter, setTypeOfSupportFilter] = useState<string | undefined>(undefined);
+  const [supportChartsLoading, setSupportChartsLoading] = useState<boolean>(true);
 
   // New Chart Data (Support-related charts with filter)
   const [supportByTypeChart, setSupportByTypeChart] = useState<ChartData>();
@@ -452,6 +494,22 @@ const Dashboard = () => {
     }
   };
 
+  // Combined function to fetch all support charts with loading state
+  const fetchAllSupportCharts = async () => {
+    setSupportChartsLoading(true);
+    try {
+      await Promise.all([
+        getSupportByTypeChartData(),
+        getSupportByActivityStatusChartData(),
+        getSupportByETFSectorChartData(),
+        getSupportByFinancialInstrumentChartData(),
+        getSupportByFinancingChannelChartData(),
+      ]);
+    } finally {
+      setSupportChartsLoading(false);
+    }
+  };
+
   // Action List Table Columns
 
   const columns = getActionTableColumns(t);
@@ -478,11 +536,7 @@ const Dashboard = () => {
   // Data Fetching for Support Charts when filter changes
 
   useEffect(() => {
-    getSupportByTypeChartData();
-    getSupportByActivityStatusChartData();
-    getSupportByETFSectorChartData();
-    getSupportByFinancialInstrumentChartData();
-    getSupportByFinancingChannelChartData();
+    fetchAllSupportCharts();
   }, [typeOfSupportFilter]);
 
   // Init Job
@@ -494,11 +548,7 @@ const Dashboard = () => {
     getFinanceChartData();
     getRecentMitigationChartData();
     // Also fetch the new support charts on init
-    getSupportByTypeChartData();
-    getSupportByActivityStatusChartData();
-    getSupportByETFSectorChartData();
-    getSupportByFinancialInstrumentChartData();
-    getSupportByFinancingChannelChartData();
+    fetchAllSupportCharts();
   }, []);
 
   return (
@@ -538,56 +588,78 @@ const Dashboard = () => {
 
               <div style={{ padding: '20px' }}>
                 <Row gutter={[32, 32]} justify="center">
-                  {supportByTypeChart && (
-                    <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                    {supportChartsLoading || !supportByTypeChart ? (
+                      <CompactChartLoadingPlaceholder t={t} title={t('supportByTypeChartTitle')} />
+                    ) : (
                       <CompactPieChart
                         chart={supportByTypeChart}
                         onInfoClick={setChartContent}
                         setOpenChartInfo={setOpenChartInfo}
                         t={t}
                       />
-                    </Col>
-                  )}
-                  {supportByActivityStatusChart && (
-                    <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                    )}
+                  </Col>
+                  <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                    {supportChartsLoading || !supportByActivityStatusChart ? (
+                      <CompactChartLoadingPlaceholder
+                        t={t}
+                        title={t('supportByActivityStatusChartTitle')}
+                      />
+                    ) : (
                       <CompactPieChart
                         chart={supportByActivityStatusChart}
                         onInfoClick={setChartContent}
                         setOpenChartInfo={setOpenChartInfo}
                         t={t}
                       />
-                    </Col>
-                  )}
-                  {supportByETFSectorChart && (
-                    <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                    )}
+                  </Col>
+                  <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                    {supportChartsLoading || !supportByETFSectorChart ? (
+                      <CompactChartLoadingPlaceholder
+                        t={t}
+                        title={t('supportByETFSectorChartTitle')}
+                      />
+                    ) : (
                       <CompactPieChart
                         chart={supportByETFSectorChart}
                         onInfoClick={setChartContent}
                         setOpenChartInfo={setOpenChartInfo}
                         t={t}
                       />
-                    </Col>
-                  )}
-                  {supportByFinancialInstrumentChart && (
-                    <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                    )}
+                  </Col>
+                  <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                    {supportChartsLoading || !supportByFinancialInstrumentChart ? (
+                      <CompactChartLoadingPlaceholder
+                        t={t}
+                        title={t('supportByFinancialInstrumentChartTitle')}
+                      />
+                    ) : (
                       <CompactPieChart
                         chart={supportByFinancialInstrumentChart}
                         onInfoClick={setChartContent}
                         setOpenChartInfo={setOpenChartInfo}
                         t={t}
                       />
-                    </Col>
-                  )}
-                  {supportByFinancingChannelChart && (
-                    <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                    )}
+                  </Col>
+                  <Col xs={24} lg={8} style={{ display: 'flex', justifyContent: 'center' }}>
+                    {supportChartsLoading || !supportByFinancingChannelChart ? (
+                      <CompactChartLoadingPlaceholder
+                        t={t}
+                        title={t('supportByFinancingChannelChartTitle')}
+                      />
+                    ) : (
                       <CompactPieChart
                         chart={supportByFinancingChannelChart}
                         onInfoClick={setChartContent}
                         setOpenChartInfo={setOpenChartInfo}
                         t={t}
                       />
-                    </Col>
-                  )}
+                    )}
+                  </Col>
                 </Row>
               </div>
             </div>

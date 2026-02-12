@@ -147,6 +147,16 @@ const PieChart: React.FC<Props> = ({
             </div>
           )}
         </>
+      ) : isCompact ? (
+        <div
+          style={{ height: 188, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Empty
+            className="empty-chart-compact"
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={t('noChartDataAvailable')}
+          />
+        </div>
       ) : (
         <Empty
           className={
