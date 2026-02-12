@@ -443,4 +443,44 @@ export class AnalyticsService {
 		}
 	}
 
+	// Batch method to fetch all 5 support charts in parallel
+	async getAllSupportCharts(typeOfSupport?: CBTTypeOfSupport): Promise<{
+		supportByType: DataCountResponseDto;
+		supportByActivityStatus: DataCountResponseDto;
+		supportByETFSector: DataCountResponseDto;
+		supportByFinancialInstrument: DataCountResponseDto;
+		supportByFinancingChannel: DataCountResponseDto;
+	}> {
+		try {
+			// Execute all 5 queries in parallel
+			const [
+				supportByType,
+				supportByActivityStatus,
+				supportByETFSector,
+				supportByFinancialInstrument,
+				supportByFinancingChannel,
+			] = await Promise.all([
+				this.getSupportByTypeChart(typeOfSupport),
+				this.getSupportByActivityStatusChart(typeOfSupport),
+				this.getSupportByETFSectorChart(typeOfSupport),
+				this.getSupportByFinancialInstrumentChart(typeOfSupport),
+				this.getSupportByFinancingChannelChart(typeOfSupport),
+			]);
+
+			return {
+				supportByType,
+				supportByActivityStatus,
+				supportByETFSector,
+				supportByFinancialInstrument,
+				supportByFinancingChannel,
+			};
+		} catch (err) {
+			console.log('getAllSupportCharts error:', err);
+			throw new HttpException(
+				this.helperService.formatReqMessagesString("common.unableToGetStats", []),
+				HttpStatus.INTERNAL_SERVER_ERROR
+			);
+		}
+	}
+
 }

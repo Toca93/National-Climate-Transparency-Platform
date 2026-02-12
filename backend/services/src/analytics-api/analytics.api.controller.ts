@@ -85,4 +85,11 @@ export class AnalyticsController {
   getSupportByFinancingChannelChart(@Query('typeOfSupport') typeOfSupport?: CBTTypeOfSupport) {
     return this.analyticsService.getSupportByFinancingChannelChart(typeOfSupport);
   }
+
+	// Batch endpoint for all 5 support charts - returns all data in one request
+	@UseGuards(JwtAuthGuard)
+  @Get('/supportChartsBatch')
+  getAllSupportCharts(@Query('typeOfSupport') typeOfSupport?: CBTTypeOfSupport) {
+    return this.analyticsService.getAllSupportCharts(typeOfSupport);
+  }
 }
