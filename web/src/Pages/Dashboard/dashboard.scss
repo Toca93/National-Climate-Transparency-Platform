@@ -69,4 +69,23 @@
         color: #615d67;
         border-radius: 5px;
     }
+
+    .filter-select {
+        .ant-select-selector {
+            background-color: transparent !important;
+            padding: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .ant-select-selection-item {
+            font-weight: 500 !important;
+            color: #615d67 !important;
+            padding-inline-end: 16px !important;
+        }
+
+        .ant-select-arrow {
+            color: #615d67 !important;
+        }
+    }
 }
