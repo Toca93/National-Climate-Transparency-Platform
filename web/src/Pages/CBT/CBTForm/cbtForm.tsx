@@ -1,12 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { Row, Col, Input, Button, Form, Select, Spin, Upload, message } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Row, Col, Input, Button, Form, Select, Spin, message } from 'antd';
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { UploadFile, UploadProps } from 'antd/lib/upload/interface';
 import { useConnection } from '../../../Context/ConnectionContext/connectionContext';
 import { FormLoadProps } from '../../../Definitions/InterfacesAndType/formInterface';
 import { getValidationRules } from '../../../Utils/validationRules';
+import UploadFileGrid from '../../../Components/Upload/uploadFiles';
 import '../../../Styles/app.scss';
 
 const { Option } = Select;
@@ -133,7 +132,7 @@ const generateYears = () => {
 
 const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
   const [form] = Form.useForm();
-  useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
+  const { t } = useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
   const formTitle = 'Basic Information';
@@ -147,44 +146,15 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 
-  // H7: State for document upload
-  const [contractFileList, setContractFileList] = useState<UploadFile[]>([]);
+  // Document upload state (matching working pattern from ActionForm)
+  const [uploadedFiles, setUploadedFiles] = useState<
+    { key: string; title: string; data: string }[]
+  >([]);
+  const [storedFiles, setStoredFiles] = useState<{ key: string; title: string; url: string }[]>([]);
+  const [filesToRemove, setFilesToRemove] = useState<string[]>([]);
 
   // State for showing "Other (specify)" field when Other sector is selected
   const [showOtherSectorField, setShowOtherSectorField] = useState<boolean>(false);
-
-  // Upload props for documents
-  const getUploadProps = (
-    fileList: UploadFile[],
-    setFileList: React.Dispatch<React.SetStateAction<UploadFile[]>>
-  ): UploadProps => ({
-    beforeUpload: (file) => {
-      const isPdfOrDoc =
-        file.type === 'application/pdf' ||
-        file.type === 'application/msword' ||
-        file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-      if (!isPdfOrDoc) {
-        message.error('You can only upload PDF or Word documents!');
-        return Upload.LIST_IGNORE;
-      }
-      const isLt10M = file.size / 1024 / 1024 < 10;
-      if (!isLt10M) {
-        message.error('Document must be smaller than 10MB!');
-        return Upload.LIST_IGNORE;
-      }
-      return false;
-    },
-    fileList,
-    onChange: ({ fileList: newFileList }) => {
-      setFileList(newFileList);
-      setIsSaveButtonDisabled(false);
-    },
-    onRemove: () => {
-      setIsSaveButtonDisabled(false);
-    },
-    maxCount: 5,
-    multiple: true,
-  });
 
   const fetchCBTData = useCallback(async () => {
     setLoading(true);
@@ -202,6 +172,19 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
         // Show other sector field if sector is Other
         if (response.data.sector === 'Other') {
           setShowOtherSectorField(true);
+        }
+
+        // Load stored documents
+        if (response.data.documents && response.data.documents.length > 0) {
+          const tempFiles: { key: string; title: string; url: string }[] = [];
+          response.data.documents.forEach((document: any) => {
+            tempFiles.push({
+              key: document.createdTime?.toString() || document.url,
+              title: document.title,
+              url: document.url,
+            });
+          });
+          setStoredFiles(tempFiles);
         }
       }
     } catch (error: any) {
@@ -223,11 +206,36 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
     setLoading(true);
     try {
       // Prepare payload - convert years to number
-      const payload = {
+      const payload: any = {
         ...values,
         startYear: parseInt(values.startYear, 10),
         endYear: parseInt(values.endYear, 10),
       };
+
+      // Handle document uploads
+      if (uploadedFiles.length > 0) {
+        if (method === 'create') {
+          payload.documents = [];
+          uploadedFiles.forEach((file) => {
+            payload.documents.push({ title: file.title, data: file.data });
+          });
+        } else if (method === 'update') {
+          payload.newDocuments = [];
+          uploadedFiles.forEach((file) => {
+            payload.newDocuments.push({ title: file.title, data: file.data });
+          });
+        }
+      }
+
+      // Handle removed documents
+      if (filesToRemove.length > 0) {
+        payload.removedDocuments = [];
+        filesToRemove.forEach((removedFileKey) => {
+          payload.removedDocuments.push(
+            storedFiles.find((file) => file.key === removedFileKey)?.url
+          );
+        });
+      }
 
       if (method === 'create') {
         const response = await post('national/cbt/add', payload);
@@ -618,23 +626,25 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               <div className="form-section-header">Documentation & Verification</div>
 
               <Row gutter={gutterSize}>
-                {/* Documents */}
-                <Col span={12}>
-                  <Form.Item
-                    label="Documents"
-                    name="documents"
-                    tooltip="Upload relevant documents related to the project"
-                  >
-                    <Upload {...getUploadProps(contractFileList, setContractFileList)}>
-                      <Button icon={<UploadOutlined />} disabled={isView}>
-                        Upload Document
-                      </Button>
-                    </Upload>
-                  </Form.Item>
+                <Col span={24}>
+                  <div className="form-item-label" style={{ marginBottom: 8 }}>
+                    Documents
+                  </div>
+                  <UploadFileGrid
+                    isSingleColumn={false}
+                    usedIn={method}
+                    buttonText={t('entityAction:upload')}
+                    storedFiles={storedFiles}
+                    uploadedFiles={uploadedFiles}
+                    setUploadedFiles={setUploadedFiles}
+                    removedFiles={filesToRemove}
+                    setRemovedFiles={setFilesToRemove}
+                    setIsSaveButtonDisabled={setIsSaveButtonDisabled}
+                  />
                 </Col>
               </Row>
 
-              <Row gutter={gutterSize}>
+              <Row gutter={gutterSize} style={{ marginTop: 20 }}>
                 {/* Verification Status */}
                 <Col span={12}>
                   <Form.Item

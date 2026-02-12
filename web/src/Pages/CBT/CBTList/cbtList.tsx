@@ -1,8 +1,21 @@
-﻿import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import '../../../Styles/app.scss';
 import LayoutTable from '../../../Components/common/Table/layout.table';
-import { Button, Col, Row, Input, Dropdown, Popover, List, Typography, MenuProps, Tag } from 'antd';
 import {
+  Button,
+  Col,
+  Row,
+  Input,
+  Dropdown,
+  Popover,
+  List,
+  Typography,
+  MenuProps,
+  Tag,
+  Tooltip,
+} from 'antd';
+import {
+  DownloadOutlined,
   EditOutlined,
   EllipsisOutlined,
   FilterOutlined,
@@ -30,6 +43,7 @@ interface Item {
   nationalImplementingEntities: string[];
   internationalImplementingEntities: string[];
   status: string;
+  documents: any[];
 }
 
 const CBTList = () => {
@@ -71,6 +85,15 @@ const CBTList = () => {
     />
   );
 
+  const handleDownloadClick = (file: { title: string; url: string }) => {
+    const link = document.createElement('a');
+    link.href = file.url;
+    link.download = file.title;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
@@ -111,6 +134,7 @@ const CBTList = () => {
         nationalImplementingEntities: item.nationalImplementingEntities || [],
         internationalImplementingEntities: item.internationalImplementingEntities || [],
         status: item.status,
+        documents: item.documents || [],
       }));
 
       setTableData(formattedData);
@@ -151,6 +175,37 @@ const CBTList = () => {
           {id}
         </span>
       ),
+    },
+    {
+      title: 'Documents',
+      width: 100,
+      key: 'documents',
+      align: 'center' as const,
+      sorter: false,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      render: (_: any, record: Item) => {
+        const docs = record.documents || [];
+        if (docs.length === 0) {
+          return <span style={{ color: '#d9d9d9' }}>-</span>;
+        }
+        return (
+          <div style={{ display: 'flex', gap: 4, justifyContent: 'center', flexWrap: 'wrap' }}>
+            {docs.map((doc: any, idx: number) => (
+              <Tooltip key={idx} title={doc.title}>
+                <DownloadOutlined
+                  style={{
+                    color: '#8A1538',
+                    fontSize: '16px',
+                    cursor: 'pointer',
+                    padding: '4px',
+                  }}
+                  onClick={() => handleDownloadClick(doc)}
+                />
+              </Tooltip>
+            ))}
+          </div>
+        );
+      },
     },
     {
       title: 'Start Year',

@@ -11,7 +11,12 @@ import {
 } from "class-validator";
 import { Sector } from "../enums/sector.enum";
 import { SubSector } from "../enums/shared.enum";
-import { CBTStatus, CBTVerificationStatus, CBTTypeOfSupport, CBTYesNo } from "../entities/cbt.entity";
+import {
+  CBTStatus,
+  CBTVerificationStatus,
+  CBTTypeOfSupport,
+  CBTYesNo,
+} from "../entities/cbt.entity";
 
 export class CBTDto {
   id: string;
@@ -76,7 +81,8 @@ export class CBTDto {
   @IsEnum(SubSector, {
     each: true,
     message:
-      "Invalid SubSector. Supported following subsectors: " + Object.values(SubSector),
+      "Invalid SubSector. Supported following subsectors: " +
+      Object.values(SubSector),
   })
   @ApiPropertyOptional({
     enum: Object.values(SubSector),
@@ -91,8 +97,7 @@ export class CBTDto {
 
   @IsOptional()
   @IsEnum(CBTYesNo, {
-    message:
-      "Invalid value. Supported values: " + Object.values(CBTYesNo),
+    message: "Invalid value. Supported values: " + Object.values(CBTYesNo),
   })
   @ApiPropertyOptional({
     enum: Object.values(CBTYesNo),
@@ -101,8 +106,7 @@ export class CBTDto {
 
   @IsOptional()
   @IsEnum(CBTYesNo, {
-    message:
-      "Invalid value. Supported values: " + Object.values(CBTYesNo),
+    message: "Invalid value. Supported values: " + Object.values(CBTYesNo),
   })
   @ApiPropertyOptional({
     enum: Object.values(CBTYesNo),
@@ -111,8 +115,7 @@ export class CBTDto {
 
   @IsOptional()
   @IsEnum(CBTYesNo, {
-    message:
-      "Invalid value. Supported values: " + Object.values(CBTYesNo),
+    message: "Invalid value. Supported values: " + Object.values(CBTYesNo),
   })
   @ApiPropertyOptional({
     enum: Object.values(CBTYesNo),
@@ -122,7 +125,8 @@ export class CBTDto {
   @IsOptional()
   @IsEnum(CBTTypeOfSupport, {
     message:
-      "Invalid Type of Support. Supported values: " + Object.values(CBTTypeOfSupport),
+      "Invalid Type of Support. Supported values: " +
+      Object.values(CBTTypeOfSupport),
   })
   @ApiPropertyOptional({
     enum: Object.values(CBTTypeOfSupport),
@@ -154,7 +158,7 @@ export class CBTDto {
   @IsOptional()
   @IsArray()
   @ApiPropertyOptional()
-  documents: string[];
+  documents: any[];
 }
 
 export class CBTUpdateDto {
@@ -223,7 +227,8 @@ export class CBTUpdateDto {
   @IsEnum(SubSector, {
     each: true,
     message:
-      "Invalid SubSector. Supported following subsectors: " + Object.values(SubSector),
+      "Invalid SubSector. Supported following subsectors: " +
+      Object.values(SubSector),
   })
   @ApiPropertyOptional({
     enum: Object.values(SubSector),
@@ -238,8 +243,7 @@ export class CBTUpdateDto {
 
   @IsOptional()
   @IsEnum(CBTYesNo, {
-    message:
-      "Invalid value. Supported values: " + Object.values(CBTYesNo),
+    message: "Invalid value. Supported values: " + Object.values(CBTYesNo),
   })
   @ApiPropertyOptional({
     enum: Object.values(CBTYesNo),
@@ -248,8 +252,7 @@ export class CBTUpdateDto {
 
   @IsOptional()
   @IsEnum(CBTYesNo, {
-    message:
-      "Invalid value. Supported values: " + Object.values(CBTYesNo),
+    message: "Invalid value. Supported values: " + Object.values(CBTYesNo),
   })
   @ApiPropertyOptional({
     enum: Object.values(CBTYesNo),
@@ -258,8 +261,7 @@ export class CBTUpdateDto {
 
   @IsOptional()
   @IsEnum(CBTYesNo, {
-    message:
-      "Invalid value. Supported values: " + Object.values(CBTYesNo),
+    message: "Invalid value. Supported values: " + Object.values(CBTYesNo),
   })
   @ApiPropertyOptional({
     enum: Object.values(CBTYesNo),
@@ -269,7 +271,8 @@ export class CBTUpdateDto {
   @IsOptional()
   @IsEnum(CBTTypeOfSupport, {
     message:
-      "Invalid Type of Support. Supported values: " + Object.values(CBTTypeOfSupport),
+      "Invalid Type of Support. Supported values: " +
+      Object.values(CBTTypeOfSupport),
   })
   @ApiPropertyOptional({
     enum: Object.values(CBTTypeOfSupport),
@@ -301,5 +304,15 @@ export class CBTUpdateDto {
   @IsOptional()
   @IsArray()
   @ApiPropertyOptional()
-  documents: string[];
+  documents: any[];
+
+  @IsOptional()
+  @IsArray()
+  @ApiPropertyOptional()
+  newDocuments: any[];
+
+  @IsOptional()
+  @IsArray()
+  @ApiPropertyOptional()
+  removedDocuments: string[];
 }

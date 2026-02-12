@@ -66,7 +66,12 @@ export class CBTEntity {
   @Column({ nullable: true })
   recipientEntity: string;
 
-  @Column({ type: "enum", enum: CBTStatus, default: CBTStatus.PLANNED, nullable: true })
+  @Column({
+    type: "enum",
+    enum: CBTStatus,
+    default: CBTStatus.PLANNED,
+    nullable: true,
+  })
   status: CBTStatus;
 
   // ETF klasifikacija
@@ -106,8 +111,8 @@ export class CBTEntity {
   @Column({ nullable: true })
   verificationNote: string;
 
-  @Column({ type: "text", array: true, nullable: true })
-  documents: string[];
+  @Column({ type: "jsonb", nullable: true })
+  documents: any;
 
   // Relationships
   @OneToMany(() => CBTFundingEntity, (funding) => funding.cbt)
