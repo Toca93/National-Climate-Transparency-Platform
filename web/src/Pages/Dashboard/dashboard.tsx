@@ -11,111 +11,11 @@ import { getActionTableColumns } from '../../Definitions/columns/actionColumns';
 import PieChart from '../../Components/Charts/PieChart/pieChart';
 import { dashboardHalfColumnBps } from '../../Definitions/breakpoints/breakpoints';
 import { displayErrorMessage } from '../../Utils/errorMessageHandler';
+import { IntSupChannel, IntFinInstrument } from '../../Enums/support.enum';
 import BarChart from '../../Components/Charts/BarChart/barChart';
 
 const { Option } = Select;
 const { useBreakpoint } = Grid;
-
-// Compact Pie Chart Component for CBT Dashboard
-interface CompactPieChartProps {
-  chart: ChartData;
-  onInfoClick: (content: { title: string; body: string }) => void;
-  setOpenChartInfo: (open: boolean) => void;
-  t: any;
-}
-
-// Compact Chart Loading Placeholder Component
-interface CompactChartLoadingPlaceholderProps {
-  t: any;
-  title: string;
-}
-
-const CompactChartLoadingPlaceholder: React.FC<CompactChartLoadingPlaceholderProps> = ({
-  t,
-  title,
-}) => (
-  <div style={{ width: '100%' }}>
-    <div
-      style={{
-        fontSize: '13px',
-        fontWeight: 500,
-        marginBottom: '15px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        gap: '6px',
-        whiteSpace: 'nowrap',
-        width: '100%',
-        paddingLeft: '40px',
-      }}
-    >
-      <span>{title}</span>
-    </div>
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 188,
-        width: 330,
-      }}
-    >
-      <Spin size="small" />
-    </div>
-  </div>
-);
-
-// Extended interface with loading prop
-interface CompactPieChartExtendedProps extends CompactPieChartProps {
-  loading?: boolean;
-}
-
-const CompactPieChart: React.FC<CompactPieChartExtendedProps> = ({
-  chart,
-  onInfoClick,
-  setOpenChartInfo,
-  t,
-  loading = false,
-}) => (
-  <div style={{ width: '100%' }}>
-    <div
-      style={{
-        fontSize: '13px',
-        fontWeight: 500,
-        marginBottom: '15px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        gap: '6px',
-        whiteSpace: 'nowrap',
-        width: '100%',
-        paddingLeft: '40px',
-      }}
-    >
-      <span>{chart.chartTitle}</span>
-      <InfoCircleOutlined
-        style={{ cursor: 'pointer', color: '#8c8c8c', fontSize: '13px', flexShrink: 0 }}
-        onClick={() => {
-          onInfoClick({
-            title: chart.chartTitle,
-            body: chart.chartDescription,
-          });
-          setOpenChartInfo(true);
-        }}
-      />
-    </div>
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <PieChart
-        chart={chart}
-        t={t}
-        chartWidth={330}
-        showDate={false}
-        isCompact={true}
-        loading={loading}
-      />
-    </div>
-  </div>
-);
 
 const Dashboard = () => {
   // Context Information
@@ -359,24 +259,6 @@ const Dashboard = () => {
     }
   };
 
-  // Helper function to get filter title
-  const getFilterTitle = (filter: SupportFilterType): string => {
-    switch (filter) {
-      case 'type':
-        return t('supportByTypeChartTitle');
-      case 'status':
-        return t('supportByActivityStatusChartTitle');
-      case 'sector':
-        return t('supportByETFSectorChartTitle');
-      case 'instrument':
-        return t('supportByFinancialInstrumentChartTitle');
-      case 'channel':
-        return t('supportByFinancingChannelChartTitle');
-      default:
-        return '';
-    }
-  };
-
   // Fetch single chart data based on selected filter
   const getFilteredSupportChartData = async () => {
     setSupportChartsLoading(true);
@@ -428,30 +310,30 @@ const Dashboard = () => {
 
         switch (selectedSupportFilter) {
           case 'status':
-            if (sector === 'Planned') return 'Planirano';
-            if (sector === 'Ongoing') return 'U toku';
-            if (sector === 'Completed') return 'Završeno';
+            if (sector === 'Planned') return 'Planned';
+            if (sector === 'Ongoing') return 'Ongoing';
+            if (sector === 'Completed') return 'Completed';
             return sector;
           case 'sector':
-            if (sector === 'Energy') return 'Energija';
+            if (sector === 'Energy') return 'Energy';
             if (sector === 'Transport') return 'Transport';
-            if (sector === 'Industry (IPPU)') return 'Industrija';
-            if (sector === 'Agriculture') return 'Poljoprivreda';
+            if (sector === 'Industry (IPPU)') return 'Industry';
+            if (sector === 'Agriculture') return 'Agriculture';
             return sector;
           case 'instrument':
-            if (sector === 'grant') return 'Grant';
-            if (sector === 'concessional-loan') return 'Koncesioni zajam';
-            if (sector === 'non-concessional-loan') return 'Nekoncesioni zajam';
-            if (sector === 'equity') return 'Equity';
-            if (sector === 'guarantee') return 'Garancija';
-            if (sector === 'insurance') return 'Osiguranje';
-            if (sector === 'other') return 'Ostalo';
+            if (sector === 'grant') return IntFinInstrument.GRANT;
+            if (sector === 'concessional-loan') return IntFinInstrument.CONCES_LOAN;
+            if (sector === 'non-concessional-loan') return IntFinInstrument.NON_CONCES_LOAN;
+            if (sector === 'equity') return IntFinInstrument.EQUITY;
+            if (sector === 'guarantee') return IntFinInstrument.GUARANTEE;
+            if (sector === 'insurance') return IntFinInstrument.INSURANCE;
+            if (sector === 'other') return IntFinInstrument.OTHERS;
             return sector;
           case 'channel':
-            if (sector === 'Multilateral') return 'Multilateralni';
-            if (sector === 'Bilateral') return 'Bilateralni';
-            if (sector === 'Regional') return 'Regionalni';
-            if (sector === 'Other') return 'Ostalo';
+            if (sector === 'Multilateral') return IntSupChannel.MULTILATERAL;
+            if (sector === 'Bilateral') return IntSupChannel.BILATERAL;
+            if (sector === 'Regional') return IntSupChannel.REGIONAL;
+            if (sector === 'Other') return IntSupChannel.OTHER;
             return sector;
           default:
             return sector;
