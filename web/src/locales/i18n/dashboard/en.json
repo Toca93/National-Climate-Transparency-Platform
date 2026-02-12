@@ -13,5 +13,20 @@
     "mtgRecentChartDescription": "GHG Mitigation (ktCO2e) Most Recent Year Description",
     "noChartDataAvailable": "No Statistics Available",
     "noActionsAvailable": "No Actions Available",
-    "recentYear": "2023"
+    "recentYear": "2023",
+    "typeOfSupportFilter": "Type of support",
+    "selectTypeOfSupport": "Select type of support",
+    "adaptation": "Adaptation",
+    "mitigation": "Mitigation",
+    "crossCutting": "Cross-cutting",
+    "supportByTypeChartTitle": "Support by Type",
+    "supportByTypeChartDescription": "Distribution of support by type (Adaptation, Mitigation, Cross-cutting)",
+    "supportByActivityStatusChartTitle": "Support by Activity Status",
+    "supportByActivityStatusChartDescription": "Distribution of support by activity status (Planned, Ongoing, Completed)",
+    "supportByETFSectorChartTitle": "Support by ETF Sector",
+    "supportByETFSectorChartDescription": "Distribution of support by ETF sector (Energy, Transport, Industry, Agriculture)",
+    "supportByFinancialInstrumentChartTitle": "Support by Financial Instrument",
+    "supportByFinancialInstrumentChartDescription": "Distribution of support by financial instrument (Grant, Concessional Loan, etc.)",
+    "supportByFinancingChannelChartTitle": "Support by Financing Channel",
+    "supportByFinancingChannelChartDescription": "Distribution of support by financing channel (Multilateral, Bilateral, Regional, Other)"
 }
