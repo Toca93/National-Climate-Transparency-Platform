@@ -106,8 +106,8 @@ export class CBTEntity {
   @Column({ nullable: true })
   verificationNote: string;
 
-  @Column({ type: "jsonb", nullable: true })
-  documents: any;
+  @Column({ type: "text", array: true, nullable: true })
+  documents: string[];
 
   // Relationships
   @OneToMany(() => CBTFundingEntity, (funding) => funding.cbt)

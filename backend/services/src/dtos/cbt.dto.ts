@@ -154,17 +154,7 @@ export class CBTDto {
   @IsOptional()
   @IsArray()
   @ApiPropertyOptional()
-  documents: any[];
-
-  @IsOptional()
-  @IsArray()
-  @ApiPropertyOptional()
-  nationalImplementingEntities: string[];
-
-  @IsOptional()
-  @IsArray()
-  @ApiPropertyOptional()
-  internationalImplementingEntities: string[];
+  documents: string[];
 }
 
 export class CBTUpdateDto {
@@ -311,25 +301,5 @@ export class CBTUpdateDto {
   @IsOptional()
   @IsArray()
   @ApiPropertyOptional()
-  documents: any[];
-
-  @IsOptional()
-  @IsArray()
-  @ApiPropertyOptional()
-  newDocuments: any[];
-
-  @IsOptional()
-  @IsArray()
-  @ApiPropertyOptional()
-  removedDocuments: string[];
-
-  @IsOptional()
-  @IsArray()
-  @ApiPropertyOptional()
-  nationalImplementingEntities: string[];
-
-  @IsOptional()
-  @IsArray()
-  @ApiPropertyOptional()
-  internationalImplementingEntities: string[];
+  documents: string[];
 }
