@@ -3,6 +3,7 @@ import '../../../Styles/app.scss';
 import LayoutTable from '../../../Components/common/Table/layout.table';
 import { Button, Col, Row, Input, Dropdown, Popover, List, Typography, MenuProps, Tag } from 'antd';
 import {
+  DownloadOutlined,
   EditOutlined,
   EllipsisOutlined,
   FilterOutlined,
@@ -20,6 +21,11 @@ import {
   searchBoxBps,
 } from '../../../Definitions/breakpoints/breakpoints';
 
+interface ParsedDocument {
+  title: string;
+  url: string;
+}
+
 interface Item {
   key: number;
   id: string;
@@ -30,6 +36,7 @@ interface Item {
   nationalImplementingEntities: string[];
   internationalImplementingEntities: string[];
   status: string;
+  documents: ParsedDocument[];
 }
 
 const CBTList = () => {
@@ -101,17 +108,31 @@ const CBTList = () => {
 
       const response: any = await post('national/cbt/query', payload);
 
-      const formattedData: Item[] = response.data.map((item: any, index: number) => ({
-        key: index,
-        id: item.id,
-        startYear: item.startYear,
-        endYear: item.endYear,
-        projectName: item.projectName,
-        activityDescription: item.activityDescription,
-        nationalImplementingEntities: item.nationalImplementingEntities || [],
-        internationalImplementingEntities: item.internationalImplementingEntities || [],
-        status: item.status,
-      }));
+      const formattedData: Item[] = response.data.map((item: any, index: number) => {
+        // Parse document JSON strings from text[] column
+        let parsedDocs: ParsedDocument[] = [];
+        if (item.documents && item.documents.length > 0) {
+          parsedDocs = item.documents.map((doc: string) => {
+            try {
+              return JSON.parse(doc);
+            } catch {
+              return { title: doc, url: doc };
+            }
+          });
+        }
+        return {
+          key: index,
+          id: item.id,
+          startYear: item.startYear,
+          endYear: item.endYear,
+          projectName: item.projectName,
+          activityDescription: item.activityDescription,
+          nationalImplementingEntities: item.nationalImplementingEntities || [],
+          internationalImplementingEntities: item.internationalImplementingEntities || [],
+          status: item.status,
+          documents: parsedDocs,
+        };
+      });
 
       setTableData(formattedData);
       setTotalRowCount(response.total);
@@ -151,6 +172,64 @@ const CBTList = () => {
           {id}
         </span>
       ),
+    },
+    {
+      title: '',
+      width: 50,
+      key: 'download',
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      render: (_: any, record: Item) => {
+        if (!record.documents || record.documents.length === 0) {
+          return null;
+        }
+        if (record.documents.length === 1) {
+          return (
+            <DownloadOutlined
+              style={{ fontSize: '16px', color: '#8A1538', cursor: 'pointer' }}
+              onClick={() => {
+                const doc = record.documents[0];
+                const link = document.createElement('a');
+                link.href = doc.url;
+                link.download = doc.title;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }}
+            />
+          );
+        }
+        return (
+          <Popover
+            showArrow={false}
+            trigger="click"
+            placement="bottomLeft"
+            content={
+              <List
+                size="small"
+                dataSource={record.documents}
+                renderItem={(doc: ParsedDocument) => (
+                  <List.Item
+                    style={{ cursor: 'pointer', padding: '4px 8px' }}
+                    onClick={() => {
+                      const link = document.createElement('a');
+                      link.href = doc.url;
+                      link.download = doc.title;
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    }}
+                  >
+                    <DownloadOutlined style={{ marginRight: 8, color: '#8A1538' }} />
+                    <span>{doc.title}</span>
+                  </List.Item>
+                )}
+              />
+            }
+          >
+            <DownloadOutlined style={{ fontSize: '16px', color: '#8A1538', cursor: 'pointer' }} />
+          </Popover>
+        );
+      },
     },
     {
       title: 'Start Year',
