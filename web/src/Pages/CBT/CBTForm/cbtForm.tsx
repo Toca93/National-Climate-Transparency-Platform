@@ -150,9 +150,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
   const [uploadedFiles, setUploadedFiles] = useState<
     { key: string; title: string; data: string }[]
   >([]);
-  const [storedFiles, setStoredFiles] = useState<{ key: string; title: string; url: string }[]>(
-    []
-  );
+  const [storedFiles, setStoredFiles] = useState<{ key: string; title: string; url: string }[]>([]);
   const [filesToRemove, setFilesToRemove] = useState<string[]>([]);
 
   // State for showing "Other (specify)" field when Other sector is selected
