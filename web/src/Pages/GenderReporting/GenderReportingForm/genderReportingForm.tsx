@@ -34,8 +34,8 @@ const GenderReportingForm: React.FC<FormLoadProps> = ({ method }) => {
     method === 'create'
       ? 'Add Gender Report'
       : method === 'update'
-        ? 'Edit Gender Report'
-        : 'View Gender Report';
+      ? 'Edit Gender Report'
+      : 'View Gender Report';
 
   const navigate = useNavigate();
   const { get, post, put } = useConnection();
