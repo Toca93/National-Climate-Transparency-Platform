@@ -8,6 +8,7 @@ import { plainToClass } from "class-transformer";
 import { CounterType } from "../enums/counter.type.enum";
 import { CounterService } from "../util/counter.service";
 import { HelperService } from "../util/helpers.service";
+import { FileUploadService } from "../util/fileUpload.service";
 import { QueryDto } from "../dtos/query.dto";
 import { DataListResponseDto } from "../dtos/data.list.response";
 import { DataResponseMessageDto } from "../dtos/data.response.message";
@@ -20,7 +21,20 @@ export class CBTService {
     @InjectRepository(CBTEntity) private cbtRepo: Repository<CBTEntity>,
     private counterService: CounterService,
     private helperService: HelperService,
+    private fileUploadService: FileUploadService,
   ) {}
+
+  // Helper: parse document JSON strings from text[] column
+  private parseDocuments(documents: string[]): any[] {
+    if (!documents || documents.length === 0) return [];
+    return documents.map((doc: string) => {
+      try {
+        return JSON.parse(doc);
+      } catch {
+        return { title: doc, url: doc };
+      }
+    });
+  }
 
   // Create CBT Record
   async createCBT(cbtDto: CBTDto, user: User) {
@@ -28,6 +42,28 @@ export class CBTService {
 
     cbt.id =
       "CBT" + (await this.counterService.incrementCount(CounterType.CBT, 5));
+
+    // Upload documents and store as JSON strings in text[] column
+    if (cbtDto.documents && cbtDto.documents.length > 0) {
+      const documentStrings = [];
+      for (const documentItem of cbtDto.documents) {
+        const url = await this.fileUploadService.uploadDocument(
+          documentItem.data,
+          documentItem.title,
+          "cbt",
+        );
+        documentStrings.push(
+          JSON.stringify({
+            title: documentItem.title,
+            url: url,
+            createdTime: new Date().getTime(),
+          }),
+        );
+      }
+      cbt.documents = documentStrings;
+    } else {
+      cbt.documents = null;
+    }
 
     const savedCBT = await this.entityManager
       .transaction(async (em) => {
@@ -95,6 +131,11 @@ export class CBTService {
       );
     }
 
+    // Parse document JSON strings for frontend
+    if (cbt.documents && cbt.documents.length > 0) {
+      (cbt as any).documents = this.parseDocuments(cbt.documents);
+    }
+
     return cbt;
   }
 
@@ -117,6 +158,46 @@ export class CBTService {
 
     // Preserve fields that shouldn't change
     cbtUpdate.createdTime = currentCBT.createdTime;
+
+    // Start with existing documents
+    let currentDocs = currentCBT.documents ? [...currentCBT.documents] : [];
+
+    // Upload new documents
+    if (cbtUpdateDto.newDocuments && cbtUpdateDto.newDocuments.length > 0) {
+      for (const documentItem of cbtUpdateDto.newDocuments) {
+        const url = await this.fileUploadService.uploadDocument(
+          documentItem.data,
+          documentItem.title,
+          "cbt",
+        );
+        currentDocs.push(
+          JSON.stringify({
+            title: documentItem.title,
+            url: url,
+            createdTime: new Date().getTime(),
+          }),
+        );
+      }
+    }
+
+    // Remove documents
+    if (
+      cbtUpdateDto.removedDocuments &&
+      cbtUpdateDto.removedDocuments.length > 0
+    ) {
+      currentDocs = currentDocs.filter((docStr: string) => {
+        try {
+          const doc = JSON.parse(docStr);
+          return !cbtUpdateDto.removedDocuments.some(
+            (url) => url === doc.url,
+          );
+        } catch {
+          return !cbtUpdateDto.removedDocuments.includes(docStr);
+        }
+      });
+    }
+
+    cbtUpdate.documents = currentDocs.length > 0 ? currentDocs : null;
 
     const updatedCBT = await this.entityManager
       .transaction(async (em) => {

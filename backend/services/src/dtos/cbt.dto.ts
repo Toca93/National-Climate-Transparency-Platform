@@ -154,7 +154,7 @@ export class CBTDto {
   @IsOptional()
   @IsArray()
   @ApiPropertyOptional()
-  documents: string[];
+  documents: any[];
 }
 
 export class CBTUpdateDto {
@@ -301,5 +301,15 @@ export class CBTUpdateDto {
   @IsOptional()
   @IsArray()
   @ApiPropertyOptional()
-  documents: string[];
+  documents: any[];
+
+  @IsOptional()
+  @IsArray()
+  @ApiPropertyOptional()
+  newDocuments: any[];
+
+  @IsOptional()
+  @IsArray()
+  @ApiPropertyOptional()
+  removedDocuments: string[];
 }
