@@ -52,6 +52,14 @@ const CBTForm = lazy(() => import('./Pages/CBT/CBTForm/cbtForm'));
 const CBTFundingForm = lazy(() => import('./Pages/CBT/CBTFunding/cbtFundingForm'));
 const CBTInstrumentsForm = lazy(() => import('./Pages/CBT/CBTInstruments/cbtInstrumentsForm'));
 const CBTMacroForm = lazy(() => import('./Pages/CBT/CBTMacro/cbtMacroForm'));
+const ReviewForm = lazy(() => import('./Pages/Reviews/ReviewForm/reviewForm'));
+const GenderReportingForm = lazy(
+  () => import('./Pages/GenderReporting/GenderReportingForm/genderReportingForm')
+);
+const VerificationForm = lazy(
+  () => import('./Pages/Verifications/VerificationForm/verificationForm')
+);
+const MRVEmissionForm = lazy(() => import('./Pages/MRVEmissions/MRVEmissionForm/mrvEmissionForm'));
 const GhgEmissions = lazy(() => import('./Pages/Emissions/emissions'));
 const GhgProjections = lazy(() => import('./Pages/Projections/projections'));
 const GhgCombinedExpected = lazy(() => import('./Pages/CombinedExpected/combinedExpected'));
@@ -198,6 +206,9 @@ const App = () => {
                 {/* MRV Emissions Routes */}
                 <Route path="/mrv-emissions" element={<CustomLayout selectedKey="mrv-emissions" />}>
                   <Route index element={<MRVEmissions />} />
+                  <Route path="add" element={<MRVEmissionForm method="create" />} />
+                  <Route path="edit/:entId" element={<MRVEmissionForm method="update" />} />
+                  <Route path="view/:entId" element={<MRVEmissionForm method="view" />} />
                 </Route>
 
                 {/* Monitoring Plans Routes */}
@@ -214,16 +225,25 @@ const App = () => {
                   element={<CustomLayout selectedKey="gender-reporting" />}
                 >
                   <Route index element={<GenderReporting />} />
+                  <Route path="add" element={<GenderReportingForm method="create" />} />
+                  <Route path="edit/:entId" element={<GenderReportingForm method="update" />} />
+                  <Route path="view/:entId" element={<GenderReportingForm method="view" />} />
                 </Route>
 
                 {/* Verifications Routes */}
                 <Route path="/verifications" element={<CustomLayout selectedKey="verifications" />}>
                   <Route index element={<Verifications />} />
+                  <Route path="add" element={<VerificationForm method="create" />} />
+                  <Route path="edit/:entId" element={<VerificationForm method="update" />} />
+                  <Route path="view/:entId" element={<VerificationForm method="view" />} />
                 </Route>
 
                 {/* Reviews Routes */}
                 <Route path="/reviews" element={<CustomLayout selectedKey="reviews" />}>
                   <Route index element={<Reviews />} />
+                  <Route path="add" element={<ReviewForm method="create" />} />
+                  <Route path="edit/:entId" element={<ReviewForm method="update" />} />
+                  <Route path="view/:entId" element={<ReviewForm method="view" />} />
                 </Route>
 
                 {/* CBT Routes - H1. Osnovne informacije */}
