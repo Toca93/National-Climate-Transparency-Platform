@@ -328,7 +328,7 @@ const CBTList = () => {
               <Col {...searchBoxBps} className="search-bar">
                 <Input
                   addonAfter={<SearchOutlined style={{ color: '#615d67' }} onClick={onSearch} />}
-                  placeholder={t('cbtForm:searchPlaceholder')}
+                  placeholder={t('cbtForm:searchPlaceholder') as string}
                   allowClear
                   onPressEnter={onSearch}
                   onChange={(e) => setTempSearchValue(e.target.value)}
@@ -373,7 +373,7 @@ const CBTList = () => {
                 position: ['bottomRight'],
               }}
               handleTableChange={handleTableChange}
-              emptyMessage={t('cbtForm:noBasicInfoRecords')}
+              emptyMessage={t('cbtForm:noBasicInfoRecords') as string}
             />
           </Col>
         </Row>

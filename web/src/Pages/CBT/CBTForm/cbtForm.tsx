@@ -321,7 +321,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:startYearPlaceholder')}
+                      placeholder={t('cbtForm:startYearPlaceholder') as string}
                       showSearch
                       disabled={isView}
                     >
@@ -344,7 +344,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:endYearPlaceholder')}
+                      placeholder={t('cbtForm:endYearPlaceholder') as string}
                       showSearch
                       disabled={isView}
                     >
@@ -368,7 +368,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                   >
                     <TextArea
                       rows={6}
-                      placeholder={t('cbtForm:objectivesDescriptionPlaceholder')}
+                      placeholder={t('cbtForm:objectivesDescriptionPlaceholder') as string}
                       disabled={isView}
                       style={{ fontSize: inputFontSize }}
                     />
@@ -387,7 +387,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                       mode="multiple"
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:nationalImplementingEntitiesPlaceholder')}
+                      placeholder={t('cbtForm:nationalImplementingEntitiesPlaceholder') as string}
                       showSearch
                       disabled={isView}
                     >
@@ -410,7 +410,9 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                       mode="tags"
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:internationalImplementingEntitiesPlaceholder')}
+                      placeholder={
+                        t('cbtForm:internationalImplementingEntitiesPlaceholder') as string
+                      }
                       disabled={isView}
                     ></Select>
                   </Form.Item>
@@ -424,7 +426,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:recipientEntityPlaceholder')}
+                      placeholder={t('cbtForm:recipientEntityPlaceholder') as string}
                       disabled={isView}
                     />
                   </Form.Item>
@@ -442,7 +444,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:activityStatusPlaceholder')}
+                      placeholder={t('cbtForm:activityStatusPlaceholder') as string}
                       disabled={isView}
                     >
                       {statusOptions.map((option) => (
@@ -471,7 +473,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:sectorPlaceholder')}
+                      placeholder={t('cbtForm:sectorPlaceholder') as string}
                       showSearch
                       disabled={isView}
                       onChange={(value) => {
@@ -500,7 +502,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:subSectorPlaceholder')}
+                      placeholder={t('cbtForm:subSectorPlaceholder') as string}
                       showSearch
                       disabled={isView}
                       mode="multiple"
@@ -528,7 +530,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                       <Input
                         size="large"
                         style={{ fontSize: inputFontSize }}
-                        placeholder={t('cbtForm:specifyOtherSectorPlaceholder')}
+                        placeholder={t('cbtForm:specifyOtherSectorPlaceholder') as string}
                         disabled={isView}
                       />
                     </Form.Item>
@@ -547,7 +549,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:selectAnswer')}
+                      placeholder={t('cbtForm:selectAnswer') as string}
                       disabled={isView}
                     >
                       {yesNoOptions.map((option) => (
@@ -571,7 +573,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:selectAnswer')}
+                      placeholder={t('cbtForm:selectAnswer') as string}
                       disabled={isView}
                     >
                       {yesNoOptions.map((option) => (
@@ -593,7 +595,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:selectAnswer')}
+                      placeholder={t('cbtForm:selectAnswer') as string}
                       disabled={isView}
                     >
                       {yesNoOptions.map((option) => (
@@ -617,7 +619,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:typeOfSupportPlaceholder')}
+                      placeholder={t('cbtForm:typeOfSupportPlaceholder') as string}
                       disabled={isView}
                     >
                       {typeOfSupportOptions.map((option) => (
@@ -639,7 +641,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                   >
                     <TextArea
                       rows={4}
-                      placeholder={t('cbtForm:additionalInformationPlaceholder')}
+                      placeholder={t('cbtForm:additionalInformationPlaceholder') as string}
                       disabled={isView}
                       style={{ fontSize: inputFontSize }}
                     />
@@ -660,7 +662,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               <UploadFileGrid
                 isSingleColumn={false}
                 usedIn={method}
-                buttonText={t('cbtForm:upload')}
+                buttonText={t('cbtForm:upload') as string}
                 storedFiles={storedFiles}
                 uploadedFiles={uploadedFiles}
                 setUploadedFiles={setUploadedFiles}
@@ -680,7 +682,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:verificationStatusPlaceholder')}
+                      placeholder={t('cbtForm:verificationStatusPlaceholder') as string}
                       disabled={isView}
                     >
                       {verificationStatusOptions.map((option) => (
@@ -697,12 +699,12 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                   <Form.Item
                     label={t('cbtForm:verificationNote')}
                     name="verificationNote"
-                    tooltip={t('cbtForm:verificationNoteTooltip')}
+                    tooltip={t('cbtForm:verificationNoteTooltip') as string}
                   >
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:verificationNotePlaceholder')}
+                      placeholder={t('cbtForm:verificationNotePlaceholder') as string}
                       disabled={isView}
                     />
                   </Form.Item>

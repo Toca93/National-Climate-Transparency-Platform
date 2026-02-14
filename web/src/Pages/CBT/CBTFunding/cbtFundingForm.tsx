@@ -199,7 +199,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:projectNameMeasurePlaceholder')}
+                      placeholder={t('cbtForm:projectNameMeasurePlaceholder') as string}
                       disabled={isView}
                       loading={loadingProjects}
                       showSearch
@@ -236,7 +236,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:plannedFinancialInstrumentPlaceholder')}
+                      placeholder={t('cbtForm:plannedFinancialInstrumentPlaceholder') as string}
                       disabled={isView}
                     >
                       {financialInstruments.map((option) => (
@@ -258,7 +258,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:statusPlaceholder')}
+                      placeholder={t('cbtForm:statusPlaceholder') as string}
                       disabled={isView}
                     >
                       {statusOptions.map((option) => (
@@ -282,7 +282,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:supportStatusPlaceholder')}
+                      placeholder={t('cbtForm:supportStatusPlaceholder') as string}
                       disabled={isView}
                       onChange={(value) => {
                         setIsSupportReceived(value === 'Received');
@@ -307,7 +307,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:fundingMethodPlaceholder')}
+                      placeholder={t('cbtForm:fundingMethodPlaceholder') as string}
                       disabled={isView}
                       onChange={(value) => {
                         setShowOtherFundingMethod(value === 'Other');
@@ -331,7 +331,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:expectedImpactPlaceholder')}
+                      placeholder={t('cbtForm:expectedImpactPlaceholder') as string}
                       disabled={isView}
                     />
                   </Form.Item>
@@ -350,7 +350,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                       <Input
                         size="large"
                         style={{ fontSize: inputFontSize }}
-                        placeholder={t('cbtForm:specifyOtherFundingMethodPlaceholder')}
+                        placeholder={t('cbtForm:specifyOtherFundingMethodPlaceholder') as string}
                         disabled={isView}
                       />
                     </Form.Item>

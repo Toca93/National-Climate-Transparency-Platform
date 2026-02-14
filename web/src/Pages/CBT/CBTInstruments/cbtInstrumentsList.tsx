@@ -268,7 +268,7 @@ const CBTInstrumentsList = () => {
               <Col {...searchBoxBps} className="search-bar">
                 <Input
                   addonAfter={<SearchOutlined style={{ color: '#615d67' }} onClick={onSearch} />}
-                  placeholder={t('cbtForm:searchPlaceholder')}
+                  placeholder={t('cbtForm:searchPlaceholder') as string}
                   allowClear
                   onPressEnter={onSearch}
                   onChange={(e) => setTempSearchValue(e.target.value)}
@@ -313,7 +313,7 @@ const CBTInstrumentsList = () => {
                 position: ['bottomRight'],
               }}
               handleTableChange={handleTableChange}
-              emptyMessage={t('cbtForm:noInstrumentRecords')}
+              emptyMessage={t('cbtForm:noInstrumentRecords') as string}
             />
           </Col>
         </Row>
