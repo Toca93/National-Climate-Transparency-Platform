@@ -310,7 +310,6 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 </Col>
               </Row>
 
-
               <Row gutter={gutterSize}>
                 {/* Start Year */}
                 <Col span={12}>
