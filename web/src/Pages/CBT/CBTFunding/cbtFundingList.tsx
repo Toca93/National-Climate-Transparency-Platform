@@ -43,7 +43,7 @@ interface Item {
 
 const CBTFundingList = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation(['common', 'tableAction']);
+  const { t } = useTranslation(['cbtForm', 'common', 'tableAction']);
   const { post, delete: deleteRequest } = useConnection();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -165,7 +165,7 @@ const CBTFundingList = () => {
 
   const columns = [
     {
-      title: 'ID',
+      title: t('cbtForm:id'),
       width: 120,
       dataIndex: 'id',
       key: 'id',
@@ -180,7 +180,7 @@ const CBTFundingList = () => {
       ),
     },
     {
-      title: 'Project ID',
+      title: t('cbtForm:projectId'),
       width: 150,
       dataIndex: 'projectId',
       key: 'projectId',
@@ -195,28 +195,28 @@ const CBTFundingList = () => {
       ),
     },
     {
-      title: 'Financial Instrument',
+      title: t('cbtForm:financialInstrumentCol'),
       width: 200,
       dataIndex: 'financialInstrument',
       key: 'financialInstrument',
       sorter: false,
     },
     {
-      title: 'Status',
+      title: t('cbtForm:status'),
       width: 130,
       dataIndex: 'status',
       key: 'status',
       sorter: false,
     },
     {
-      title: 'Support',
+      title: t('cbtForm:supportCol'),
       width: 130,
       dataIndex: 'supportNeededOrReceived',
       key: 'supportNeededOrReceived',
       sorter: false,
     },
     {
-      title: 'Funding Method',
+      title: t('cbtForm:fundingMethodCol'),
       width: 150,
       dataIndex: 'fundingMethod',
       key: 'fundingMethod',
@@ -248,7 +248,7 @@ const CBTFundingList = () => {
   return (
     <div className="content-container">
       <div className="title-bar">
-        <div className="body-title">Climate Financing - Funding Sources</div>
+        <div className="body-title">{t('cbtForm:climateFinancingFunding')}</div>
       </div>
       <div className="content-card">
         <Row className="table-actions-section">
@@ -263,7 +263,7 @@ const CBTFundingList = () => {
                   navigate('/cbt-funding/add');
                 }}
               >
-                Add New Record
+                {t('cbtForm:addNewRecord')}
               </Button>
             </div>
           </Col>
@@ -272,7 +272,7 @@ const CBTFundingList = () => {
               <Col {...searchBoxBps} className="search-bar">
                 <Input
                   addonAfter={<SearchOutlined style={{ color: '#615d67' }} onClick={onSearch} />}
-                  placeholder="Search by ID or project name"
+                  placeholder={t('cbtForm:searchPlaceholder')}
                   allowClear
                   onPressEnter={onSearch}
                   onChange={(e) => setTempSearchValue(e.target.value)}
@@ -317,7 +317,7 @@ const CBTFundingList = () => {
                 position: ['bottomRight'],
               }}
               handleTableChange={handleTableChange}
-              emptyMessage="No funding source records available"
+              emptyMessage={t('cbtForm:noFundingRecords')}
             />
           </Col>
         </Row>

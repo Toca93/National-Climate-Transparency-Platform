@@ -43,7 +43,7 @@ interface Item {
 
 const CBTInstrumentsList = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation(['common', 'tableAction']);
+  const { t } = useTranslation(['cbtForm', 'common', 'tableAction']);
   const { post, delete: deleteRequest } = useConnection();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -149,7 +149,7 @@ const CBTInstrumentsList = () => {
 
   const columns = [
     {
-      title: 'ID',
+      title: t('cbtForm:id'),
       width: 120,
       dataIndex: 'id',
       key: 'id',
@@ -164,7 +164,7 @@ const CBTInstrumentsList = () => {
       ),
     },
     {
-      title: 'Project ID',
+      title: t('cbtForm:projectId'),
       width: 150,
       dataIndex: 'projectId',
       key: 'projectId',
@@ -179,7 +179,7 @@ const CBTInstrumentsList = () => {
       ),
     },
     {
-      title: 'EUR/USD Rate',
+      title: t('cbtForm:eurUsdRate'),
       width: 130,
       dataIndex: 'exchangeRate',
       key: 'exchangeRate',
@@ -187,7 +187,7 @@ const CBTInstrumentsList = () => {
       render: (value?: number) => value || '-',
     },
     {
-      title: 'Total Amount (€)',
+      title: t('cbtForm:totalAmountEurCol'),
       width: 150,
       dataIndex: 'totalAmount',
       key: 'totalAmount',
@@ -195,7 +195,7 @@ const CBTInstrumentsList = () => {
       render: (value?: number) => formatCurrency(value),
     },
     {
-      title: 'Converted ($)',
+      title: t('cbtForm:convertedUsdCol'),
       width: 150,
       dataIndex: 'convertedAmount',
       key: 'convertedAmount',
@@ -203,7 +203,7 @@ const CBTInstrumentsList = () => {
       render: (value?: number) => formatCurrency(value),
     },
     {
-      title: 'National (€)',
+      title: t('cbtForm:nationalEurCol'),
       width: 140,
       dataIndex: 'nationalComponent',
       key: 'nationalComponent',
@@ -211,7 +211,7 @@ const CBTInstrumentsList = () => {
       render: (value?: number) => formatCurrency(value),
     },
     {
-      title: 'International (€)',
+      title: t('cbtForm:internationalEurCol'),
       width: 150,
       dataIndex: 'internationalComponent',
       key: 'internationalComponent',
@@ -244,7 +244,7 @@ const CBTInstrumentsList = () => {
   return (
     <div className="content-container">
       <div className="title-bar">
-        <div className="body-title">Climate Financing - Financial Instruments</div>
+        <div className="body-title">{t('cbtForm:climateFinancingInstruments')}</div>
       </div>
       <div className="content-card">
         <Row className="table-actions-section">
@@ -259,7 +259,7 @@ const CBTInstrumentsList = () => {
                   navigate('/cbt-instruments/add');
                 }}
               >
-                Add New Record
+                {t('cbtForm:addNewRecord')}
               </Button>
             </div>
           </Col>
@@ -268,7 +268,7 @@ const CBTInstrumentsList = () => {
               <Col {...searchBoxBps} className="search-bar">
                 <Input
                   addonAfter={<SearchOutlined style={{ color: '#615d67' }} onClick={onSearch} />}
-                  placeholder="Search by ID or project name"
+                  placeholder={t('cbtForm:searchPlaceholder')}
                   allowClear
                   onPressEnter={onSearch}
                   onChange={(e) => setTempSearchValue(e.target.value)}
@@ -313,7 +313,7 @@ const CBTInstrumentsList = () => {
                 position: ['bottomRight'],
               }}
               handleTableChange={handleTableChange}
-              emptyMessage="No financial instrument records available"
+              emptyMessage={t('cbtForm:noInstrumentRecords')}
             />
           </Col>
         </Row>

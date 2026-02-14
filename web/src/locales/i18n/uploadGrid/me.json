@@ -1,0 +1,7 @@
+{
+  "primaryMsg": "Da li ste sigurni da želite ukloniti ovaj dokument?",
+  "secondaryMsg": "Ova akcija se ne može poništiti",
+  "cancelTitle": "otkaži",
+  "actionTitle": "ukloni",
+  "fileNotSupported": "Tip fajla nije podržan!"
+}

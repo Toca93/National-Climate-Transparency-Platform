@@ -1,0 +1,22 @@
+{
+  "submit": "Podnesi",
+  "name": "Ime",
+  "email": "Email",
+  "pwd": "Lozinka",
+  "login": "Prijavi se",
+  "signUp": "Registruj se",
+  "language": "Jezik",
+  "company": "Organizacije",
+  "edit": "UREDI",
+  "isRequired": "je obavezno!",
+  "isInvalid": "je nevažeće!",
+  "sessionExpiredErrorMsg": "Vaša sesija je istekla. Molimo prijavite se ponovo da nastavite rad.",
+  "backto": "Nazad na",
+  "signIn": "Prijavi se",
+  "loginFailed": "Prijava neuspješna",
+  "networkError": "Greška mreže. Provjerite internet konekciju i pokušajte ponovo.",
+  "systemError": "Nešto nije u redu. Pokušajte ponovo.",
+  "maxSizeVal": "Maksimalna veličina fajla za otpremanje je 5MB",
+  "approve": "ODOBRI",
+  "reject": "ODBIJ"
+}

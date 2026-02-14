@@ -59,28 +59,28 @@ const LayoutSider = (props: LayoutSiderProps) => {
     getItem(t('nav:reporting'), 'reportings', <ClipboardMinus />),
     getItem(t('nav:faq'), 'faqs', <Headset />),
     // Climate Financing
-    getItem('Climate Financing', 'climate-financing', <Coin />),
+    getItem(t('nav:climateFinancing'), 'climate-financing', <Coin />),
 
     // MRV Emissions with Monitoring Plans submenu
-    getItem('MRV Emissions', 'mrv-emissions', <CloudDownloadOutlined />, [
-      getItem('Monitoring Plans', 'mrv-emissions'),
+    getItem(t('nav:mrvEmissions'), 'mrv-emissions', <CloudDownloadOutlined />, [
+      getItem(t('nav:monitoringPlans'), 'mrv-emissions'),
     ]),
 
     // Gender Reporting
-    getItem('Gender Reporting', 'gender-reporting', <GraphUpArrow />),
+    getItem(t('nav:genderReporting'), 'gender-reporting', <GraphUpArrow />),
 
     // Verifications
-    getItem('Verifications', 'verifications', <AppstoreOutlined />),
+    getItem(t('nav:verifications'), 'verifications', <AppstoreOutlined />),
 
     // Reviews
-    getItem('Reviews', 'reviews', <Headset />),
+    getItem(t('nav:reviews'), 'reviews', <Headset />),
 
     // Climate Financing (Module H)
-    getItem('Climate Financing', 'klimatsko-finansiranje', <AppstoreOutlined />, [
-      getItem('Basic Information', 'cbt'),
-      getItem('Funding Sources', 'cbt-funding'),
-      getItem('Financial Instruments', 'cbt-instruments'),
-      getItem('Macro Indicators', 'cbt-macro'),
+    getItem(t('nav:climateFinancing'), 'klimatsko-finansiranje', <AppstoreOutlined />, [
+      getItem(t('nav:basicInformation'), 'cbt'),
+      getItem(t('nav:fundingSources'), 'cbt-funding'),
+      getItem(t('nav:financialInstruments'), 'cbt-instruments'),
+      getItem(t('nav:macroIndicators'), 'cbt-macro'),
     ]),
   ];
 

@@ -32,20 +32,6 @@ const institutions = [
   'International Partners',
 ];
 
-// Status options (H1: planned / ongoing / completed)
-const statusOptions = [
-  { value: 'Planned', label: 'Planned' },
-  { value: 'Ongoing', label: 'Ongoing' },
-  { value: 'Completed', label: 'Completed' },
-];
-
-// H7: Verification status options
-const verificationStatusOptions = [
-  { value: 'Unverified', label: 'Unverified' },
-  { value: 'InternallyVerified', label: 'Internally Verified' },
-  { value: 'BTRReady', label: 'BTR Ready' },
-];
-
 // ETF Sector options (matching backend Sector enum)
 const sectorOptions = [
   { value: 'Energy', label: 'Energy' },
@@ -107,19 +93,6 @@ const subSectorOptions = [
   { value: 'Not Applicable', label: 'Not Applicable' },
 ];
 
-// Yes/No options
-const yesNoOptions = [
-  { value: 'Yes', label: 'Yes' },
-  { value: 'No', label: 'No' },
-];
-
-// Type of financial support options (Adaptation, Mitigation, Cross-cutting)
-const typeOfSupportOptions = [
-  { value: 'Adaptation', label: 'Adaptation' },
-  { value: 'Mitigation', label: 'Mitigation' },
-  { value: 'CrossCutting', label: 'Cross-cutting' },
-];
-
 // Generate years (e.g. from 2020 to 2030)
 const generateYears = () => {
   const currentYear = new Date().getFullYear();
@@ -132,10 +105,9 @@ const generateYears = () => {
 
 const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
   const [form] = Form.useForm();
-  useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
+  const { t } = useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
-  const formTitle = 'Basic Information';
 
   const navigate = useNavigate();
   const { get, post, put } = useConnection();
@@ -155,6 +127,33 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
 
   // State for showing "Other (specify)" field when Other sector is selected
   const [showOtherSectorField, setShowOtherSectorField] = useState<boolean>(false);
+
+  // Status options (H1: planned / ongoing / completed)
+  const statusOptions = [
+    { value: 'Planned', label: t('cbtForm:statusPlanned') },
+    { value: 'Ongoing', label: t('cbtForm:statusOngoing') },
+    { value: 'Completed', label: t('cbtForm:statusCompleted') },
+  ];
+
+  // H7: Verification status options
+  const verificationStatusOptions = [
+    { value: 'Unverified', label: t('cbtForm:unverified') },
+    { value: 'InternallyVerified', label: t('cbtForm:internallyVerified') },
+    { value: 'BTRReady', label: t('cbtForm:btrReady') },
+  ];
+
+  // Yes/No options
+  const yesNoOptions = [
+    { value: 'Yes', label: t('cbtForm:yes') },
+    { value: 'No', label: t('cbtForm:no') },
+  ];
+
+  // Type of financial support options
+  const typeOfSupportOptions = [
+    { value: 'Adaptation', label: t('cbtForm:adaptationType') },
+    { value: 'Mitigation', label: t('cbtForm:mitigationType') },
+    { value: 'CrossCutting', label: t('cbtForm:crossCuttingType') },
+  ];
 
   const fetchCBTData = useCallback(async () => {
     setLoading(true);
@@ -191,7 +190,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
       }
     } catch (error: any) {
       console.error('Error fetching CBT data:', error);
-      message.error(error.message || 'Failed to load CBT data');
+      message.error(error.message);
     } finally {
       setLoading(false);
     }
@@ -245,19 +244,19 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
       if (method === 'create') {
         const response = await post('national/cbt/add', payload);
         if (response.status === 200 || response.status === 201) {
-          message.success(response.message || 'CBT record created successfully');
+          message.success(response.message || t('cbtForm:cbtCreationSuccess'));
           navigate('/cbt');
         }
       } else if (method === 'update') {
         const response = await put('national/cbt/update', { ...payload, id: entId });
         if (response.status === 200 || response.status === 201) {
-          message.success(response.message || 'CBT record updated successfully');
+          message.success(response.message || t('cbtForm:cbtUpdateSuccess'));
           navigate('/cbt');
         }
       }
     } catch (error: any) {
       console.error('Error saving CBT:', error);
-      message.error(error.message || 'Failed to save CBT record');
+      message.error(error.message);
     } finally {
       setLoading(false);
     }
@@ -277,7 +276,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
         <div className="title-bar">
           <Row justify="space-between" align="middle">
             <Col>
-              <div className="body-title">{formTitle}</div>
+              <div className="body-title">{t('cbtForm:basicInformation')}</div>
             </Col>
           </Row>
         </div>
@@ -291,20 +290,20 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
             disabled={isView}
           >
             <div className="form-section-card">
-              <div className="form-section-header">Basic Information</div>
+              <div className="form-section-header">{t('cbtForm:basicInformation')}</div>
 
               <Row gutter={gutterSize}>
                 {/* Project, programme or activity name */}
                 <Col span={24}>
                   <Form.Item
-                    label="Project, Programme or Activity Name"
+                    label={t('cbtForm:projectName')}
                     name="projectName"
                     rules={[validation.required]}
                   >
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Enter project, programme or activity name"
+                      placeholder={t('cbtForm:projectNamePlaceholder')}
                       disabled={isView}
                     />
                   </Form.Item>
@@ -314,11 +313,15 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               <Row gutter={gutterSize}>
                 {/* Start Year */}
                 <Col span={12}>
-                  <Form.Item label="Start Year" name="startYear" rules={[validation.required]}>
+                  <Form.Item
+                    label={t('cbtForm:startYear')}
+                    name="startYear"
+                    rules={[validation.required]}
+                  >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select start year"
+                      placeholder={t('cbtForm:startYearPlaceholder')}
                       showSearch
                       disabled={isView}
                     >
@@ -333,11 +336,15 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
 
                 {/* End Year */}
                 <Col span={12}>
-                  <Form.Item label="End Year" name="endYear" rules={[validation.required]}>
+                  <Form.Item
+                    label={t('cbtForm:endYear')}
+                    name="endYear"
+                    rules={[validation.required]}
+                  >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select end year"
+                      placeholder={t('cbtForm:endYearPlaceholder')}
                       showSearch
                       disabled={isView}
                     >
@@ -355,13 +362,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Objectives and Description */}
                 <Col span={24}>
                   <Form.Item
-                    label="Objectives and Description"
+                    label={t('cbtForm:objectivesDescription')}
                     name="activityDescription"
                     rules={[validation.required]}
                   >
                     <TextArea
                       rows={6}
-                      placeholder="Enter objectives and description"
+                      placeholder={t('cbtForm:objectivesDescriptionPlaceholder')}
                       disabled={isView}
                       style={{ fontSize: inputFontSize }}
                     />
@@ -373,14 +380,14 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* National Implementing Entities */}
                 <Col span={12}>
                   <Form.Item
-                    label="National Implementing Entity(ies)"
+                    label={t('cbtForm:nationalImplementingEntities')}
                     name="nationalImplementingEntities"
                   >
                     <Select
                       mode="multiple"
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select national entities"
+                      placeholder={t('cbtForm:nationalImplementingEntitiesPlaceholder')}
                       showSearch
                       disabled={isView}
                     >
@@ -396,14 +403,14 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* International Implementing Entities */}
                 <Col span={12}>
                   <Form.Item
-                    label="International Implementing Entity(ies)"
+                    label={t('cbtForm:internationalImplementingEntities')}
                     name="internationalImplementingEntities"
                   >
                     <Select
                       mode="tags"
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Enter international entities"
+                      placeholder={t('cbtForm:internationalImplementingEntitiesPlaceholder')}
                       disabled={isView}
                     ></Select>
                   </Form.Item>
@@ -413,11 +420,11 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               <Row gutter={gutterSize}>
                 {/* Recipient Entity */}
                 <Col span={12}>
-                  <Form.Item label="Recipient Entity" name="recipientEntity">
+                  <Form.Item label={t('cbtForm:recipientEntity')} name="recipientEntity">
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Enter recipient entity"
+                      placeholder={t('cbtForm:recipientEntityPlaceholder')}
                       disabled={isView}
                     />
                   </Form.Item>
@@ -427,11 +434,15 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               <Row gutter={gutterSize}>
                 {/* Activity Status */}
                 <Col span={12}>
-                  <Form.Item label="Activity Status" name="status" rules={[validation.required]}>
+                  <Form.Item
+                    label={t('cbtForm:activityStatus')}
+                    name="status"
+                    rules={[validation.required]}
+                  >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select activity status"
+                      placeholder={t('cbtForm:activityStatusPlaceholder')}
                       disabled={isView}
                     >
                       {statusOptions.map((option) => (
@@ -447,16 +458,20 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
 
             {/* ETF Classification */}
             <div className="form-section-card">
-              <div className="form-section-header">ETF Classification</div>
+              <div className="form-section-header">{t('cbtForm:etfClassification')}</div>
 
               <Row gutter={gutterSize}>
                 {/* Sector */}
                 <Col span={12}>
-                  <Form.Item label="Sector" name="sector" rules={[validation.required]}>
+                  <Form.Item
+                    label={t('cbtForm:sector')}
+                    name="sector"
+                    rules={[validation.required]}
+                  >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select sector"
+                      placeholder={t('cbtForm:sectorPlaceholder')}
                       showSearch
                       disabled={isView}
                       onChange={(value) => {
@@ -477,11 +492,15 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
 
                 {/* Sub-sector */}
                 <Col span={12}>
-                  <Form.Item label="Sub-sector" name="subSector" rules={[validation.required]}>
+                  <Form.Item
+                    label={t('cbtForm:subSector')}
+                    name="subSector"
+                    rules={[validation.required]}
+                  >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select sub-sector"
+                      placeholder={t('cbtForm:subSectorPlaceholder')}
                       showSearch
                       disabled={isView}
                       mode="multiple"
@@ -502,14 +521,14 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 <Row gutter={gutterSize}>
                   <Col span={24}>
                     <Form.Item
-                      label="Specify Other Sector"
+                      label={t('cbtForm:specifyOtherSector')}
                       name="otherSectorText"
                       rules={[validation.required]}
                     >
                       <Input
                         size="large"
                         style={{ fontSize: inputFontSize }}
-                        placeholder="Enter sector name"
+                        placeholder={t('cbtForm:specifyOtherSectorPlaceholder')}
                         disabled={isView}
                       />
                     </Form.Item>
@@ -521,14 +540,14 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* NDC question */}
                 <Col span={24}>
                   <Form.Item
-                    label="Is the activity based on a national strategy and/or NDC?"
+                    label={t('cbtForm:basedOnNDC')}
                     name="basedOnNDC"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select answer"
+                      placeholder={t('cbtForm:selectAnswer')}
                       disabled={isView}
                     >
                       {yesNoOptions.map((option) => (
@@ -545,14 +564,14 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Technology transfer contribution */}
                 <Col span={12}>
                   <Form.Item
-                    label="Contribution to technology development and transfer objectives?"
+                    label={t('cbtForm:technologyTransfer')}
                     name="technologyTransferContribution"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select answer"
+                      placeholder={t('cbtForm:selectAnswer')}
                       disabled={isView}
                     >
                       {yesNoOptions.map((option) => (
@@ -567,14 +586,14 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Capacity building contribution */}
                 <Col span={12}>
                   <Form.Item
-                    label="Contribution to capacity building objectives?"
+                    label={t('cbtForm:capacityBuilding')}
                     name="capacityBuildingContribution"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select answer"
+                      placeholder={t('cbtForm:selectAnswer')}
                       disabled={isView}
                     >
                       {yesNoOptions.map((option) => (
@@ -591,14 +610,14 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Type of financial support */}
                 <Col span={12}>
                   <Form.Item
-                    label="Type of Financial Support"
+                    label={t('cbtForm:typeOfSupport')}
                     name="typeOfSupport"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select type of financial support"
+                      placeholder={t('cbtForm:typeOfSupportPlaceholder')}
                       disabled={isView}
                     >
                       {typeOfSupportOptions.map((option) => (
@@ -614,10 +633,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
               <Row gutter={gutterSize}>
                 {/* Additional Information */}
                 <Col span={24}>
-                  <Form.Item label="Additional Information" name="additionalInformation">
+                  <Form.Item
+                    label={t('cbtForm:additionalInformation')}
+                    name="additionalInformation"
+                  >
                     <TextArea
                       rows={4}
-                      placeholder="Enter additional information (optional)"
+                      placeholder={t('cbtForm:additionalInformationPlaceholder')}
                       disabled={isView}
                       style={{ fontSize: inputFontSize }}
                     />
@@ -628,17 +650,17 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
 
             {/* H7: Documentation & Verification */}
             <div className="form-section-card">
-              <div className="form-section-header">Documentation & Verification</div>
+              <div className="form-section-header">{t('cbtForm:documentationVerification')}</div>
 
               <div
                 style={{ color: '#3A3541', opacity: 0.8, marginTop: '10px', marginBottom: '10px' }}
               >
-                Documents
+                {t('cbtForm:documents')}
               </div>
               <UploadFileGrid
                 isSingleColumn={false}
                 usedIn={method}
-                buttonText="Upload"
+                buttonText={t('cbtForm:upload')}
                 storedFiles={storedFiles}
                 uploadedFiles={uploadedFiles}
                 setUploadedFiles={setUploadedFiles}
@@ -651,14 +673,14 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Verification Status */}
                 <Col span={12}>
                   <Form.Item
-                    label="Verification Status"
+                    label={t('cbtForm:verificationStatus')}
                     name="verificationStatus"
                     initialValue="Unverified"
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select verification status"
+                      placeholder={t('cbtForm:verificationStatusPlaceholder')}
                       disabled={isView}
                     >
                       {verificationStatusOptions.map((option) => (
@@ -673,14 +695,14 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Verification Note */}
                 <Col span={12}>
                   <Form.Item
-                    label="Verification Note"
+                    label={t('cbtForm:verificationNote')}
                     name="verificationNote"
-                    tooltip="Additional information about verification status"
+                    tooltip={t('cbtForm:verificationNoteTooltip')}
                   >
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Enter note (optional)"
+                      placeholder={t('cbtForm:verificationNotePlaceholder')}
                       disabled={isView}
                     />
                   </Form.Item>
@@ -699,7 +721,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
           >
             <Col>
               <Button size="large" onClick={onCancel}>
-                Cancel
+                {t('cbtForm:cancel')}
               </Button>
             </Col>
             <Col>
@@ -709,7 +731,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                 onClick={() => form.submit()}
                 disabled={isSaveButtonDisabled}
               >
-                {method === 'create' ? 'Create' : 'Update'}
+                {method === 'create' ? t('cbtForm:create') : t('cbtForm:update')}
               </Button>
             </Col>
           </Row>
@@ -719,7 +741,7 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
           <Row justify="end" style={{ marginTop: 15, paddingRight: 30, paddingBottom: 30 }}>
             <Col>
               <Button size="large" onClick={onCancel}>
-                Back
+                {t('cbtForm:back')}
               </Button>
             </Col>
           </Row>

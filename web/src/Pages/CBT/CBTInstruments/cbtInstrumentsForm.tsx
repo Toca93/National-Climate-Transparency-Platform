@@ -21,10 +21,9 @@ interface CBTProjectData {
 
 const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
   const [form] = Form.useForm();
-  useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
+  const { t } = useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
-  const formTitle = 'Financial Instruments';
 
   const navigate = useNavigate();
   const { get, post, put } = useConnection();
@@ -164,7 +163,7 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
         <div className="title-bar">
           <Row justify="space-between" align="middle">
             <Col>
-              <div className="body-title">{formTitle}</div>
+              <div className="body-title">{t('cbtForm:financialInstruments')}</div>
             </Col>
           </Row>
         </div>
@@ -178,13 +177,13 @@ const CBTInstrumentsForm: React.FC<FormLoadProps> = ({ method }) => {
             disabled={isView}
           >
             <div className="form-section-card">
-              <div className="form-section-header">Financial Instruments</div>
+              <div className="form-section-header">{t('cbtForm:financialInstruments')}</div>
 
               <Row gutter={gutterSize}>
                 {/* Project Name / Measure - dropdown from Basic Information */}
                 <Col span={24}>
                   <Form.Item
-                    label="Project Name / Measure"
+                    label={t('cbtForm:projectNameMeasure')}
                     name="projectId"
                     rules={[validation.required]}
                   >

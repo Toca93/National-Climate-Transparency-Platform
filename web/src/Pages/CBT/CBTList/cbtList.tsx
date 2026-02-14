@@ -41,7 +41,7 @@ interface Item {
 
 const CBTList = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation(['common', 'tableAction']);
+  const { t } = useTranslation(['cbtForm', 'common', 'tableAction']);
   const { post } = useConnection();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -159,7 +159,7 @@ const CBTList = () => {
 
   const columns = [
     {
-      title: 'ID',
+      title: t('cbtForm:id'),
       width: 120,
       dataIndex: 'id',
       key: 'id',
@@ -232,28 +232,28 @@ const CBTList = () => {
       },
     },
     {
-      title: 'Start Year',
+      title: t('cbtForm:startYear'),
       width: 120,
       dataIndex: 'startYear',
       key: 'startYear',
       sorter: false,
     },
     {
-      title: 'End Year',
+      title: t('cbtForm:endYear'),
       width: 120,
       dataIndex: 'endYear',
       key: 'endYear',
       sorter: false,
     },
     {
-      title: 'Project, Programme or Activity Name',
+      title: t('cbtForm:projectName'),
       width: 280,
       dataIndex: 'projectName',
       key: 'projectName',
       sorter: false,
     },
     {
-      title: 'Implementing Entity',
+      title: t('cbtForm:implementingEntity'),
       width: 220,
       key: 'implementingEntity',
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -276,7 +276,7 @@ const CBTList = () => {
         );
       },
     },
-    { title: 'Status', width: 120, dataIndex: 'status', key: 'status', sorter: false },
+    { title: t('cbtForm:status'), width: 120, dataIndex: 'status', key: 'status', sorter: false },
     {
       title: '',
       key: 'actions',
@@ -304,7 +304,7 @@ const CBTList = () => {
   return (
     <div className="content-container">
       <div className="title-bar">
-        <div className="body-title">Climate Financing - Basic Information</div>
+        <div className="body-title">{t('cbtForm:climateFinancingBasicInfo')}</div>
       </div>
       <div className="content-card">
         <Row className="table-actions-section">
@@ -319,7 +319,7 @@ const CBTList = () => {
                   navigate('/cbt/add');
                 }}
               >
-                Add New Record
+                {t('cbtForm:addNewRecord')}
               </Button>
             </div>
           </Col>
@@ -328,7 +328,7 @@ const CBTList = () => {
               <Col {...searchBoxBps} className="search-bar">
                 <Input
                   addonAfter={<SearchOutlined style={{ color: '#615d67' }} onClick={onSearch} />}
-                  placeholder="Search by ID or project name"
+                  placeholder={t('cbtForm:searchPlaceholder')}
                   allowClear
                   onPressEnter={onSearch}
                   onChange={(e) => setTempSearchValue(e.target.value)}
@@ -373,7 +373,7 @@ const CBTList = () => {
                 position: ['bottomRight'],
               }}
               handleTableChange={handleTableChange}
-              emptyMessage="No climate financing records available"
+              emptyMessage={t('cbtForm:noBasicInfoRecords')}
             />
           </Col>
         </Row>

@@ -12,37 +12,6 @@ const { Option } = Select;
 const gutterSize = 30;
 const inputFontSize = '15px';
 
-// Planned Financial Instruments
-const financialInstruments = [
-  { value: 'grant', label: 'Grant' },
-  { value: 'concessional-loan', label: 'Concessional Loan' },
-  { value: 'non-concessional-loan', label: 'Non-concessional Loan' },
-  { value: 'equity', label: 'Equity' },
-  { value: 'guarantee', label: 'Guarantee' },
-  { value: 'insurance', label: 'Insurance' },
-  { value: 'other', label: 'Other' },
-];
-
-// Status options
-const statusOptions = [
-  { value: 'Committed', label: 'Committed' },
-  { value: 'Received', label: 'Received' },
-];
-
-// Support Needed or Received options
-const supportNeededOrReceivedOptions = [
-  { value: 'Needed', label: 'Needed' },
-  { value: 'Received', label: 'Received' },
-];
-
-// Funding Method
-const fundingMethodOptions = [
-  { value: 'Multilateral', label: 'Multilateral' },
-  { value: 'Bilateral', label: 'Bilateral' },
-  { value: 'Regional', label: 'Regional' },
-  { value: 'Other', label: 'Other (please specify)' },
-];
-
 // Interface for projects from Basic Information (CBT)
 interface CBTProjectData {
   id: string;
@@ -51,10 +20,40 @@ interface CBTProjectData {
 
 const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
   const [form] = Form.useForm();
-  useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
+  const { t } = useTranslation(['cbtForm', 'common', 'entityAction', 'formHeader']);
 
   const isView: boolean = method === 'view';
-  const formTitle = 'Funding Sources';
+
+  // Planned Financial Instruments
+  const financialInstruments = [
+    { value: 'grant', label: t('cbtForm:grant') },
+    { value: 'concessional-loan', label: t('cbtForm:concessionalLoan') },
+    { value: 'non-concessional-loan', label: t('cbtForm:nonConcessionalLoan') },
+    { value: 'equity', label: t('cbtForm:equity') },
+    { value: 'guarantee', label: t('cbtForm:guarantee') },
+    { value: 'insurance', label: t('cbtForm:insurance') },
+    { value: 'other', label: t('cbtForm:other') },
+  ];
+
+  // Status options
+  const statusOptions = [
+    { value: 'Committed', label: t('cbtForm:committed') },
+    { value: 'Received', label: t('cbtForm:received') },
+  ];
+
+  // Support Needed or Received options
+  const supportNeededOrReceivedOptions = [
+    { value: 'Needed', label: t('cbtForm:needed') },
+    { value: 'Received', label: t('cbtForm:received') },
+  ];
+
+  // Funding Method
+  const fundingMethodOptions = [
+    { value: 'Multilateral', label: t('cbtForm:multilateral') },
+    { value: 'Bilateral', label: t('cbtForm:bilateral') },
+    { value: 'Regional', label: t('cbtForm:regional') },
+    { value: 'Other', label: t('cbtForm:otherSpecify') },
+  ];
 
   const navigate = useNavigate();
   const { get, post, put } = useConnection();
@@ -173,7 +172,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
         <div className="title-bar">
           <Row justify="space-between" align="middle">
             <Col>
-              <div className="body-title">{formTitle}</div>
+              <div className="body-title">{t('cbtForm:fundingSources')}</div>
             </Col>
           </Row>
         </div>
@@ -187,20 +186,20 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
             disabled={isView}
           >
             <div className="form-section-card">
-              <div className="form-section-header">Funding Sources</div>
+              <div className="form-section-header">{t('cbtForm:fundingSources')}</div>
 
               <Row gutter={gutterSize}>
                 {/* Project Name / Measure - dropdown from Basic Information */}
                 <Col span={24}>
                   <Form.Item
-                    label="Project Name / Measure"
+                    label={t('cbtForm:projectNameMeasure')}
                     name="projectId"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select project from Basic Information"
+                      placeholder={t('cbtForm:projectNameMeasurePlaceholder')}
                       disabled={isView}
                       loading={loadingProjects}
                       showSearch
@@ -230,14 +229,14 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Planned Financial Instrument */}
                 <Col span={12}>
                   <Form.Item
-                    label="Planned Financial Instrument"
+                    label={t('cbtForm:plannedFinancialInstrument')}
                     name="financialInstrument"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select financial instrument"
+                      placeholder={t('cbtForm:plannedFinancialInstrumentPlaceholder')}
                       disabled={isView}
                     >
                       {financialInstruments.map((option) => (
@@ -251,11 +250,15 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
 
                 {/* Status */}
                 <Col span={12}>
-                  <Form.Item label="Status" name="status" rules={[validation.required]}>
+                  <Form.Item
+                    label={t('cbtForm:status')}
+                    name="status"
+                    rules={[validation.required]}
+                  >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select status"
+                      placeholder={t('cbtForm:statusPlaceholder')}
                       disabled={isView}
                     >
                       {statusOptions.map((option) => (
@@ -272,14 +275,14 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Support Needed or Received */}
                 <Col span={12}>
                   <Form.Item
-                    label="Support Needed or Received"
+                    label={t('cbtForm:supportNeededOrReceived')}
                     name="supportNeededOrReceived"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select support status"
+                      placeholder={t('cbtForm:supportStatusPlaceholder')}
                       disabled={isView}
                       onChange={(value) => {
                         setIsSupportReceived(value === 'Received');
@@ -297,14 +300,14 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 {/* Funding Method */}
                 <Col span={12}>
                   <Form.Item
-                    label="Funding Method"
+                    label={t('cbtForm:fundingMethod')}
                     name="fundingMethod"
                     rules={[validation.required]}
                   >
                     <Select
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Select funding method"
+                      placeholder={t('cbtForm:fundingMethodPlaceholder')}
                       disabled={isView}
                       onChange={(value) => {
                         setShowOtherFundingMethod(value === 'Other');
@@ -324,14 +327,11 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
 
                 {/* Expected Use, Impact and Estimated Results */}
                 <Col span={12}>
-                  <Form.Item
-                    label="Expected Use, Impact and Estimated Results"
-                    name="expectedImpact"
-                  >
+                  <Form.Item label={t('cbtForm:expectedImpact')} name="expectedImpact">
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder="Enter expected results"
+                      placeholder={t('cbtForm:expectedImpactPlaceholder')}
                       disabled={isView}
                     />
                   </Form.Item>
@@ -343,14 +343,14 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 <Row gutter={gutterSize}>
                   <Col span={24}>
                     <Form.Item
-                      label="Specify Other Funding Method"
+                      label={t('cbtForm:specifyOtherFundingMethod')}
                       name="otherFundingMethodText"
                       rules={[validation.required]}
                     >
                       <Input
                         size="large"
                         style={{ fontSize: inputFontSize }}
-                        placeholder="Enter funding method"
+                        placeholder={t('cbtForm:specifyOtherFundingMethodPlaceholder')}
                         disabled={isView}
                       />
                     </Form.Item>
@@ -370,7 +370,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
           >
             <Col>
               <Button size="large" onClick={onCancel}>
-                Cancel
+                {t('cbtForm:cancel')}
               </Button>
             </Col>
             <Col>
@@ -380,7 +380,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
                 onClick={() => form.submit()}
                 disabled={isSaveButtonDisabled}
               >
-                {method === 'create' ? 'Create' : 'Update'}
+                {method === 'create' ? t('cbtForm:create') : t('cbtForm:update')}
               </Button>
             </Col>
           </Row>
@@ -390,7 +390,7 @@ const CBTFundingForm: React.FC<FormLoadProps> = ({ method }) => {
           <Row justify="end" style={{ marginTop: 15, paddingRight: 30, paddingBottom: 30 }}>
             <Col>
               <Button size="large" onClick={onCancel}>
-                Back
+                {t('cbtForm:back')}
               </Button>
             </Col>
           </Row>

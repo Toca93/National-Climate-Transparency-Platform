@@ -43,7 +43,7 @@ interface Item {
 
 const CBTMacroList = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation(['common', 'tableAction']);
+  const { t } = useTranslation(['cbtForm', 'common', 'tableAction']);
   const { post } = useConnection();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -143,7 +143,7 @@ const CBTMacroList = () => {
 
   const columns = [
     {
-      title: 'ID',
+      title: t('cbtForm:id'),
       width: 120,
       dataIndex: 'id',
       key: 'id',
@@ -158,7 +158,7 @@ const CBTMacroList = () => {
       ),
     },
     {
-      title: 'Project ID',
+      title: t('cbtForm:projectId'),
       width: 150,
       dataIndex: 'projectId',
       key: 'projectId',
@@ -173,21 +173,21 @@ const CBTMacroList = () => {
       ),
     },
     {
-      title: 'Project Name',
+      title: t('cbtForm:projectNameCol'),
       width: 200,
       dataIndex: 'projectName',
       key: 'projectName',
       sorter: false,
     },
     {
-      title: 'Year',
+      title: t('cbtForm:yearCol'),
       width: 80,
       dataIndex: 'year',
       key: 'year',
       sorter: false,
     },
     {
-      title: 'GDP (EUR)',
+      title: t('cbtForm:gdpEurCol'),
       width: 150,
       dataIndex: 'gdp',
       key: 'gdp',
@@ -195,7 +195,7 @@ const CBTMacroList = () => {
       render: (value: number | string) => (value ? Number(value).toLocaleString('de-DE') : '-'),
     },
     {
-      title: 'Share of GDP (%)',
+      title: t('cbtForm:shareGdpCol'),
       width: 130,
       dataIndex: 'climateFinanceShareGdp',
       key: 'climateFinanceShareGdp',
@@ -203,7 +203,7 @@ const CBTMacroList = () => {
       render: (value: number | string) => (value ? `${Number(value).toFixed(2)}%` : '-'),
     },
     {
-      title: 'Share of Budget (%)',
+      title: t('cbtForm:shareBudgetCol'),
       width: 130,
       dataIndex: 'climateFinanceShareBudget',
       key: 'climateFinanceShareBudget',
@@ -237,7 +237,7 @@ const CBTMacroList = () => {
   return (
     <div className="content-container">
       <div className="title-bar">
-        <div className="body-title">Climate Financing - Macro Indicators</div>
+        <div className="body-title">{t('cbtForm:climateFinancingMacro')}</div>
       </div>
       <div className="content-card">
         <Row className="table-actions-section">
@@ -252,7 +252,7 @@ const CBTMacroList = () => {
                   navigate('/cbt-macro/add');
                 }}
               >
-                Add New Record
+                {t('cbtForm:addNewRecord')}
               </Button>
             </div>
           </Col>
@@ -261,7 +261,7 @@ const CBTMacroList = () => {
               <Col {...searchBoxBps} className="search-bar">
                 <Input
                   addonAfter={<SearchOutlined style={{ color: '#615d67' }} onClick={onSearch} />}
-                  placeholder="Search by ID or project name"
+                  placeholder={t('cbtForm:searchPlaceholder')}
                   allowClear
                   onPressEnter={onSearch}
                   onChange={(e) => setTempSearchValue(e.target.value)}
@@ -306,7 +306,7 @@ const CBTMacroList = () => {
                 position: ['bottomRight'],
               }}
               handleTableChange={handleTableChange}
-              emptyMessage="No macro indicator records available"
+              emptyMessage={t('cbtForm:noMacroRecords')}
             />
           </Col>
         </Row>

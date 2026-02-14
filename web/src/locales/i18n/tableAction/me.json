@@ -1,0 +1,14 @@
+{
+  "View/Validate": "Pregledaj/Validuj",
+  "View/Unvalidate": "Pregledaj/Poništi validaciju",
+  "View": "Pregledaj",
+  "Edit": "Uredi",
+  "actionAttach": "Priloži programe",
+  "programmeAttach": "Priloži projekte",
+  "projectAttach": "Priloži aktivnosti",
+  "actionEdit": "Uredi akciju",
+  "programmeEdit": "Uredi program",
+  "projectEdit": "Uredi projekat",
+  "activitiesEdit": "Uredi aktivnost",
+  "supportEdit": "Uredi podršku"
+}

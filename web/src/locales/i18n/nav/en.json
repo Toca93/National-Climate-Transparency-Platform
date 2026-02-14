@@ -15,5 +15,15 @@
   "projectionParameters": "Projection Parameters",
   "combinedExpected": "Combined - Expected",
   "combinedAchieved": "Combined - Achieved",
-  "configurations": "Configurations"
+  "configurations": "Configurations",
+  "climateFinancing": "Climate Financing",
+  "basicInformation": "Basic Information",
+  "fundingSources": "Funding Sources",
+  "financialInstruments": "Financial Instruments",
+  "macroIndicators": "Macro Indicators",
+  "mrvEmissions": "MRV Emissions",
+  "monitoringPlans": "Monitoring Plans",
+  "genderReporting": "Gender Reporting",
+  "verifications": "Verifications",
+  "reviews": "Reviews"
 }
