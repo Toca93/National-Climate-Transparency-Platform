@@ -303,12 +303,13 @@ const CBTForm: React.FC<FormLoadProps> = ({ method }) => {
                     <Input
                       size="large"
                       style={{ fontSize: inputFontSize }}
-                      placeholder={t('cbtForm:projectNamePlaceholder')}
+                      placeholder={t('cbtForm:projectNamePlaceholder') as string}
                       disabled={isView}
                     />
                   </Form.Item>
                 </Col>
               </Row>
+
 
               <Row gutter={gutterSize}>
                 {/* Start Year */}
