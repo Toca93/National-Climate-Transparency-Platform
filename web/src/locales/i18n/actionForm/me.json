@@ -1,0 +1,23 @@
+{
+  "addActionTitle": "Dodaj novu akciju",
+  "viewActionTitle": "Pregled akcije",
+  "editActionTitle": "Izmijeni akciju",
+  "generalInfoTitle": "Opšte informacije o akciji",
+  "programInfoTitle": "Lista programa u okviru akcije",
+  "actionCreationSuccess": "Akcija je uspješno dodata",
+  "actionUpdateSuccess": "Akcija je uspješno ažurirana",
+  "actionValidateSuccess": "Akcija je uspješno validirana",
+  "actionUnvalidateSuccess": "Akcija je uspješno poništena",
+  "actionDeleteSuccess": "Akcija je uspješno obrisana",
+  "noProgramsMessage": "Nema priloženih programa",
+  "programmeList": "Lista programa",
+  "activityList": "Lista aktivnosti",
+  "actionStatusTitle": "Status akcije",
+  "actionObjectivesTitle": "Ciljevi akcije",
+  "actionDescTitle": "Kratak opis akcije",
+  "actionTitle": "Naziv akcije",
+  "noSuchEntity": "Tražena akcija ne postoji!",
+  "attachProgramme": "Priloži programe",
+  "deletePrimaryMsg": "Da li ste sigurni da želite ukloniti akciju",
+  "deleteSecondaryMsg": "Ovu radnju ne možete poništiti"
+}

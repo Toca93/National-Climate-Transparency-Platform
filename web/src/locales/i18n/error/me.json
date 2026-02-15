@@ -1,0 +1,5 @@
+{
+  "validationPermissionRequired": "Potrebna je dozvola za validaciju",
+  "actionDeletePrevented": "Nije moguće obrisati akciju sa priloženim podređenim elementima",
+  "programmeDeletePrevented": "Nije moguće obrisati program sa priloženim podređenim elementima"
+}

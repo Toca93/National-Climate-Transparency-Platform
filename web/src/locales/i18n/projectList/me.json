@@ -1,0 +1,14 @@
+{
+  "viewTitle": "Lista projekata",
+  "addButtonType": "DODAJ Projekat",
+  "searchBarText": "Pretraga po nazivu projekta",
+  "projectId": "ID projekta",
+  "programmeId": "ID programa",
+  "titleOfProject": "Naziv projekta",
+  "projectStatus": "Status projekta",
+  "filterByProjectStatus": "Filtriraj po statusu projekta",
+  "attachActivity": "Priloži aktivnosti",
+  "activityList": "Lista aktivnosti",
+  "activityLinkSuccess": "Aktivnost/i uspješno povezane",
+  "addProject": "Dodaj projekat"
+}

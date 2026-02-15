@@ -1,0 +1,13 @@
+{
+  "changePassword": "Promijeni lozinku",
+  "forceChangePassword": "Postavi lozinku za korisnika",
+  "oldPassword": "Stara lozinka",
+  "newPassword": "Nova lozinka",
+  "confirmNewPassword": "Potvrdi novu lozinku",
+  "setPassword": "POSTAVI LOZINKU",
+  "cancel": "OTKAŽI",
+  "isRequired": "je obavezno",
+  "passwordsNotMatchedErr": "Lozinke se ne podudaraju",
+  "cannotEnterOldPassword": "Ne možete koristiti staru lozinku",
+  "forcePasswordResetSuccess": "Lozinka promijenjena i korisnik obaviješten"
+}

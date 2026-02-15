@@ -1,0 +1,14 @@
+{
+  "viewTitle": "Lista programa",
+  "addButtonType": "DODAJ Program",
+  "searchBarText": "Pretraga po nazivu programa",
+  "programmeId": "ID programa",
+  "actionId": "ID akcije",
+  "titleOfProgramme": "Naziv programa",
+  "programmeStatus": "Status programa",
+  "filterByProgrammeStatus": "Filtriraj po statusu programa",
+  "attachProject": "Priloži projekte",
+  "projectList": "Lista projekata",
+  "projectLinkSuccess": "Projekat/i uspješno povezani",
+  "addProgramme": "Dodaj program"
+}

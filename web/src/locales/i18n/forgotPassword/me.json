@@ -1,0 +1,9 @@
+{
+  "forgot-pwd-title": "Oporavak naloga",
+  "submit": "Pošalji",
+  "forgot-pwd-sub": "Molimo unesite email koji ste koristili za prijavu u registar ugljenika",
+  "note-1": "Poslaćemo vam uputstva za postavljanje lozinke ako postoji nalog sa unesenom email adresom.",
+  "note-2": "Ukoliko ne primite email, provjerite da li ste unijeli ispravnu adresu povezanu sa nalogom u registru ugljenika i provjerite folder za neželjenu poštu.",
+  "note": "Napomena",
+  "emailSent": "Email je poslat!"
+}

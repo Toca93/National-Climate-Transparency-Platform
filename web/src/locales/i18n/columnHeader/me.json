@@ -1,0 +1,23 @@
+{
+  "actionType": "Tip",
+  "sectorAffected": "Sektor na koji se odnosi",
+  "financeNeeded": "Potrebno finansiranje (USD)",
+  "financeReceived": "Primljeno finansiranje (USD)",
+  "nationalImplementingEntity": "Nacionalni implementacioni subjekt/i",
+  "validationStatus": "Status validacije",
+  "filterByValidationStatus": "Filtriraj po statusu validacije",
+  "supportIdTitle": "ID podrške",
+  "financeNatureTitle": "Međunarodno ili nacionalno finansiranje",
+  "directionTitle": "Potrebno/Primljeno",
+  "finInstrumentTitle": "Finansijski instrument",
+  "neededUSDHeader": "Procijenjeni potrebni iznos (USD)",
+  "neededLCLHeader": "Procijenjeni potrebni iznos (domaća valuta)",
+  "receivedUSDHeader": "Primljeni iznos (USD)",
+  "receivedLCLHeader": "Primljeni iznos (domaća valuta)",
+  "supportType": "Tip podrške",
+  "recipientEntity": "Subjekt primalac/i",
+  "internationalImplementingEntity": "Međunarodni implementacioni subjekt/i",
+  "type": "Tip",
+  "subSectorAffected": "Podsektor na koji se odnosi",
+  "estimatedInvestment": "Procijenjene investicione potrebe (USD)"
+}

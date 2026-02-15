@@ -1,0 +1,22 @@
+{
+  "configurationTitle": "Konfiguracija",
+  "withMeasuresTitle": "Sa mjerama",
+  "withAdditionalMeasuresTitle": "Sa dodatnim mjerama",
+  "withoutMeasuresTitle": "Bez mjera",
+  "gwpConfigurationTitle": "Potencijal globalnog zagrijavanja (GWP)",
+  "growthRateConfigurationTitle": "Stopa rasta projekcije",
+  "sectorMappingConfigurationTitle": "Mapiranje sektora",
+  "sectorMappingDescription": "Koristite ovaj odjeljak za mapiranje svakog IPCC podsektora na sektor za Prilog II – Izvještaji 7, 8 i 9. Ovo mapiranje određuje kako će podaci biti popunjeni u tim izvještajima. Svaki IPCC podsektor treba da bude mapiran na jedan sektor.",
+  "projectionParametersTitle": "Parametri projekcije",
+  "projectionParametersDescription": "Ovi parametri se eksportuju zajedno sa eksportom projekcija.",
+  "growthRate": "Stopa rasta (%)",
+  "baselineYear": "Bazna godina",
+  "co2": "Bazni ktCO2",
+  "ch4": "Bazni ktCH4",
+  "n2o": "Bazni ktN2O",
+  "gwp_co2": "CO2",
+  "gwp_ch4": "CH4",
+  "gwp_n2o": "N2O",
+  "gwpUpdateSuccess": "GWP podaci uspješno sačuvani",
+  "projectionParametersUpdateSuccess": "Parametri projekcije uspješno sačuvani"
+}

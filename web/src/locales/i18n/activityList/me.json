@@ -1,0 +1,11 @@
+{
+  "viewTitle": "Lista aktivnosti",
+  "searchBarText": "Pretraga po nazivu aktivnosti",
+  "activityId": "ID aktivnosti",
+  "parentId": "ID priloženog tipa",
+  "parentType": "Priloženi tip",
+  "titleOfActivity": "Naziv aktivnosti",
+  "activityStatus": "Status aktivnosti",
+  "addActivity": "Dodaj aktivnost",
+  "filterByActivityStatus": "Filtriraj po statusu aktivnosti"
+}

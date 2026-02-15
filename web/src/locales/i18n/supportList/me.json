@@ -1,0 +1,14 @@
+{
+  "viewTitle": "Lista podrške",
+  "addButtonType": "DODAJ podršku",
+  "searchBarText": "Pretraga po nazivu podrške",
+  "supportId": "ID podrške",
+  "activityId": "ID aktivnosti",
+  "supportNeededOrReceived": "Potrebna ili primljena podrška",
+  "internationalOrNationalFinance": "Međunarodno ili nacionalno finansiranje",
+  "channelOfSupport": "Kanal podrške",
+  "financialInstrument": "Finansijski instrument",
+  "financingStatus": "Status finansiranja",
+  "internationalSource": "Međunarodni izvor",
+  "filterBySupportDirection": "Filtriraj po potrebnoj ili primljenoj podršci"
+}

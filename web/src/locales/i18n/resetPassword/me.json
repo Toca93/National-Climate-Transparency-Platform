@@ -1,0 +1,8 @@
+{
+  "reset-pwd-title": "Resetuj lozinku",
+  "submit": "Pošalji",
+  "newPwd": "Nova lozinka",
+  "confirmNewPwd": "Potvrdi novu lozinku",
+  "passwordNotMatch": "Lozinke se ne podudaraju!",
+  "passwordResetNotWorked": "Vaš link za resetovanje lozinke je istekao ili je već korišćen"
+}

@@ -1,0 +1,15 @@
+{
+  "viewTitle": "Lista akcija",
+  "addButtonType": "DODAJ AKCIJU",
+  "searchBarText": "Pretraga po nazivu akcije",
+  "actionId": "ID akcije",
+  "titleOfAction": "Naziv akcije",
+  "actionStatus": "Status akcije",
+  "filterByActionStatus": "Filtriraj po statusu akcije",
+  "attachProgramme": "Priloži programe",
+  "attach": "Priloži",
+  "programmeList": "Lista programa",
+  "cancel": "Otkaži",
+  "programmeLinkSuccess": "Program/i uspješno povezani",
+  "addAction": "Dodaj AKCIJU"
+}
