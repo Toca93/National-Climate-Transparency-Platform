@@ -141,10 +141,10 @@ const activityList = () => {
               tempParentType === 'action'
                 ? 'Action'
                 : tempParentType === 'programme'
-                  ? 'Programme'
-                  : tempParentType === 'project'
-                    ? 'Project'
-                    : '',
+                ? 'Programme'
+                : tempParentType === 'project'
+                ? 'Project'
+                : '',
             parentId: unstructuredData[i].parentId,
             title: unstructuredData[i].title,
             activityStatus: unstructuredData[i].status,
@@ -152,10 +152,10 @@ const activityList = () => {
               tempParentType === 'action'
                 ? unstructuredData[i].migratedData?.type
                 : tempParentType === 'programme'
-                  ? unstructuredData[i].migratedData?.action?.type
-                  : tempParentType === 'project'
-                    ? unstructuredData[i].migratedData?.programme?.action?.type
-                    : '',
+                ? unstructuredData[i].migratedData?.action?.type
+                : tempParentType === 'project'
+                ? unstructuredData[i].migratedData?.programme?.action?.type
+                : '',
             recipientEntity: unstructuredData[i].recipientEntities ?? [],
             intImplementingEntity: unstructuredData[i].internationalImplementingEntity ?? [],
             validationStatus: unstructuredData[i].validated ? 'validated' : 'pending',
