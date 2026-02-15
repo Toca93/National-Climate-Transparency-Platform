@@ -170,8 +170,8 @@ const PieChart: React.FC<Props> = ({
             chartWidth === 560
               ? 'empty-chart-xxl'
               : chartWidth === 480
-              ? 'empty-chart-xl'
-              : 'empty-chart'
+                ? 'empty-chart-xl'
+                : 'empty-chart'
           }
           image={Empty.PRESENTED_IMAGE_SIMPLE}
           description={t('noChartDataAvailable')}

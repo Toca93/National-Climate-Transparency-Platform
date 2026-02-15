@@ -36,8 +36,8 @@ const MRVEmissionForm: React.FC<FormLoadProps> = ({ method }) => {
     method === 'create'
       ? 'Add MRV Emission'
       : method === 'update'
-      ? 'Edit MRV Emission'
-      : 'View MRV Emission';
+        ? 'Edit MRV Emission'
+        : 'View MRV Emission';
 
   const navigate = useNavigate();
   const { get, post, put } = useConnection();

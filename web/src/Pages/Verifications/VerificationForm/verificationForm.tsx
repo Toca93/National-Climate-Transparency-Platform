@@ -32,8 +32,8 @@ const VerificationForm: React.FC<FormLoadProps> = ({ method }) => {
     method === 'create'
       ? 'Add Verification'
       : method === 'update'
-      ? 'Edit Verification'
-      : 'View Verification';
+        ? 'Edit Verification'
+        : 'View Verification';
 
   const navigate = useNavigate();
   const { get, post, put } = useConnection();

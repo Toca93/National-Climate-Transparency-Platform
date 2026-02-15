@@ -254,8 +254,8 @@ export const ProjectionForm: React.FC<Props> = ({ index, projectionType }) => {
           topicId: topicId,
           values: nonLeafSections.includes(topicId)
             ? getSectionSum(topicId)
-            : allEditableData.find((entry) => entry.topicId === topicId)?.values ??
-              new Array(51).fill(0),
+            : (allEditableData.find((entry) => entry.topicId === topicId)?.values ??
+              new Array(51).fill(0)),
         });
       });
     }
@@ -362,8 +362,8 @@ export const ProjectionForm: React.FC<Props> = ({ index, projectionType }) => {
                 ? record.topicId.length === 1
                   ? 'root-input-box'
                   : record.topicId.length === 2
-                  ? 'l1-input-box'
-                  : 'l2-input-box'
+                    ? 'l1-input-box'
+                    : 'l2-input-box'
                 : 'leaf-input-box'
             }
           />

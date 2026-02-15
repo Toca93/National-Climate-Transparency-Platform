@@ -299,19 +299,19 @@ const reportList = () => {
           const financialInstruments = Array.isArray(report.financialInstruments)
             ? report.financialInstruments
             : report.financialInstruments
-            ? [report.financialInstruments]
-            : [];
+              ? [report.financialInstruments]
+              : [];
           const subSector = Array.isArray(report.subSector)
             ? report.subSector
             : report.subSector
-            ? [report.subSector]
-            : [];
+              ? [report.subSector]
+              : [];
           // Support Channel = fundingMethods + otherFundingMethodText
           const fundingMethods = Array.isArray(report.fundingMethods)
             ? report.fundingMethods
             : report.fundingMethods
-            ? [report.fundingMethods]
-            : [];
+              ? [report.fundingMethods]
+              : [];
           const supportChannel = report.otherFundingMethodText
             ? [...fundingMethods, report.otherFundingMethodText].join(', ')
             : fundingMethods.join(', ');
@@ -375,39 +375,39 @@ const reportList = () => {
           const financialInstruments = Array.isArray(report.financialInstruments)
             ? report.financialInstruments
             : report.financialInstruments
-            ? [report.financialInstruments]
-            : [];
+              ? [report.financialInstruments]
+              : [];
           const fundingStatuses = Array.isArray(report.fundingStatuses)
             ? report.fundingStatuses
             : report.fundingStatuses
-            ? [report.fundingStatuses]
-            : [];
+              ? [report.fundingStatuses]
+              : [];
           const subSector = Array.isArray(report.subSector)
             ? report.subSector
             : report.subSector
-            ? [report.subSector]
-            : [];
+              ? [report.subSector]
+              : [];
           const recipientEntity = Array.isArray(report.recipientEntity)
             ? report.recipientEntity
             : report.recipientEntity
-            ? [report.recipientEntity]
-            : [];
+              ? [report.recipientEntity]
+              : [];
           const nationalEntities = Array.isArray(report.nationalImplementingEntities)
             ? report.nationalImplementingEntities
             : report.nationalImplementingEntities
-            ? [report.nationalImplementingEntities]
-            : [];
+              ? [report.nationalImplementingEntities]
+              : [];
           const internationalEntities = Array.isArray(report.internationalImplementingEntities)
             ? report.internationalImplementingEntities
             : report.internationalImplementingEntities
-            ? [report.internationalImplementingEntities]
-            : [];
+              ? [report.internationalImplementingEntities]
+              : [];
           // Support Channel = fundingMethods + otherFundingMethodText
           const fundingMethods = Array.isArray(report.fundingMethods)
             ? report.fundingMethods
             : report.fundingMethods
-            ? [report.fundingMethods]
-            : [];
+              ? [report.fundingMethods]
+              : [];
           const supportChannel = report.otherFundingMethodText
             ? [...fundingMethods, report.otherFundingMethodText].join(', ')
             : fundingMethods.join(', ');
@@ -483,7 +483,7 @@ const reportList = () => {
             endYear: report.endYear,
             achievedGHGReduction: report.achievedGHGReductionAlternate
               ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
+              : (report.achievedGHGReduction ?? 'N/A'),
             additionalInfo: report.etfDescription,
           });
         });
@@ -537,7 +537,7 @@ const reportList = () => {
             activityStatus: report.status,
             achievedGHGReduction: report.achievedGHGReductionAlternate
               ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
+              : (report.achievedGHGReduction ?? 'N/A'),
             additionalInfo: report.etfDescription,
           });
         });
@@ -586,7 +586,7 @@ const reportList = () => {
             endYear: report.endYear,
             achievedGHGReduction: report.achievedGHGReductionAlternate
               ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
+              : (report.achievedGHGReduction ?? 'N/A'),
             additionalInfo: report.etfDescription,
           });
         });
@@ -639,7 +639,7 @@ const reportList = () => {
             activityStatus: report.status,
             achievedGHGReduction: report.achievedGHGReductionAlternate
               ? report.achievedGHGReductionAlternate
-              : report.achievedGHGReduction ?? 'N/A',
+              : (report.achievedGHGReduction ?? 'N/A'),
             additionalInfo: report.etfDescription,
           });
         });
@@ -681,14 +681,14 @@ const reportList = () => {
           const recipientEntity = Array.isArray(report.recipientEntity)
             ? report.recipientEntity
             : report.recipientEntity
-            ? [report.recipientEntity]
-            : [];
+              ? [report.recipientEntity]
+              : [];
           // Support Channel = fundingMethods + otherFundingMethodText
           const fundingMethods = Array.isArray(report.fundingMethods)
             ? report.fundingMethods
             : report.fundingMethods
-            ? [report.fundingMethods]
-            : [];
+              ? [report.fundingMethods]
+              : [];
           const supportChannel = report.otherFundingMethodText
             ? [...fundingMethods, report.otherFundingMethodText].join(', ')
             : fundingMethods.join(', ');
@@ -747,14 +747,14 @@ const reportList = () => {
           const recipientEntity = Array.isArray(report.recipientEntity)
             ? report.recipientEntity
             : report.recipientEntity
-            ? [report.recipientEntity]
-            : [];
+              ? [report.recipientEntity]
+              : [];
           // Support Channel = fundingMethods + otherFundingMethodText
           const fundingMethods = Array.isArray(report.fundingMethods)
             ? report.fundingMethods
             : report.fundingMethods
-            ? [report.fundingMethods]
-            : [];
+              ? [report.fundingMethods]
+              : [];
           const supportChannel = report.otherFundingMethodText
             ? [...fundingMethods, report.otherFundingMethodText].join(', ')
             : fundingMethods.join(', ');

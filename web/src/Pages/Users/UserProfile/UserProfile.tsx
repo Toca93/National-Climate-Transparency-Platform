@@ -40,14 +40,14 @@ const UserProfile = () => {
         {subRole === 'GovernmentDepartment'
           ? 'Department'
           : subRole === 'Consultant'
-          ? 'Consultant'
-          : subRole === 'SEO'
-          ? 'SEO'
-          : subRole === 'TechnicalReviewer'
-          ? 'Technical Reviewer'
-          : subRole === 'DevelopmentPartner'
-          ? 'Development Partner'
-          : subRole}
+            ? 'Consultant'
+            : subRole === 'SEO'
+              ? 'SEO'
+              : subRole === 'TechnicalReviewer'
+                ? 'Technical Reviewer'
+                : subRole === 'DevelopmentPartner'
+                  ? 'Development Partner'
+                  : subRole}
       </div>
     );
   };

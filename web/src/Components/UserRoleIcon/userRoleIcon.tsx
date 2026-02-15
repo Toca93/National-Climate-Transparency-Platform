@@ -33,12 +33,12 @@ export const UserRoleIcon: FC<UserRoleIconProps> = (props: UserRoleIconProps) =>
         {role === 'Admin'
           ? 'Administrator'
           : role === 'Root'
-          ? 'Super Admin'
-          : role === 'GovernmentUser'
-          ? 'Government User'
-          : role === 'Observer'
-          ? 'Observer'
-          : role}
+            ? 'Super Admin'
+            : role === 'GovernmentUser'
+              ? 'Government User'
+              : role === 'Observer'
+                ? 'Observer'
+                : role}
       </div>
     </div>
   );
